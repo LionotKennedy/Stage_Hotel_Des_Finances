@@ -1,6 +1,7 @@
 const Courrier = require("../models/Courrier");
 const Nature = require("../models/Nature");
 const Archive = require("../models/Archive");
+const Journal = require("../models/Journal");
 
 const { validationResult } = require("express-validator");
 
@@ -17,7 +18,8 @@ const addFolder = async (req, res) => {
     }
 
     const { description, nom_depose, prenom_depose, matricule } = req.body;
-    const { numero_bordereaux, date_depart, expiditeur, destination } = req.body;
+    const { numero_bordereaux, date_depart, expiditeur, destination } =
+      req.body;
 
     // Vérification de l'année de date_depart
     const currentYear = new Date().getFullYear();
@@ -37,6 +39,13 @@ const addFolder = async (req, res) => {
       });
 
       await newArchive.save();
+
+      // Enregistrer l'action dans Journales
+      const newJournal = new Journal({
+        action: "Ajout d'un dossier archivé",
+        details: `Dossier archivé avec le numéro bordereaux: ${numero_bordereaux}`,
+      });
+      await newJournal.save();
 
       return res.status(200).json({
         success: true,
@@ -64,6 +73,13 @@ const addFolder = async (req, res) => {
 
       const savedCourrier = await newCourrier.save();
 
+      // Enregistrer l'action dans Journales
+      const newJournal = new Journal({
+        action: "Ajout d'un dossier",
+        details: `Nouveau dossier ajouté avec le numéro bordereaux: ${numero_bordereaux}`,
+      });
+      await newJournal.save();
+
       return res.status(200).json({
         success: true,
         message: "Courrier and Nature saved successfully",
@@ -86,7 +102,7 @@ const addFolder = async (req, res) => {
 const getFolder = async (req, res) => {
   try {
     // Récupérer tous les courriers et utiliser populate pour inclure les informations de la nature
-    const courriers = await Courrier.find().populate('id_nature');
+    const courriers = await Courrier.find().populate("id_nature");
 
     if (!courriers || courriers.length === 0) {
       return res.status(404).json({
@@ -115,7 +131,7 @@ const editFolderById = async (req, res) => {
     const { id } = req.params; // Récupérer l'ID depuis les paramètres de la requête
 
     // Rechercher un seul courrier par son ID et inclure les informations de la nature associée
-    const courrier = await Courrier.findById(id).populate('id_nature');
+    const courrier = await Courrier.findById(id).populate("id_nature");
 
     if (!courrier) {
       return res.status(404).json({
@@ -194,6 +210,12 @@ const updateFolderById = async (req, res) => {
       await Courrier.findByIdAndDelete(courrier._id);
       await Nature.findByIdAndDelete(nature._id);
 
+      const newJournal = new Journal({
+        action: "Archivage de dossier",
+        details: `Dossier archivé avec le numéro bordereaux: ${numero_bordereaux}`,
+      });
+      await newJournal.save();
+
       return res.status(200).json({
         success: true,
         message: "Data archived successfully",
@@ -208,11 +230,18 @@ const updateFolderById = async (req, res) => {
       await nature.save(); // Sauvegarder les modifications dans la collection Natures
 
       // Mettre à jour les champs dans la collection Courriers
-      courrier.numero_bordereaux = numero_bordereaux || courrier.numero_bordereaux;
+      courrier.numero_bordereaux =
+        numero_bordereaux || courrier.numero_bordereaux;
       courrier.date_depart = date_depart || courrier.date_depart;
       courrier.expiditeur = expiditeur || courrier.expiditeur;
       courrier.destination = destination || courrier.destination;
       await courrier.save(); // Sauvegarder les modifications dans la collection Courriers
+
+      const newJournal = new Journal({
+        action: "Mise à jour de dossier",
+        details: `Dossier mis à jour avec le numéro bordereaux: ${numero_bordereaux}`,
+      });
+      await newJournal.save();
 
       return res.status(200).json({
         success: true,
@@ -259,6 +288,12 @@ const deleteFolderById = async (req, res) => {
     // Étape 3 : Supprimer le courrier
     await Courrier.findByIdAndDelete(id);
 
+    const newJournal = new Journal({
+      action: "Suppression de dossier",
+      details: `Dossier supprimé avec le numéro bordereaux: ${courrier.numero_bordereaux}`,
+    });
+    await newJournal.save();
+
     return res.status(200).json({
       success: true,
       message: "Folder and associated Nature deleted successfully",
@@ -272,4 +307,10 @@ const deleteFolderById = async (req, res) => {
 };
 // ############### ENDING #################//
 
-module.exports = { addFolder, getFolder, editFolderById, updateFolderById, deleteFolderById };
+module.exports = {
+  addFolder,
+  getFolder,
+  editFolderById,
+  updateFolderById,
+  deleteFolderById,
+};
