@@ -61,17 +61,18 @@ async function setupJournalCleanup() {
     
     // Initialiser la variable lastInsertTime
     let lastInsertTime = new Date();
+    let tst = new Date(Date.now() - 60 * 1000);
     
     // Fonction pour traiter les changements
     const handleChanges = async () => {
       try {
-        const insertedDoc = await Journal.findOne({ createdAt: { $gt: lastInsertTime } });
+        const insertedDoc = await Journal.findOne({ createdAt: { $gt: tst } });
         if (insertedDoc) {
           await Journal.deleteOne({ _id: insertedDoc._id });
           console.log(`Deleted inserted document: ${insertedDoc._id}`);
           
           // Mettre à jour lastInsertTime
-          lastInsertTime = new Date(insertedDoc.createdAt);
+          tst = new Date(insertedDoc.createdAt);
         }
       } catch (err) {
         console.error('Error handling changes:', err);
