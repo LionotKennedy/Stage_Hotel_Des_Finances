@@ -9,6 +9,7 @@ const authRoute = require("./routes/AutheRoute");
 const adminRoute = require("./routes/AdminRoute");
 const commonRoute = require("./routes/commonRoute");
 const folderRoute = require("./routes/FolderRoute");
+const archiveRoute = require("./routes/ArchiveRoute");
 
 const app = express();
 
@@ -36,6 +37,7 @@ app.use("/api", authRoute);
 app.use("/api/admin", adminRoute);
 app.use("/api", commonRoute);
 app.use("/api", folderRoute);
+app.use("/api", archiveRoute);
 
 
 // Démarre le job de nettoyage des journaux
