@@ -10,6 +10,7 @@ const adminRoute = require("./routes/AdminRoute");
 const commonRoute = require("./routes/commonRoute");
 const folderRoute = require("./routes/FolderRoute");
 const archiveRoute = require("./routes/ArchiveRoute");
+const journalRoute = require("./routes/JournalRoute");
 
 const app = express();
 
@@ -31,14 +32,14 @@ if (xy == null) {
   console.log("Connexion is stable");
 }
 
-const journalCleanup = require('./modules/journalCleanup');
+const journalCleanup = require("./modules/journalCleanup");
 
 app.use("/api", authRoute);
 app.use("/api/admin", adminRoute);
 app.use("/api", commonRoute);
 app.use("/api", folderRoute);
 app.use("/api", archiveRoute);
-
+app.use("/api", journalRoute);
 
 // Démarre le job de nettoyage des journaux
 journalCleanup.setupJournalCleanup();
@@ -46,4 +47,3 @@ journalCleanup.setupJournalCleanup();
 app.listen(PORT, () => {
   console.log(`listening on port http://127.0.0.1:${PORT}`);
 });
-

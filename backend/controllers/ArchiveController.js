@@ -116,7 +116,7 @@ const getArchive = async (req, res) => {
 };
 // ############### ENDING #################//
 
-// ############### EDIT FOLDER BY ID #################//
+// ############### EDIT ARCHIVE BY ID #################//
 const editArchiveById = async (req, res) => {
   try {
     const { id } = req.params; // Récupérer l'ID depuis les paramètres de la requête
@@ -264,7 +264,7 @@ const updateArchiveById = async (req, res) => {
 };
 // ############### ENDING #################//
 
-// ############### DELETING #################//
+// ############### ARCHIVE DELETING #################//
 const deleteArhiveById = async (req, res) => {
   try {
     const { id } = req.params; // Récupérer l'ID depuis les paramètres de la requête
@@ -287,4 +287,10 @@ const deleteArhiveById = async (req, res) => {
 };
 // ################# ENDING ####################//
 
-module.exports = { addArchive, getArchive, editArchiveById, updateArchiveById, deleteArhiveById };
+module.exports = {
+  addArchive,
+  getArchive,
+  editArchiveById,
+  updateArchiveById,
+  deleteArhiveById,
+};
