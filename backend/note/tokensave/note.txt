@@ -490,3 +490,43 @@
 
 
 
+
+
+
+// // ############### EDIT USERS #################//
+// const editUsers = async (req, res) => {
+//   try {
+//     const { id } = req.params; // Récupérer l'ID depuis les paramètres de la requête
+
+//     // Rechercher un seul courrier par son ID et inclure les informations de la nature associée
+//     const user = await User.findOne({ _id: id });
+
+//     if (!user) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Folder not found",
+//       });
+//     }
+
+//     const UserData = {
+//       name: user.name,
+//       email: user.email,
+//       password: user.password,
+//       role: user.role,
+//       status: user.status,
+//       image: user.image,
+//       id: user._id,
+//     };
+//     return res.status(200).json({
+//       success: true,
+//       message: "User fetched successfully",
+//       data: UserData,
+//     });
+//   } catch (error) {
+//     return res.status(404).json({
+//       success: false,
+//       message: error.message,
+//     });
+//   }
+// };
+// // ############### ENDING #################//
