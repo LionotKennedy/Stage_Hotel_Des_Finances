@@ -1,4 +1,6 @@
 const User = require("../models/User");
+const path = require("path");
+const fs = require("fs");
 
 const { validationResult } = require("express-validator");
 
@@ -22,36 +24,78 @@ const getUsers = async (req, res) => {
 };
 // ############### ENDING #################//
 
+// // ############### EDIT USERS #################//
+// const editUsers = async (req, res) => {
+//   try {
+//     const { id } = req.params; // Récupérer l'ID depuis les paramètres de la requête
+
+//     // Rechercher un seul courrier par son ID et inclure les informations de la nature associée
+//     const user = await User.findOne({ _id: id });
+
+//     if (!user) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Folder not found",
+//       });
+//     }
+
+//     const UserData = {
+//       name: user.name,
+//       email: user.email,
+//       password: user.password,
+//       role: user.role,
+//       status: user.status,
+//       image: user.image,
+//       id: user._id,
+//     };
+//     return res.status(200).json({
+//       success: true,
+//       message: "User fetched successfully",
+//       data: UserData,
+//     });
+//   } catch (error) {
+//     return res.status(404).json({
+//       success: false,
+//       message: error.message,
+//     });
+//   }
+// };
+// // ############### ENDING #################//
+
+
 // ############### EDIT USERS #################//
 const editUsers = async (req, res) => {
   try {
     const { id } = req.params; // Récupérer l'ID depuis les paramètres de la requête
 
-    // Rechercher un seul courrier par son ID et inclure les informations de la nature associée
+    // Rechercher un seul utilisateur par son ID
     const user = await User.findOne({ _id: id });
 
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: "Folder not found",
+        message: "User not found",
       });
     }
 
-    const UserData = {
+    // Construction de l'URL complète de l'image
+    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    const imageUrl = user.image ? `${baseUrl}/uploads/${user.image}` : null;
+
+    const userData = {
       name: user.name,
       email: user.email,
       password: user.password,
       role: user.role,
       status: user.status,
-      image: user.image,
-      //   expiditeur: user.expiditeur,
-      //   destination: user.destination,
+      image: imageUrl,
       id: user._id,
     };
+
     return res.status(200).json({
       success: true,
       message: "User fetched successfully",
-      data: UserData,
+      data: userData,
     });
   } catch (error) {
     return res.status(404).json({
@@ -61,6 +105,8 @@ const editUsers = async (req, res) => {
   }
 };
 // ############### ENDING #################//
+
+
 
 // ############### UPDATE USERS #################//
 const updateUsers = async (req, res) => {
@@ -75,81 +121,55 @@ const updateUsers = async (req, res) => {
     }
 
     const { id } = req.params;
-    const {  name, email } = req.body;
-    let image = req.file ? req.file.filename : null; // Récupérer le nom du fichier photo si présent
+    const { name, email } = req.body;
+    let imagePath = req.file ? `/uploads/${req.file.filename}` : null; // Chemin de l'image
 
-    const isExists = await User.findOne({
-      _id: id,
-    });
-
-    if (!isExists) {
+    const userExists = await User.findById(id);
+    if (!userExists) {
       return res.status(400).json({
         success: false,
         message: "User not exists",
-        dateID: isExists,
       });
     }
 
-    var updateObj = {
-      name,
-      email,
-    };
+    const updateObj = { name, email };
 
-    if (image) {
-      updateObj.image = image;
-      // Récupérer l'utilisateur existant
-      let user = await customer
-        .config()
-        .collection("users")
-        .findOne({ _id: id });
-      if (user && user.image) {
-        // Supprimer l'ancienne photo
-        fs.unlink(path.join(__dirname, "../uploads", user.image), (err) => {
-          if (err) console.error("Failed to delete image:", err);
+    // Si une nouvelle image est fournie
+    if (imagePath) {
+      updateObj.image = imagePath;
+
+      // Supprimer l'ancienne image si elle existe
+      if (userExists.image) {
+        const oldImagePath = path.join(__dirname, "../uploads", userExists.image);
+        fs.unlink(oldImagePath, (err) => {
+          if (err) {
+            console.error("Failed to delete old image:", err);
+          }
         });
       }
     }
 
-    if (req.body.role != undefined) {
+    if (req.body.role !== undefined) {
       updateObj.role = req.body.role;
     }
 
-    if (req.body.status != undefined) {
+    if (req.body.status !== undefined) {
       updateObj.status = req.body.status;
     }
 
-    // const updatedData = await User.findByIdAndUpdate(
-    //   { _id: id },
-    //   {
-    //     $set: updateObj,
-    //   },
-    //   { new: true }
-    // );
+    const updatedUser = await User.updateOne({ _id: id }, { $set: updateObj });
 
-
-
-
-    let result = await customer
-    .config()
-    .collection("users")
-    .updateOne({ _id: id }, { $set: updateObj });
-  if (result.modifiedCount == 1) {
-    res.json({
-      status: 200,
-      message: "Update have been successfully...",
-    });
-  } else {
-    res.json({
-      status: 400,
-      message: "Failed update user",
-    });
-  }
-
-    return res.status(200).json({
-      success: true,
-      message: "User updated successfully",
-      data: updatedData,
-    });
+    if (updatedUser.modifiedCount === 1) {
+      return res.status(200).json({
+        success: true,
+        message: "User updated successfully",
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Failed to update user",
+      });
+    }
   } catch (error) {
     return res.status(404).json({
       success: false,
@@ -157,6 +177,7 @@ const updateUsers = async (req, res) => {
     });
   }
 };
+
 // ############### ENDING #################//
 
 module.exports = { getUsers, editUsers, updateUsers };
