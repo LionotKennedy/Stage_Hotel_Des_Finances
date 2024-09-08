@@ -1,6 +1,8 @@
 // middlewares/verifyToken.js
 const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
 const Token = require("../models/Token");
+dotenv.config();
 
 const verifyToken = async (req, res, next) => {
   // Extraire le token de l'en-tête Authorization
