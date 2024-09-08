@@ -154,4 +154,34 @@ const getProfile = async (req, res) => {
 };
 // ############### ENDING #################//
 
-module.exports = { registerUser, loginUser, getProfile };
+// ############### LOGOUT #################//
+const logoutUser = async (req, res) => {
+  try {
+    const token = req.headers["authorization"]?.split(" ")[1];
+    
+    if (!token) {
+      return res.status(400).json({
+        success: false,
+        message: "No token provided",
+      });
+    }
+
+    // Supprimez le token de la base de données
+    await Token.deleteOne({ token });
+
+    return res.status(200).json({
+      success: true,
+      message: "Logged out successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// ############### ENDING #################//
+
+module.exports = { registerUser, loginUser, getProfile, logoutUser };
+// module.exports = { registerUser, loginUser, getProfile };
