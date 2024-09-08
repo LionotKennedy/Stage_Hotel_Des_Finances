@@ -30,11 +30,18 @@ if (xy == null) {
   console.log("Connexion is stable");
 }
 
+const journalCleanup = require('./modules/journalCleanup');
+
 app.use("/api", authRoute);
 app.use("/api/admin", adminRoute);
 app.use("/api", commonRoute);
 app.use("/api", folderRoute);
 
+
+// Démarre le job de nettoyage des journaux
+journalCleanup.setupJournalCleanup();
+
 app.listen(PORT, () => {
   console.log(`listening on port http://127.0.0.1:${PORT}`);
 });
+

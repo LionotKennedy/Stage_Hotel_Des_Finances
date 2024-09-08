@@ -13,7 +13,7 @@ const JournalSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-});
+}, { timestamps: true });
 
 const Journal = mongoose.model("Journals", JournalSchema);
 module.exports = Journal;
