@@ -1,4 +1,6 @@
+
 const User = require("../models/User");
+const Token = require("../models/Token");
 const dotenv = require("dotenv");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -32,13 +34,13 @@ const registerUser = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const users = new User({
+    const user = new User({
       name,
       email,
       password: hashedPassword,
     });
 
-    const userData = await users.save();
+    const userData = await user.save();
 
     return res.status(200).json({
       success: true,
@@ -56,11 +58,26 @@ const registerUser = async (req, res) => {
 
 // ############### TOKEN #################//
 const generateAccessToken = async (user) => {
-  const token = jwt.sign(user, process.env.ACCESS_SECRET_TOKEN, {
+  const payload = {
+    userId: user._id,
+    email: user.email,
+  };
+
+  const token = jwt.sign(payload, process.env.ACCESS_SECRET_TOKEN, {
     expiresIn: "2h",
   });
+
+  // Save token to the database
+  const createdToken = await Token.create({
+    userId: user._id,
+    token,
+  });
+
+  console.log('Token created:', createdToken); // Ajoutez ce log pour le débogage
+
   return token;
 };
+
 // ############### ENDING #################//
 
 // ############### LOGIN #################//
@@ -82,7 +99,7 @@ const loginUser = async (req, res) => {
     if (!userData) {
       return res.status(400).json({
         success: false,
-        message: "Email  is incorrect",
+        message: "Email is incorrect",
       });
     }
 
@@ -100,8 +117,8 @@ const loginUser = async (req, res) => {
         message: "Your account is not active",
       });
     }
-    console.log(userData.status);
-    const accessToken = await generateAccessToken({ user: userData });
+
+    const accessToken = await generateAccessToken(userData);
 
     return res.status(200).json({
       success: true,
@@ -126,7 +143,6 @@ const getProfile = async (req, res) => {
     const userData = await User.findOne({ _id: id });
     return res.status(200).json({
       success: true,
-      // message: req.user,
       data: userData
     });
   } catch (error) {

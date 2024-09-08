@@ -1,37 +1,3 @@
-// const mongoose = require("mongoose");
-
-// const UserSchema = new mongoose.Schema({
-//   name: {
-//     type: String,
-//     required: true,
-//   },
-//   email: {
-//     type: String,
-//     required: true,
-//   },
-//   password: {
-//     type: String,
-//     required: true,
-//   },
-//   role: {
-//     type: Number,
-//     default: 0, // 0 -> Normal user, 1 -> Admin user, 2-> Sub-admin
-//   },
-//   status: {
-//     type: String,
-//     default: "active",
-//   },
-//   image: {
-//     type: String, // Chemin de l'image stocké sous forme de lien
-//     required: false,
-//   },
-// });
-
-// const User = mongoose.model("Users", UserSchema);
-// module.exports = User;
-
-
-
 
 
 const mongoose = require("mongoose");
@@ -44,6 +10,7 @@ const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   password: {
     type: String,
@@ -51,17 +18,21 @@ const UserSchema = new mongoose.Schema({
   },
   role: {
     type: Number,
-    default: 0, // 0 -> Utilisateur normal, 1 -> Admin, 2 -> Sous-admin
+    default: 0,
   },
   status: {
     type: String,
     default: "active",
   },
   image: {
-    type: String, // Chemin de l'image stocké sous forme de lien
-    required: false,
+    type: String,
   },
+  tokens: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Token'
+  }]
 });
 
-const User = mongoose.model("Users", UserSchema);
+const User = mongoose.model("User", UserSchema);
+
 module.exports = User;

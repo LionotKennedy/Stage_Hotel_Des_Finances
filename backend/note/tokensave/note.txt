@@ -1,0 +1,492 @@
+// const jwt = require("jsonwebtoken");
+
+// const verifyToken = async (req, res, next) => {
+//   const token =
+//     req.body.token || req.query.token || req.headers["authorization"];
+
+//   if (!token) {
+//     return res.status(403).json({
+//       success: false,
+//       message: "A token is required for authentication",
+//     });
+//   }
+
+//   try {
+//     const bearer = token.split(" ");
+//     const bearerToken = bearer[1];
+//     const decodedData = jwt.verify(
+//       bearerToken,
+//       process.env.ACCESS_SECRET_TOKEN
+//     );
+//     req.user = decodedData.user;
+//   } catch (error) {
+//     return res.status(400).json({
+//       success: false,
+//       message: "Invalid token",
+//     });
+//   }
+
+//   return next();
+// };
+
+// module.exports = verifyToken;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const jwt = require("jsonwebtoken");
+// const Token = require("../models/Token");
+
+// const verifyToken = async (req, res, next) => {
+//   const token =
+//     req.body.token || req.query.token || req.headers["authorization"];
+
+//   if (!token) {
+//     return res.status(403).json({
+//       success: false,
+//       message: "A token is required for authentication",
+//     });
+//   }
+
+//   try {
+//     const bearer = token.split(" ");
+//     const bearerToken = bearer[1];
+//     const decodedData = jwt.verify(
+//       bearerToken,
+//       process.env.ACCESS_SECRET_TOKEN
+//     );
+
+//     // Check if the token exists in the database
+//     const tokenData = await Token.findOne({ token: bearerToken });
+//     if (!tokenData) {
+//       return res.status(401).json({
+//         success: false,
+//         message: "Token not found",
+//       });
+//     }
+
+//     req.user = decodedData.user;
+//   } catch (error) {
+//     return res.status(400).json({
+//       success: false,
+//       message: "Invalid token",
+//     });
+//   }
+
+//   return next();
+// };
+
+// module.exports = verifyToken;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const generateAccessToken = async (user) => {
+//   const token = jwt.sign(user, process.env.ACCESS_SECRET_TOKEN, {
+//     expiresIn: "2h",
+//   });
+
+//   // Save token to the database
+//   await Token.create({
+//     userId: user._id,
+//     token,
+//   });
+
+//   return token;
+// };
+
+
+
+
+
+
+// const generateAccessToken = async (user) => {
+//   const payload = {
+//     userId: user._id,
+//     email: user.email,
+//     // Ajoutez d'autres informations si nécessaire
+//   };
+
+//   const token = jwt.sign(payload, process.env.ACCESS_SECRET_TOKEN, {
+//     expiresIn: "2h",
+//   });
+
+//   // Save token to the database
+//   await Token.create({
+//     userId: user._id,
+//     token,
+//   });
+
+//   return token;
+// };
+
+
+
+// const generateAccessToken = async (user) => {
+//   const payload = {
+//     userId: user._id,
+//     email: user.email,
+//     // Ajoutez d'autres informations si nécessaire
+//   };
+
+//   const token = jwt.sign(payload, process.env.ACCESS_SECRET_TOKEN, {
+//     expiresIn: "2h",
+//   });
+
+//   try {
+//     // Save token to the database
+//     await Token.create({
+//       userId: user._id,
+//       token,
+//     });
+//   } catch (error) {
+//     console.error("Error saving token to database:", error.message);
+//   }
+
+//   return token;
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const mongoose = require("mongoose");
+
+// const UserSchema = new mongoose.Schema({
+//   name: {
+//     type: String,
+//     required: true,
+//   },
+//   email: {
+//     type: String,
+//     required: true,
+//   },
+//   password: {
+//     type: String,
+//     required: true,
+//   },
+//   role: {
+//     type: Number,
+//     default: 0, // 0 -> Utilisateur normal, 1 -> Admin, 2 -> Sous-admin
+//   },
+//   status: {
+//     type: String,
+//     default: "active",
+//   },
+//   image: {
+//     type: String, // Chemin de l'image stocké sous forme de lien
+//     required: false,
+//   },
+// });
+
+// const User = mongoose.model("Users", UserSchema);
+// module.exports = User;
+
+
+
+
+
+
+
+
+// const mongoose = require("mongoose");
+
+// const UserSchema = new mongoose.Schema({
+//   name: {
+//     type: String,
+//     required: true,
+//   },
+//   email: {
+//     type: String,
+//     required: true,
+//   },
+//   password: {
+//     type: String,
+//     required: true,
+//   },
+//   role: {
+//     type: Number,
+//     default: 0, // 0 -> Utilisateur normal, 1 -> Admin, 2 -> Sous-admin
+//   },
+//   status: {
+//     type: String,
+//     default: "active",
+//   },
+//   image: {
+//     type: String, // Chemin de l'image stocké sous forme de lien
+//     required: false,
+//   },
+//   tokens: [{
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref: 'Tokens'
+//   }]
+// });
+
+// const User = mongoose.model("Users", UserSchema);
+// module.exports = User;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const UserSchema = new mongoose.Schema({
+//   name: {
+//     type: String,
+//     required: true,
+//   },
+//   email: {
+//     type: String,
+//     required: true,
+//   },
+//   password: {
+//     type: String,
+//     required: true,
+//   },
+//   role: {
+//     type: Number,
+//     default: 0, // 0 -> Utilisateur normal, 1 -> Admin, 2 -> Sous-admin
+//   },
+//   status: {
+//     type: String,
+//     default: "active",
+//   },
+//   image: {
+//     type: String, // Chemin de l'image stocké sous forme de lien
+//     required: false,
+//   },
+//   tokens: [{
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref: 'Token' // Notez que cela doit correspondre au nom du modèle 'Token'
+//   }]
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const User = require("../models/User");
+// const dotenv = require("dotenv");
+// const bcrypt = require("bcrypt");
+// const jwt = require("jsonwebtoken");
+// dotenv.config();
+
+// const { validationResult } = require("express-validator");
+
+// // ############### REGISTER #################//
+// const registerUser = async (req, res) => {
+//   try {
+//     const errors = validationResult(req);
+
+//     if (!errors.isEmpty()) {
+//       return res.status(200).json({
+//         success: true,
+//         message: "Errors",
+//         errors: errors.array(),
+//       });
+//     }
+
+//     const { name, email, password } = req.body;
+
+//     const isExistUser = await User.findOne({ email });
+
+//     if (isExistUser) {
+//       return res.status(200).json({
+//         success: false,
+//         message: "Email already exists",
+//       });
+//     }
+
+//     const hashedPassword = await bcrypt.hash(password, 10);
+
+//     const users = new User({
+//       name,
+//       email,
+//       password: hashedPassword,
+//     });
+
+//     const userData = await users.save();
+
+//     return res.status(200).json({
+//       success: true,
+//       message: "Successfully added user",
+//       data: userData,
+//     });
+//   } catch (error) {
+//     return res.status(404).json({
+//       success: false,
+//       message: error.message,
+//     });
+//   }
+// };
+// // ############### ENDING #################//
+
+// // ############### TOKEN #################//
+// const generateAccessToken = async (user) => {
+//   const token = jwt.sign(user, process.env.ACCESS_SECRET_TOKEN, {
+//     expiresIn: "2h",
+//   });
+//   return token;
+// };
+// // ############### ENDING #################//
+
+// // ############### LOGIN #################//
+// const loginUser = async (req, res) => {
+//   try {
+//     const errors = validationResult(req);
+
+//     if (!errors.isEmpty()) {
+//       return res.status(200).json({
+//         success: true,
+//         message: "Errors",
+//         errors: errors.array(),
+//       });
+//     }
+//     const { email, password } = req.body;
+
+//     const userData = await User.findOne({ email });
+
+//     if (!userData) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Email  is incorrect",
+//       });
+//     }
+
+//     const isPasswordMatch = await bcrypt.compare(password, userData.password);
+
+//     if (!isPasswordMatch) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Password is incorrect",
+//       });
+//     }
+//     if(userData.status != "active") {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Your account is not active",
+//       });
+//     }
+//     console.log(userData.status);
+//     const accessToken = await generateAccessToken({ user: userData });
+
+//     return res.status(200).json({
+//       success: true,
+//       message: "Login successfully",
+//       accessToken: accessToken,
+//       tokenType: "Bearer",
+//       data: userData,
+//     });
+//   } catch (error) {
+//     return res.status(404).json({
+//       success: false,
+//       message: error.message,
+//     });
+//   }
+// };
+// // ############### ENDING #################//
+
+// // ############### PROFILE #################//
+// const getProfile = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const userData = await User.findOne({ _id: id });
+//     return res.status(200).json({
+//       success: true,
+//       // message: req.user,
+//       data: userData
+//     });
+//   } catch (error) {
+//     return res.status(404).json({
+//       success: false,
+//       message: error.message,
+//     });
+//   }
+// };
+// // ############### ENDING #################//
+
+// module.exports = { registerUser, loginUser, getProfile };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
