@@ -2,6 +2,7 @@
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const Token = require("../models/Token");
+const User = require("../models/User"); // Importer le modèle User
 dotenv.config();
 
 const verifyToken = async (req, res, next) => {
@@ -20,6 +21,11 @@ const verifyToken = async (req, res, next) => {
   try {
     // Vérifier le token
     const decodedData = jwt.verify(token, process.env.ACCESS_SECRET_TOKEN);
+    // Récupérer les informations de l'utilisateur à partir de la base de données
+    const user = await User.findById(decodedData.userId);
+
+    // Ajouter les informations de l'utilisateur à la requête
+    req.user = user;
 
     // Vérifier si le token existe dans la base de données
     const tokenData = await Token.findOne({ token });

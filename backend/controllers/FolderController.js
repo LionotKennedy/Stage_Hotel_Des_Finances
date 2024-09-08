@@ -41,17 +41,28 @@ const addFolder = async (req, res) => {
       await newArchive.save();
 
       // Enregistrer l'action dans Journales
-      const newJournal = new Journal({
-        action: "Ajout d'un dossier archivé",
-        details: `Dossier archivé avec le numéro bordereaux: ${numero_bordereaux}`,
-      });
-      await newJournal.save();
+      // const newJournal = new Journal({
+      //   action: "Ajout d'un dossier archivé",
+      //   details: `Dossier archivé avec le numéro bordereaux: ${numero_bordereaux}`,
+      // });
+      // await newJournal.save();
+
+       // Enregistrer l'action dans Journales
+    const newJournal = new Journal({
+      action: "Ajout d'un dossier",
+      details: `Dossier archivé avec le numéro bordereaux: ${numero_bordereaux}`,
+      user: req.user._id, // Enregistrer l'ID de l'utilisateur
+      userName: req.user.name // Enregistrer le nom de l'utilisateur (optionnel)
+  });
+  await newJournal.save();
 
       return res.status(200).json({
         success: true,
         message: "Data archived successfully",
         data: newArchive,
+        test: req.user.name
       });
+      console.log(req.user.name);
     } else {
       // Sinon, continuer à sauvegarder dans Nature et Courrier
       const newNature = new Nature({
