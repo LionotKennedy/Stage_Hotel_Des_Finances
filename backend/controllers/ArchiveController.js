@@ -40,10 +40,22 @@ const addArchive = async (req, res) => {
 
       await newArchive.save();
 
+      // Vérification de l'utilisateur
+      if (!req.user || !req.user.name) {
+        return res.status(500).json({
+          success: false,
+          message: "User information is missing",
+        });
+      }
+
       // Enregistrer l'action dans Journales
       const newJournal = new Journal({
         action: "Ajout d'un dossier archivé",
         details: `Dossier archivé avec le numéro bordereaux: ${numero_bordereaux}`,
+        user: req.user._id,
+        userName: req.user.name,
+        adressEmail: req.user.email,
+        imageJournale: req.user.image,
       });
       await newJournal.save();
 
@@ -77,6 +89,10 @@ const addArchive = async (req, res) => {
       const newJournal = new Journal({
         action: "Ajout d'un dossier",
         details: `Nouveau dossier ajouté avec le numéro bordereaux: ${numero_bordereaux}`,
+        user: req.user._id,
+        userName: req.user.name,
+        adressEmail: req.user.email,
+        imageJournale: req.user.image,
       });
       await newJournal.save();
 
@@ -216,6 +232,10 @@ const updateArchiveById = async (req, res) => {
       const newJournal = new Journal({
         action: "Archivage de dossier",
         details: `Dossier archivé avec le numéro bordereaux: ${numero_bordereaux}`,
+        user: req.user._id,
+        userName: req.user.name,
+        adressEmail: req.user.email,
+        imageJournale: req.user.image,
       });
       await newJournal.save();
 
@@ -243,6 +263,10 @@ const updateArchiveById = async (req, res) => {
       const newJournal = new Journal({
         action: "Mise à jour de dossier",
         details: `Dossier mis à jour avec le numéro bordereaux: ${numero_bordereaux}`,
+        user: req.user._id,
+        userName: req.user.name,
+        adressEmail: req.user.email,
+        imageJournale: req.user.image,
       });
       await newJournal.save();
 
@@ -273,6 +297,10 @@ const deleteArhiveById = async (req, res) => {
     const newJournal = new Journal({
       action: "Suppression de dossier",
       details: `Dossier supprimé avec le numéro bordereaux: ${archive.numero_bordereaux}`,
+      user: req.user._id,
+      userName: req.user.name,
+      adressEmail: req.user.email,
+      imageJournale: req.user.image,
     });
     await newJournal.save();
     res.status(200).json({

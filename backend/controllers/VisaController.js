@@ -27,8 +27,12 @@ const addArchive = async (req, res) => {
 
     // Enregistrer l'action dans Journales
     const newJournal = new Journal({
-      action: "Ajout d'un dossier",
+      action: "Ajout d'un dossier visa",
       details: `Nouveau dossier visa ajouté avec le numéro bordereaux: ${numero_visa}`,
+      user: req.user._id,
+      userName: req.user.name,
+      adressEmail: req.user.email,
+      imageJournale: req.user.image,
     });
     await newJournal.save();
 
@@ -143,10 +147,15 @@ const updateVisa = async (req, res) => {
       { new: true }
     );
     const newJournal = new Journal({
-        action: "Mise à jour de dossier",
-        details: `Dossier visa mis à jour avec le numéro bordereaux: ${numero_visa}`,
-      });
-      await newJournal.save();
+      action: "Mise à jour de dossier visa",
+      details: `Dossier visa mis à jour avec le numéro bordereaux: ${numero_visa}`,
+      user: req.user._id,
+      userName: req.user.name,
+      adressEmail: req.user.email,
+      imageJournale: req.user.image,
+    });
+    await newJournal.save();
+
     return res.status(200).json({
       success: true,
       message: "Visa updated successfully",
@@ -163,43 +172,47 @@ const updateVisa = async (req, res) => {
 
 // ############### DELETE POST #################//
 const deleteVisa = async (req, res) => {
-    try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(200).json({
-          success: true,
-          message: "Errors",
-          errors: errors.array(),
-        });
-      }
-    //   const { id } = req.body;
-      const { id } = req.params;
-      const isExists = await Visa.findOne({ _id: id });
-      if (!isExists) {
-        return res.status(400).json({
-          success: false,
-          message: "Visa ID doesn't exists",
-        });
-      }
-      const VisaData = await Visa.findByIdAndDelete({ _id: id });
-      const newJournal = new Journal({
-        action: "Suppression de dossier",
-        details: `Dossier visa supprimé avec le numéro bordereaux: ${VisaData.numero_visa}`,
-      });
-      await newJournal.save();
-
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
       return res.status(200).json({
         success: true,
-        message: "Visa deleted successfully",
-        data: VisaData,
-      });
-    } catch (error) {
-      return res.status(404).json({
-        success: false,
-        message: error.message,
+        message: "Errors",
+        errors: errors.array(),
       });
     }
-  };
-  // ############### ENDING #################//
+    //   const { id } = req.body;
+    const { id } = req.params;
+    const isExists = await Visa.findOne({ _id: id });
+    if (!isExists) {
+      return res.status(400).json({
+        success: false,
+        message: "Visa ID doesn't exists",
+      });
+    }
+    const VisaData = await Visa.findByIdAndDelete({ _id: id });
+    const newJournal = new Journal({
+      action: "Suppression de dossier visa",
+      details: `Dossier visa supprimé avec le numéro bordereaux: ${VisaData.numero_visa}`,
+      user: req.user._id,
+      userName: req.user.name,
+      adressEmail: req.user.email,
+      imageJournale: req.user.image,
+    });
+    await newJournal.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Visa deleted successfully",
+      data: VisaData,
+    });
+  } catch (error) {
+    return res.status(404).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+// ############### ENDING #################//
 
 module.exports = { addArchive, getVisa, editVisaById, updateVisa, deleteVisa };
