@@ -37,6 +37,7 @@ if (xy == null) {
 }
 
 const journalCleanup = require("./modules/journalCleanup");
+// const { archiveOldDatas } = require("./modules/automate");
 
 app.use("/api", authRoute);
 app.use("/api/admin", adminRoute);
@@ -48,6 +49,7 @@ app.use("/api", visaRoute);
 
 // Démarre le job de nettoyage des journaux
 journalCleanup.setupJournalCleanup();
+// archiveOldDatas.archiveOldData();
 
 app.listen(PORT, () => {
   console.log(`listening on port http://127.0.0.1:${PORT}`);

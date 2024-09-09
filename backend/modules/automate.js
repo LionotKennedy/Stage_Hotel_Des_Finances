@@ -12,16 +12,19 @@ mongoose.connect(CONNECTION).then(() => {
   console.log("Automate connected to MongoDB");
 
   const currentYear = new Date().getFullYear();
-
+  console.log(currentYear)
+  
   const archiveOldData = async () => {
     try {
       // Récupérer les données de l'année précédente
       const courriers = await Courrier.find({ "date_depart": { $lt: new Date(currentYear, 0, 1) } })
-        .populate("id_nature");
-
+      .populate("id_nature");
+      console.log(courriers)
+      
       // Récupérer toutes les données de Nature qui ne sont pas liées à un courrier
       const natures = await Nature.find({ _id: { $nin: courriers.map(c => c.id_nature._id) } });
-
+      console.log(natures)
+      
       // Transformer les données de Courrier pour les faire correspondre au schéma Archive
       const formattedCourriers = courriers.map(courrier => ({
         description: courrier.id_nature.description || 'N/A',
@@ -33,21 +36,24 @@ mongoose.connect(CONNECTION).then(() => {
         expiditeur: courrier.expiditeur || 'N/A',
         destination: courrier.destination || 'N/A'
       }));
-
+      console.log(formattedCourriers)
+      
       // Transformer les données de Nature pour les faire correspondre au schéma Archive
       const formattedNatures = natures.map(nature => ({
         description: nature.description || 'N/A',
         nom_depose: nature.nom_depose || 'N/A',
         prenom_depose: nature.prenom_depose || 'N/A',
         matricule: nature.matricule || 'N/A',
-        numero_bordereaux: 'N/A',  // Ajoutez des valeurs par défaut si nécessaire
-        date_depart: null,         // Ajoutez des valeurs par défaut si nécessaire
-        expiditeur: 'N/A',        // Ajoutez des valeurs par défaut si nécessaire
-        destination: 'N/A'        // Ajoutez des valeurs par défaut si nécessaire
+          // numero_bordereaux: 'N/A',  // Ajoutez des valeurs par défaut si nécessaire
+          // date_depart: null,         // Ajoutez des valeurs par défaut si nécessaire
+          // expiditeur: 'N/A',        // Ajoutez des valeurs par défaut si nécessaire
+          // destination: 'N/A'        // Ajoutez des valeurs par défaut si nécessaire
       }));
+      console.log(formattedNatures)
 
       // Insérer les données formatées dans la collection Archive
-      await Archive.insertMany(formattedCourriers.concat(formattedNatures));
+      // await Archive.insertMany(formattedCourriers.concat(formattedNatures));
+      await Archive.insertMany(formattedCourriers.concat(formattedCourriers));
 
       // Supprimer les anciennes données
       await Promise.all([
@@ -67,3 +73,5 @@ mongoose.connect(CONNECTION).then(() => {
 }).catch(err => {
   console.error("Failed to connect to MongoDB:", err);
 });
+
+// module.exports =  archiveOldData 
