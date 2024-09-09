@@ -22,7 +22,19 @@ const verifyToken = async (req, res, next) => {
     // Vérifier le token
     const decodedData = jwt.verify(token, process.env.ACCESS_SECRET_TOKEN);
     // Récupérer les informations de l'utilisateur à partir de la base de données
+    // Vérifier le token
+    console.log("decodedData:", decodedData); // Pour vérifier le contenu de decodedData
+
+    // Récupérer les informations de l'utilisateur à partir de la base de données
     const user = await User.findById(decodedData.userId);
+    console.log("usersss:", user); // Pour vérifier si l'utilisateur a été trouvé
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
 
     // Ajouter les informations de l'utilisateur à la requête
     req.user = user;
