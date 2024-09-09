@@ -11,6 +11,7 @@ const commonRoute = require("./routes/commonRoute");
 const folderRoute = require("./routes/FolderRoute");
 const archiveRoute = require("./routes/ArchiveRoute");
 const journalRoute = require("./routes/JournalRoute");
+const visaRoute = require("./routes/VisaRoute");
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.use("/api", commonRoute);
 app.use("/api", folderRoute);
 app.use("/api", archiveRoute);
 app.use("/api", journalRoute);
+app.use("/api", visaRoute);
 
 // Démarre le job de nettoyage des journaux
 journalCleanup.setupJournalCleanup();
