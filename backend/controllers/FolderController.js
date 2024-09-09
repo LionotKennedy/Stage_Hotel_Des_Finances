@@ -6,145 +6,6 @@ const Journal = require("../models/Journal");
 const { validationResult } = require("express-validator");
 
 // ############### ADD FOLDER #################//
-// const addFolder = async (req, res) => {
-//   try {
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "Validation errors",
-//         errors: errors.array(),
-//       });
-//     }
-
-//     const { description, nom_depose, prenom_depose, matricule } = req.body;
-//     const { numero_bordereaux, date_depart, expiditeur, destination } =
-//       req.body;
-
-//     // Vérification de l'année de date_depart
-//     const currentYear = new Date().getFullYear();
-//     const yearOfDateDepart = new Date(date_depart).getFullYear();
-
-//     if (yearOfDateDepart < currentYear) {
-//       // Si la date est dans une année passée, stocker les données dans la collection Archives
-//       const newArchive = new Archive({
-//         numero_bordereaux,
-//         date_depart,
-//         expiditeur,
-//         destination,
-//         description,
-//         nom_depose,
-//         prenom_depose,
-//         matricule,
-//       });
-
-//       await newArchive.save();
-
-//       // Enregistrer l'action dans Journales
-//       // const newJournal = new Journal({
-//       //   action: "Ajout d'un dossier archivé",
-//       //   details: `Dossier archivé avec le numéro bordereaux: ${numero_bordereaux}`,
-//       // });
-//       // await newJournal.save();
-
-
-
-//        // Enregistrer l'action dans Journales
-//   //   const newJournal = new Journal({
-//   //     action: "Ajout d'un dossier",
-//   //     details: `Dossier archivé avec le numéro bordereaux: ${numero_bordereaux}`,
-//   //     user: req.user._id, // Enregistrer l'ID de l'utilisateur
-//   //     userName: req.user.name // Enregistrer le nom de l'utilisateur (optionnel)
-//   // });
-//   // console.log(req.user.name);
-//   // await newJournal.save();
-  
-
-
-
-//   // Vérifier si req.user est défini et si name existe
-//   if (!req.user || !req.user.name) {
-//     return res.status(500).json({
-//       success: false,
-//       message: "User information is missing"
-//     });
-//   }
-
-//   // Enregistrer l'action dans Journales
-//   const newJournal = new Journal({
-//     action: "Ajout d'un dossier",
-//     details: `Dossier archivé avec le numéro bordereaux: ${numero_bordereaux}`,
-//     user: req.user._id,
-//     userName: req.user.name
-//   });
-//   await newJournal.save();
-
-
-  
-//   return res.status(200).json({
-//     success: true,
-//     message: "Data archived successfully",
-//     data: newArchive,
-//     test: req.user.name
-//   });
-//     } else {
-//       // Sinon, continuer à sauvegarder dans Nature et Courrier
-//       const newNature = new Nature({
-//         description,
-//         nom_depose,
-//         prenom_depose,
-//         matricule,
-//       });
-
-//       const savedNature = await newNature.save();
-
-//       const newCourrier = new Courrier({
-//         numero_bordereaux,
-//         date_depart,
-//         expiditeur,
-//         destination,
-//         id_nature: savedNature._id,
-//       });
-
-//       const savedCourrier = await newCourrier.save();
-
-//       // Enregistrer l'action dans Journales
-//       const newJournal = new Journal({
-//         action: "Ajout d'un dossier",
-//         details: `Nouveau dossier ajouté avec le numéro bordereaux: ${numero_bordereaux}`,
-//       });
-//       await newJournal.save();
-
-//       return res.status(200).json({
-//         success: true,
-//         message: "Courrier and Nature saved successfully",
-//         data: {
-//           nature: savedNature,
-//           courrier: savedCourrier,
-//         },
-//       });
-//     }
-//   } catch (error) {
-//     return res.status(500).json({
-//       success: false,
-//       message: "Server error: " + error.message,
-//     });
-//   }
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const addFolder = async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -156,7 +17,16 @@ const addFolder = async (req, res) => {
       });
     }
 
-    const { description, nom_depose, prenom_depose, matricule, numero_bordereaux, date_depart, expiditeur, destination } = req.body;
+    const {
+      description,
+      nom_depose,
+      prenom_depose,
+      matricule,
+      numero_bordereaux,
+      date_depart,
+      expiditeur,
+      destination,
+    } = req.body;
 
     // Vérification de l'année
     const currentYear = new Date().getFullYear();
@@ -190,6 +60,8 @@ const addFolder = async (req, res) => {
         details: `Dossier archivé avec le numéro bordereaux: ${numero_bordereaux}`,
         user: req.user._id,
         userName: req.user.name,
+        adressEmail: req.user.email,
+        imageJournale: req.user.image,
       });
       await newJournal.save();
 
@@ -224,6 +96,8 @@ const addFolder = async (req, res) => {
         details: `Nouveau dossier ajouté avec le numéro bordereaux: ${numero_bordereaux}`,
         user: req.user._id,
         userName: req.user.name,
+        adressEmail: req.user.email,
+        imageJournale: req.user.image,
       });
       await newJournal.save();
 
@@ -243,10 +117,6 @@ const addFolder = async (req, res) => {
     });
   }
 };
-
-
-
-
 
 // ############### ENDING #################//
 
@@ -362,9 +232,21 @@ const updateFolderById = async (req, res) => {
       await Courrier.findByIdAndDelete(courrier._id);
       await Nature.findByIdAndDelete(nature._id);
 
+       // Vérification de l'utilisateur
+       if (!req.user || !req.user.name) {
+        return res.status(500).json({
+          success: false,
+          message: "User information is missing",
+        });
+      }
+
       const newJournal = new Journal({
         action: "Archivage de dossier",
         details: `Dossier archivé avec le numéro bordereaux: ${numero_bordereaux}`,
+        user: req.user._id,
+        userName: req.user.name,
+        adressEmail: req.user.email,
+        imageJournale: req.user.image,
       });
       await newJournal.save();
 
@@ -392,6 +274,10 @@ const updateFolderById = async (req, res) => {
       const newJournal = new Journal({
         action: "Mise à jour de dossier",
         details: `Dossier mis à jour avec le numéro bordereaux: ${numero_bordereaux}`,
+        user: req.user._id,
+        userName: req.user.name,
+        adressEmail: req.user.email,
+        imageJournale: req.user.image,
       });
       await newJournal.save();
 
@@ -443,6 +329,10 @@ const deleteFolderById = async (req, res) => {
     const newJournal = new Journal({
       action: "Suppression de dossier",
       details: `Dossier supprimé avec le numéro bordereaux: ${courrier.numero_bordereaux}`,
+      user: req.user._id,
+      userName: req.user.name,
+      adressEmail: req.user.email,
+      imageJournale: req.user.image,
     });
     await newJournal.save();
 

@@ -18,6 +18,7 @@ const verifyToken = async (req, res, next) => {
   // Le format attendu de l'en-tête est "Bearer <token>"
   const token = authHeader.split(" ")[1];
 
+
   try {
     // Vérifier le token
     const decodedData = jwt.verify(token, process.env.ACCESS_SECRET_TOKEN);
@@ -27,7 +28,7 @@ const verifyToken = async (req, res, next) => {
 
     // Récupérer les informations de l'utilisateur à partir de la base de données
     const user = await User.findById(decodedData.userId);
-    console.log("usersss:", user); // Pour vérifier si l'utilisateur a été trouvé
+    console.log("user:", user); // Pour vérifier si l'utilisateur a été trouvé
 
     if (!user) {
       return res.status(404).json({
@@ -49,7 +50,7 @@ const verifyToken = async (req, res, next) => {
     }
 
     // Ajouter les données décodées à la requête
-    req.user = decodedData;
+    // req.user = decodedData;
 
     // Passer au prochain middleware ou à la route
     next();

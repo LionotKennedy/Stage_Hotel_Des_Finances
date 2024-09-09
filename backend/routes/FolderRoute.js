@@ -4,9 +4,8 @@ const router = express.Router();
 const { addFolderValidator, editFolderValidator, updateFolderValidator, deleteFolderValidator } = require("../helpers/ValidatorFolder");
 const { addFolder, getFolder, editFolderById, updateFolderById, deleteFolderById } = require("../controllers/FolderController");
 const verifyToken = require("../middlewares/verifyToken");
-const authMiddleware = require("../middlewares/teste");
 
-// router.post("/add_folder",verifyToken, addFolderValidator, addFolder);
+router.post("/add_folder",verifyToken, addFolderValidator, addFolder);
 router.get("/get_folder",verifyToken, getFolder);
 router.get("/edit_folder/:id", verifyToken, editFolderValidator, editFolderById); // Nouvelle route pour récupérer un dossier par ID
 router.put("/update_folder/:id",verifyToken, updateFolderValidator, updateFolderById); // Nouvelle route pour mettre à jour un dossier
@@ -14,7 +13,7 @@ router.delete("/delete_folder/:id", verifyToken, deleteFolderValidator, deleteFo
 
 
 // Protéger les routes avec authMiddleware
-router.post("/add_folder", authMiddleware, addFolderValidator, addFolder);
+// router.post("/add_folder", authMiddleware, addFolderValidator, addFolder);
 
 
 module.exports = router;
