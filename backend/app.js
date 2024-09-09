@@ -36,7 +36,7 @@ if (xy == null) {
   console.log("Connexion is stable");
 }
 
-const journalCleanup = require("./modules/journalCleanup");
+// const journalCleanup = require("./modules/journalCleanup");
 // const { archiveOldDatas } = require("./modules/automate");
 const { archiveOldData } = require("./modules/automate");
 
@@ -49,7 +49,7 @@ app.use("/api", journalRoute);
 app.use("/api", visaRoute); 
 
 // Démarre le job de nettoyage des journaux
-journalCleanup.setupJournalCleanup();
+// journalCleanup.setupJournalCleanup();
 // archiveOldDatas.archiveOldData();
 archiveOldData();
 
