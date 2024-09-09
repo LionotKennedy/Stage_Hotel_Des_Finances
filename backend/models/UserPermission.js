@@ -6,11 +6,6 @@ const UserPermissionSchema = new mongoose.Schema({
     required: true,
     ref: "Users",
   },
-  // post_id: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   required: true,
-  //   ref: "Posts",
-  // },
   permissions: [
     {
       permission_name: String,

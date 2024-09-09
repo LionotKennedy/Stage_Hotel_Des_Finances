@@ -94,7 +94,13 @@ const loginUser = async (req, res) => {
         message: "Password is incorrect",
       });
     }
-
+    if(userData.status != "active") {
+      return res.status(400).json({
+        success: false,
+        message: "Your account is not active",
+      });
+    }
+    console.log(userData.status);
     const accessToken = await generateAccessToken({ user: userData });
 
     return res.status(200).json({
@@ -121,7 +127,7 @@ const getProfile = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: req.user,
-    //   errors: errors.array(),
+      //   errors: errors.array(),
     });
   } catch (error) {
     return res.status(404).json({
