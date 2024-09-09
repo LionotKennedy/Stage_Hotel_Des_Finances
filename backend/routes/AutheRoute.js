@@ -10,6 +10,6 @@ const { registerValidator, loginValidator } = require("../helpers/Validator");
 
 router.post('/register', registerValidator, registerUser);
 router.post('/login', loginValidator, loginUser);
-router.get('/profile', auth, getProfile);
+router.get('/profile/:id', getProfile);
 
 module.exports = router;

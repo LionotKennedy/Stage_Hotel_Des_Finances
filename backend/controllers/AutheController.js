@@ -122,12 +122,12 @@ const loginUser = async (req, res) => {
 // ############### PROFILE #################//
 const getProfile = async (req, res) => {
   try {
-    const user_id = req.user._id;
-    const userData = await User.findOne({ _id: user_id });
+    const { id } = req.params;
+    const userData = await User.findOne({ _id: id });
     return res.status(200).json({
       success: true,
-      message: req.user,
-      //   errors: errors.array(),
+      // message: req.user,
+      data: userData
     });
   } catch (error) {
     return res.status(404).json({

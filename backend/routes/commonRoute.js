@@ -1,20 +1,32 @@
 const express = require("express");
 const router = express.Router();
 const auth = require("../middlewares/AutheMiddleware");
+const { upload } = require("../configs/multer");
+
 const {
   addCategory,
   getCategory,
   deleteCategory,
   updateCategory,
-} = require("../controllers/categoryController");
+} = require("../note/categoryController");
+
 const {
   addPost,
   getPost,
   deletePost,
   updatePost,
-} = require("../controllers/PostController");
+} = require("../note/PostController");
 
-const { categoryAddValidator, categoryDeleteValidator, categoryUpdateValidator, postAddValidator, postDeleteValidator, postUpdateValidator } = require("../helpers/AdminValidator");
+const { getUsers, editUsers,  updateUsers } = require("../controllers/UserController");
+
+const {
+  categoryAddValidator,
+  categoryDeleteValidator,
+  categoryUpdateValidator,
+  postAddValidator,
+  postDeleteValidator,
+  postUpdateValidator,
+} = require("../helpers/AdminValidator");
 
 // Category
 router.post("/add_category", auth, addCategory);
@@ -27,5 +39,11 @@ router.post("/add_post", auth, addPost);
 router.get("/get_post", auth, getPost);
 router.delete("/delete_post", auth, deletePost);
 router.put("/update_post", auth, updatePost);
+
+// User
+router.get("/get_user", getUsers);
+router.get("/edit_user/:id", editUsers);
+// router.put("/update_user/:id", updateUsers);
+router.route("/update_user/:id").put(upload.single("image"), updateUsers);
 
 module.exports = router;
