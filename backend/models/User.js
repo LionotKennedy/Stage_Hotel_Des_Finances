@@ -26,6 +26,7 @@ const UserSchema = new mongoose.Schema({
   },
   image: {
     type: String,
+    default: "uploads_default/user.png", // Chemin vers l'image par défaut
   },
   tokens: [{
     type: mongoose.Schema.Types.ObjectId,
