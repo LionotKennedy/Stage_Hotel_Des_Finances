@@ -1,0 +1,5 @@
+Account SID : AC5cb600bc42fe4faa5ad7d3543b3bab83
+
+Auth Token : 91d776995588588718b1c881cc1fac2e
+
+My Twilio phone number: +12675507158
