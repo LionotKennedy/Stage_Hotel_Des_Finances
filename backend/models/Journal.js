@@ -31,10 +31,10 @@ const JournalSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    insertedAt: {
-      type: Date,
-      default: Date.now, // Enregistre l'heure d'insertion
-    },
+    // insertedAt: {
+    //   type: Date,
+    //   default: Date.now, // Enregistre l'heure d'insertion
+    // },
   },
   { timestamps: true }
 );

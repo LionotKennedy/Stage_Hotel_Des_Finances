@@ -528,10 +528,16 @@ const updateArchiveById = async (req, res) => {
       expiditeur,
       destination,
     } = req.body;
-
+    
     // console.log("Archive trouvée :", archive);
     console.log("Archive trouvée date :", date_depart);
+    const currentYear = new Date().getFullYear();
+    const yearOfDateDepart = new Date(date_depart).getFullYear();
+    console.log(currentYear)
+    console.log(yearOfDateDepart)
 
+    
+    if (yearOfDateDepart < currentYear) {
     // Étape 1 : Rechercher le document Archive par son ID
     const archive = await Archive.findOneAndUpdate(
       { _id: id },
@@ -559,75 +565,8 @@ const updateArchiveById = async (req, res) => {
       });
     }
 
-
-
-    // Comparer la date de départ avec la date actuelle
-    const currentDate = new Date();
-    const yearOfDateDepart = new Date(date_depart).getFullYear();
-    const monthOfDateDepart = new Date(date_depart).getMonth() + 1;
-    const dayOfDateDepart = new Date(date_depart).getDate();
-
-    console.log(currentDate)
-    console.log(yearOfDateDepart)
-    console.log(monthOfDateDepart)
-    console.log(dayOfDateDepart)
-
-    // Construire une date de comparaison
-    const comparisonDate = new Date(yearOfDateDepart, monthOfDateDepart - 1, dayOfDateDepart);
-
-    // Comparer les dates
-    const isFutureOrPresent = currentDate >= comparisonDate;
-
-    // Étape 2 : Mettre à jour Courriers et Natures si nécessaire
-    if (isFutureOrPresent) {
-      // Mettre à jour Courriers
-      const courrier = await Courrier.findByIdAndUpdate(
-        archive.id_courrier,
-        {
-          $set: {
-            numero_bordereaux: numero_bordereaux || (courrier && courrier.numero_bordereaux),
-            date_depart: date_depart || (courrier && courrier.date_depart),
-            expiditeur: expiditeur || (courrier && courrier.expiditeur),
-            destination: destination || (courrier && courrier.destination),
-          },
-          new: true,
-        },
-        { new: true }
-      );
-
-      if (!courrier) {
-        return res.status(404).json({
-          success: false,
-          message: "Corresponding Courier not found",
-        });
-      }
-
-      // Mettre à jour Natures
-      const nature = await Nature.findByIdAndUpdate(
-        courrier.id_nature,
-        {
-          $set: {
-            description: description || (nature && nature.description),
-            nom_depose: nom_depose || (nature && nature.nom_depose),
-            prenom_depose: prenom_depose || (nature && nature.prenom_depose),
-            matricule: matricule || (nature && nature.matricule),
-          },
-          new: true,
-        },
-        { new: true }
-      );
-
-      if (!nature) {
-        return res.status(404).json({
-          success: false,
-          message: "Corresponding Nature not found",
-        });
-      }
-    }
-
-    // Étape 3 : Enregistrer l'action dans Journal
     const newJournal = new Journal({
-      action: `Mise à jour de dossier`,
+      action: `Mise à jour de dossier archive`,
       details: `Dossier mis à jour avec le numéro bordereaux: ${archive.numero_bordereaux}`,
       user: req.user._id,
       userName: req.user.name,
@@ -638,15 +577,148 @@ const updateArchiveById = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Folder updated successfully",
-      data: {
-        archive,
-        ...(isFutureOrPresent && {
-          courrier,
-          nature,
-        }),
-      },
+      message: "Data archived successfully",
+      data: archive,
     });
+    } else {
+      console.log("journal")
+
+      // const nature = await Archive.findOneAndUpdate(
+      //   { _id: id },
+      //   {
+      //     $set: {
+      //       numero_bordereaux: numero_bordereaux || (nature && nature.numero_bordereaux),
+      //       date_depart: date_depart || (nature && nature.date_depart),
+      //       expiditeur: expiditeur || (nature && nature.expiditeur),
+      //       destination: destination || (nature && nature.destination),
+      //       description: description || (nature && nature.description),
+      //       nom_depose: nom_depose || (nature && nature.nom_depose),
+      //       prenom_depose: prenom_depose || (nature && nature.prenom_depose),
+      //       matricule: matricule || (nature && nature.matricule),
+      //     },
+      //     new: true,
+      //     upsert: true,
+      //   },
+      //   { new: true }
+      // );
+      // const courrier = await Courrier.findOneAndUpdate(
+      //   { _id: id },
+      //   {
+      //     $set: {
+      //       numero_bordereaux: numero_bordereaux || (courrier && courrier.numero_bordereaux),
+      //       date_depart: date_depart || (courrier && courrier.date_depart),
+      //       expiditeur: expiditeur || (courrier && courrier.expiditeur),
+      //       destination: destination || (courrier && courrier.destination),
+      //       description: description || (courrier && courrier.description),
+      //       nom_depose: nom_depose || (courrier && courrier.nom_depose),
+      //       prenom_depose: prenom_depose || (courrier && courrier.prenom_depose),
+      //       matricule: matricule || (courrier && courrier.matricule),
+      //     },
+      //     new: true,
+      //     upsert: true,
+      //   },
+      //   { new: true }
+      // );
+      // return res.status(200).json({
+      //   success: true,
+      //   message: "Folder updated successfully",
+      // });
+
+      // Sinon, mettre à jour les champs dans la collection Natures
+      const nature = await Archive.findOneAndUpdate()
+      nature.description = description || nature.description;
+      nature.nom_depose = nom_depose || nature.nom_depose;
+      nature.prenom_depose = prenom_depose || nature.prenom_depose;
+      nature.matricule = matricule || nature.matricule;
+      await nature.save(); // Sauvegarder les modifications dans la collection Natures
+      const courrier = await Courrier.findOneAndUpdate()
+      // Mettre à jour les champs dans la collection Courriers
+      courrier.numero_bordereaux =
+        numero_bordereaux || courrier.numero_bordereaux;
+      courrier.date_depart = date_depart || courrier.date_depart;
+      courrier.expiditeur = expiditeur || courrier.expiditeur;
+      courrier.destination = destination || courrier.destination;
+      await courrier.save(); // Sauvegarder les modifications dans la collection Courriers
+
+      const newJournal = new Journal({
+        action: "Mise à jour de dossier",
+        details: `Dossier mis à jour avec le numéro bordereaux: ${numero_bordereaux}`,
+        user: req.user._id,
+        userName: req.user.name,
+        adressEmail: req.user.email,
+        imageJournale: req.user.image,
+      });
+      await newJournal.save();
+
+      return res.status(200).json({
+        success: true,
+        message: "Folder updated successfully",
+        data: {
+          nature,
+          courrier,
+        },
+      });
+    }
+
+      // const comparisonDate = new Date(yearOfDateDepart, monthOfDateDepart - 1, dayOfDateDepart);
+      // console.log(comparisonDate)
+    // Construire une date de comparaison
+    
+    // Comparer les dates
+    // const isFutureOrPresent = currentDate >= comparisonDate;
+
+    // console.log(isFutureOrPresent)
+
+    // Étape 2 : Mettre à jour Courriers et Natures si nécessaire
+    // if (isFutureOrPresent) {
+    //   // Mettre à jour Courriers
+    //   const courrier = await Courrier.findByIdAndUpdate(
+    //     archive.id_courrier,
+    //     {
+    //       $set: {
+    //         numero_bordereaux: numero_bordereaux || (courrier && courrier.numero_bordereaux),
+    //         date_depart: date_depart || (courrier && courrier.date_depart),
+    //         expiditeur: expiditeur || (courrier && courrier.expiditeur),
+    //         destination: destination || (courrier && courrier.destination),
+    //       },
+    //       new: true,
+    //     },
+    //     { new: true }
+    //   );
+
+    //   if (!courrier) {
+    //     return res.status(404).json({
+    //       success: false,
+    //       message: "Corresponding Courier not found",
+    //     });
+    //   }
+
+    //   // Mettre à jour Natures
+    //   const nature = await Nature.findByIdAndUpdate(
+    //     courrier.id_nature,
+    //     {
+    //       $set: {
+    //         description: description || (nature && nature.description),
+    //         nom_depose: nom_depose || (nature && nature.nom_depose),
+    //         prenom_depose: prenom_depose || (nature && nature.prenom_depose),
+    //         matricule: matricule || (nature && nature.matricule),
+    //       },
+    //       new: true,
+    //     },
+    //     { new: true }
+    //   );
+
+    //   if (!nature) {
+    //     return res.status(404).json({
+    //       success: false,
+    //       message: "Corresponding Nature not found",
+    //     });
+    //   }
+    // }
+
+    // Étape 3 : Enregistrer l'action dans Journal
+
+
   } catch (error) {
     return res.status(500).json({
       success: false,
