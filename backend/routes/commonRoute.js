@@ -27,6 +27,7 @@ const {
   postDeleteValidator,
   postUpdateValidator,
 } = require("../helpers/AdminValidator");
+const verifyToken = require("../middlewares/verifyToken");
 
 // Category
 router.post("/add_category", auth, addCategory);
@@ -41,10 +42,10 @@ router.delete("/delete_post", auth, deletePost);
 router.put("/update_post", auth, updatePost);
 
 // User
-router.get("/get_user", getUsers);
-router.get("/edit_user/:id", editUsers);
-router.delete("/delete_user/:id", deleteUsers);
-router.route("/update_user/:id").put(upload.single("image"), updateUsers);
-router.route("/add_user").post(upload.single("image"), createUser);
+router.get("/get_user", verifyToken, getUsers);
+router.get("/edit_user/:id", verifyToken, editUsers);
+router.delete("/delete_user/:id", verifyToken, deleteUsers);
+router.route("/update_user/:id").put(upload.single("image"), verifyToken, updateUsers);
+router.route("/add_user").post(upload.single("image"), verifyToken, createUser);
 
 module.exports = router;

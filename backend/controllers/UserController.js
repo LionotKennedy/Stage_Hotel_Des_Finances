@@ -5,6 +5,8 @@ const fs = require("fs");
 const { validationResult } = require("express-validator");
 
 const bcrypt = require("bcrypt");
+// const randomstring = require("randomstring");
+// const sendMail = require("../utils/sendMail");
 
 // ############### CREATE USER #################//
 const createUser = async (req, res) => {
@@ -20,10 +22,7 @@ const createUser = async (req, res) => {
 
     const { name, email } = req.body;
 
-    const isExists = await User.findOne({
-      email,
-    });
-
+    const isExists = await User.findOne({ email });
     if (isExists) {
       return res.status(400).json({
         success: false,
@@ -34,7 +33,7 @@ const createUser = async (req, res) => {
     const password = randomstring.generate(6); // Assuming you have randomstring installed
     const hashPassword = await bcrypt.hash(password, 10);
 
-    let imagePath = null; // Initialize image path
+    let imagePath = "uploads_default/user.png"; // Default image path
 
     if (req.file) { // Check if an image file is uploaded
       imagePath = `/uploads/${req.file.filename}`; // Store image path relative to uploads folder
@@ -57,35 +56,30 @@ const createUser = async (req, res) => {
     }
 
     const user = new User(obj);
-
     const userData = await user.save();
 
     console.log(password);
 
-    const content = `
-      <p>Hii <b>` + userData.name + `</b> Your account is created, below is your details. </p>
-      <table style="boreder-style:none;">
-        <tr>
-          <th>Name: -</th>
-          <td>` + userData.name + `</td>
-        </tr>
-
-        <tr>
-          <th>Email: -</th>
-          <td>` + userData.email + `</td>
-        </tr>
-
-        <tr>
-          <th>Password: -</th>
-          <td>` + password + `</td>
-        </tr>
-      </table>
-
-      <p>
-        Now you can login your account in Our application, Thans...
-      </p>
-    `;
-    sendMail(userData.email, "Account Created", content);
+    // const content = `
+    //   <p>Hi <b>${userData.name}</b>, Your account has been created. Below are your details.</p>
+    //   <table style="border-style:none;">
+    //     <tr>
+    //       <th>Name: -</th>
+    //       <td>${userData.name}</td>
+    //     </tr>
+    //     <tr>
+    //       <th>Email: -</th>
+    //       <td>${userData.email}</td>
+    //     </tr>
+    //     <tr>
+    //       <th>Password: -</th>
+    //       <td>${password}</td>
+    //     </tr>
+    //   </table>
+    //   <p>You can now log in to your account. Thanks...</p>
+    // `;
+    // sendMail(userData.email, "Account Created", content);
+    
     return res.status(200).json({
       success: true,
       message: "User created successfully",
@@ -135,7 +129,7 @@ const editUsers = async (req, res) => {
 
     // Construction de l'URL complète de l'image
     const baseUrl = `${req.protocol}://${req.get('host')}`;
-    const imageUrl = user.image ? `${baseUrl}/uploads/${user.image}` : null;
+    const imageUrl = user.image ? `${baseUrl}/uploads/${user.image}` : `${baseUrl}/uploads_default/user.png`;
 
     const userData = {
       name: user.name,
@@ -181,7 +175,7 @@ const updateUsers = async (req, res) => {
     if (!userExists) {
       return res.status(400).json({
         success: false,
-        message: "User not exists",
+        message: "User does not exist",
       });
     }
 
@@ -192,8 +186,8 @@ const updateUsers = async (req, res) => {
       updateObj.image = imagePath;
 
       // Supprimer l'ancienne image si elle existe
-      if (userExists.image) {
-        const oldImagePath = path.join(__dirname, "../uploads", userExists.image);
+      if (userExists.image && userExists.image !== "uploads_default/user.png") {
+        const oldImagePath = path.join(__dirname, "../uploads", path.basename(userExists.image));
         fs.unlink(oldImagePath, (err) => {
           if (err) {
             console.error("Failed to delete old image:", err);
@@ -208,6 +202,10 @@ const updateUsers = async (req, res) => {
 
     if (req.body.status !== undefined) {
       updateObj.status = req.body.status;
+    }
+
+    if (req.body.image !== undefined) {
+      updateObj.image = req.body.image;
     }
 
     const updatedUser = await User.updateOne({ _id: id }, { $set: updateObj });
@@ -230,7 +228,6 @@ const updateUsers = async (req, res) => {
     });
   }
 };
-
 // ############### ENDING #################//
 
 // ############### DELETE USERS #################//
@@ -245,7 +242,6 @@ const deleteUsers = async (req, res) => {
       });
     }
 
-    // const { id } = req.body;
     const { id } = req.params;
 
     const userToDelete = await User.findById(id);
@@ -258,8 +254,8 @@ const deleteUsers = async (req, res) => {
     }
 
     // Check if user has an image
-    if (userToDelete.image) {
-      const imagePath = path.join(__dirname, "../", userToDelete.image); // Remove extra "uploads"
+    if (userToDelete.image && userToDelete.image !== "uploads_default/user.png") {
+      const imagePath = path.join(__dirname, "../uploads", path.basename(userToDelete.image));
       fs.unlink(imagePath, (err) => {
         if (err) {
           console.error("Failed to delete image:", err);
