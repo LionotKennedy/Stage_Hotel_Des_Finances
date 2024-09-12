@@ -5,8 +5,9 @@ const fs = require("fs");
 const { validationResult } = require("express-validator");
 
 const bcrypt = require("bcrypt");
-// const randomstring = require("randomstring");
+const randomstring = require("randomstring");
 // const sendMail = require("../utils/sendMail");
+const sendMail = require("../utils/sendMail"); // Assure-toi que ce fichier est bien en place
 
 // ############### CREATE USER #################//
 const createUser = async (req, res) => {
@@ -60,25 +61,25 @@ const createUser = async (req, res) => {
 
     console.log(password);
 
-    // const content = `
-    //   <p>Hi <b>${userData.name}</b>, Your account has been created. Below are your details.</p>
-    //   <table style="border-style:none;">
-    //     <tr>
-    //       <th>Name: -</th>
-    //       <td>${userData.name}</td>
-    //     </tr>
-    //     <tr>
-    //       <th>Email: -</th>
-    //       <td>${userData.email}</td>
-    //     </tr>
-    //     <tr>
-    //       <th>Password: -</th>
-    //       <td>${password}</td>
-    //     </tr>
-    //   </table>
-    //   <p>You can now log in to your account. Thanks...</p>
-    // `;
-    // sendMail(userData.email, "Account Created", content);
+    const content = `
+      <p>Hi <b>${userData.name}</b>, Your account has been created. Below are your details.</p>
+      <table style="border-style:none;">
+        <tr>
+          <th>Name: -</th>
+          <td>${userData.name}</td>
+        </tr>
+        <tr>
+          <th>Email: -</th>
+          <td>${userData.email}</td>
+        </tr>
+        <tr>
+          <th>Password: -</th>
+          <td>${password}</td>
+        </tr>
+      </table>
+      <p>You can now log in to your account. Thanks...</p>
+    `;
+    sendMail(userData.email, "Account Created", content);
     
     return res.status(200).json({
       success: true,
