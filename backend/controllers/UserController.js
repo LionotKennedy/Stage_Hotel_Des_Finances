@@ -11,6 +11,7 @@ const sendMail = require("../utils/sendMail"); // Assure-toi que ce fichier est 
 
 // ############### CREATE USER #################//
 const createUser = async (req, res) => {
+  console.log("coucou li user");
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -36,7 +37,8 @@ const createUser = async (req, res) => {
 
     let imagePath = "uploads_default/user.png"; // Default image path
 
-    if (req.file) { // Check if an image file is uploaded
+    if (req.file) {
+      // Check if an image file is uploaded
       imagePath = `/uploads/${req.file.filename}`; // Store image path relative to uploads folder
     }
 
@@ -80,7 +82,7 @@ const createUser = async (req, res) => {
       <p>You can now log in to your account. Thanks...</p>
     `;
     sendMail(userData.email, "Account Created", content);
-    
+
     return res.status(200).json({
       success: true,
       message: "User created successfully",
@@ -124,13 +126,15 @@ const editUsers = async (req, res) => {
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: "User not found",
+        message: "User not found...",
       });
     }
 
     // Construction de l'URL complète de l'image
-    const baseUrl = `${req.protocol}://${req.get('host')}`;
-    const imageUrl = user.image ? `${baseUrl}/uploads/${user.image}` : `${baseUrl}/uploads_default/user.png`;
+    const baseUrl = `${req.protocol}://${req.get("host")}`;
+    const imageUrl = user.image
+      ? `${baseUrl}/uploads/${user.image}`
+      : `${baseUrl}/uploads_default/user.png`;
 
     const userData = {
       name: user.name,
@@ -188,7 +192,11 @@ const updateUsers = async (req, res) => {
 
       // Supprimer l'ancienne image si elle existe
       if (userExists.image && userExists.image !== "uploads_default/user.png") {
-        const oldImagePath = path.join(__dirname, "../uploads", path.basename(userExists.image));
+        const oldImagePath = path.join(
+          __dirname,
+          "../uploads",
+          path.basename(userExists.image)
+        );
         fs.unlink(oldImagePath, (err) => {
           if (err) {
             console.error("Failed to delete old image:", err);
@@ -255,8 +263,15 @@ const deleteUsers = async (req, res) => {
     }
 
     // Check if user has an image
-    if (userToDelete.image && userToDelete.image !== "uploads_default/user.png") {
-      const imagePath = path.join(__dirname, "../uploads", path.basename(userToDelete.image));
+    if (
+      userToDelete.image &&
+      userToDelete.image !== "uploads_default/user.png"
+    ) {
+      const imagePath = path.join(
+        __dirname,
+        "../uploads",
+        path.basename(userToDelete.image)
+      );
       fs.unlink(imagePath, (err) => {
         if (err) {
           console.error("Failed to delete image:", err);

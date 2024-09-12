@@ -17,7 +17,13 @@ const {
   updatePost,
 } = require("../note/PostController");
 
-const { getUsers, editUsers,  updateUsers, deleteUsers, createUser } = require("../controllers/UserController");
+const {
+  getUsers,
+  editUsers,
+  updateUsers,
+  deleteUsers,
+  createUser,
+} = require("../controllers/UserController");
 
 const {
   categoryAddValidator,
@@ -45,7 +51,9 @@ router.put("/update_post", auth, updatePost);
 router.get("/get_user", verifyToken, getUsers);
 router.get("/edit_user/:id", verifyToken, editUsers);
 router.delete("/delete_user/:id", verifyToken, deleteUsers);
-router.route("/update_user/:id").put(upload.single("image"), verifyToken, updateUsers);
+router
+  .route("/update_user/:id")
+  .put(upload.single("image"), verifyToken, updateUsers);
 router.route("/add_user").post(upload.single("image"), verifyToken, createUser);
 
 module.exports = router;
