@@ -22,7 +22,7 @@ const {
   editUsers,
   updateUsers,
   deleteUsers,
-  createUser,
+  createUsers,
 } = require("../controllers/UserController");
 
 const {
@@ -51,9 +51,7 @@ router.put("/update_post", auth, updatePost);
 router.get("/get_user", verifyToken, getUsers);
 router.get("/edit_user/:id", verifyToken, editUsers);
 router.delete("/delete_user/:id", verifyToken, deleteUsers);
-router
-  .route("/update_user/:id")
-  .put(upload.single("image"), verifyToken, updateUsers);
-router.route("/add_user").post(upload.single("image"), verifyToken, createUser);
+router.route("/update_user/:id").put(upload.single("image"), verifyToken, updateUsers);
+router.route("/add_user").post(upload.single("image"), verifyToken, createUsers);
 
 module.exports = router;

@@ -10,7 +10,7 @@ const randomstring = require("randomstring");
 const sendMail = require("../utils/sendMail"); // Assure-toi que ce fichier est bien en place
 
 // ############### CREATE USER #################//
-const createUser = async (req, res) => {
+const createUsers = async (req, res) => {
   console.log("coucou li user");
   try {
     const errors = validationResult(req);
@@ -301,4 +301,4 @@ const deleteUsers = async (req, res) => {
 };
 // ############### ENDING #################//
 
-module.exports = { getUsers, editUsers, updateUsers, deleteUsers, createUser };
+module.exports = { getUsers, editUsers, updateUsers, deleteUsers, createUsers };
