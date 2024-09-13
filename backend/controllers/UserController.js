@@ -1,18 +1,130 @@
 const User = require("../models/User");
 const path = require("path");
 const fs = require("fs");
+const bcrypt = require("bcrypt");
+const randomstring = require("randomstring");
+const sendMail = require("../utils/sendMail"); // Assure-toi que ce fichier est bien en place
+const dns = require("dns"); // Importer le module dns pour vérifier la connexion
 
 const { validationResult } = require("express-validator");
 
-const bcrypt = require("bcrypt");
-const randomstring = require("randomstring");
-// const sendMail = require("../utils/sendMail");
-const sendMail = require("../utils/sendMail"); // Assure-toi que ce fichier est bien en place
+
+// ############### CREATE USER #################//
+// const createUsers = async (req, res) => {
+//   console.log("coucou li user");
+//   try {
+//     const errors = validationResult(req);
+//     if (!errors.isEmpty()) {
+//       return res.status(200).json({
+//         success: false,
+//         message: "Errors",
+//         errors: errors.array(),
+//       });
+//     }
+
+//     const { name, email } = req.body;
+
+//     const isExists = await User.findOne({ email });
+//     if (isExists) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Email already exists",
+//       });
+//     }
+
+//     const password = randomstring.generate(6); // Assuming you have randomstring installed
+//     const hashPassword = await bcrypt.hash(password, 10);
+
+//     let imagePath = "uploads_default/user.png"; // Default image path
+
+//     if (req.file) {
+//       // Check if an image file is uploaded
+//       imagePath = `/uploads/${req.file.filename}`; // Store image path relative to uploads folder
+//     }
+
+//     const obj = {
+//       name,
+//       email,
+//       password: hashPassword,
+//       image: imagePath, // Add image path to the user object
+//     };
+
+//     if (req.body.role && req.body.role == 1) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "You can't create an admin",
+//       });
+//     } else if (req.body.role) {
+//       obj.role = req.body.role;
+//     }
+
+//     console.log(req.body.role);
+
+//     const user = new User(obj);
+//     const userData = await user.save();
+
+//     console.log(password);
+
+//     const content = `
+//       <p>Hi <b>${userData.name}</b>, Your account has been created. Below are your details.</p>
+//       <table style="border-style:none;">
+//         <tr>
+//           <th>Name: -</th>
+//           <td>${userData.name}</td>
+//         </tr>
+//         <tr>
+//           <th>Email: -</th>
+//           <td>${userData.email}</td>
+//         </tr>
+//         <tr>
+//           <th>Password: -</th>
+//           <td>${password}</td>
+//         </tr>
+//       </table>
+//       <p>You can now log in to your account. Thanks...</p>
+//     `;
+//     sendMail(userData.email, "Account Created", content);
+
+//     return res.status(200).json({
+//       success: true,
+//       message: "User created successfully",
+//       data: userData,
+//     });
+//   } catch (error) {
+//     return res.status(404).json({
+//       success: false,
+//       message: error.message,
+//     });
+//   }
+// };
+
+
+
+
+
+// ############### TESTE CONNEXION #################//
+// Fonction pour vérifier la connexion Internet
+const checkInternetConnection = () => {
+  return new Promise((resolve, reject) => {
+    dns.lookup('google.com', (err) => {
+      if (err && err.code === "ENOTFOUND") {
+        reject(new Error("No internet connection"));
+      } else {
+        resolve(true);
+      }
+    });
+  });
+};
+// ############### ENDING #################//
+
 
 // ############### CREATE USER #################//
 const createUsers = async (req, res) => {
   console.log("coucou li user");
   try {
+    // Vérifier la connexion Internet
+    await checkInternetConnection();
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(200).json({
@@ -32,21 +144,20 @@ const createUsers = async (req, res) => {
       });
     }
 
-    const password = randomstring.generate(6); // Assuming you have randomstring installed
+    const password = randomstring.generate(6); 
     const hashPassword = await bcrypt.hash(password, 10);
 
-    let imagePath = "uploads_default/user.png"; // Default image path
+    let imagePath = "uploads_default/user.png"; 
 
     if (req.file) {
-      // Check if an image file is uploaded
-      imagePath = `/uploads/${req.file.filename}`; // Store image path relative to uploads folder
+      imagePath = `/uploads/${req.file.filename}`;
     }
 
     const obj = {
       name,
       email,
       password: hashPassword,
-      image: imagePath, // Add image path to the user object
+      image: imagePath, 
     };
 
     if (req.body.role && req.body.role == 1) {
@@ -60,8 +171,6 @@ const createUsers = async (req, res) => {
 
     const user = new User(obj);
     const userData = await user.save();
-
-    console.log(password);
 
     const content = `
       <p>Hi <b>${userData.name}</b>, Your account has been created. Below are your details.</p>
@@ -89,6 +198,13 @@ const createUsers = async (req, res) => {
       data: userData,
     });
   } catch (error) {
+    // Vérifie si l'erreur est liée à l'absence de connexion
+    if (error.message === "No internet connection") {
+      return res.status(400).json({
+        success: false,
+        message: "No internet connection. Please try again later.",
+      });
+    }
     return res.status(404).json({
       success: false,
       message: error.message,
