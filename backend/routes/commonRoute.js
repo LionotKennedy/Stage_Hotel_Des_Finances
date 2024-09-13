@@ -35,6 +35,8 @@ const {
 } = require("../helpers/AdminValidator");
 const verifyToken = require("../middlewares/verifyToken");
 
+const isAdmin = require("../middlewares/isAdmin");
+
 // Category
 router.post("/add_category", auth, addCategory);
 router.get("/get_category", auth, getCategory);
@@ -52,6 +54,9 @@ router.get("/get_user", verifyToken, getUsers);
 router.get("/edit_user/:id", verifyToken, editUsers);
 router.delete("/delete_user/:id", verifyToken, deleteUsers);
 router.route("/update_user/:id").put(upload.single("image"), verifyToken, updateUsers);
-router.route("/add_user").post(upload.single("image"), verifyToken, createUsers);
+// router.route("/add_user").post(upload.single("image"), verifyToken, createUsers);
+
+// Protected route: Only admin can create users
+router.post("/add_user", upload.single("image"), verifyToken, isAdmin, createUsers);
 
 module.exports = router;
