@@ -2,6 +2,8 @@ const Courrier = require("../models/Courrier");
 const Nature = require("../models/Nature");
 const Archive = require("../models/Archive");
 const Journal = require("../models/Journal");
+// Import moment-timezone
+const moment = require('moment-timezone');
 
 const { validationResult } = require("express-validator");
 
@@ -56,6 +58,7 @@ const addArchive = async (req, res) => {
         userName: req.user.name,
         adressEmail: req.user.email,
         imageJournale: req.user.image,
+        date: moment().tz("Indian/Antananarivo").toDate(), // Date au fuseau horaire de Madagascar
       });
       await newJournal.save();
 
@@ -93,6 +96,7 @@ const addArchive = async (req, res) => {
         userName: req.user.name,
         adressEmail: req.user.email,
         imageJournale: req.user.image,
+        date: moment().tz("Indian/Antananarivo").toDate(), // Date au fuseau horaire de Madagascar
       });
       await newJournal.save();
 
