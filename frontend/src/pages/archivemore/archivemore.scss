@@ -1,0 +1,19 @@
+.container__archive-more {
+    padding-top: calc(var(--topnav-height) + 20px);
+  }
+
+.icon__back {
+    margin-top: 20px; 
+    display: flex;
+    justify-content: start; 
+    margin-left: 20px; 
+  }
+
+  .back-icon {
+    color: #000;
+    transition: transform 0.3s ease, color 0.3s ease;
+    &:hover {
+      color: #007bff; 
+      transform: translateX(-10px);
+    }
+  }

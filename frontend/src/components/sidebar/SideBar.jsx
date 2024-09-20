@@ -24,8 +24,12 @@ const SideBar = () => {
 
   const location = useLocation()
 
-  const activeItem = sidebar_items.findIndex(item => item.route === location.pathname)
+  // const activeItem = sidebar_items.findIndex(item => item.route === location.pathname)
 
+  const activeItem = sidebar_items.findIndex(item => 
+    location.pathname.startsWith(item.route)
+  );
+  
   return (
     <div className='sidebar'>
       <div className="sidebar__logo">

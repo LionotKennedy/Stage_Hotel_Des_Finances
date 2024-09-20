@@ -1,10 +1,18 @@
 import React from 'react'
 import "./archivecard.scss"
 import folder from "../../assets/images/user.png"
+import { useNavigate } from 'react-router-dom';
 
 const ArchiveCard = () => {
+
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate('/archive/details'); 
+  };
+
   return (
-        <div className='container__card'>
+        <div className='container__card' onClick={handleCardClick}>
           <div className="content_card">
             <div className="card_details">
               <div className="img_folder">

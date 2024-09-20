@@ -10,6 +10,7 @@ import Archive from './pages/archive/Archive';
 import Journal from './pages/journal/Journal';
 import User from './pages/user/User';
 import Profile from './pages/profile/Profile';
+import ArchiveMore from "./pages/archivemore/ArchiveMore";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -33,6 +34,7 @@ function App() {
             <Route path="/journal" element={<Journal />} />
             <Route path="/utilisateur" element={<User />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/archive/details" element={<ArchiveMore />} />
           </Route>
         )}
 
