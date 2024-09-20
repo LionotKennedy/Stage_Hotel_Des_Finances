@@ -1,10 +1,13 @@
 import React from 'react'
 import "./archivemore.scss"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
 
 const ArchiveMore = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const { date, nombre, dateDebut, salaire, dateExpiration } = location.state || {};
 
     const handleBackClick = () => {
         navigate('/archive');
@@ -22,6 +25,11 @@ const ArchiveMore = () => {
             </div>
             <h1>Détails de l'archive</h1>
             <p>Contenu supplémentaire sur cette page...</p>
+            <p>Date : {date}</p>
+            <p>Nombre : {nombre}</p>
+            <p>Date début : {dateDebut}</p>
+            <p>Salaire : {salaire}</p>
+            <p>Date expiration : {dateExpiration}</p>
         </div>
     )
 }

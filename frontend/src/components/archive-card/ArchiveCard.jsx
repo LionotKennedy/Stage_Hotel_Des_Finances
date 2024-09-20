@@ -7,10 +7,23 @@ const ArchiveCard = () => {
 
   const navigate = useNavigate();
 
-  const handleCardClick = () => {
-    navigate('/archive/details'); 
-  };
+  // const handleCardClick = () => {
+  //   navigate('/archive/details'); 
+  // };
 
+  const handleCardClick = () => {
+    // Les données que vous voulez envoyer
+    const data = {
+      date: "2023",
+      nombre: 122,
+      dateDebut: "2021",
+      salaire: "fffff Ariary",
+      dateExpiration: "jchjdjcdjsj"
+    };
+
+    navigate('/archive/details', { state: data }); 
+  };
+  
   return (
         <div className='container__card' onClick={handleCardClick}>
           <div className="content_card">
