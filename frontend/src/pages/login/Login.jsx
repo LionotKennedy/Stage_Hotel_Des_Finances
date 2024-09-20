@@ -1,0 +1,324 @@
+
+
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { MdLock } from 'react-icons/md'; 
+import { RiUserFill, RiLockFill } from 'react-icons/ri'; 
+import { AiOutlineMail } from 'react-icons/ai'; 
+import { FaCheckCircle } from 'react-icons/fa'; 
+import "./login.scss";
+import Loading from '../../components/Loading/Loading';  
+
+const Login = ({ onLogin }) => {  
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(true); 
+    const [forgotPassword, setForgotPassword] = useState(false); 
+    const [verificationCode, setVerificationCode] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [message, setMessage] = useState(''); 
+
+    
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false); 
+        }, 2000);
+
+        return () => clearTimeout(timer); 
+    }, []);
+
+    const handleLogin = () => {
+        setLoading(true); 
+        
+        
+        setTimeout(() => {
+            setLoading(false); 
+            onLogin(); 
+        }, 2000); 
+    };
+
+    const handleResetPassword = () => {
+        setMessage('Réinitialisation réussie. Vous pouvez maintenant vous connecter avec votre nouveau mot de passe.');
+    };
+
+    if (loading) {
+        return <Loading />;
+    }
+
+    return (
+        <div className='pages__login'>
+            <div className="container animate">
+                <div className="design">
+                    <div className="pill-1 rotate-45"></div>
+                    <div className="pill-2 rotate-45"></div>
+                    <div className="pill-3 rotate-45"></div>
+                    <div className="pill-4 rotate-45"></div>
+                </div>
+                <div className="login">
+                    {forgotPassword === 'verify' ? (
+                        <>
+                            <FaCheckCircle size={90} className='react__icons' />
+                            <h3 className="title">Verify Code</h3>
+                            <div className="text-input">
+                                <input
+                                    type="text"
+                                    placeholder="Enter verification code"
+                                    value={verificationCode}
+                                    onChange={(e) => setVerificationCode(e.target.value)}
+                                    autoComplete="off"
+                                />
+                            </div>
+                            <div className="text-input">
+                                <input
+                                    type="password"
+                                    placeholder="Enter new password"
+                                    value={newPassword}
+                                    onChange={(e) => setNewPassword(e.target.value)}
+                                    autoComplete="off"
+                                />
+                            </div>
+                            <button className="login-btn" onClick={handleResetPassword}>Validate</button>
+                            {message && <p className="message">{message}</p>}
+                            <a className="forgot text_login" onClick={() => setForgotPassword(false)}>Back to Login</a>
+                        </>
+                    ) : forgotPassword ? (
+                        <>
+                            <AiOutlineMail size={90} className='react__icons' />
+                            <h3 className="title">Forgot Password</h3>
+                            <div className="text-input">
+                                <AiOutlineMail className='react__icons' />
+                                <input
+                                    type="text"
+                                    placeholder="Enter your email"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    autoComplete="off"
+                                />
+                            </div>
+                            <button className="login-btn" onClick={() => setForgotPassword('verify')}>Send Reset Link</button>
+                            <a className="forgot text_login" onClick={() => setForgotPassword(false)}>Back to Login</a>
+                        </>
+                    ) : (
+                        <>
+                            <MdLock size={90} className='react__icons' />
+                            <h3 className="title">User Login</h3>
+                            <div className="text-input">
+                                <RiUserFill className='react__icons' />
+                                <input
+                                    type="text"
+                                    placeholder="Adresse mail"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    autoComplete="off"
+                                />
+                            </div>
+                            <div className="text-input">
+                                <RiLockFill className='react__icons' />
+                                <input
+                                    type="password"
+                                    placeholder="Mot de passe"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    autoComplete="off"
+                                />
+                            </div>
+                            <button className="login-btn" onClick={handleLogin}>LOGIN</button>
+                            <a className="forgot text_login " onClick={() => setForgotPassword(true)}>Forgot Username/Password?</a>
+                            <div className="create">
+                                <a className='text_login' href="#">Create Your Account</a>
+                                <i className="ri-arrow-right-fill"></i>
+                            </div>
+                        </>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default Login;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useState, useEffect } from 'react';
+// import { MdLock } from 'react-icons/md'; // Importer l'icône MdLock
+// import { RiUserFill, RiLockFill } from 'react-icons/ri'; // Icônes Remix
+// import { AiOutlineMail } from 'react-icons/ai'; // Icône pour email
+// import { FaCheckCircle } from 'react-icons/fa'; // Icône de vérification
+// import "./login.scss";
+// import Loading from '../../components/Loading/Loading';  // Assure-toi du bon chemin d'import
+// import { Link } from 'react-router-dom';
+
+// const Login = () => {
+//     const [username, setUsername] = useState('');
+//     const [password, setPassword] = useState('');
+//     const [loading, setLoading] = useState(true); // Loading au démarrage
+//     const [forgotPassword, setForgotPassword] = useState(false); 
+//     const [verificationCode, setVerificationCode] = useState('');
+//     const [newPassword, setNewPassword] = useState('');
+//     const [message, setMessage] = useState(''); 
+
+//     // Simuler un chargement initial de 2 secondes
+//     useEffect(() => {
+//         const timer = setTimeout(() => {
+//             setLoading(false); // Masquer l'écran de chargement après 2 secondes
+//         }, 2000);
+
+//         return () => clearTimeout(timer); // Nettoyer le timer si le composant est démonté
+//     }, []);
+
+//     const handleLogin = () => {
+//         setLoading(true); // Afficher le chargement après avoir cliqué sur "LOGIN"
+        
+//         // Simuler une action avant la redirection vers la page d'accueil
+//         setTimeout(() => {
+//             setLoading(false); // Masquer le chargement après l'action
+//             window.location.href = '/home'; // Rediriger vers la page home
+//         }, 2000); // Temps de chargement simulé
+//     };
+
+//     const handleResetPassword = () => {
+//         setMessage('Réinitialisation réussie. Vous pouvez maintenant vous connecter avec votre nouveau mot de passe.');
+//     };
+
+//     if (loading) {
+//         return <Loading />;
+//     }
+
+//     return (
+//         <div>
+//             <div className="container animate">
+//                 <div className="design">
+//                     <div className="pill-1 rotate-45"></div>
+//                     <div className="pill-2 rotate-45"></div>
+//                     <div className="pill-3 rotate-45"></div>
+//                     <div className="pill-4 rotate-45"></div>
+//                 </div>
+//                 <div className="login">
+//                     {forgotPassword === 'verify' ? (
+//                         <>
+//                             <FaCheckCircle size={90} className='react__icons' />
+//                             <h3 className="title">Verify Code</h3>
+//                             <div className="text-input">
+//                                 <input
+//                                     type="text"
+//                                     placeholder="Enter verification code"
+//                                     value={verificationCode}
+//                                     onChange={(e) => setVerificationCode(e.target.value)}
+//                                     autoComplete="off"
+//                                 />
+//                             </div>
+//                             <div className="text-input">
+//                                 <input
+//                                     type="password"
+//                                     placeholder="Enter new password"
+//                                     value={newPassword}
+//                                     onChange={(e) => setNewPassword(e.target.value)}
+//                                     autoComplete="off"
+//                                 />
+//                             </div>
+//                             <button className="login-btn" onClick={handleResetPassword}>Validate</button>
+//                             {message && <p className="message">{message}</p>}
+//                             <Link className="forgot" onClick={() => setForgotPassword(false)}>Back to Login</Link>
+//                         </>
+//                     ) : forgotPassword ? (
+//                         <>
+//                             <AiOutlineMail size={90} className='react__icons' />
+//                             <h3 className="title">Forgot Password</h3>
+//                             <div className="text-input">
+//                                 <AiOutlineMail className='react__icons' />
+//                                 <input
+//                                     type="text"
+//                                     placeholder="Enter your email"
+//                                     value={username}
+//                                     onChange={(e) => setUsername(e.target.value)}
+//                                     autoComplete="off"
+//                                 />
+//                             </div>
+//                             <button className="login-btn" onClick={() => setForgotPassword('verify')}>Send Reset Link</button>
+//                             <a className="forgot" onClick={() => setForgotPassword(false)}>Back to Login</a>
+//                         </>
+//                     ) : (
+//                         <>
+//                             <MdLock size={90} className='react__icons' />
+//                             <h3 className="title">User Login</h3>
+//                             <div className="text-input">
+//                                 <RiUserFill className='react__icons' />
+//                                 <input
+//                                     type="text"
+//                                     placeholder="Adresse mail"
+//                                     value={username}
+//                                     onChange={(e) => setUsername(e.target.value)}
+//                                     autoComplete="off"
+//                                 />
+//                             </div>
+//                             <div className="text-input">
+//                                 <RiLockFill className='react__icons' />
+//                                 <input
+//                                     type="password"
+//                                     placeholder="Mot de passe"
+//                                     value={password}
+//                                     onChange={(e) => setPassword(e.target.value)}
+//                                     autoComplete="off"
+//                                 />
+//                             </div>
+//                             <button className="login-btn" onClick={handleLogin}>LOGIN</button> {/* Ajouter le chargement ici */}
+//                             <a className="forgot" onClick={() => setForgotPassword(true)}>Forgot Username/Password?</a>
+//                             <div className="create">
+//                                 <a href="#">Create Your Account</a>
+//                                 <i className="ri-arrow-right-fill"></i>
+//                             </div>
+//                         </>
+//                     )}
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default Login;
