@@ -32,6 +32,13 @@ main.table {
 }
 
 
+.icon_add {
+    margin-left: 10px; 
+    font-size: 24px;
+    cursor: pointer; 
+}
+
+
 .table__header {
     width: 100%;
     height: 10%;
@@ -254,7 +261,6 @@ main.table {
 
 
 .export__file {
-    // position: absolute;
     position: relative;
 }
 
@@ -354,43 +360,3 @@ main.table {
   
 
 
-
-
-
-  .table__header  .searchByeverything {
-    position: relative;
-    height: 30px;
-    background-color: var(--main-bg);
-    display: flex;
-    align-items: center;
-    box-shadow: var(--box-shadow);
-    border-radius: var(--border-radius);
-    border: none;
-}
-
-
-.option_right{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.export__file {
-    margin-top: 1rem;
-}
-
-.icon_add {
-   color: #fffafb;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   background-color: #6c00bd;
-   transform: scale(1.35);
-   border-radius: 50%;
-   transition: all 0.2s ease;
-}
-
-.icon_add:hover {
-    transform: scale(1.6);
-    transition: all 0.2s ease;
-}
