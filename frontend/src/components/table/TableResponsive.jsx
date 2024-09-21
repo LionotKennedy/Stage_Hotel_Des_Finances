@@ -433,13 +433,20 @@ import dix from "../../assets/image/AlexGonley.jpg"
 import onze from "../../assets/image/AlexGonley.jpg"
 import { MdEdit, MdDelete, MdVisibility, MdAdd } from 'react-icons/md';
 import { FaArrowUp } from 'react-icons/fa';
+import { AnimatePresence } from 'framer-motion';
 
 import "./tableResponsive.scss"
+import ModalAdd from '../modal/ModalAdd';
 
 const TableResponsive = () => {
     const tableRef = useRef(null);
     const searchRef = useRef(null);
     const [searchType, setSearchType] = useState('name');
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleModal = () => setIsOpen(!isOpen);
+
 
     useEffect(() => {
         const searchInput = searchRef.current;
@@ -491,7 +498,7 @@ const TableResponsive = () => {
                             <label htmlFor="export-file" id="toCSV">CSV <img src="../../assets/images/csv.png" alt="" /></label>
                             <label htmlFor="export-file" id="toEXCEL">EXCEL <img src="../../assets/images/excel.png" alt="" /></label>
                         </div>
-                        <MdAdd className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
+                        <MdAdd onClick={toggleModal} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
                     </div>
                 </section>
                 <section className="table__body">
@@ -543,6 +550,10 @@ const TableResponsive = () => {
                     </table>
                 </section>
             </main>
+            <AnimatePresence>
+                <ModalAdd isOpen={isOpen} toggleModal={toggleModal} />
+            </AnimatePresence>
+
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import "./archivecard.scss"
-import folder from "../../assets/images/user.png"
+import folder from "../../assets/images/folder.png"
 import { useNavigate } from 'react-router-dom';
 
 const ArchiveCard = () => {
@@ -25,8 +25,8 @@ const ArchiveCard = () => {
   };
   
   return (
-        <div className='container__card' onClick={handleCardClick}>
-          <div className="content_card">
+        <div className='container__card'>
+          <div className="content_card" onClick={handleCardClick}>
             <div className="card_details">
               <div className="img_folder">
                 <img className="imageFolder" src={folder} alt="image" />
