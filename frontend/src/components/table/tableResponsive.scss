@@ -3,8 +3,9 @@
     background-color: black;
     display: flex;
     justify-content: center;
-    height: 100vh;
+    // height: 100vh;
     align-items: center;
+    // min-height: 100vh;
 
 }
 
@@ -32,9 +33,9 @@ main.table {
 
 
 .icon_add {
-    margin-left: 10px; /* Espace entre l'icône d'ajout et le texte */
-    font-size: 24px; /* Ajuste la taille selon tes besoins */
-    cursor: pointer; /* Change le curseur au survol */
+    margin-left: 10px; 
+    font-size: 24px;
+    cursor: pointer; 
 }
 
 

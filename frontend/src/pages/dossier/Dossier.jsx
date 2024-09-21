@@ -5,8 +5,7 @@ import "./dossier.scss"
 
 const Dossier = () => {
   return (
-    <div className="row">
-        Dossier
+    <div className="container__dossier">
         <TableResponsive />
       {/* <div className='container__folder row'>
         <div className='row'>
