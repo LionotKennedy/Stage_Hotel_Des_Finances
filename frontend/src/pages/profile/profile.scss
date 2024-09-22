@@ -1,6 +1,8 @@
-.container__profile {
-  // height: calc(100vh - var(--topnav-height-d));
-  // margin-bottom: calc(var(--topnav-height) + 20px);
-  // width: calc(100% - 240px); 
-  background-color: black;
+.container__profiles {
+  padding-top: 10px;
+  // padding-top: calc(var(--topnav-height) + 5px);
+}
+
+.text_profiles {
+  padding-top: calc(var(--topnav-height) + 10px);
 }

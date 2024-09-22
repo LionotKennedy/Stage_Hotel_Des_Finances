@@ -500,7 +500,7 @@ const TableResponsive = () => {
                                 <label htmlFor="export-file" id="toEXCEL">EXCEL <img src="../../assets/images/excel.png" alt="" /></label>
                             </div>
                         </div>
-                            <MdAdd onClick={toggleModal} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
+                        <MdAdd onClick={toggleModal} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
                     </div>
                 </section>
                 <section className="table__body">
@@ -551,10 +551,10 @@ const TableResponsive = () => {
                         </tbody>
                     </table>
                 </section>
+                <AnimatePresence>
+                    <ModalAdd isOpen={isOpen} toggleModal={toggleModal} />
+                </AnimatePresence>
             </main>
-            <AnimatePresence>
-                <ModalAdd isOpen={isOpen} toggleModal={toggleModal} />
-            </AnimatePresence>
 
         </div>
     )

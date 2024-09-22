@@ -77,8 +77,8 @@ const TablePersonalize = props => {
         <div className='container__table'>
             <main className="table" ref={tableRef} id="customers_table">
                 <section className="table__header">
-                    <h1>Customer's Orders</h1>
-                    <select value={searchType} onChange={(e) => setSearchType(e.target.value)}>
+                    {/* <h1>Customer's Orders</h1> */}
+                    <select className='searchByeverythings' value={searchType} onChange={(e) => setSearchType(e.target.value)}>
                         <option value="name">Search by Name</option>
                         <option value="id">Search by ID</option>
                     </select>
@@ -86,17 +86,19 @@ const TablePersonalize = props => {
                         <input type="search" placeholder="Search Data..." ref={searchRef} />
                         <img src={search} alt="" />
                     </div>
-                    <div className="export__file">
-                        <label htmlFor="export-file" className="export__file-btn" title="Export File"></label>
-                        <input type="checkbox" id="export-file" />
-                        <div className="export__file-options">
-                            <label>Export As &nbsp; &#10140;</label>
-                            <label htmlFor="export-file" id="toPDF">PDF <img src="../../assets/images/pdf.png" alt="" /></label>
-                            <label htmlFor="export-file" id="toJSON">JSON <img src="../../assets/images/json.png" alt="" /></label>
-                            <label htmlFor="export-file" id="toCSV">CSV <img src="../../assets/images/csv.png" alt="" /></label>
-                            <label htmlFor="export-file" id="toEXCEL">EXCEL <img src="../../assets/images/excel.png" alt="" /></label>
+                    <div className='option_right'>
+                        <div className="export__file">
+                            <label htmlFor="export-file" className="export__file-btn" title="Export File"></label>
+                            <input type="checkbox" id="export-file" />
+                            <div className="export__file-options">
+                                <label>Export As &nbsp; &#10140;</label>
+                                <label htmlFor="export-file" id="toPDF">PDF <img src="../../assets/images/pdf.png" alt="" /></label>
+                                <label htmlFor="export-file" id="toJSON">JSON <img src="../../assets/images/json.png" alt="" /></label>
+                                <label htmlFor="export-file" id="toCSV">CSV <img src="../../assets/images/csv.png" alt="" /></label>
+                                <label htmlFor="export-file" id="toEXCEL">EXCEL <img src="../../assets/images/excel.png" alt="" /></label>
+                            </div>
                         </div>
-                        <MdAdd onClick={toggleModal} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
+                            <MdAdd onClick={toggleModal} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
                     </div>
                 </section>
                 <section className="table__body">
@@ -139,8 +141,8 @@ const TablePersonalize = props => {
                 <AnimatePresence>
                     <ModalAdd isOpen={isOpen} toggleModal={toggleModal} />
                 </AnimatePresence>
-
             </main>
+
         </div>
     )
 }

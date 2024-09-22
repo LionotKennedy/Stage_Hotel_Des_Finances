@@ -5,10 +5,14 @@ import ProfileCard from '../../components/profile-card/ProfileCard'
 
 const Profile = () => {
   return (
-    <div className='container__profile row'>
-     profile
-     <ProfileCard />
-    </div>
+    <>
+      <div className='text_profiles'>
+        <h1>Profile</h1>
+      </div>
+      <div className='container__profiles'>
+        <ProfileCard />
+      </div>
+    </>
   )
 }
 

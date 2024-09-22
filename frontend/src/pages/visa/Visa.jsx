@@ -32,7 +32,7 @@ const renderBody = (item, index) => (
 
 const Visa = () => {
   return (
-    <div className='rowx'>
+    <div className='rowc container__visa'>
       <TablePersonalize
         limit='10'
         headData={customerTableHead}

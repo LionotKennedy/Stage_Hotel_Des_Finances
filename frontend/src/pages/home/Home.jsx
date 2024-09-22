@@ -170,8 +170,8 @@ const Home = () => {
   return (
     <div>
       <h2 className="page-header">Dashboard</h2>
-      <div className="row">
-        <div className="col-6">
+      <div className="row card_row">
+        <div className="col-6 card_col">
           <div className="row">
             {
               statusCards.map((item, index) => (

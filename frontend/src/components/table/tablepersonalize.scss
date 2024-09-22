@@ -360,3 +360,13 @@ main.table {
   
 
 
+  .table__header  .searchByeverythings {
+    position: relative;
+    height: 30px;
+    background-color: var(--main-bg);
+    display: flex;
+    align-items: center;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+    border: none;
+}

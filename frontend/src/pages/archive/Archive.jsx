@@ -4,7 +4,7 @@ import ArchiveCard from '../../components/archive-card/ArchiveCard'
 
 const Archive = () => {
   return (
-    <div className=''>
+    <div className='container__archive'>
       <ArchiveCard />
     </div>
   )
