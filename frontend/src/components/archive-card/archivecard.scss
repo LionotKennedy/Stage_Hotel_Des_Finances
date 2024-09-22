@@ -1,6 +1,6 @@
 
 .container__card {
-    background-color: black;
+    // background-color: black;
     display: flex;
     justify-content: center;
     // height: 100vh;
@@ -9,17 +9,19 @@
 
 
 .content_card {
-    width: 80% ;
-    height: 6rem ;
-    padding: 15px ;
-    cursor: pointer ;
-    display: flex ;
-    border-radius: 10px ;
-    background: #fff ;
-    margin-bottom: 15px ;
-    justify-content: space-between ;
-    border: 2px solid rgb(190, 190, 190) ;
-    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1) ;
+    width: 80%;
+    height: 6rem;
+    padding: 15px;
+    cursor: pointer;
+    display: flex;
+    border-radius: 10px;
+    // background: #fff;
+    margin-bottom: 15px;
+    justify-content: space-between;
+    // border: 2px solid rgb(190, 190, 190);
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+    background-color: var(--main-bg);
+    box-shadow: var(--box-shadow);
 }
 
 .card_details {
@@ -37,7 +39,8 @@
     font-size: 3rem;
     margin-left: 1rem;
     padding: 10px;
-    color: rgb(82, 22, 138);
+    // color: rgb(82, 22, 138);
+    color: var(--txt-color);
     background: rgb(216, 205, 226);
 }
 
@@ -46,7 +49,8 @@
 }
 
 .card_details .text span {
-    color: rgb(116, 112, 112);
+    // color: rgb(116, 112, 112);
+    color: var(--txt-color);
 }
 
 .content_card:active {
@@ -56,11 +60,13 @@
 
   .job_salary {
     text-align: right;
-    color: rgb(54, 54, 54);
+    // color: rgb(54, 54, 54);
+    color: var(--txt-color);
   }
 
   .job_salary span {
-    color: rgb(54, 54, 54);
+    // color: rgb(54, 54, 54);
+    color: var(--txt-color);
     font-size: 15px;
   }
 

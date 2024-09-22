@@ -5,9 +5,9 @@
     left: 0;
     top: 0;
     // background-color: var(--main-bg);
-    // box-shadow: var(--box-shadow);
-    background-color: green;
     box-shadow: var(--box-shadow);
+    background-color: green;
+    // border-right: 1px solid rgba(164, 164, 164, 0.633);
     z-index: 999;
     transition: all 0.3s ease-in-out;
 

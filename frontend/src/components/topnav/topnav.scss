@@ -8,10 +8,12 @@
     top: 0;
     left: var(--sidebar-width);
     background-color: red;
+    // background-color: var(--main-bg);
     z-index: 1000;
     height: var(--topnav-height-t);
     transition: all 0.3s ease-in-out;
-
+    // border-bottom: 1px solid rgba(134, 133, 133, 0.633);
+    box-shadow: var(--box-shadow);
 
     @media (max-width: 998px) {
         width: 100%;

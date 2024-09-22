@@ -8,11 +8,13 @@
   --main-color: #349eff;
   --second-color: #62b4ff;
   --box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+ 
 
   --main-bg-light: #ffffff;
   --second-bg-light: #fafafb;
   --txt-color-light: #455560;
-  --box-shadow-light: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  /* --box-shadow-light: rgba(149, 157, 165, 0.2) 0px 8px 24px; */
+  --box-shadow-light: 3px 3px 12px 2px rgba(0, 0, 0, 0.252);;
 
   --main-bg-dark: #2d2d2d;
   --second-bg-dark: #202020;
@@ -20,7 +22,9 @@
   --box-shadow-dark: rgba(0, 0, 0, 0.2) 0px 5px 10px;
 
   --main-color-blue: #349eff;
-  --second-color-blue: #62b4ff;
+  /* --second-color-blue: #62b4ff; */
+  --second-color-blue: #16e316;
+  --second-color-blues: #e3d216;
 
   --main-color-red: #fb0b12;
   --second-color-red: #ff4a6b;
@@ -49,7 +53,7 @@
   --topnav-height-d: 50px;
   --topnav-height-t: 1rem;
   --box-shadow-d: 0 0 17px 10px rgb(0 0 0 / 30%);
-  --box-shadow-t: 0 0 17px 10px rgba(32, 31, 31, 0.3);
+  --box-shadow: 0 0 17px 10px rgba(32, 31, 31, 0.779);
   --box-shadow-q: 0 0 7px 5px rgba(18, 18, 18, 0.219);
 
   --sidebar-width-d: 100px;

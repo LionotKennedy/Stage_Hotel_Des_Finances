@@ -1,6 +1,6 @@
 // @charset "UTF-8";    
 .container__table {
-    background-color: black;
+    // background-color: black;
     display: flex;
     justify-content: center;
     // height: 100vh;
@@ -10,13 +10,13 @@
 }
 
 main.table {
-    background-color: rgba(225, 6, 6, 0.81);
+    // background-color: rgba(225, 6, 6, 0.81);
     
 
     width: 82vw;
     height: 90vh;
     padding-left: 1rem;
-    // background-color: #fff5;
+    background-color: #fff5;
 
     backdrop-filter: blur(7px);
     box-shadow: 0 .4rem .8rem #0005;
@@ -35,8 +35,8 @@ main.table {
 .table__header {
     width: 100%;
     height: 10%;
-    // background-color: #fff4;
-    background-color: rgba(48, 13, 204, 0.855);
+    background-color: #fff4;
+    // background-color: rgba(48, 13, 204, 0.855);
     padding: .8rem 1rem;
 
     display: flex;
@@ -48,8 +48,8 @@ main.table {
 .table__header .input-group {
     width: 35%;
     height: 100%;
-    // background-color: #fff5;
-    background-color: rgba(103, 243, 9, 0.903);
+    background-color: #fff5;
+    // background-color: rgba(103, 243, 9, 0.903);
     padding: 0 .8rem;
     border-radius: 2rem;
 
@@ -84,7 +84,8 @@ main.table {
 .table__body {
     width: 95%;
     max-height: calc(89% - 1.6rem);
-    background-color: #fffb;
+    // background-color: #fffb;
+    background-color: var(--second-bg);
 
     margin: .8rem auto;
     border-radius: .6rem;
