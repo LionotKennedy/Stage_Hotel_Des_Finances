@@ -49,6 +49,14 @@ const renderUserMenu = (item, index) => (
 // ENDING
 
 const TopNav = () => {
+  const [sidebarActive, setSidebarActive] = React.useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarActive(!sidebarActive);
+    document.querySelector('.sidebar').classList.toggle('actif');
+    document.querySelector('.topnav').classList.toggle('actif');
+    document.querySelector('.layout__content').classList.toggle('actif');
+  };
   return (
     <div className='topnav'>
       <div className="topnav__search">
@@ -77,6 +85,9 @@ const TopNav = () => {
         <div className="topnav__right-item">
           {/* <ThemeMenu/> */}
           <Theme />
+        </div>
+        <div className="topnav__right-item mobile-hamburger" onClick={toggleSidebar}>
+          <i className="bx bx-menu"></i>
         </div>
       </div>
     </div>

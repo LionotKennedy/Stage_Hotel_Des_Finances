@@ -53,6 +53,11 @@
   --box-shadow-q: 0 0 7px 5px rgba(18, 18, 18, 0.219);
 
   --sidebar-width-d: 100px;
+
+  /* ===== Valeur responsive page personnalise ===== */
+  --sidebar-width-res: 90px;
+
+
 }
 
 .light-background {
