@@ -437,6 +437,7 @@ import { AnimatePresence } from 'framer-motion';
 
 import "./tableResponsive.scss"
 import ModalAdd from '../modal/ModalAdd';
+import CustomModal from '../MUI/CustomModal';
 
 const TableResponsive = () => {
     const tableRef = useRef(null);
@@ -447,6 +448,11 @@ const TableResponsive = () => {
 
     const toggleModal = () => setIsOpen(!isOpen);
 
+
+    const [modalOpen, setModalOpen] = useState(false); // État pour gérer l'ouverture/fermeture de la modale
+
+    const handleOpenModal = () => setModalOpen(true); // Fonction pour ouvrir la modale
+    const handleCloseModal = () => setModalOpen(false); // Fonction pour fermer la modale
 
     useEffect(() => {
         const searchInput = searchRef.current;
@@ -500,7 +506,8 @@ const TableResponsive = () => {
                                 <label htmlFor="export-file" id="toEXCEL">EXCEL <img src="../../assets/images/excel.png" alt="" /></label>
                             </div>
                         </div>
-                        <MdAdd onClick={toggleModal} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
+                        {/* <MdAdd onClick={toggleModal} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} /> */}
+                        <MdAdd onClick={handleOpenModal} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
                     </div>
                 </section>
                 <section className="table__body">
@@ -552,7 +559,8 @@ const TableResponsive = () => {
                     </table>
                 </section>
                 <AnimatePresence>
-                    <ModalAdd isOpen={isOpen} toggleModal={toggleModal} />
+                    {/* <ModalAdd isOpen={isOpen} toggleModal={toggleModal} /> */}
+                    <CustomModal open={modalOpen} handleClose={handleCloseModal} />
                 </AnimatePresence>
             </main>
 

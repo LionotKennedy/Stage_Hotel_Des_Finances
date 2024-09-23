@@ -88,7 +88,8 @@ const TopNav = () => {
           <Theme />
         </div>
         <div className="topnav__right-item mobile-hamburger" onClick={toggleSidebar}>
-          <i className="bx bx-menu"></i>
+          {/* <i className="bx bx-menu"></i> */}
+          <i className={sidebarActive ? 'bx bx-x' : 'bx bx-menu'}></i>
         </div>
       </div>
     </div>
