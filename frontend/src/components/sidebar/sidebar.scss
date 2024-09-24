@@ -159,3 +159,36 @@
 //           }
 //     }
 // }
+
+
+
+
+
+
+
+
+
+.pill-1 {
+    top: 50vh;
+    left: -40px;
+    position: absolute;
+    width: 80px;
+    height: 200px;
+    // background: linear-gradient(#ff966d, #fa538d, #89379c);
+    background-image: linear-gradient(to right,
+            var(--main-color),
+            var(--second-color));
+    border-radius: 40px;
+}
+
+.pill-2 {
+    bottom: -180px;
+    left: 100px;
+    position: absolute;
+    height: 300px;
+    width: 120px;
+    background-image: linear-gradient(to right,
+            var(--main-color),
+            var(--second-color));
+    border-radius: 70px;
+}

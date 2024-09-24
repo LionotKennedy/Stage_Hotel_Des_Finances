@@ -486,9 +486,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 // Définition des variantes d'animation pour Framer Motion
 const modalVariants = {
-  hidden: { opacity: 0, scale: 0.8 },
+  hidden: { opacity: 0, scale: 0.1 },
   visible: { opacity: 1, scale: 1 },
-  exit: { opacity: 0, scale: 0.8 }
+  exit: { opacity: 0, scale: 0.1 }
 };
 
 // Transition pour le slide (ouverture/fermeture de la modale)

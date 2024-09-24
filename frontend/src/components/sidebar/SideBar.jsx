@@ -47,6 +47,8 @@ const SideBar = () => {
           </Link>
         ))
       }
+       {/* <div className="pill-1 rotate-45"></div>
+       <div className="pill-2 rotate-45"></div> */}
     </div>
   )
 }
