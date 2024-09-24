@@ -1176,8 +1176,8 @@ export default function CustomModal({ open, handleClose }) {
             initial="hidden"
             animate="visible"
             exit="exit"
-            transition={{ duration: 0.5 }} // Durée de l'animation
-            style={{ background: '#fff', borderRadius: '8px', padding: '16px' }} // Appliquer des styles pour un effet de modale
+            transition={{ duration: 0.4 }} // Durée de l'animation
+            style={{ background: '#fff', borderRadius: '10px', padding: '36px' }} // Appliquer des styles pour un effet de modale
           >
             <DialogTitle>Formulaire avec Validation</DialogTitle>
             <DialogContent>

@@ -458,7 +458,7 @@ const TableResponsive = () => {
         const searchInput = searchRef.current;
         const table = tableRef.current;
         const tableRows = table.querySelectorAll('tbody tr');
-
+ 
         const searchTable = () => {
             tableRows.forEach((row, i) => {
                 let table_data = row.textContent.toLowerCase(),
@@ -469,7 +469,7 @@ const TableResponsive = () => {
             });
 
             document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
-                visible_row.style.backgroundColor = (i % 2 === 0) ? '#f1f1f1' : '#fff';
+                visible_row.style.backgroundColor = (i % 2 === 0) ? (--second-bg) : (--second-bg);
                 visible_row.style.animationDelay = `${i * 0.1}s`;
             });
         };

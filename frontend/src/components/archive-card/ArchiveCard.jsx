@@ -1,6 +1,6 @@
 import React from 'react'
 import "./archivecard.scss"
-import folder from "../../assets/images/folder.png"
+import folder from "../../assets/images/archive.png"
 import { useNavigate } from 'react-router-dom';
 
 const ArchiveCard = () => {
