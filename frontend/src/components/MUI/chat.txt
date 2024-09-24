@@ -1,12 +1,18 @@
-Oui, c'est tout à fait possible d'utiliser une seule modale pour plusieurs opérations CRUD sur différentes tables. Voici quelques idées sur la façon de le faire :
+Oui, c'est tout à fait possible d'utiliser une seule modale pour plusieurs opérations CRUD sur différentes tables. 
+Voici quelques idées sur la façon de le faire :
 
-1. **Props pour le type d'opération** : Ajoutez une prop à votre composant `CustomModal` qui spécifie le type d'opération (par exemple, `create`, `update`, `delete`). En fonction de cette prop, vous pouvez adapter le contenu et les champs de la modale.
+1. **Props pour le type d'opération** : Ajoutez une prop à votre composant `CustomModal` qui spécifie le type 
+d'opération (par exemple, `create`, `update`, `delete`). En fonction de cette prop, vous pouvez adapter le contenu 
+et les champs de la modale.
 
-2. **État dynamique des champs** : Utilisez un état dynamique pour les champs du formulaire en fonction de la table et de l'opération sélectionnées. Cela peut être géré par un tableau ou un objet qui contient les champs requis pour chaque table.
+2. **État dynamique des champs** : Utilisez un état dynamique pour les champs du formulaire en fonction de la table 
+et de l'opération sélectionnées. Cela peut être géré par un tableau ou un objet qui contient les champs requis pour chaque table.
 
-3. **Gestion de la soumission** : La logique de soumission peut être conditionnelle, en fonction de l'opération sélectionnée. Par exemple, si vous êtes en mode `update`, vous récupérez les données existantes et les affichez dans les champs.
+3. **Gestion de la soumission** : La logique de soumission peut être conditionnelle, en fonction de l'opération sélectionnée.
+ Par exemple, si vous êtes en mode `update`, vous récupérez les données existantes et les affichez dans les champs.
 
-4. **Utilisation de composants imbriqués** : Si certaines opérations nécessitent des champs spécifiques, vous pouvez créer des sous-composants pour chaque type d'opération et les afficher conditionnellement dans la modale.
+4. **Utilisation de composants imbriqués** : Si certaines opérations nécessitent des champs spécifiques, vous pouvez créer 
+des sous-composants pour chaque type d'opération et les afficher conditionnellement dans la modale.
 
 Voici un exemple simplifié :
 
@@ -66,6 +72,7 @@ export default function CustomModal({ open, handleClose, operationType, data }) 
 ### Points clés :
 - **Gestion de l'état** : Utilisez un état unique pour gérer les champs.
 - **Opération conditionnelle** : Adaptez la logique et le rendu en fonction du type d'opération.
-- **Réutilisation de la modale** : Une seule modale peut gérer plusieurs opérations, ce qui réduit le besoin de créer plusieurs composants.
+- **Réutilisation de la modale** : Une seule modale peut gérer plusieurs opérations, ce qui réduit le besoin de créer
+ plusieurs composants.
 
 Si vous avez besoin d'aide pour la mise en œuvre ou des questions spécifiques, n'hésitez pas à demander !
