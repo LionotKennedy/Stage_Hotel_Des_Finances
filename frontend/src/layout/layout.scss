@@ -203,7 +203,8 @@
     transition: all 0.3s ease-in-out;
 
     @media (max-width: 998px) {
-        padding-left: 0px; 
+        padding-left: 0px;
+
         &.actif {
             padding-left: var(--sidebar-width);
         }
@@ -223,4 +224,27 @@
 //             padding-left: var(--sidebar-width);
 //         }
 //     }
+// }
+
+
+
+
+
+
+// ::-webkit-scrollbar {
+//     width: 5px;
+// }
+
+// ::-webkit-scrollbar-thumb {
+//     /* background-color: var(--main-color); */
+//     // background-image: linear-gradient(to right,
+//     //         var(--main-color),
+//     //         var(--second-color));
+//     background-color: rgb(138, 138, 138);
+// }
+
+// ::-webkit-scrollbar-track {
+//     // background-color: var(--main-bg);
+//     background-color: rgb(138, 138, 138);
+//     width: 50px;
 // }

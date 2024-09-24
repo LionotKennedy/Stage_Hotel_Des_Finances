@@ -10,8 +10,10 @@
 }
 
 main.table {
-    background-color: rgba(225, 6, 6, 0.81);
+    // background-color: rgba(225, 6, 6, 0.81);
+    // background-color: rgba(196, 196, 196, 0.81);
     // background-color: var(--main-bg);
+    background-color: var(--main-table);
     
 
     width: 82vw;
@@ -50,6 +52,7 @@ main.table {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: var(--box-shadow);
 }
 
 
@@ -66,6 +69,7 @@ main.table {
     align-items: center;
 
     transition: .2s;
+    box-shadow: var(--box-shadow);
 }
 
 
@@ -94,6 +98,7 @@ main.table {
     max-height: calc(89% - 1.6rem);
     // background-color: #fffb;
     background-color: var(--second-bg);
+    box-shadow: var(--box-shadow);
 
     margin: .8rem auto;
     border-radius: .6rem;

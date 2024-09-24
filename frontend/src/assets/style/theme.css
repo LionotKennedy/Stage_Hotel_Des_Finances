@@ -3,6 +3,7 @@
     --second-bg: var(--second-bg-light);
     --txt-color: var(--txt-color-light);
     --box-shadow: var(--box-shadow-light);
+    --main-table: var(--main-table-light);
 }
 
 .theme-mode-dark {
@@ -10,6 +11,7 @@
     --second-bg: var(--second-bg-dark);
     --txt-color: var(--txt-color-dark);
     --box-shadow: var(--box-shadow-dark);
+    --main-table: var(--main-table-dark);
 }
 
 .theme-color-blue {
