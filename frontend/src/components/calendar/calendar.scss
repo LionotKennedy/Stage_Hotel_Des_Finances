@@ -1,0 +1,30 @@
+/* CalendarComponent.css */
+
+.calendar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f0f4f8; /* Couleur de fond agréable */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .calendar-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #333; /* Couleur du texte */
+  }
+  
+  .custom-calendar {
+    border: 1px solid #ddd; /* Bordure douce pour le calendrier */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .selected-date {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    color: #555; /* Couleur du texte */
+  }
+  

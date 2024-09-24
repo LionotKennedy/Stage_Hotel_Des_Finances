@@ -1,0 +1,83 @@
+// .time-paper {
+//     padding: 16px;
+//     border-radius: 8px;
+//     background-color: #e3f2fd;
+//     text-align: center;
+//     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+//   }
+  
+//   .time-container {
+//     margin: 0 auto;
+//   }
+  
+//   .current-time {
+//     color: #1976d2; // Couleur pour l'heure
+//   }
+  
+//   .current-date {
+//     color: #555; // Couleur pour la date
+//     margin-top: 8px;
+//   }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    color: #ffffff;
+}
+
+.time-paper {
+    width: 300px; // Largeur du papier
+    height: 300px; // Hauteur du papier
+    border-radius: 50%; // Coin arrondi pour créer une forme circulaire
+    background-color: rgba(255, 255, 255, 0.1); // Fond léger
+    border: 2px solid rgba(255, 255, 255, 0.25); // Bordure légère
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.9); // Ombre
+    display: flex; // Flex pour centrer le contenu
+    justify-content: center;
+    align-items: center;
+    position: relative; // Position relative pour les éléments internes
+    margin: 20px; // Marge autour de l'horloge
+}
+
+.time-container {
+    position: absolute; // Position absolue pour positionner les éléments à l'intérieur
+    text-align: center; // Centrer le texte
+}
+
+.current-time {
+    font-size: 2rem; // Taille de la police pour l'heure
+    color: #00a6ff; // Couleur de l'heure
+    font-weight: bold; // Mettre l'heure en gras
+    margin-bottom: 10px; // Marge sous l'heure
+}
+
+.current-date {
+    color: #ffffff; // Couleur de la date
+    font-weight: 300; // Poids de la police pour la date
+}

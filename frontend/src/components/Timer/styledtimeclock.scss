@@ -1,0 +1,18 @@
+.time-clock-paper {
+    padding: 16px;
+    border-radius: 8px;
+    background-color: #e3f2fd; // Couleur de fond légère
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); // Ombre légère
+    margin: 20px; // Espacement autour du composant
+  }
+  
+  .time-clock-container {
+    text-align: center; // Centrer le texte et l'horloge
+  }
+  
+  .time-clock-title {
+    color: #1976d2; // Couleur du titre
+    margin-bottom: 10px; // Espacement sous le titre
+    font-weight: bold; // Mettre le titre en gras
+  }
+  
