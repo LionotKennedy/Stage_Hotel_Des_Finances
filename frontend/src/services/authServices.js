@@ -138,6 +138,18 @@ export const usePasswordReset = () => {
 
 
 
+export const useNewPasswordVerification = () => {
+  return useMutation(({ token, newPassword }) =>
+    fetch(`${API_URL}/password_reset`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, newPassword }),
+    }).then(res => res.json()),
+  );
+};
+
 
 
 

@@ -8,13 +8,16 @@ import { AiOutlineMail } from 'react-icons/ai';
 import { FaCheckCircle } from 'react-icons/fa';
 import "./login.scss";
 import Loading from '../../components/Loading/Loading';
-import { useLogin, usePasswordReset } from '../../services/authServices'; // Importer la fonction de login
+import { useLogin, usePasswordReset, useNewPasswordVerification } from '../../services/authServices'; // Importer la fonction de login
 
 const Login = ({ onLogin }) => {
     const [email, setEmail] = useState(''); // Changed setUsername to setEmail
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(true);
     const [forgotPassword, setForgotPassword] = useState(false);
+    // const [verificationCode, setVerificationCode] = useState('');
+    // const [newPassword, setNewPassword] = useState('');
+    const [forgotPasswordMode, setForgotPasswordMode] = useState(false);
     const [verificationCode, setVerificationCode] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [message, setMessage] = useState('');
@@ -23,6 +26,7 @@ const Login = ({ onLogin }) => {
 
     const loginMutation = useLogin(email, password);
     const passwordResetMutation = usePasswordReset(); // Hook for password reset
+    const newPasswordVerifyMutation = useNewPasswordVerification(); // Hook for password reset
 
     // const [forgotPasswordMode, setForgotPasswordMode] = useState(false);
 
@@ -34,29 +38,72 @@ const Login = ({ onLogin }) => {
         return () => clearTimeout(timer);
     }, []);
 
+    // const handleLogin = async () => {
+    //     setLoading(true);
+    //     setMessage('');
+    //     setEmailError(false); // Reset error states
+    //     setPasswordError(false);
+
+    //     // Validate fields
+    //     if (!email || !password) {
+    //         setMessage('Veuillez remplir tous les champs.');
+    //         if (!email) setEmailError(true);
+    //         if (!password) setPasswordError(true);
+    //         setLoading(false);
+    //         return; // Stop execution if fields are empty
+    //     }
+
+    //     try {
+    //         const result = await loginMutation.mutateAsync({ email, password });
+    //         console.log('Résultat du login:', result);
+    //         console.log('Résultat du token:', result.accessToken);
+
+    //         if (result.success) {
+    //             localStorage.setItem('token', result.accessToken);
+    //             onLogin(result.data);
+    //         } else {
+    //             setMessage(result.message || 'Connexion échouée. Veuillez vérifier vos identifiants.');
+    //         }
+    //     } catch (error) {
+    //         console.error('Erreur lors de la connexion:', error);
+    //         setMessage('Une erreur s\'est produite. Veuillez réessayer.');
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
+
+
+
+
+
     const handleLogin = async () => {
         setLoading(true);
         setMessage('');
-        setEmailError(false); // Reset error states
+        setEmailError(false);
         setPasswordError(false);
-
-        // Validate fields
+    
         if (!email || !password) {
             setMessage('Veuillez remplir tous les champs.');
             if (!email) setEmailError(true);
             if (!password) setPasswordError(true);
             setLoading(false);
-            return; // Stop execution if fields are empty
+            return;
         }
-
+    
         try {
             const result = await loginMutation.mutateAsync({ email, password });
-            console.log('Résultat du login:', result);
-            console.log('Résultat du token:', result.accessToken);
-
+    
             if (result.success) {
-                localStorage.setItem('token', result.accessToken);
-                onLogin(result.data);
+                const userStatus = result.data.status;
+                console.log('User status:', userStatus); // Debugging purposes, remove in production code!
+    
+                // Vérifiez le statut de l'utilisateur
+                if (userStatus === 'active') {
+                    localStorage.setItem('token', result.accessToken);
+                    onLogin(result.data);
+                } else {
+                    setMessage('Votre compte est désactivé. Veuillez contacter le support.');
+                }
             } else {
                 setMessage(result.message || 'Connexion échouée. Veuillez vérifier vos identifiants.');
             }
@@ -67,6 +114,11 @@ const Login = ({ onLogin }) => {
             setLoading(false);
         }
     };
+
+    
+
+
+
 
     // Reset password handler
     const handleSendResetCode = async () => {
@@ -91,45 +143,31 @@ const Login = ({ onLogin }) => {
     };
 
 
-    // Reset password handler (remains unchanged)
-    const handleResetPassword = async () => {
+    const handleVerifyCode = async () => {
         setMessage('');
         if (!verificationCode || !newPassword) {
-            setMessage('Veuillez remplir tous les champs.');
-            return;
+          setMessage('Veuillez remplir tous les champs.');
+          return;
         }
+      
+        try {
+          const result = await newPasswordVerifyMutation.mutateAsync({
+            token: verificationCode,
+            newPassword
+          });
+          if (result.success) {
+            setMessage('Votre mot de passe a été mis à jour avec succès.');
+            setForgotPasswordMode(false);
+          } else {
+            setMessage(result.message || 'Erreur lors de la mise à jour du mot de passe.');
+          }
+        } catch (error) {
+          console.error('Erreur lors de la mise à jour du mot de passe:', error);
+          setMessage('Une erreur s\'est produite. Veuillez réessayer.');
+        }
+      };
 
-        // Call your backend to reset password here
-        // Implement reset password logic...
-
-        setMessage('Réinitialisation réussie. Vous pouvez maintenant vous connecter avec votre nouveau mot de passe.');
-    };
-
-
-
-    // const handleVerifyCode = async () => {
-    //     if (!verificationCode || !newPassword) {
-    //         setMessage('Veuillez remplir tous les champs.');
-    //         return;
-    //     }
-
-    //     try {
-    //         const result = await passwordResetMutation.mutateAsync({
-    //             token: verificationCode,
-    //             newPassword
-    //         });
-    //         if (result.success) {
-    //             setMessage('Votre mot de passe a été mis à jour avec succès.');
-    //             setForgotPasswordMode(false);
-    //         } else {
-    //             setMessage(result.message || 'Erreur lors de la mise à jour du mot de passe.');
-    //         }
-    //     } catch (error) {
-    //         console.error('Erreur lors de la mise à jour du mot de passe:', error);
-    //         setMessage('Une erreur s\'est produite. Veuillez réessayer.');
-    //     }
-    // }
-
+      
 
     if (loading) {
         return <Loading />;
@@ -151,6 +189,12 @@ const Login = ({ onLogin }) => {
                             <h3 className="title">Verify Code</h3>
                             <div className="text-input">
                                 <input
+                                    // type="text"
+                                    // placeholder="Enter verification code"
+                                    // value={verificationCode}
+                                    // onChange={(e) => setVerificationCode(e.target.value)}
+                                    // autoComplete="off"
+
                                     type="text"
                                     placeholder="Enter verification code"
                                     value={verificationCode}
@@ -160,6 +204,12 @@ const Login = ({ onLogin }) => {
                             </div>
                             <div className="text-input">
                                 <input
+                                    // type="password"
+                                    // placeholder="Enter new password"
+                                    // value={newPassword}
+                                    // onChange={(e) => setNewPassword(e.target.value)}
+                                    // autoComplete="off"
+
                                     type="password"
                                     placeholder="Enter new password"
                                     value={newPassword}
@@ -167,9 +217,15 @@ const Login = ({ onLogin }) => {
                                     autoComplete="off"
                                 />
                             </div>
-                            <button className="login-btn" onClick={handleResetPassword}>Validate</button>
+                            {/* <button className="login-btn" onClick={handleResetPassword}>Validate</button>
                             {message && <p className="message">{message}</p>}
-                            <a className="forgot text_login" onClick={() => setForgotPassword(false)}>Back to Login</a>
+                            <a className="forgot text_login" onClick={() => setForgotPassword(false)}>Back to Login</a> */}
+
+                            <button className="login-btn" onClick={handleVerifyCode}>Validate</button>
+                            {message && <p className="message">{message}</p>}
+                            {/* <a className="forgot text_login" onClick={() => setForgotPasswordMode(false)}>Back to Login</a> */}
+                            <a className="forgot text_login" onClick={() => { setForgotPasswordMode(false); setForgotPassword(''); }}>Back to Login</a>
+
 
                             {/* <button className="login-btn" onClick={handleVerifyCode}>Validate</button>
                             {message && <p className="message">{message}</p>}
