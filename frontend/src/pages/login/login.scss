@@ -229,3 +229,15 @@
 .react__icons {
     color: #606060;
 }
+
+
+
+
+.error-message {
+    color: red;
+    margin-top: 10px;
+}
+
+.text-input input {
+    transition: border-color 0.3s; // Smooth transition for border color
+}

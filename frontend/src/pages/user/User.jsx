@@ -21,18 +21,18 @@ const User = () => {
        <UserCard />
        <UserCard />
 
-       <button onClick={handleOpenModal} className="open-modal-btn">
+       {/* <button onClick={handleOpenModal} className="open-modal-btn">
         Ouvrir la Modale
-      </button>
+      </button> */}
 
       <CustomModal open={modalOpen} handleClose={handleCloseModal} />
 
       {/* <CalendarComponent /> */}
       {/* <MuiCalendarComponent /> */}
       {/* <DateRangeCalendarComponent /> */}
-      <BasicDateCalendar />
-      <CurrentTime />
-      <StyledTimeClock />
+      {/* <BasicDateCalendar /> */}
+      {/* <CurrentTime /> */}
+      {/* <StyledTimeClock /> */}
     </div>
 )
 }

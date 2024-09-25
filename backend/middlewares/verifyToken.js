@@ -17,7 +17,7 @@ const verifyToken = async (req, res, next) => {
 
   // Le format attendu de l'en-tête est "Bearer <token>"
   const token = authHeader.split(" ")[1];
-
+  
 
   try {
     // Vérifier le token

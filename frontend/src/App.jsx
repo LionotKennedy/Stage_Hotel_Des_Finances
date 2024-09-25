@@ -1,6 +1,6 @@
 import "./App.scss"
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect,useState } from 'react';
 import Login from './pages/login/Login';
 import Layout from './layout/Layout';
 import Dossier from './pages/dossier/Dossier';
@@ -14,6 +14,20 @@ import ArchiveMore from "./pages/archivemore/ArchiveMore";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+
+    // Vérifier si l'utilisateur est authentifié au chargement de l'application
+    useEffect(() => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        setIsAuthenticated(true);
+      }
+    }, []);
+
+    const handleLogout = () => {
+      localStorage.removeItem('token');
+      setIsAuthenticated(false);
+    };
 
   return (
     <Router>

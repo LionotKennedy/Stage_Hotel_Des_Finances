@@ -1,0 +1,380 @@
+
+
+// import React, { useState, useEffect } from 'react';
+// import { Link } from 'react-router-dom';
+// import { MdLock } from 'react-icons/md'; 
+// import { RiUserFill, RiLockFill } from 'react-icons/ri'; 
+// import { AiOutlineMail } from 'react-icons/ai'; 
+// import { FaCheckCircle } from 'react-icons/fa'; 
+// import "./login.scss";
+// import Loading from '../../components/Loading/Loading';  
+// // import { login } from '../../services/AutheService'; // Importer la fonction de login
+// // import { useLogin, useRegisterUser } from '../../services/authServices'; // Importer la fonction de login
+// import { useLogin } from '../../services/authServices'; // Importer la fonction de login
+
+// const Login = ({ onLogin }) => {  
+//     const [email, setUsername] = useState('');
+//     const [password, setPassword] = useState('');
+//     const [loading, setLoading] = useState(true); 
+//     const [forgotPassword, setForgotPassword] = useState(false); 
+//     const [verificationCode, setVerificationCode] = useState('');
+//     const [newPassword, setNewPassword] = useState('');
+//     const [message, setMessage] = useState(''); 
+
+
+//     const loginMutation = useLogin(email, password);
+//     // const registerUserMutation = useRegisterUser('', '', '');
+    
+    
+//     useEffect(() => {
+//         const timer = setTimeout(() => {
+//             setLoading(false); 
+//         }, 2000);
+        
+//         return () => clearTimeout(timer); 
+//     }, []);
+
+
+
+
+//     // const handleLogin = async () => {
+//     //     setLoading(true);
+//     //     setMessage(''); // Réinitialiser le message à chaque tentative de connexion
+    
+//     //     try {
+//     //         const result = await loginMutation.mutateAsync({ email, password });
+            
+//     //         console.log('Résultat du login:', result);
+    
+//     //         if (result.success) {
+//     //             localStorage.setItem('token', result.accessToken);
+//     //             onLogin(result.data);
+//     //         } else {
+//     //             // Utiliser la fonction pour obtenir un message d'erreur convivial
+//     //             setMessage(getUserFriendlyErrorMessage(result.message) || 'Connexion échouée. Veuillez vérifier vos identifiants.');
+//     //         }
+//     //     } catch (error) {
+//     //         console.error('Erreur lors de la connexion:', error);
+//     //         // Utiliser la fonction pour obtenir un message d'erreur convivial
+//     //         setMessage(getUserFriendlyErrorMessage(error.message));
+//     //     } finally {
+//     //         setLoading(false);
+//     //     }
+//     // };
+
+   
+    
+
+
+//     const handleLogin = async () => {
+//         setLoading(true);
+//         setMessage('');
+    
+//         try {
+//           const result = await loginMutation.mutateAsync({ email, password });
+          
+//           console.log('Résultat du login:', result); // Affichez toutes les informations reçues dans la console
+    
+//           if (result.success) {
+//             localStorage.setItem('token', result.accessToken);
+//             onLogin(result.data);
+//           } else {
+//             setMessage(result.message || 'Connexion échouée. Veuillez vérifier vos identifiants.');
+//           }
+//         } catch (error) {
+//           console.error('Erreur lors de la connexion:', error); // Affichez les erreurs dans la console
+//           setMessage('Une erreur s\'est produite. Veuillez réessayer.');
+//         } finally {
+//           setLoading(false);
+//         }
+//       };
+
+
+
+    
+//     // const handleLogin = () => {
+//     //         setLoading(true); 
+        
+        
+//     //         setTimeout(() => {
+//     //         setLoading(false); 
+//     //         onLogin(); 
+//     //     }, 2000); 
+//     // };
+
+
+//     // const handleLogin = async () => {
+//     //     setLoading(true); 
+//     //     console.log(email);
+//     //     console.log(password);
+        
+//     //     try {
+//     //         const result = await loginMutation.refetch();
+//     //         onLogin(result);
+//     //     } catch (error) {
+//     //         setMessage('Connexion échouée. Veuillez vérifier vos identifiants.');
+//     //     }
+
+//     //     setTimeout(() => {
+//     //         setLoading(false); 
+//     //     }, 2000); 
+//     // }
+
+
+//     // const handleLogin = async () => {
+//     //     setLoading(true);
+//     //     setMessage(''); // Réinitialiser le message à chaque tentative de connexion
+//     //    console.log(email);
+//     //     console.log(password);
+//     //     // Validation des champs
+//     //     if (!email || !password) {
+//     //         setMessage('Veuillez remplir tous les champs.');
+//     //         console.log('Veuillez remplir tous les champs.');
+//     //         setLoading(false);
+//     //         return; // Arrêter l'exécution si les champs sont vides
+//     //     }
+        
+//     //     try {
+//     //         console.log('Veuillez remplir tous les champs 2.');
+//     //         // const result = await loginMutation.refetch();
+//     //         // onLogin(result);
+
+//     //         const result = await loginMutation.mutateAsync({ email, password });
+//     //         onLogin(result);  // Passe les informations après la connexion
+
+//     //         if (result.token) {
+//     //             // Sauvegarder le token dans localStorage ou un cookie
+//     //             localStorage.setItem('token', result.token);
+//     //             console.log(result.token)
+                
+//     //             // Appeler onLogin pour définir l'utilisateur comme authentifié
+//     //             onLogin(result.token);
+//     //         } else {
+//     //             setMessage('Connexion échouée. Veuillez vérifier vos identifiants.');
+//     //         }
+            
+//     //     } catch (error) {
+//     //         setMessage('Connexion échouée. Veuillez vérifier vos identifiants.');
+//     //     }
+    
+//     //     setLoading(false); 
+//     // };
+    
+    
+
+//     const handleResetPassword = () => {
+//         setMessage('Réinitialisation réussie. Vous pouvez maintenant vous connecter avec votre nouveau mot de passe.');
+//     };
+
+//     if (loading) {
+//         return <Loading />;
+//     }
+
+
+//     // const handleLogin = async () => {
+//     //     setLoading(true);
+//     //     setError('');
+//     //     try {
+//     //         const response = await login(username, password);
+//     //         if (response.success) {
+//     //             // Sauvegarder le token dans le localStorage
+//     //             localStorage.setItem('token', response.accessToken);
+//     //             onLogin(); // Exécuter une action après la connexion (par exemple, redirection)
+//     //         } else {
+//     //             setError(response.message || 'Login failed');
+//     //         }
+//     //     } catch (err) {
+//     //         setError('An error occurred. Please try again.');
+//     //     } finally {
+//     //         setLoading(false);
+//     //     }
+//     // };
+
+
+//     return (
+//         <div className='pages__login'>
+//             <div className="container animate">
+//                 <div className="design">
+//                     <div className="pill-1 rotate-45"></div>
+//                     <div className="pill-2 rotate-45"></div>
+//                     <div className="pill-3 rotate-45"></div>
+//                     <div className="pill-4 rotate-45"></div>
+//                 </div>
+//                 <div className="login">
+//                     {forgotPassword === 'verify' ? (
+//                         <>
+//                             <FaCheckCircle size={90} className='react__icons' />
+//                             <h3 className="title">Verify Code</h3>
+//                             <div className="text-input">
+//                                 <input
+//                                     type="text"
+//                                     placeholder="Enter verification code"
+//                                     value={verificationCode}
+//                                     onChange={(e) => setVerificationCode(e.target.value)}
+//                                     autoComplete="off"
+//                                 />
+//                             </div>
+//                             <div className="text-input">
+//                                 <input
+//                                     type="password"
+//                                     placeholder="Enter new password"
+//                                     value={newPassword}
+//                                     onChange={(e) => setNewPassword(e.target.value)}
+//                                     autoComplete="off"
+//                                 />
+//                             </div>
+//                             <button className="login-btn" onClick={handleResetPassword}>Validate</button>
+//                             {message && <p className="message">{message}</p>}
+//                             <a className="forgot text_login" onClick={() => setForgotPassword(false)}>Back to Login</a>
+//                         </>
+//                     ) : forgotPassword ? (
+//                         <>
+//                             <AiOutlineMail size={90} className='react__icons' />
+//                             <h3 className="title">Forgot Password</h3>
+//                             <div className="text-input">
+//                                 <AiOutlineMail className='react__icons' />
+//                                 <input
+//                                     type="text"
+//                                     placeholder="Enter your email"
+//                                     value={username}
+//                                     onChange={(e) => setUsername(e.target.value)}
+//                                     autoComplete="off"
+//                                 />
+//                             </div>
+//                             <button className="login-btn" onClick={() => setForgotPassword('verify')}>Send Reset Link</button>
+//                             <a className="forgot text_login" onClick={() => setForgotPassword(false)}>Back to Login</a>
+//                         </>
+//                     ) : (
+//                         <>
+//                             <MdLock size={90} className='react__icons' />
+//                             <h3 className="title">User Login</h3>
+//                             <div className="text-input">
+//                                 <RiUserFill className='react__icons' />
+//                                 <input
+//                                     type="text"
+//                                     placeholder="Adresse mail"
+//                                     value={email}
+//                                     onChange={(e) => setUsername(e.target.value)}
+//                                     autoComplete="off"
+//                                 />
+//                             </div>
+//                             <div className="text-input">
+//                                 <RiLockFill className='react__icons' />
+//                                 <input
+//                                     type="password"
+//                                     placeholder="Mot de passe"
+//                                     value={password}
+//                                     onChange={(e) => setPassword(e.target.value)}
+//                                     autoComplete="off"
+//                                 />
+//                             </div>
+//                             <button className="login-btn" onClick={handleLogin}>LOGIN</button>
+//                             <a className="forgot text_login " onClick={() => setForgotPassword(true)}>Forgot Username/Password?</a>
+//                             <div className="create">
+//                                 <a className='text_login' href="#">Create Your Account</a>
+//                                 <i className="ri-arrow-right-fill"></i>
+//                             </div>
+//                         </>
+//                     )}
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default Login;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
