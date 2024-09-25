@@ -16,18 +16,33 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
 
-    // Vérifier si l'utilisateur est authentifié au chargement de l'application
-    useEffect(() => {
-      const token = localStorage.getItem('token');
-      if (token) {
-        setIsAuthenticated(true);
-      }
-    }, []);
+    // // Vérifier si l'utilisateur est authentifié au chargement de l'application
+    // useEffect(() => {
+    //   const token = localStorage.getItem('token');
+    //   if (token) {
+    //     setIsAuthenticated(true);
+    //   }
+    // }, []);
 
-    const handleLogout = () => {
-      localStorage.removeItem('token');
-      setIsAuthenticated(false);
-    };
+    // const handleLogout = () => {
+    //   localStorage.removeItem('token');
+    //   setIsAuthenticated(false);
+    // };
+
+
+      // Check authentication status on app load
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setIsAuthenticated(false);
+  };
+  
 
   return (
     <Router>

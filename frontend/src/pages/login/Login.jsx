@@ -2,40 +2,43 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { MdLock } from 'react-icons/md'; 
-import { RiUserFill, RiLockFill } from 'react-icons/ri'; 
-import { AiOutlineMail } from 'react-icons/ai'; 
-import { FaCheckCircle } from 'react-icons/fa'; 
+import { MdLock } from 'react-icons/md';
+import { RiUserFill, RiLockFill } from 'react-icons/ri';
+import { AiOutlineMail } from 'react-icons/ai';
+import { FaCheckCircle } from 'react-icons/fa';
 import "./login.scss";
-import Loading from '../../components/Loading/Loading';  
-import { useLogin } from '../../services/authServices'; // Importer la fonction de login
+import Loading from '../../components/Loading/Loading';
+import { useLogin, usePasswordReset } from '../../services/authServices'; // Importer la fonction de login
 
-const Login = ({ onLogin }) => {  
+const Login = ({ onLogin }) => {
     const [email, setEmail] = useState(''); // Changed setUsername to setEmail
     const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(true); 
-    const [forgotPassword, setForgotPassword] = useState(false); 
+    const [loading, setLoading] = useState(true);
+    const [forgotPassword, setForgotPassword] = useState(false);
     const [verificationCode, setVerificationCode] = useState('');
     const [newPassword, setNewPassword] = useState('');
-    const [message, setMessage] = useState(''); 
+    const [message, setMessage] = useState('');
     const [emailError, setEmailError] = useState(false); // State to track email error
     const [passwordError, setPasswordError] = useState(false); // State to track password error
 
     const loginMutation = useLogin(email, password);
-    
+    const passwordResetMutation = usePasswordReset(); // Hook for password reset
+
+    // const [forgotPasswordMode, setForgotPasswordMode] = useState(false);
+
     useEffect(() => {
         const timer = setTimeout(() => {
-            setLoading(false); 
+            setLoading(false);
         }, 2000);
-        
-        return () => clearTimeout(timer); 
+
+        return () => clearTimeout(timer);
     }, []);
 
     const handleLogin = async () => {
         setLoading(true);
         setMessage('');
         setEmailError(false); // Reset error states
-        setPasswordError(false); 
+        setPasswordError(false);
 
         // Validate fields
         if (!email || !password) {
@@ -49,7 +52,8 @@ const Login = ({ onLogin }) => {
         try {
             const result = await loginMutation.mutateAsync({ email, password });
             console.log('Résultat du login:', result);
-    
+            console.log('Résultat du token:', result.accessToken);
+
             if (result.success) {
                 localStorage.setItem('token', result.accessToken);
                 onLogin(result.data);
@@ -64,10 +68,68 @@ const Login = ({ onLogin }) => {
         }
     };
 
+    // Reset password handler
+    const handleSendResetCode = async () => {
+        setMessage('');
+        if (!email) {
+            setMessage('Veuillez entrer votre adresse email.');
+            return;
+        }
+
+        try {
+            const result = await passwordResetMutation.mutateAsync({ email });
+            if (result.success) {
+                setMessage('Un code de vérification a été envoyé à votre adresse email.');
+                setForgotPassword('verify'); // Move to verification step
+            } else {
+                setMessage(result.message || 'Erreur lors de l\'envoi du code.');
+            }
+        } catch (error) {
+            console.error('Erreur lors de l\'envoi du code:', error);
+            setMessage('Une erreur s\'est produite. Veuillez réessayer.');
+        }
+    };
+
+
     // Reset password handler (remains unchanged)
-    const handleResetPassword = () => {
+    const handleResetPassword = async () => {
+        setMessage('');
+        if (!verificationCode || !newPassword) {
+            setMessage('Veuillez remplir tous les champs.');
+            return;
+        }
+
+        // Call your backend to reset password here
+        // Implement reset password logic...
+
         setMessage('Réinitialisation réussie. Vous pouvez maintenant vous connecter avec votre nouveau mot de passe.');
     };
+
+
+
+    // const handleVerifyCode = async () => {
+    //     if (!verificationCode || !newPassword) {
+    //         setMessage('Veuillez remplir tous les champs.');
+    //         return;
+    //     }
+
+    //     try {
+    //         const result = await passwordResetMutation.mutateAsync({
+    //             token: verificationCode,
+    //             newPassword
+    //         });
+    //         if (result.success) {
+    //             setMessage('Votre mot de passe a été mis à jour avec succès.');
+    //             setForgotPasswordMode(false);
+    //         } else {
+    //             setMessage(result.message || 'Erreur lors de la mise à jour du mot de passe.');
+    //         }
+    //     } catch (error) {
+    //         console.error('Erreur lors de la mise à jour du mot de passe:', error);
+    //         setMessage('Une erreur s\'est produite. Veuillez réessayer.');
+    //     }
+    // }
+
 
     if (loading) {
         return <Loading />;
@@ -108,6 +170,11 @@ const Login = ({ onLogin }) => {
                             <button className="login-btn" onClick={handleResetPassword}>Validate</button>
                             {message && <p className="message">{message}</p>}
                             <a className="forgot text_login" onClick={() => setForgotPassword(false)}>Back to Login</a>
+
+                            {/* <button className="login-btn" onClick={handleVerifyCode}>Validate</button>
+                            {message && <p className="message">{message}</p>}
+                            <a className="forgot text_login" onClick={() => setForgotPasswordMode(false)}>Back to Login</a> */}
+
                         </>
                     ) : forgotPassword ? (
                         <>
@@ -118,12 +185,16 @@ const Login = ({ onLogin }) => {
                                 <input
                                     type="text"
                                     placeholder="Enter your email"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
+                                    // value={email}
+                                    // onChange={(e) => setUsername(e.target.value)}
+                                    // autoComplete="off"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     autoComplete="off"
                                 />
                             </div>
-                            <button className="login-btn" onClick={() => setForgotPassword('verify')}>Send Reset Link</button>
+                            {/* <button className="login-btn" onClick={() => setForgotPassword('verify')}>Send Reset Link</button> */}
+                            <button className="login-btn" onClick={handleSendResetCode}>Send Reset Link</button>
                             <a className="forgot text_login" onClick={() => setForgotPassword(false)}>Back to Login</a>
                         </>
                     ) : (

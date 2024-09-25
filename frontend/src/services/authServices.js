@@ -124,7 +124,17 @@ export const useGetUserProfile = (token) => {
 };
 
 
-
+export const usePasswordReset = () => {
+  return useMutation(({ email }) =>
+    fetch(`${API_URL}/password_reset_request`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email }),
+    }).then(res => res.json()),
+  );
+};
 
 
 
