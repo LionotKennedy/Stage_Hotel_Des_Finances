@@ -96,11 +96,13 @@ const Login = ({ onLogin }) => {
             if (result.success) {
                 const userStatus = result.data.status;
                 console.log('User status:', userStatus); // Debugging purposes, remove in production code!
-    
+                
                 // Vérifiez le statut de l'utilisateur
                 if (userStatus === 'active') {
                     localStorage.setItem('token', result.accessToken);
                     onLogin(result.data);
+                    console.log("Données utilisateur stockées :", result.data); // Vérifie ici
+                    console.log("Id :", result.data._id); // Vérifie ici
                 } else {
                     setMessage('Votre compte est désactivé. Veuillez contacter le support.');
                 }

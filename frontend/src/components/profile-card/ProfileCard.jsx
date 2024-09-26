@@ -1,8 +1,72 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import "./profilecard.scss"
 import user_image from '../../assets/images/photo.jpg'
+// import { jwt_decode } from 'jwt-decode'; // Importez jwt-decode
+// import jwtDecode from 'jwt-decode';
+// import * as jwtDecode from 'jwt-decode';
+// import jwtDecode from 'jwt-decode';  
+import { getProfile } from '../../services/authServices'; // Importez le service
 
 const ProfileCard = () => {
+
+    // const [userData, setUserData] = useState(null);
+    // const [error, setError] = useState('');
+
+    // useEffect(() => {
+    //     const token = localStorage.getItem('token'); // Assurez-vous que le token est stocké après login
+
+    //     if (token) {
+    //         // Décoder le token pour obtenir l'ID de l'utilisateur
+    //         const decodedToken = jwt_decode(token);
+    //         const userId = decodedToken.userId; // Récupère l'userId depuis la payload du token
+
+    //         const fetchUserData = async () => {
+    //             try {
+    //                 const profileData = await getProfile(userId, token); // Utilise l'ID utilisateur décodé
+    //                 setUserData(profileData.data); // Récupère les données utilisateur
+    //             } catch (err) {
+    //                 setError(err.message);
+    //             }
+    //         };
+
+    //         fetchUserData();
+    //     }
+    // }, []);
+
+    // if (error) {
+    //     return <p>{error}</p>;
+    // }
+
+    // if (!userData) {
+    //     return <p>Loading...</p>; // Affiche un message de chargement pendant la récupération des données
+    // }
+
+
+  
+
+    // useEffect(() => {
+    //     // Récupère le token et les données utilisateur depuis localStorage après login
+    //     const token = localStorage.getItem('token');
+    //     const userInfo = JSON.parse(localStorage.getItem('userData')); // On stocke l'info utilisateur dans le localStorage après le login
+    //     console.log(userInfo);
+
+    //     if (token && userInfo) {
+    //         setUserData(userInfo); // Charge les informations de l'utilisateur
+    //     } else {
+    //         setError("Utilisateur non trouvé. Veuillez vous reconnecter.");
+    //     }
+    // }, []);
+
+    // if (error) {
+    //     return <p>{error}</p>;
+    // }
+
+    // if (!userData) {
+    //     return <p>Chargement des informations utilisateur...</p>;
+    // }
+
+
+
     return (
         <div className="container__profile">
 

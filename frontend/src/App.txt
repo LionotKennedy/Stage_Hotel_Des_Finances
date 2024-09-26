@@ -1,0 +1,83 @@
+
+    // <Router>
+    //   <Routes>
+    //     {/* Route de Login */}
+    //     <Route
+    //       path="/"
+    //       element={isAuthenticated ? <Navigate to="/accueil" /> : <Login onLogin={() => setIsAuthenticated(true)} />}
+    //     />
+
+    //     {/* Routes protégées */}
+    //     {isAuthenticated && (
+    //       <Route element={<Layout />}>
+    //         <Route
+    //           path="/accueil"
+    //           element={
+    //             <ProtectedRoute>
+    //               <Home />
+    //             </ProtectedRoute>
+    //           }
+    //         />
+    //         <Route
+    //           path="/courrier"
+    //           element={
+    //             <ProtectedRoute>
+    //               <Dossier />
+    //             </ProtectedRoute>
+    //           }
+    //         />
+    //         <Route
+    //           path="/visa"
+    //           element={
+    //             <ProtectedRoute>
+    //               <Visa />
+    //             </ProtectedRoute>
+    //           }
+    //         />
+    //         <Route
+    //           path="/archive"
+    //           element={
+    //             <ProtectedRoute>
+    //               <Archive />
+    //             </ProtectedRoute>
+    //           }
+    //         />
+    //         <Route
+    //           path="/journal"
+    //           element={
+    //             <ProtectedRoute>
+    //               <Journal />
+    //             </ProtectedRoute>
+    //           }
+    //         />
+    //         <Route
+    //           path="/utilisateur"
+    //           element={
+    //             <ProtectedRoute>
+    //               <User />
+    //             </ProtectedRoute>
+    //           }
+    //         />
+    //         <Route
+    //           path="/profile"
+    //           element={
+    //             <ProtectedRoute>
+    //               <Profile />
+    //             </ProtectedRoute>
+    //           }
+    //         />
+    //         <Route
+    //           path="/archive/details"
+    //           element={
+    //             <ProtectedRoute>
+    //               <ArchiveMore />
+    //             </ProtectedRoute>
+    //           }
+    //         />
+    //       </Route>
+    //     )}
+
+    //     {/* Rediriger vers la page de login si aucune route ne correspond */}
+    //     <Route path="*" element={<Navigate to="/" />} />
+    //   </Routes>
+    // </Router>

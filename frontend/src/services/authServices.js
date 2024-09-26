@@ -153,7 +153,43 @@ export const useNewPasswordVerification = () => {
 
 
 
+// services/authService.js
 
+// Fonction pour récupérer le profil utilisateur
+export const getProfile = async (userId, token) => {
+  try {
+    const response = await fetch(`${API_URL}/profile/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    const data = await response.json();
+    if (response.ok) {
+      return data;
+    } else {
+      throw new Error(data.message);
+    }
+  } catch (error) {
+    throw new Error('Failed to fetch user profile: ' + error.message);
+  }
+};
+
+
+
+// export const getProfile = async (userId, token) => {
+//   const response = await fetch(`http://127.0.0.1:9876/api/profile/${userId}`, {
+//       headers: {
+//           'Authorization': `Bearer ${token}` // Envoie le token dans l'en-tête Authorization
+//       }
+//   });
+
+//   if (!response.ok) {
+//       throw new Error('Erreur lors de la récupération du profil');
+//   }
+
+//   return response.json();
+// };
 
 
 

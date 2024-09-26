@@ -11,23 +11,10 @@ import Journal from './pages/journal/Journal';
 import User from './pages/user/User';
 import Profile from './pages/profile/Profile';
 import ArchiveMore from "./pages/archivemore/ArchiveMore";
+import ProtectedRoute from './ProtectedRoute'; // Assurez-vous que le chemin est correct
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-
-    // // Vérifier si l'utilisateur est authentifié au chargement de l'application
-    // useEffect(() => {
-    //   const token = localStorage.getItem('token');
-    //   if (token) {
-    //     setIsAuthenticated(true);
-    //   }
-    // }, []);
-
-    // const handleLogout = () => {
-    //   localStorage.removeItem('token');
-    //   setIsAuthenticated(false);
-    // };
 
 
       // Check authentication status on app load
