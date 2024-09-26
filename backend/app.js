@@ -41,6 +41,8 @@ if (xy == null) {
 const journalCleanup = require("./modules/journalCleanup");
 // const { archiveOldDatas } = require("./modules/automate");
 const { archiveOldData } = require("./modules/automate");
+const { setupTokenCleanup } = require("./modules/tokenCleanup");
+// const { cleanupExpiredTokens } = require("./modules/tokenCleanup");
 
 app.use("/api", authRoute);
 app.use("/api/admin", adminRoute);
@@ -54,6 +56,9 @@ app.use("/api", visaRoute);
 journalCleanup.setupJournalCleanup();
 // archiveOldDatas.archiveOldData();
 archiveOldData();
+
+setupTokenCleanup();
+// cleanupExpiredTokens();
 
 app.listen(PORT, () => {
   console.log(`listening on port http://127.0.0.1:${PORT}`);

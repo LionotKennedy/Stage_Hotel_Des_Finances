@@ -84,7 +84,8 @@ const generateAccessToken = async (user) => {
     userId: user._id,
     email: user.email,
     // exp: Math.floor(Date.now() / 1000) + 7200 // 2 heures en secondes
-    exp: Math.floor(Date.now() / 1000) + 60 // 1 minute en secondes
+    // exp: Math.floor(Date.now() / 1000) + 60 // 1 minute en secondes
+    exp: Math.floor(Date.now() / 1000) + 10800 // 3 heures en secondes
   };
 
   const token = jwt.sign(payload, process.env.ACCESS_SECRET_TOKEN);

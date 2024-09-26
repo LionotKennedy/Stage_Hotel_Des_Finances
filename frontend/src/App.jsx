@@ -96,6 +96,7 @@ function App() {
           const userId = localStorage.getItem('userId');
           await getProfile(userId, storedToken);
           console.log("message simba APP 1");
+          handleTokenExpiration();
           
           // Si la requête réussit, le token est toujours valide
           return;
@@ -107,7 +108,8 @@ function App() {
           }
         }
       }
-    }, 60000); // Vérifiez toutes les minutes
+    // }, 60000); // Vérifiez toutes les minutes
+  }, 1800000); // Vérifiez toutes les 3 heures
   
     return () => clearInterval(intervalId);
   }, []);
