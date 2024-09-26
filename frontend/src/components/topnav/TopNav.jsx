@@ -2,7 +2,8 @@ import React from 'react'
 
 import "./topnav.scss"
 
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+// import { useHistory } from 'react-router-dom';
 
 import Dropdown from '../dropdown/Dropdown'
 
@@ -13,6 +14,8 @@ import notifications from '../../Data/notification.json'
 import user_menu from '../../Data/user_menus.json'
 
 import Theme from '../theme/Theme'
+
+import { logout } from '../../services/authServices'; // Assurez-vous d'importer correctement la fonction logout
 
 // CONFIGURATION
 const curr_user = {
@@ -38,17 +41,66 @@ const renderUserToggle = (user) => (
   </div>
 )
 
-const renderUserMenu = (item, index) => (
-  <Link to={item.route || '#'} key={index}>
-    <div className="notification-item">
-      <i className={item.icon}></i>
-      <span>{item.content}</span>
-    </div>
-  </Link>
-);
+// const renderUserMenu = (item, index) => (
+//   <Link to={item.route || '#'} key={index}>
+//     <div className="notification-item">
+//       <i className={item.icon}></i>
+//       <span>{item.content}</span>
+//     </div>
+//   </Link>
+// );
 // ENDING
 
-const TopNav = () => {
+const TopNav = ({ onLogout }) => {
+  
+  
+  // const history = useHistory();
+  const navigate = useNavigate(); // Utilisation de useNavigate pour la redirection
+  
+  const handleLogout = async () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const result = await logout(token);
+      if (result.success) {
+        // Redirigez vers la page de connexion après la déconnexion
+        // history.push('/');
+        onLogout(); // Met à jour l'état d'authentification dans App.js
+        navigate('/', { replace: true });
+      } else {
+        console.error('Erreur de déconnexion:', result.message);
+      }
+    }
+  };
+  
+  
+  const renderUserMenu = (item, index) => {
+    if (item.content === "Logout") {
+      return (
+        <div className="notification-item" key={index} onClick={handleLogout}>
+          <i className={item.icon}></i>
+          <span>{item.content}</span>
+        </div>
+      );
+    }
+    
+    return (
+      <Link to={item.route || '#'} key={index}>
+        <div className="notification-item">
+          <i className={item.icon}></i>
+          <span>{item.content}</span>
+        </div>
+      </Link>
+    );
+  };
+
+
+
+
+
+
+
+
+
   const [sidebarActive, setSidebarActive] = React.useState(false);
 
   const toggleSidebar = () => {

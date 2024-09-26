@@ -6,7 +6,7 @@ import SideBar from '../components/sidebar/SideBar';
 import TopNav from '../components/topnav/TopNav';
 import ThemeAction from '../redux/actions/ThemeAction';
 
-const Layout = () => {
+const Layout = ({ onLogout }) => {
   const themeReducer = useSelector(state => state.ThemeReducer);
   const dispatch = useDispatch();
 
@@ -21,7 +21,7 @@ const Layout = () => {
     <div className={`layout ${themeReducer.mode} ${themeReducer.color}`}>
       <SideBar />
       <div className="layout__content">
-        <TopNav />
+        <TopNav onLogout={onLogout} />
         <div className="layout__content-main centered-content">
           <Outlet />
         </div>

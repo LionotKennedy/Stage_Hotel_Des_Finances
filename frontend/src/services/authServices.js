@@ -138,3 +138,29 @@ export const getProfile = async (userId, token) => {
     throw new Error('Échec de la récupération du profil utilisateur foryyyy:' + error.message);
   }
 };
+
+
+
+
+export const logout = async (token) => {
+  // const response = await fetch('http://127.0.0.1:9876/api/logout', {
+  const response = await fetch(`${API_URL}/logout`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
+
+  const data = await response.json();
+
+  if (response.ok) {
+    // Si la requête réussit, on supprime le token du localStorage
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+  } else {
+    console.error('Erreur lors de la déconnexion:', data.message);
+  }
+
+  return data;
+};

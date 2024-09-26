@@ -14,7 +14,7 @@ const { requestPasswordReset, resetPassword } = require("../controllers/Password
 router.post('/register', registerValidator, registerUser);
 router.post('/login', loginValidator, loginUser);
 router.get('/profile/:id', verifyToken, getProfile);
-router.post("/logout",verifyToken, verifyToken, logoutUser);
+router.post("/logout",verifyToken, logoutUser);
 
 // Réinitialisation du mot de passe
 router.post('/password_reset_request', requestPasswordReset);

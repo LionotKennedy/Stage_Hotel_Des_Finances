@@ -14,6 +14,7 @@ import ArchiveMore from "./pages/archivemore/ArchiveMore";
 import ProtectedRoute from './ProtectedRoute'; // Assurez-vous que le chemin est correct
 import { getProfile } from './services/authServices'; // Importez le service
 
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState(null);
@@ -113,31 +114,26 @@ function App() {
 
   return (
     <Router>
-      <Routes>
-        {/* Login Route */}
-        <Route
-          path="/"
-          element={isAuthenticated ? <Navigate to="/accueil" /> : <Login onLogin={() => setIsAuthenticated(true)} />}
-        />
-
-         {/* Protected Routes inside Layout */}
-         {isAuthenticated && (
-          <Route element={<Layout />}>
-            <Route path="/accueil" element={<Home />} />
-            <Route path="/courrier" element={<Dossier />} />
-            <Route path="/visa" element={<Visa />} />
-            <Route path="/archive" element={<Archive />} />
-            <Route path="/journal" element={<Journal />} />
-            <Route path="/utilisateur" element={<User />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/archive/details" element={<ArchiveMore />} />
-          </Route>
-        )}
-
-         {/* Redirect to Login if no match */}
-         <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route
+        path="/"
+        element={isAuthenticated ? <Navigate to="/accueil" /> : <Login onLogin={() => setIsAuthenticated(true)} />}
+      />
+      {isAuthenticated && (
+        <Route element={<Layout onLogout={handleLogout} />}> {/* Passez la fonction onLogout */}
+          <Route path="/accueil" element={<Home />} />
+          <Route path="/courrier" element={<Dossier />} />
+          <Route path="/visa" element={<Visa />} />
+          <Route path="/archive" element={<Archive />} />
+          <Route path="/journal" element={<Journal />} />
+          <Route path="/utilisateur" element={<User />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/archive/details" element={<ArchiveMore />} />
+        </Route>
+      )}
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
+  </Router>
   )
 }
 
