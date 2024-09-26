@@ -12,24 +12,104 @@ import User from './pages/user/User';
 import Profile from './pages/profile/Profile';
 import ArchiveMore from "./pages/archivemore/ArchiveMore";
 import ProtectedRoute from './ProtectedRoute'; // Assurez-vous que le chemin est correct
+import { getProfile } from './services/authServices'; // Importez le service
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [token, setToken] = useState(null);
 
-
-      // Check authentication status on app load
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      setToken(storedToken);
       setIsAuthenticated(true);
     }
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('userId');
     setIsAuthenticated(false);
   };
+
+  // Ajoutez cette nouvelle fonction pour gérer l'expiration du token
+  const handleTokenExpiration = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    setIsAuthenticated(false);
+  };
+
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     // Vérifiez si le token est toujours valide
+  //     const storedToken = localStorage.getItem('token');
+  //     if (storedToken) {
+  //       try {
+  //         const profileData = getProfile(null, storedToken); // Utilisez null pour userId car nous n'avons pas besoin de vérifier les données
+          
+  //         // Si la requête réussit, le token est toujours valide
+  //         return;
+  //       } catch (error) {
+  //         if (error.message === 'Token a expiré') {
+  //           handleTokenExpiration();
+  //         }
+  //       }
+  //     }
+  //   }, 60000); // Vérifiez toutes les minutes
+
+  //   return () => clearInterval(intervalId);
+  // }, []);
+
+
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     const storedToken = localStorage.getItem('token');
+  //     if (storedToken) {
+  //       try {
+  //         const userId = localStorage.getItem('userId');
+  //         const profileData = await getProfile(userId, storedToken);
+          
+  //         // Si la requête réussit, le token est toujours valide
+  //         return;
+  //       } catch (error) {
+  //         if (error.message === 'Token a expiré') {
+  //           handleTokenExpiration();
+  //         }
+  //       }
+  //     }
+  //   }, 60000); // Vérifiez toutes les minutes
   
+  //   return () => clearInterval(intervalId);
+  // }, [])
+
+
+
+
+
+  useEffect(() => {
+    const intervalId = setInterval(async () => {
+      const storedToken = localStorage.getItem('token');
+      console.log("message simba APP 0");
+      if (storedToken) {
+        try {
+          const userId = localStorage.getItem('userId');
+          await getProfile(userId, storedToken);
+          console.log("message simba APP 1");
+          
+          // Si la requête réussit, le token est toujours valide
+          return;
+        } catch (error) {
+          if (error.message === 'Token a expiré') {
+            handleTokenExpiration();
+            console.log(error.message);
+            console.log("message simba APP 2");
+          }
+        }
+      }
+    }, 60000); // Vérifiez toutes les minutes
+  
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <Router>

@@ -66,25 +66,75 @@ export const useNewPasswordVerification = () => {
 };
 
 
-// Fonction pour récupérer le profil utilisateur
+// export const getProfile = async (userId, token) => {
+//   try {
+//     const response = await fetch(`${API_URL}/profile/${userId}`, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//         'Content-Type': 'application/json',
+//       },
+//     });
+//     const data = await response.json();
+    
+//     // Vérifiez si le token est toujours valide
+//     const now = Date.now() / 1000;
+//     if (data.expireAt && data.expireAt < now) {
+//       throw new Error('Token a expiré');
+//       let time = 0
+//     }
+
+//     // Si le token est valide, retournez les données
+//     return data;
+//   } catch (error) {
+//     console.error('Erreur lors de la récupération du profil utilisateur:', error);
+    
+//     // Si le token est expiré, supprimez-le et l'ID utilisateur du localStorage
+//     // if (error.message === 'Token a expiré') {
+//     if (time == 0) {
+//       localStorage.removeItem('token');
+//       localStorage.removeItem('userId');
+//     }
+    
+//     throw new Error('Échec de la récupération du profil utilisateur:' + error.message);
+//   }
+// };
+
+
+
+
+
+
+
+
+
+
+
 export const getProfile = async (userId, token) => {
   try {
-    const response = await fetch(`${API_URL}/profile/${userId}`, {
+    const response = await fetch(`${API_URL}/profile/${userId || ''}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
     });
     const data = await response.json();
-    if (response.ok) {
-      return data;
-    } else {
-      throw new Error(data.message);
+    
+    // Vérifiez si le token est toujours valide
+    const now = Date.now() / 1000;
+    if (data.expireAt && data.expireAt < now) {
+      throw new Error('Token a expiré');
+      console.log( error.message);
     }
+
+    // Si le token est valide, retournez les données
+    return data;
   } catch (error) {
-    throw new Error('Failed to fetch user profile: ' + error.message);
+    console.error('Erreur lors de la récupération du profil utilisateur:', error);
+    
+    // Si le token est expiré, supprimez-le et l'ID utilisateur du localStorage
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    
+    throw new Error('Échec de la récupération du profil utilisateur foryyyy:' + error.message);
   }
 };
-
-
-

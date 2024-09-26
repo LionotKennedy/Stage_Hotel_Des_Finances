@@ -4,16 +4,12 @@ import user_image from '../../assets/images/photo.jpg';
 import { getProfile } from '../../services/authServices'; // Importez le service
 
 const ProfileCard = () => {
-
     const [userData, setUserData] = useState(null);
     const [error, setError] = useState('');
-
 
     useEffect(() => {
         const token = localStorage.getItem('token');
         const userId = localStorage.getItem('userId');
-        console.log('token: ' + token);
-        console.log('userID: ' + userId);
 
         if(token && userId) {
             fetchProfileData(userId, token);
@@ -25,10 +21,14 @@ const ProfileCard = () => {
     const fetchProfileData = async (userId, token) => {
         try {
             const profileData = await getProfile(userId, token);
+            console.log('Données du profil:', profileData);
+            
+            // Mettre à jour les états avec les données du profil
+            setUserData(profileData);
         } catch (error) {
             setError(error.message);
         }
-    }
+    };
 
     return (
         <div className="container__profile">

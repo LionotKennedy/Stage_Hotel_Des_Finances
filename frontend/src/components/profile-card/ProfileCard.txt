@@ -91,3 +91,72 @@
     // }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // const [userData, setUserData] = useState(null);
+    // const [error, setError] = useState('');
+
+
+    // useEffect(() => {
+    //     const token = localStorage.getItem('token');
+    //     const userId = localStorage.getItem('userId');
+    //     console.log('token: ' + token);
+    //     console.log('userID: ' + userId);
+
+    //     if(token && userId) {
+    //         fetchProfileData(userId, token);
+    //     } else {
+    //         setError("Utilisateur non trouvé. Veuillez vous reconnecter.")
+    //     }
+    // }, []);
+
+    // const fetchProfileData = async (userId, token) => {
+    //     try {
+    //         const profileData = await getProfile(userId, token);
+    //         console.log('Toutes les données de profil:', profileData);
+    //     } catch (error) {
+    //         setError(error.message);
+    //     }
+    // }
+

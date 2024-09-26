@@ -9,6 +9,7 @@ import { FaCheckCircle } from 'react-icons/fa';
 import "./login.scss";
 import Loading from '../../components/Loading/Loading';
 import { useLogin, usePasswordReset, useNewPasswordVerification } from '../../services/authServices'; // Importer la fonction de login
+import { getProfile } from '../../services/authServices'; // Importez le service
 
 const Login = ({ onLogin }) => {
     const [email, setEmail] = useState(''); // Changed setUsername to setEmail
@@ -25,6 +26,7 @@ const Login = ({ onLogin }) => {
     const loginMutation = useLogin(email, password);
     const passwordResetMutation = usePasswordReset(); // Hook for password reset
     const newPasswordVerifyMutation = useNewPasswordVerification(); // Hook for password reset
+
 
 
     useEffect(() => {
@@ -61,6 +63,9 @@ const Login = ({ onLogin }) => {
                 if (userStatus === 'active') {
                     localStorage.setItem('token', result.accessToken);
                     localStorage.setItem('userId', userId);
+                    const userData = await getProfile(userId, result.accessToken);
+                    console.log("Données utilisateur après connexion:", userData);
+                    onLogin(userData);
                     onLogin(result.data);
                     console.log("Données utilisateur stockées :", result.data); // Vérifie ici
                     console.log("Id :", userId); // Vérifie ici
@@ -77,7 +82,6 @@ const Login = ({ onLogin }) => {
             setLoading(false);
         }
     };
-
 
     // Reset password handler
     const handleSendResetCode = async () => {
