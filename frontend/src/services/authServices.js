@@ -66,10 +66,6 @@ export const useNewPasswordVerification = () => {
 };
 
 
-
-
-// services/authService.js
-
 // Fonction pour récupérer le profil utilisateur
 export const getProfile = async (userId, token) => {
   try {
