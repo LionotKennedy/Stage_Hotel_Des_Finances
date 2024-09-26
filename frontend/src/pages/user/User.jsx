@@ -27,10 +27,10 @@ const User = () => {
 
       <CustomModal open={modalOpen} handleClose={handleCloseModal} />
 
-      {/* <CalendarComponent /> */}
+      <CalendarComponent />
       {/* <MuiCalendarComponent /> */}
       {/* <DateRangeCalendarComponent /> */}
-      {/* <BasicDateCalendar /> */}
+      <BasicDateCalendar />
       {/* <CurrentTime /> */}
       {/* <StyledTimeClock /> */}
     </div>
