@@ -15,8 +15,6 @@ const Login = ({ onLogin }) => {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(true);
     const [forgotPassword, setForgotPassword] = useState(false);
-    // const [verificationCode, setVerificationCode] = useState('');
-    // const [newPassword, setNewPassword] = useState('');
     const [forgotPasswordMode, setForgotPasswordMode] = useState(false);
     const [verificationCode, setVerificationCode] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -28,7 +26,6 @@ const Login = ({ onLogin }) => {
     const passwordResetMutation = usePasswordReset(); // Hook for password reset
     const newPasswordVerifyMutation = useNewPasswordVerification(); // Hook for password reset
 
-    // const [forgotPasswordMode, setForgotPasswordMode] = useState(false);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -38,50 +35,12 @@ const Login = ({ onLogin }) => {
         return () => clearTimeout(timer);
     }, []);
 
-    // const handleLogin = async () => {
-    //     setLoading(true);
-    //     setMessage('');
-    //     setEmailError(false); // Reset error states
-    //     setPasswordError(false);
-
-    //     // Validate fields
-    //     if (!email || !password) {
-    //         setMessage('Veuillez remplir tous les champs.');
-    //         if (!email) setEmailError(true);
-    //         if (!password) setPasswordError(true);
-    //         setLoading(false);
-    //         return; // Stop execution if fields are empty
-    //     }
-
-    //     try {
-    //         const result = await loginMutation.mutateAsync({ email, password });
-    //         console.log('Résultat du login:', result);
-    //         console.log('Résultat du token:', result.accessToken);
-
-    //         if (result.success) {
-    //             localStorage.setItem('token', result.accessToken);
-    //             onLogin(result.data);
-    //         } else {
-    //             setMessage(result.message || 'Connexion échouée. Veuillez vérifier vos identifiants.');
-    //         }
-    //     } catch (error) {
-    //         console.error('Erreur lors de la connexion:', error);
-    //         setMessage('Une erreur s\'est produite. Veuillez réessayer.');
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
-
-
-
-
-
     const handleLogin = async () => {
         setLoading(true);
         setMessage('');
         setEmailError(false);
         setPasswordError(false);
-    
+
         if (!email || !password) {
             setMessage('Veuillez remplir tous les champs.');
             if (!email) setEmailError(true);
@@ -89,14 +48,14 @@ const Login = ({ onLogin }) => {
             setLoading(false);
             return;
         }
-    
+
         try {
             const result = await loginMutation.mutateAsync({ email, password });
-    
+
             if (result.success) {
                 const userStatus = result.data.status;
                 console.log('User status:', userStatus); // Debugging purposes, remove in production code!
-                
+
                 // Vérifiez le statut de l'utilisateur
                 if (userStatus === 'active') {
                     localStorage.setItem('token', result.accessToken);
@@ -116,10 +75,6 @@ const Login = ({ onLogin }) => {
             setLoading(false);
         }
     };
-
-    
-
-
 
 
     // Reset password handler
@@ -148,28 +103,26 @@ const Login = ({ onLogin }) => {
     const handleVerifyCode = async () => {
         setMessage('');
         if (!verificationCode || !newPassword) {
-          setMessage('Veuillez remplir tous les champs.');
-          return;
+            setMessage('Veuillez remplir tous les champs.');
+            return;
         }
-      
-        try {
-          const result = await newPasswordVerifyMutation.mutateAsync({
-            token: verificationCode,
-            newPassword
-          });
-          if (result.success) {
-            setMessage('Votre mot de passe a été mis à jour avec succès.');
-            setForgotPasswordMode(false);
-          } else {
-            setMessage(result.message || 'Erreur lors de la mise à jour du mot de passe.');
-          }
-        } catch (error) {
-          console.error('Erreur lors de la mise à jour du mot de passe:', error);
-          setMessage('Une erreur s\'est produite. Veuillez réessayer.');
-        }
-      };
 
-      
+        try {
+            const result = await newPasswordVerifyMutation.mutateAsync({
+                token: verificationCode,
+                newPassword
+            });
+            if (result.success) {
+                setMessage('Votre mot de passe a été mis à jour avec succès.');
+                setForgotPasswordMode(false);
+            } else {
+                setMessage(result.message || 'Erreur lors de la mise à jour du mot de passe.');
+            }
+        } catch (error) {
+            console.error('Erreur lors de la mise à jour du mot de passe:', error);
+            setMessage('Une erreur s\'est produite. Veuillez réessayer.');
+        }
+    };
 
     if (loading) {
         return <Loading />;
@@ -191,12 +144,6 @@ const Login = ({ onLogin }) => {
                             <h3 className="title">Verify Code</h3>
                             <div className="text-input">
                                 <input
-                                    // type="text"
-                                    // placeholder="Enter verification code"
-                                    // value={verificationCode}
-                                    // onChange={(e) => setVerificationCode(e.target.value)}
-                                    // autoComplete="off"
-
                                     type="text"
                                     placeholder="Enter verification code"
                                     value={verificationCode}
@@ -206,12 +153,6 @@ const Login = ({ onLogin }) => {
                             </div>
                             <div className="text-input">
                                 <input
-                                    // type="password"
-                                    // placeholder="Enter new password"
-                                    // value={newPassword}
-                                    // onChange={(e) => setNewPassword(e.target.value)}
-                                    // autoComplete="off"
-
                                     type="password"
                                     placeholder="Enter new password"
                                     value={newPassword}
@@ -219,20 +160,10 @@ const Login = ({ onLogin }) => {
                                     autoComplete="off"
                                 />
                             </div>
-                            {/* <button className="login-btn" onClick={handleResetPassword}>Validate</button>
-                            {message && <p className="message">{message}</p>}
-                            <a className="forgot text_login" onClick={() => setForgotPassword(false)}>Back to Login</a> */}
-
                             <button className="login-btn" onClick={handleVerifyCode}>Validate</button>
                             {message && <p className="message">{message}</p>}
                             {/* <a className="forgot text_login" onClick={() => setForgotPasswordMode(false)}>Back to Login</a> */}
                             <a className="forgot text_login" onClick={() => { setForgotPasswordMode(false); setForgotPassword(''); }}>Back to Login</a>
-
-
-                            {/* <button className="login-btn" onClick={handleVerifyCode}>Validate</button>
-                            {message && <p className="message">{message}</p>}
-                            <a className="forgot text_login" onClick={() => setForgotPasswordMode(false)}>Back to Login</a> */}
-
                         </>
                     ) : forgotPassword ? (
                         <>
@@ -243,9 +174,6 @@ const Login = ({ onLogin }) => {
                                 <input
                                     type="text"
                                     placeholder="Enter your email"
-                                    // value={email}
-                                    // onChange={(e) => setUsername(e.target.value)}
-                                    // autoComplete="off"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     autoComplete="off"

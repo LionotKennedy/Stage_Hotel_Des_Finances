@@ -1,0 +1,64 @@
+    // const handleLogin = async () => {
+    //     setLoading(true);
+    //     setMessage('');
+    //     setEmailError(false); // Reset error states
+    //     setPasswordError(false);
+
+    //     // Validate fields
+    //     if (!email || !password) {
+    //         setMessage('Veuillez remplir tous les champs.');
+    //         if (!email) setEmailError(true);
+    //         if (!password) setPasswordError(true);
+    //         setLoading(false);
+    //         return; // Stop execution if fields are empty
+    //     }
+
+    //     try {
+    //         const result = await loginMutation.mutateAsync({ email, password });
+    //         console.log('Résultat du login:', result);
+    //         console.log('Résultat du token:', result.accessToken);
+
+    //         if (result.success) {
+    //             localStorage.setItem('token', result.accessToken);
+    //             onLogin(result.data);
+    //         } else {
+    //             setMessage(result.message || 'Connexion échouée. Veuillez vérifier vos identifiants.');
+    //         }
+    //     } catch (error) {
+    //         console.error('Erreur lors de la connexion:', error);
+    //         setMessage('Une erreur s\'est produite. Veuillez réessayer.');
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
