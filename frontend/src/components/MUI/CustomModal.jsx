@@ -480,123 +480,6 @@
 
 
 // src/components/modal/CustomModal.js
-import React, { useState } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Slide, TextField, Grid } from '@mui/material';
-import { motion, AnimatePresence } from 'framer-motion';
-
-// Définition des variantes d'animation pour Framer Motion
-const modalVariants = {
-  hidden: { opacity: 0, scale: 0.1 },
-  visible: { opacity: 1, scale: 1 },
-  exit: { opacity: 0, scale: 0.1 }
-};
-
-// Transition pour le slide (ouverture/fermeture de la modale)
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-
-export default function CustomModal({ open, handleClose }) {
-  // États pour gérer les valeurs des champs
-  const [fields, setFields] = useState({
-    field1: '',
-    field2: '',
-    field3: '',
-    field4: '',
-    field5: '',
-    field6: '',
-    field7: '',
-    field8: ''
-  });
-
-  // États pour gérer les erreurs
-  const [errors, setErrors] = useState({});
-
-  // Gérer la modification des champs
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setFields((prevFields) => ({
-      ...prevFields,
-      [id]: value
-    }));
-  };
-
-  // Validation du formulaire
-  const validateForm = () => {
-    const newErrors = {};
-    Object.keys(fields).forEach((key) => {
-      if (!fields[key]) {
-        newErrors[key] = true; // Marquer les champs vides comme erreur
-      }
-    });
-    setErrors(newErrors);
-    // Retourner true si tous les champs sont remplis
-    return Object.keys(newErrors).length === 0;
-  };
-
-  // Gérer la soumission du formulaire
-  const handleSubmit = () => {
-    if (validateForm()) {
-      console.log("Formulaire valide :", fields);
-      handleClose(); // Ferme la modale si le formulaire est valide
-    } else {
-      console.log("Formulaire invalide");
-    }
-  };
-
-  return (
-    <Dialog
-      open={open}
-      TransitionComponent={Transition}
-      keepMounted
-      onClose={handleClose}
-      aria-describedby="custom-modal-slide-description"
-      maxWidth="sm" // Taille maximale de la modale (small, medium, large)
-      fullWidth // Assure que la modale prenne toute la largeur disponible
-    >
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            variants={modalVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            transition={{ duration: 0.5 }}
-          >
-            <DialogTitle>Formulaire avec Validation</DialogTitle>
-            <DialogContent>
-              <form>
-                <Grid container spacing={2}>
-                  {/* Champs du formulaire avec validation */}
-                  {Object.keys(fields).map((field, index) => (
-                    <Grid item xs={12} sm={6} key={index}>
-                      <TextField
-                        id={field}
-                        label={`Champ ${index + 1}`}
-                        variant="standard"
-                        fullWidth
-                        value={fields[field]}
-                        onChange={handleChange}
-                        error={!!errors[field]} // Affiche la bordure rouge si le champ est vide
-                        helperText={errors[field] ? 'Ce champ est requis' : ''}
-                      />
-                    </Grid>
-                  ))}
-                </Grid>
-              </form>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose}>Fermer</Button>
-              <Button onClick={handleSubmit} variant="contained" color="primary">
-                Confirmer
-              </Button>
-            </DialogActions>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </Dialog>
-  );
-}
 
 
 
@@ -668,13 +551,13 @@ export default function CustomModal({ open, handleClose }) {
 // };
 
 // export default function CustomModal({ open, handleClose }) {
-//   // États pour gérer les valeurs des champs
+  //   // États pour gérer les valeurs des champs
 //   const [fields, setFields] = useState({
-//     field1: '',
-//     field2: '',
-//     field3: '',
-//     field4: '',
-//     field5: '',
+  //     field1: '',
+  //     field2: '',
+  //     field3: '',
+  //     field4: '',
+  //     field5: '',
 //     field6: '',
 //     field7: '',
 //     field8: ''
@@ -696,7 +579,7 @@ export default function CustomModal({ open, handleClose }) {
 //   const validateForm = () => {
 //     const newErrors = {};
 //     Object.keys(fields).forEach((key) => {
-//       if (!fields[key]) {
+  //       if (!fields[key]) {
 //         newErrors[key] = true; // Marquer les champs vides comme erreur
 //       }
 //     });
@@ -706,12 +589,12 @@ export default function CustomModal({ open, handleClose }) {
 
 //   // Gérer la soumission du formulaire
 //   const handleSubmit = () => {
-//     if (validateForm()) {
+  //     if (validateForm()) {
 //       console.log("Formulaire valide :", fields);
 //       handleClose(); // Ferme la modale si le formulaire est valide
 //     } else {
-//       console.log("Formulaire invalide");
-//     }
+  //       console.log("Formulaire invalide");
+  //     }
 //   };
 
 //   return (
@@ -818,24 +701,24 @@ export default function CustomModal({ open, handleClose }) {
 // export default function CustomModal({ open, handleClose }) {
 //   // États pour gérer les valeurs des champs
 //   const [fields, setFields] = useState({
-//     field1: '',
-//     field2: '',
-//     field3: '',
-//     field4: '',
-//     field5: '',
-//     field6: '',
-//     field7: '',
-//     field8: ''
-//   });
-
-//   // États pour gérer les erreurs
-//   const [errors, setErrors] = useState({});
-
-//   // Gérer la modification des champs
-//   const handleChange = (e) => {
+  //     field1: '',
+  //     field2: '',
+  //     field3: '',
+  //     field4: '',
+  //     field5: '',
+  //     field6: '',
+  //     field7: '',
+  //     field8: ''
+  //   });
+  
+  //   // États pour gérer les erreurs
+  //   const [errors, setErrors] = useState({});
+  
+  //   // Gérer la modification des champs
+  //   const handleChange = (e) => {
 //     const { id, value } = e.target;
 //     setFields((prevFields) => ({
-//       ...prevFields,
+  //       ...prevFields,
 //       [id]: value
 //     }));
 //   };
@@ -844,7 +727,7 @@ export default function CustomModal({ open, handleClose }) {
 //   const validateForm = () => {
 //     const newErrors = {};
 //     Object.keys(fields).forEach((key) => {
-//       if (!fields[key]) {
+  //       if (!fields[key]) {
 //         newErrors[key] = true; // Marquer les champs vides comme erreur
 //       }
 //     });
@@ -958,10 +841,10 @@ export default function CustomModal({ open, handleClose }) {
 // };
 
 // export default function CustomModal({ open, handleClose }) {
-//   // États pour gérer les valeurs des champs
+  //   // États pour gérer les valeurs des champs
 //   const [fields, setFields] = useState({
-//     field1: '',
-//     field2: '',
+  //     field1: '',
+  //     field2: '',
 //     field3: '',
 //     field4: '',
 //     field5: '',
@@ -977,7 +860,7 @@ export default function CustomModal({ open, handleClose }) {
 //   const handleChange = (e) => {
 //     const { id, value } = e.target;
 //     setFields((prevFields) => ({
-//       ...prevFields,
+  //       ...prevFields,
 //       [id]: value
 //     }));
 //   };
@@ -1001,15 +884,15 @@ export default function CustomModal({ open, handleClose }) {
 //       console.log("Formulaire valide :", fields);
 //       handleClose(); // Ferme la modale si le formulaire est valide
 //     } else {
-//       console.log("Formulaire invalide");
+  //       console.log("Formulaire invalide");
 //     }
 //   };
 
 //   return (
-//     <Dialog
-//       open={open}
-//       onClose={handleClose}
-//       aria-describedby="custom-modal-slide-description"
+  //     <Dialog
+  //       open={open}
+  //       onClose={handleClose}
+  //       aria-describedby="custom-modal-slide-description"
 //       maxWidth="sm"
 //       fullWidth
 //       PaperProps={{
@@ -1130,13 +1013,13 @@ export default function CustomModal({ open, handleClose }) {
 //   const handleChange = (e) => {
 //     const { id, value } = e.target;
 //     setFields((prevFields) => ({
-//       ...prevFields,
-//       [id]: value
-//     }));
-//   };
-
-//   // Validation du formulaire
-//   const validateForm = () => {
+  //       ...prevFields,
+  //       [id]: value
+  //     }));
+  //   };
+  
+  //   // Validation du formulaire
+  //   const validateForm = () => {
 //     const newErrors = {};
 //     Object.keys(fields).forEach((key) => {
 //       if (!fields[key]) {
@@ -1166,12 +1049,12 @@ export default function CustomModal({ open, handleClose }) {
 //       maxWidth="sm"
 //       fullWidth
 //       PaperProps={{
-//         style: { overflow: 'hidden', padding: 0, background: 'transparent' }
+  //         style: { overflow: 'hidden', padding: 0, background: 'transparent' }
 //       }}
 //     >
 //       <AnimatePresence>
 //         {open && (
-//           <motion.div
+  //           <motion.div
 //             variants={modalVariants}
 //             initial="hidden"
 //             animate="visible"
@@ -1213,3 +1096,543 @@ export default function CustomModal({ open, handleClose }) {
 //     </Dialog>
 //   );
 // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useState } from 'react';
+// import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Slide, TextField, Grid } from '@mui/material';
+// import { motion, AnimatePresence } from 'framer-motion';
+
+// // Définition des variantes d'animation pour Framer Motion
+// const modalVariants = {
+//   hidden: { opacity: 0, scale: 0.1 },
+//   visible: { opacity: 1, scale: 1 },
+//   exit: { opacity: 0, scale: 0.1 }
+// };
+
+// // Transition pour le slide (ouverture/fermeture de la modale)
+// const Transition = React.forwardRef(function Transition(props, ref) {
+//   return <Slide direction="up" ref={ref} {...props} />;
+// });
+
+// export default function CustomModal({ open, handleClose }) {
+//   // États pour gérer les valeurs des champs
+//   const [fields, setFields] = useState({
+//     field1: '',
+//     field2: '',
+//     field3: '',
+//     field4: '',
+//     field5: '',
+//     field6: '',
+//     field7: '',
+//     field8: ''
+//   });
+
+//   // États pour gérer les erreurs
+//   const [errors, setErrors] = useState({});
+
+//   // Gérer la modification des champs
+//   const handleChange = (e) => {
+//     const { id, value } = e.target;
+//     setFields((prevFields) => ({
+//       ...prevFields,
+//       [id]: value
+//     }));
+//   };
+
+//   // Validation du formulaire
+//   const validateForm = () => {
+//     const newErrors = {};
+//     Object.keys(fields).forEach((key) => {
+//       if (!fields[key]) {
+//         newErrors[key] = true; // Marquer les champs vides comme erreur
+//       }
+//     });
+//     setErrors(newErrors);
+//     // Retourner true si tous les champs sont remplis
+//     return Object.keys(newErrors).length === 0;
+//   };
+
+//   // Gérer la soumission du formulaire
+//   const handleSubmit = () => {
+//     if (validateForm()) {
+//       console.log("Formulaire valide :", fields);
+//       handleClose(); // Ferme la modale si le formulaire est valide
+//     } else {
+//       console.log("Formulaire invalide");
+//     }
+//   };
+
+//   return (
+//     <Dialog
+//       open={open}
+//       TransitionComponent={Transition}
+//       keepMounted
+//       onClose={handleClose}
+//       aria-describedby="custom-modal-slide-description"
+//       maxWidth="sm" // Taille maximale de la modale (small, medium, large)
+//       fullWidth // Assure que la modale prenne toute la largeur disponible
+//     >
+//       <AnimatePresence>
+//         {open && (
+//           <motion.div
+//             variants={modalVariants}
+//             initial="hidden"
+//             animate="visible"
+//             exit="exit"
+//             transition={{ duration: 0.5 }}
+//           >
+//             <DialogTitle>Formulaire avec Validation</DialogTitle>
+//             <DialogContent>
+//               <form>
+//                 <Grid container spacing={2}>
+//                   {/* Champs du formulaire avec validation */}
+//                   {Object.keys(fields).map((field, index) => (
+//                     <Grid item xs={12} sm={6} key={index}>
+//                       <TextField
+//                         id={field}
+//                         label={`Champ ${index + 1}`}
+//                         variant="standard"
+//                         fullWidth
+//                         value={fields[field]}
+//                         onChange={handleChange}
+//                         error={!!errors[field]} // Affiche la bordure rouge si le champ est vide
+//                         helperText={errors[field] ? 'Ce champ est requis' : ''}
+//                       />
+//                     </Grid>
+//                   ))}
+//                 </Grid>
+//               </form>
+//             </DialogContent>
+//             <DialogActions>
+//               <Button onClick={handleClose}>Fermer</Button>
+//               <Button onClick={handleSubmit} variant="contained" color="primary">
+//                 Confirmer
+//               </Button>
+//             </DialogActions>
+//           </motion.div>
+//         )}
+//       </AnimatePresence>
+//     </Dialog>
+//   );
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useState } from 'react';
+// import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Slide, TextField, Grid } from '@mui/material';
+// import { motion, AnimatePresence } from 'framer-motion';
+
+// const modalVariants = {
+//   hidden: { opacity: 0, scale: 0.1 },
+//   visible: { opacity: 1, scale: 1 },
+//   exit: { opacity: 0, scale: 0.1 }
+// };
+
+// const Transition = React.forwardRef(function Transition(props, ref) {
+//   return <Slide direction="up" ref={ref} {...props} />;
+// });
+
+// export default function CustomModal({ open, handleClose }) {
+//   const [fields, setFields] = useState({
+//     numero_bordereaux: '',
+//     date_depart: '',
+//     expiditeur: '',
+//     destination: '',
+//     description: '',
+//     nom_depose: '',
+//     prenom_depose: '',
+//     matricule: '',
+//     // autre_champ: '' // Champ supplémentaire
+//   });
+
+//   const handleChange = (e) => {
+//     const { name, value } = e.target;
+//     setFields(prevFields => ({ ...prevFields, [name]: value }));
+//   };
+
+//   const handleSubmit = async () => {
+//     try {
+//       await addFolder(fields);
+//       handleClose();
+//     } catch (error) {
+//       console.error('Erreur lors de l\'envoi du formulaire:', error);
+//     }
+//   };
+
+//   return (
+//     <Dialog
+//       open={open}
+//       TransitionComponent={Transition}
+//       keepMounted
+//       onClose={handleClose}
+//       aria-labelledby="custom-modal-slide-description"
+//       maxWidth="sm"
+//       fullWidth
+//     >
+//       <AnimatePresence>
+//         {open && (
+//           <motion.div
+//             variants={modalVariants}
+//             initial="hidden"
+//             animate="visible"
+//             exit="exit"
+//             transition={{ duration: 0.5 }}
+//           >
+//             <DialogTitle>Formulaire Ajout Dossier</DialogTitle>
+//             <DialogContent>
+//               <form>
+//                 <Grid container spacing={2}>
+//                   <Grid item xs={12} sm={6}>
+//                     <TextField
+//                       name="numero_bordereaux"
+//                       label="Numéro Bordereaux"
+//                       variant="standard"
+//                       fullWidth
+//                       onChange={handleChange}
+//                     />
+//                   </Grid>
+//                   <Grid item xs={12} sm={6}>
+//                     <TextField
+//                       type="date"
+//                       name="date_depart"
+//                       label="Date Départ"
+//                       variant="standard"
+//                       fullWidth
+//                       onChange={handleChange}
+//                     />
+//                   </Grid>
+//                   <Grid item xs={12} sm={6}>
+//                     <TextField
+//                       name="expiditeur"
+//                       label="Expediteur"
+//                       variant="standard"
+//                       fullWidth
+//                       onChange={handleChange}
+//                     />
+//                   </Grid>
+//                   <Grid item xs={12} sm={6}>
+//                     <TextField
+//                       name="destination"
+//                       label="Destination"
+//                       variant="standard"
+//                       fullWidth
+//                       onChange={handleChange}
+//                     />
+//                   </Grid>
+//                   <Grid item xs={12} sm={6}>
+//                     <TextField
+//                       name="description"
+//                       label="Description"
+//                       variant="standard"
+//                       fullWidth
+//                       onChange={handleChange}
+//                     />
+//                   </Grid>
+//                   <Grid item xs={12} sm={6}>
+//                     <TextField
+//                       name="nom_depose"
+//                       label="Nom Déposé"
+//                       variant="standard"
+//                       fullWidth
+//                       onChange={handleChange}
+//                     />
+//                   </Grid>
+//                   <Grid item xs={12} sm={6}>
+//                     <TextField
+//                       name="prenom_depose"
+//                       label="Prénom Déposé"
+//                       variant="standard"
+//                       fullWidth
+//                       onChange={handleChange}
+//                     />
+//                   </Grid>
+//                   <Grid item xs={12} sm={6}>
+//                     <TextField
+//                       name="matricule"
+//                       label="Matricule"
+//                       variant="standard"
+//                       fullWidth
+//                       onChange={handleChange}
+//                     />
+//                   </Grid>
+//                 </Grid>
+//               </form>
+//             </DialogContent>
+//             <DialogActions>
+//               <Button onClick={handleClose}>Fermer</Button>
+//               <Button onClick={handleSubmit} variant="contained" color="primary">
+//                 Confirmer
+//               </Button>
+//             </DialogActions>
+//           </motion.div>
+//         )}
+//       </AnimatePresence>
+//     </Dialog>
+//   );
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React, { useState } from 'react';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Slide, TextField, Grid } from '@mui/material';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useAddFolder } from '../../services/serviceFolder'; // Mettez à jour le chemin d'importation
+
+const modalVariants = {
+  hidden: { opacity: 0, scale: 0.1 },
+  visible: { opacity: 1, scale: 1 },
+  exit: { opacity: 0, scale: 0.1 }
+};
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+export default function CustomModal({ open, handleClose }) {
+  const [fields, setFields] = useState({
+    numero_bordereaux: '',
+    date_depart: '',
+    expiditeur: '',
+    destination: '',
+    description: '',
+    nom_depose: '',
+    prenom_depose: '',
+    matricule: '',
+  });
+
+  const [error, setError] = useState('');
+  const addFolderMutation = useAddFolder();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFields(prevFields => ({ ...prevFields, [name]: value }));
+  };
+
+  const handleSubmit = async () => {
+    // Vérifiez si tous les champs requis sont remplis
+    if (!fields.numero_bordereaux || !fields.date_depart || !fields.expiditeur) {
+      setError('Veuillez remplir tous les champs requis.');
+      return;
+    }
+
+    try {
+      await addFolderMutation.mutateAsync(fields); // Utilisez mutateAsync pour les promesses
+      handleClose();
+    } catch (error) {
+      console.error('Erreur lors de l\'envoi du formulaire:', error);
+      setError('Une erreur est survenue lors de l\'ajout du dossier.');
+    }
+  };
+
+  return (
+    <Dialog
+      open={open}
+      TransitionComponent={Transition}
+      keepMounted
+      onClose={handleClose}
+      aria-labelledby="custom-modal-slide-description"
+      maxWidth="sm"
+      fullWidth
+    >
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            variants={modalVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            transition={{ duration: 0.5 }}
+          >
+            <DialogTitle>Formulaire Ajout Dossier</DialogTitle>
+            <DialogContent>
+              <form>
+                {error && <div style={{ color: 'red' }}>{error}</div>} {/* Affichez l'erreur ici */}
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      name="numero_bordereaux"
+                      label="Numéro Bordereaux"
+                      variant="standard"
+                      fullWidth
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      type="date"
+                      name="date_depart"
+                      label="Date Départ"
+                      variant="standard"
+                      fullWidth
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      name="expiditeur"
+                      label="Expediteur"
+                      variant="standard"
+                      fullWidth
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      name="destination"
+                      label="Destination"
+                      variant="standard"
+                      fullWidth
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      name="description"
+                      label="Description"
+                      variant="standard"
+                      fullWidth
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      name="nom_depose"
+                      label="Nom Déposé"
+                      variant="standard"
+                      fullWidth
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      name="prenom_depose"
+                      label="Prénom Déposé"
+                      variant="standard"
+                      fullWidth
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      name="matricule"
+                      label="Matricule"
+                      variant="standard"
+                      fullWidth
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                </Grid>
+              </form>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Fermer</Button>
+              <Button onClick={handleSubmit} variant="contained" color="primary">
+                Confirmer
+              </Button>
+            </DialogActions>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </Dialog>
+  );
+}

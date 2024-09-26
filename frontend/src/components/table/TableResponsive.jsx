@@ -434,6 +434,7 @@ import onze from "../../assets/image/AlexGonley.jpg"
 import { MdEdit, MdDelete, MdVisibility, MdAdd } from 'react-icons/md';
 import { FaArrowUp } from 'react-icons/fa';
 import { AnimatePresence } from 'framer-motion';
+import { useGetFolders } from '../../services/serviceFolder'; // Assurez-vous que le chemin est correct
 
 import "./tableResponsive.scss"
 import ModalAdd from '../modal/ModalAdd';
@@ -451,8 +452,18 @@ const TableResponsive = () => {
 
     const [modalOpen, setModalOpen] = useState(false); // État pour gérer l'ouverture/fermeture de la modale
 
+    // Utilisez le hook pour récupérer les dossiers
+    const { data: folders, isLoading, isError } = useGetFolders();
+
     const handleOpenModal = () => setModalOpen(true); // Fonction pour ouvrir la modale
     const handleCloseModal = () => setModalOpen(false); // Fonction pour fermer la modale
+
+    useEffect(() => {
+        if (folders) {
+            console.log('Données des dossiers:', folders); // Affichez les données dans la console
+        }
+    }, [folders]);
+
 
     useEffect(() => {
         const searchInput = searchRef.current;
