@@ -1,0 +1,77 @@
+
+Je comprends le problème. L'erreur 401 Unauthorized indique que le token n'est pas correctement envoyé ou n'est pas valide. Voici comment nous pouvons résoudre ce problème :
+
+1. Tout d'abord, assurez-vous que le token est bien stocké dans le localStorage. Vérifiez-le dans la console :
+
+```javascript
+console.log(localStorage.getItem('token'));
+```
+
+Si le token n'est pas présent, vous devrez le récupérer et l'ajouter au localStorage.
+
+2. Modifiez votre service `serviceFolder.js` pour inclure le token dans les en-têtes de la requête :
+
+```javascript
+import { useMutation, useQuery } from 'react-query';
+
+const API_URL = "http://127.0.0.1:9876/api";
+
+export const useGetFolders = () => {
+  return useQuery('folders', async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Token non trouvé dans le localStorage');
+    }
+
+    const response = await fetch(`${API_URL}/get_folder`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    // Vérifiez si la réponse est OK
+    if (!response.ok) {
+      throw new Error(`Erreur HTTP ${response.status}: ${response.statusText}`);
+    }
+
+    return response.json();
+  }, {
+    retry: 3, // Nombre de tentatives de réessai
+    retryDelay: 1000 // Délai entre les tentatives en ms
+  });
+};
+```
+
+3. Dans votre composant `TableResponsive`, assurez-vous d'appeler la fonction `useGetFolders` correctement :
+
+```javascript
+const { data: folders, isLoading, isError, error } = useGetFolders();
+```
+
+4. Ajoutez une gestion des erreurs pour afficher les messages d'erreur à l'utilisateur :
+
+```javascript
+if (isError) {
+  console.error(error.message);
+  // Affichez un message d'erreur à l'utilisateur ici
+}
+
+// Utilisez folders.data si vous avez besoin des données
+console.log(folders?.data); // Pour vérifier que les données sont récupérées correctement
+```
+
+5. Si le problème persiste, vérifiez votre backend :
+   - Assurez-vous que la route `/get_folder` est bien protégée par le middleware de vérification du token.
+   - Vérifiez que le token stocké dans le localStorage correspond exactement au format attendu par votre backend.
+
+6. Vous pouvez ajouter des logs supplémentaires pour déboguer :
+
+```javascript
+console.log('Token:', token);
+console.log('Reponse:', response);
+console.log('Status:', response.status);
+```
+
+Ces modifications devraient résoudre le problème de connexion. Si le problème persiste, il faudrait examiner plus en détail la configuration côté serveur et s'assurer que le token est correctement généré et envoyé avec chaque requête.
+
+Citations:

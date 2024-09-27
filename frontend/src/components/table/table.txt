@@ -1,4 +1,6 @@
-Pour récupérer les données de vos dossiers et les afficher dans la console, vous devez d'abord utiliser la fonction `useGetFolders` que vous avez définie avec `react-query`. Voici comment vous pouvez intégrer cela dans votre composant `TableResponsive` :
+Pour récupérer les données de vos dossiers et les afficher dans la console, vous devez d'abord utiliser
+ la fonction `useGetFolders` que vous avez définie avec `react-query`. Voici comment vous pouvez intégrer 
+ cela dans votre composant `TableResponsive` :
 
 ### Étapes à Suivre
 
@@ -98,14 +100,20 @@ export default TableResponsive;
 
 1. **Importation de `useGetFolders`** : J'ai ajouté l'importation de votre hook `useGetFolders` au début du fichier.
    
-2. **Utilisation du hook** : J'ai utilisé `const { data: folders, isLoading, isError } = useGetFolders();` pour récupérer les dossiers et gérer les états de chargement et d'erreur.
+2. **Utilisation du hook** : J'ai utilisé `const { data: folders, isLoading, isError } = useGetFolders();`
+ pour récupérer les dossiers et gérer les états de chargement et d'erreur.
 
-3. **Affichage des dossiers** : J'ai ajouté un `console.log` dans un `useEffect` qui affiche les données des dossiers chaque fois qu'elles sont récupérées.
+3. **Affichage des dossiers** : J'ai ajouté un `console.log` dans un `useEffect` qui affiche les données des dossiers 
+chaque fois qu'elles sont récupérées.
 
-4. **Gestion des états de chargement et d'erreur** : J'ai inclus une gestion simple des états de chargement et d'erreur pour informer l'utilisateur.
+4. **Gestion des états de chargement et d'erreur** : J'ai inclus une gestion simple des états de chargement et d'erreur
+ pour informer l'utilisateur.
 
-5. **Affichage des données dans le tableau** : Les données des dossiers sont maintenant affichées dans le tableau sous les colonnes appropriées. Assurez-vous de remplacer `folder.id` et `folder.name` par les bonnes propriétés selon votre API.
+5. **Affichage des données dans le tableau** : Les données des dossiers sont maintenant affichées dans le tableau sous 
+les colonnes appropriées. Assurez-vous de remplacer `folder.id` et `folder.name` par les bonnes propriétés selon votre API.
 
 ### Test
 
-Une fois que vous avez apporté ces modifications, vous devriez voir les données de dossiers dans la console lorsque le composant est monté et que les données sont récupérées avec succès. Assurez-vous que votre API fonctionne et que les données sont correctement retournées.
+Une fois que vous avez apporté ces modifications, vous devriez voir les données de dossiers dans la console lorsque 
+le composant est monté et que les données sont récupérées avec succès. Assurez-vous que votre API fonctionne et que 
+les données sont correctement retournées.

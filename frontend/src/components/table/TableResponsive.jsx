@@ -461,6 +461,7 @@ const TableResponsive = () => {
     useEffect(() => {
         if (folders) {
             console.log('Données des dossiers:', folders); // Affichez les données dans la console
+            console.log('Données des date:', folders.data); // Affichez les données dans la console
         }
     }, [folders]);
 
@@ -534,7 +535,7 @@ const TableResponsive = () => {
                                 <th className='th'>Actions <span className="icon-arrow"><FaArrowUp /></span></th>
                             </tr>
                         </thead>
-                        <tbody className='tbody'>
+                         <tbody className='tbody'>
                             {[
                                 { id: 1, img: un, name: "Zinzu Chan Lee", location: "Seoul", date: "17 Dec, 2022", status: "delivered", amount: "$128.90" },
                                 { id: 2, img: deux, name: "Jeet Saru", location: "Kathmandu", date: "27 Aug, 2023", status: "cancelled", amount: "$5350.50" },
@@ -566,7 +567,25 @@ const TableResponsive = () => {
                                     </td>
                                 </tr>
                             ))}
-                        </tbody>
+                        </tbody> 
+
+                        {/* <tbody className='tbody'>
+                            {folders && folders.map((folder) => (
+                                <tr key={folder.id}>
+                                    <td className="td">{folder.id}</td>
+                                    <td className="td">{folder.id}</td>
+                                    <td className="td">{folder.id}</td>
+                                    <td className="td">{folder.id}</td>
+                                    <td className="td">{folder.name}</td>
+                                    <td className="td">{folder.name}</td>
+                                    <td className="td">
+                                        <MdEdit className="action-icon icon" title="Update" />
+                                        <MdDelete className="action-icon icon" title="Delete" />
+                                        <MdVisibility className="action-icon icon" title="Read" />
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody> */}
                     </table>
                 </section>
                 <AnimatePresence>
