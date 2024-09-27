@@ -35,3 +35,25 @@ export const useAddFolder = () => {
       .then(res => res.json())
   );
 };
+
+
+export const useGetFolderById = (folderId) => {
+  return useQuery(['folder', folderId], async () => { // Utilisez une clé de requête unique pour chaque ID
+    const token = localStorage.getItem('token');
+    console.log('Token:', token); // Debugging token
+
+    const response = await fetch(`${API_URL}/edit_folder/${folderId}`, { // Ajoutez l'ID au chemin de l'URL
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    // Vérifiez si la réponse est OK
+    if (!response.ok) {
+      console.error('Erreur lors de la récupération du dossier:', response.status, response.statusText);
+      throw new Error('Erreur lors de la récupération du dossier');
+    }
+
+    return response.json();
+  });
+};

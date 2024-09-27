@@ -551,13 +551,13 @@
 // };
 
 // export default function CustomModal({ open, handleClose }) {
-  //   // États pour gérer les valeurs des champs
+//   // États pour gérer les valeurs des champs
 //   const [fields, setFields] = useState({
-  //     field1: '',
-  //     field2: '',
-  //     field3: '',
-  //     field4: '',
-  //     field5: '',
+//     field1: '',
+//     field2: '',
+//     field3: '',
+//     field4: '',
+//     field5: '',
 //     field6: '',
 //     field7: '',
 //     field8: ''
@@ -579,7 +579,7 @@
 //   const validateForm = () => {
 //     const newErrors = {};
 //     Object.keys(fields).forEach((key) => {
-  //       if (!fields[key]) {
+//       if (!fields[key]) {
 //         newErrors[key] = true; // Marquer les champs vides comme erreur
 //       }
 //     });
@@ -589,12 +589,12 @@
 
 //   // Gérer la soumission du formulaire
 //   const handleSubmit = () => {
-  //     if (validateForm()) {
+//     if (validateForm()) {
 //       console.log("Formulaire valide :", fields);
 //       handleClose(); // Ferme la modale si le formulaire est valide
 //     } else {
-  //       console.log("Formulaire invalide");
-  //     }
+//       console.log("Formulaire invalide");
+//     }
 //   };
 
 //   return (
@@ -701,24 +701,24 @@
 // export default function CustomModal({ open, handleClose }) {
 //   // États pour gérer les valeurs des champs
 //   const [fields, setFields] = useState({
-  //     field1: '',
-  //     field2: '',
-  //     field3: '',
-  //     field4: '',
-  //     field5: '',
-  //     field6: '',
-  //     field7: '',
-  //     field8: ''
-  //   });
-  
-  //   // États pour gérer les erreurs
-  //   const [errors, setErrors] = useState({});
-  
-  //   // Gérer la modification des champs
-  //   const handleChange = (e) => {
+//     field1: '',
+//     field2: '',
+//     field3: '',
+//     field4: '',
+//     field5: '',
+//     field6: '',
+//     field7: '',
+//     field8: ''
+//   });
+
+//   // États pour gérer les erreurs
+//   const [errors, setErrors] = useState({});
+
+//   // Gérer la modification des champs
+//   const handleChange = (e) => {
 //     const { id, value } = e.target;
 //     setFields((prevFields) => ({
-  //       ...prevFields,
+//       ...prevFields,
 //       [id]: value
 //     }));
 //   };
@@ -727,7 +727,7 @@
 //   const validateForm = () => {
 //     const newErrors = {};
 //     Object.keys(fields).forEach((key) => {
-  //       if (!fields[key]) {
+//       if (!fields[key]) {
 //         newErrors[key] = true; // Marquer les champs vides comme erreur
 //       }
 //     });
@@ -841,10 +841,10 @@
 // };
 
 // export default function CustomModal({ open, handleClose }) {
-  //   // États pour gérer les valeurs des champs
+//   // États pour gérer les valeurs des champs
 //   const [fields, setFields] = useState({
-  //     field1: '',
-  //     field2: '',
+//     field1: '',
+//     field2: '',
 //     field3: '',
 //     field4: '',
 //     field5: '',
@@ -860,7 +860,7 @@
 //   const handleChange = (e) => {
 //     const { id, value } = e.target;
 //     setFields((prevFields) => ({
-  //       ...prevFields,
+//       ...prevFields,
 //       [id]: value
 //     }));
 //   };
@@ -884,15 +884,15 @@
 //       console.log("Formulaire valide :", fields);
 //       handleClose(); // Ferme la modale si le formulaire est valide
 //     } else {
-  //       console.log("Formulaire invalide");
+//       console.log("Formulaire invalide");
 //     }
 //   };
 
 //   return (
-  //     <Dialog
-  //       open={open}
-  //       onClose={handleClose}
-  //       aria-describedby="custom-modal-slide-description"
+//     <Dialog
+//       open={open}
+//       onClose={handleClose}
+//       aria-describedby="custom-modal-slide-description"
 //       maxWidth="sm"
 //       fullWidth
 //       PaperProps={{
@@ -1013,13 +1013,13 @@
 //   const handleChange = (e) => {
 //     const { id, value } = e.target;
 //     setFields((prevFields) => ({
-  //       ...prevFields,
-  //       [id]: value
-  //     }));
-  //   };
-  
-  //   // Validation du formulaire
-  //   const validateForm = () => {
+//       ...prevFields,
+//       [id]: value
+//     }));
+//   };
+
+//   // Validation du formulaire
+//   const validateForm = () => {
 //     const newErrors = {};
 //     Object.keys(fields).forEach((key) => {
 //       if (!fields[key]) {
@@ -1049,12 +1049,12 @@
 //       maxWidth="sm"
 //       fullWidth
 //       PaperProps={{
-  //         style: { overflow: 'hidden', padding: 0, background: 'transparent' }
+//         style: { overflow: 'hidden', padding: 0, background: 'transparent' }
 //       }}
 //     >
 //       <AnimatePresence>
 //         {open && (
-  //           <motion.div
+//           <motion.div
 //             variants={modalVariants}
 //             initial="hidden"
 //             animate="visible"
@@ -1473,10 +1473,245 @@
 
 
 
-import React, { useState } from 'react';
+// import React, { useState, useEffect } from 'react';
+// import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Slide, TextField, Grid } from '@mui/material';
+// import { motion, AnimatePresence } from 'framer-motion';
+// import { useAddFolder, useGetFolderById } from '../../services/serviceFolder'; // Mettez à jour le chemin d'importation
+
+// const modalVariants = {
+//   hidden: { opacity: 0, scale: 0.1 },
+//   visible: { opacity: 1, scale: 1 },
+//   exit: { opacity: 0, scale: 0.1 }
+// };
+
+// const Transition = React.forwardRef(function Transition(props, ref) {
+//   return <Slide direction="up" ref={ref} {...props} />;
+// });
+
+// export default function CustomModal({ open, handleClose, folderId }) {
+//   const [fields, setFields] = useState({
+//     numero_bordereaux: '',
+//     date_depart: '',
+//     expiditeur: '',
+//     destination: '',
+//     description: '',
+//     nom_depose: '',
+//     prenom_depose: '',
+//     matricule: '',
+//   });
+
+//   const [error, setError] = useState('');
+//   const addFolderMutation = useAddFolder();
+//   const { data: folderData } = useGetFolderById(folderId); // Hook pour récupérer le dossier par ID
+
+//   useEffect(() => {
+//     if (folderData && folderData.id_nature) {
+//       setFields(prevFields => ({
+//         ...prevFields,
+//         numero_bordereaux: folderData.numero_bordereaux || '',
+//         date_depart: new Date(folderData.date_depart).toISOString(),
+//         expiditeur: folderData.expiditeur || '',
+//         destination: folderData.destination || '',
+//         description: folderData.description || '',
+//         nom_depose: folderData.id_nature.nom_depose || '',
+//         prenom_depose: folderData.id_nature.prenom_depose || '',
+//         matricule: folderData.id_nature.matricule || '',
+//       }));
+//       console.log("Données récupérées 1:", folderData.id_nature.matricule);
+//     }
+//   }, [folderData]);
+
+//   useEffect(() => {
+//     console.log("Données récupérées 1:", folderData);
+//     // console.log("Données récupéréesjjj:", folderData.numero_bordereaux);
+//     // console.log("Données récupéréesjjj:", folderData.date_depart);
+//     // console.log("Données récupéréesjjj:", folderData.expiditeur);
+//     // console.log("Données récupéréesjjj:", folderData.destination);
+//     // console.log("Données récupéréesjjj:", folderData.id_nature.description);
+//     // console.log("Données récupéréesjjj:", folderData.id_nature.nom_depose);
+//     // console.log("Données récupéréesjjj:", folderData.id_nature.prenom_depose);
+//     // console.log("Données récupéréesjjj:", folderData.id_nature.matricule);
+//   }, [folderData]);
+
+
+
+//   const handleChange = (e) => {
+//     const { name, value } = e.target;
+//     setFields(prevFields => ({ ...prevFields, [name]: value }));
+//   };
+
+//   const handleSubmit = async () => {
+//     // Vérifiez si tous les champs requis sont remplis
+//     if (!fields.numero_bordereaux || !fields.date_depart || !fields.expiditeur) {
+//       setError('Veuillez remplir tous les champs requis.');
+//       return;
+//     }
+
+//     try {
+//       await addFolderMutation.mutateAsync(fields); // Utilisez mutateAsync pour les promesses
+//       handleClose();
+//     } catch (error) {
+//       console.error('Erreur lors de l\'envoi du formulaire:', error);
+//       setError('Une erreur est survenue lors de l\'ajout du dossier.');
+//     }
+//   };
+
+//   return (
+//     <Dialog
+//       open={open}
+//       TransitionComponent={Transition}
+//       keepMounted
+//       onClose={handleClose}
+//       aria-labelledby="custom-modal-slide-description"
+//       maxWidth="sm"
+//       fullWidth
+//     >
+//       <AnimatePresence>
+//         {open && (
+//           <motion.div
+//             variants={modalVariants}
+//             initial="hidden"
+//             animate="visible"
+//             exit="exit"
+//             transition={{ duration: 0.5 }}
+//           >
+//             <DialogTitle>Formulaire Ajout Dossier</DialogTitle>
+//             <DialogContent>
+//               <form>
+//                 {error && <div style={{ color: 'red' }}>{error}</div>} {/* Affichez l'erreur ici */}
+//                 <Grid container spacing={2}>
+//                   <Grid item xs={12} sm={6}>
+//                     <TextField
+//                       name="numero_bordereaux"
+//                       label="Numéro Bordereaux"
+//                       variant="standard"
+//                       fullWidth
+//                       value={fields.numero_bordereaux} // Remplissage du champ
+//                       onChange={handleChange}
+//                     />
+//                   </Grid>
+//                   <Grid item xs={12} sm={6}>
+//                     <TextField
+//                       type="date"
+//                       name="date_depart"
+//                       label="Date Départ"
+//                       variant="standard"
+//                       fullWidth
+//                       value={fields.date_depart} // Remplissage du champ
+//                       onChange={handleChange}
+//                     />
+//                   </Grid>
+//                   <Grid item xs={12} sm={6}>
+//                     <TextField
+//                       name="expiditeur"
+//                       label="Expediteur"
+//                       variant="standard"
+//                       fullWidth
+//                       value={fields.expiditeur} // Remplissage du champ
+//                       onChange={handleChange}
+//                     />
+//                   </Grid>
+//                   <Grid item xs={12} sm={6}>
+//                     <TextField
+//                       name="destination"
+//                       label="Destination"
+//                       variant="standard"
+//                       fullWidth
+//                       value={fields.destination} // Remplissage du champ
+//                       onChange={handleChange}
+//                     />
+//                   </Grid>
+//                   <Grid item xs={12} sm={6}>
+//                     <TextField
+//                       name="description"
+//                       label="Description"
+//                       variant="standard"
+//                       fullWidth
+//                       value={fields.description} // Remplissage du champ
+//                       onChange={handleChange}
+//                     />
+//                   </Grid>
+//                   <Grid item xs={12} sm={6}>
+//                     <TextField
+//                       name="nom_depose"
+//                       label="Nom Déposé"
+//                       variant="standard"
+//                       fullWidth
+//                       value={fields.nom_depose} // Remplissage du champ
+//                       onChange={handleChange}
+//                     />
+//                   </Grid>
+//                   <Grid item xs={12} sm={6}>
+//                     <TextField
+//                       name="prenom_depose"
+//                       label="Prénom Déposé"
+//                       variant="standard"
+//                       fullWidth
+//                       value={fields.prenom_depose} // Remplissage du champ
+//                       onChange={handleChange}
+//                     />
+//                   </Grid>
+//                   <Grid item xs={12} sm={6}>
+//                     <TextField
+//                       name="matricule"
+//                       label="Matricule"
+//                       variant="standard"
+//                       fullWidth
+//                       value={fields.matricule} // Remplissage du champ
+//                       onChange={handleChange}
+//                     />
+//                   </Grid>
+//                 </Grid>
+//               </form>
+//             </DialogContent>
+//             <DialogActions>
+//               <Button onClick={handleClose}>Fermer</Button>
+//               <Button onClick={handleSubmit} variant="contained" color="primary">
+//                 Confirmer
+//               </Button>
+//             </DialogActions>
+//           </motion.div>
+//         )}
+//       </AnimatePresence>
+//     </Dialog>
+//   );
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Slide, TextField, Grid } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useAddFolder } from '../../services/serviceFolder'; // Mettez à jour le chemin d'importation
+import { useAddFolder, useGetFolderById } from '../../services/serviceFolder';
 
 const modalVariants = {
   hidden: { opacity: 0, scale: 0.1 },
@@ -1488,7 +1723,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function CustomModal({ open, handleClose }) {
+export default function CustomModal({ open, handleClose, folderId }) {
   const [fields, setFields] = useState({
     numero_bordereaux: '',
     date_depart: '',
@@ -1502,6 +1737,28 @@ export default function CustomModal({ open, handleClose }) {
 
   const [error, setError] = useState('');
   const addFolderMutation = useAddFolder();
+  const { data: folderData } = useGetFolderById(folderId); 
+
+  useEffect(() => {
+    // Vérifiez si folderData et folderData.data existent
+    if (folderData && folderData.data) {
+      const formattedDateDepart = new Date(folderData.data.date_depart).toISOString().split('T')[0];
+      setFields(prevFields => ({
+        ...prevFields,
+        numero_bordereaux: folderData.data.numero_bordereaux || '',
+        // date_depart: folderData.data.date_depart || '',
+        date_depart: formattedDateDepart || '', // Formater ici
+        expiditeur: folderData.data.expiditeur || '',
+        destination: folderData.data.destination || '',
+        description: folderData.data.id_nature.description || '',
+        nom_depose: folderData.data.id_nature.nom_depose || '',
+        prenom_depose: folderData.data.id_nature.prenom_depose || '',
+        matricule: folderData.data.id_nature.matricule || '',
+      }));
+    }
+
+    console.log(folderData);
+  }, [folderData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -1509,14 +1766,19 @@ export default function CustomModal({ open, handleClose }) {
   };
 
   const handleSubmit = async () => {
-    // Vérifiez si tous les champs requis sont remplis
     if (!fields.numero_bordereaux || !fields.date_depart || !fields.expiditeur) {
       setError('Veuillez remplir tous les champs requis.');
       return;
     }
-
+  
+    // Vous pouvez formater à nouveau la date ici si nécessaire
+    const formattedFields = {
+      ...fields,
+      date_depart: new Date(fields.date_depart).toISOString(), // Par exemple, si le backend attend un format ISO
+    };
+  
     try {
-      await addFolderMutation.mutateAsync(fields); // Utilisez mutateAsync pour les promesses
+      await addFolderMutation.mutateAsync(formattedFields);
       handleClose();
     } catch (error) {
       console.error('Erreur lors de l\'envoi du formulaire:', error);
@@ -1546,7 +1808,7 @@ export default function CustomModal({ open, handleClose }) {
             <DialogTitle>Formulaire Ajout Dossier</DialogTitle>
             <DialogContent>
               <form>
-                {error && <div style={{ color: 'red' }}>{error}</div>} {/* Affichez l'erreur ici */}
+                {error && <div style={{ color: 'red' }}>{error}</div>} 
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
                     <TextField
@@ -1554,6 +1816,7 @@ export default function CustomModal({ open, handleClose }) {
                       label="Numéro Bordereaux"
                       variant="standard"
                       fullWidth
+                      value={fields.numero_bordereaux}
                       onChange={handleChange}
                     />
                   </Grid>
@@ -1564,6 +1827,7 @@ export default function CustomModal({ open, handleClose }) {
                       label="Date Départ"
                       variant="standard"
                       fullWidth
+                      value={fields.date_depart}
                       onChange={handleChange}
                     />
                   </Grid>
@@ -1573,6 +1837,7 @@ export default function CustomModal({ open, handleClose }) {
                       label="Expediteur"
                       variant="standard"
                       fullWidth
+                      value={fields.expiditeur}
                       onChange={handleChange}
                     />
                   </Grid>
@@ -1582,6 +1847,7 @@ export default function CustomModal({ open, handleClose }) {
                       label="Destination"
                       variant="standard"
                       fullWidth
+                      value={fields.destination}
                       onChange={handleChange}
                     />
                   </Grid>
@@ -1591,6 +1857,7 @@ export default function CustomModal({ open, handleClose }) {
                       label="Description"
                       variant="standard"
                       fullWidth
+                      value={fields.description}
                       onChange={handleChange}
                     />
                   </Grid>
@@ -1600,6 +1867,7 @@ export default function CustomModal({ open, handleClose }) {
                       label="Nom Déposé"
                       variant="standard"
                       fullWidth
+                      value={fields.nom_depose}
                       onChange={handleChange}
                     />
                   </Grid>
@@ -1609,6 +1877,7 @@ export default function CustomModal({ open, handleClose }) {
                       label="Prénom Déposé"
                       variant="standard"
                       fullWidth
+                      value={fields.prenom_depose}
                       onChange={handleChange}
                     />
                   </Grid>
@@ -1618,6 +1887,7 @@ export default function CustomModal({ open, handleClose }) {
                       label="Matricule"
                       variant="standard"
                       fullWidth
+                      value={fields.matricule}
                       onChange={handleChange}
                     />
                   </Grid>

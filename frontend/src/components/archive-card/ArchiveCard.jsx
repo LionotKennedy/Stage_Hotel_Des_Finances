@@ -1,15 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import "./archivecard.scss"
 import folder from "../../assets/images/archive.png"
 import { useNavigate } from 'react-router-dom';
+import { useGetGroupArchive } from '../../services/serviceArchive';
 
 const ArchiveCard = () => {
 
   const navigate = useNavigate();
 
-  // const handleCardClick = () => {
-  //   navigate('/archive/details'); 
-  // };
+
+     // Utilisez le hook pour récupérer les dossiers
+     const { data: groups, isLoading, isError } = useGetGroupArchive();
+
+     useEffect(() => {
+      if (groups) {
+          console.log('Données des archive par groupes:', groups);
+          console.log('Données des data:', groups.data);
+      }
+  }, [groups]);
 
   const handleCardClick = () => {
     // Les données que vous voulez envoyer
