@@ -785,6 +785,8 @@ import { MdEdit, MdDelete, MdVisibility, MdAdd } from 'react-icons/md';
 import { FaArrowUp } from 'react-icons/fa';
 import { AnimatePresence } from 'framer-motion';
 import { useGetFolders } from '../../services/serviceFolder'; // Assurez-vous que le chemin est correct
+import AlertDialogSlide from '../MUI_alert/deleteFolder'; // Importer l'alert modal
+import CustomizedDialogs from '../MUI_read/readFolder'; // Importer l'alert modal
 
 import "./tableResponsive.scss"
 import CustomModal from '../MUI/CustomModal';
@@ -796,17 +798,42 @@ const TableResponsive = () => {
     const [modalOpen, setModalOpen] = useState(false); // État pour gérer l'ouverture/fermeture de la modale
     const [selectedFolderId, setSelectedFolderId] = useState(null); // État pour gérer l'ID du courrier sélectionné
 
+    const [alertOpen, setAlertOpen] = useState(false); // État pour l'alert modal
+    const [deleteFolderId, setDeleteFolderId] = useState(null); // ID pour suppression
+
+    const [alertOpenRead, setAlertOpenRead] = useState(false); // État pour l'alert modal
+    const [readFolderId, setReadFolderId] = useState(null); // ID pour suppression
+
     // Utilisez le hook pour récupérer les dossiers
     const { data: folders, isLoading, isError } = useGetFolders();
 
     // const handleOpenModal = () => setModalOpen(true); // Fonction pour ouvrir la modale
 
-    const handleOpenModal = (folderId) => {
+
+    const [mode, setMode] = useState('add'); // Nouveau état pour le mode de la modale
+
+    const handleOpenModal = (folderId, mode) => {
         setSelectedFolderId(folderId); // Stocke l'ID du courrier sélectionné
+        setMode(mode);
         setModalOpen(true); // Ouvre la modale
     };
+
     const handleCloseModal = () => setModalOpen(false); // Fonction pour fermer la modale
 
+    // Ouvre le modal d'alerte avec l'ID du courrier à supprimer
+    const handleDeleteClick = (folderId) => {
+        setDeleteFolderId(folderId);
+        setAlertOpen(true); // Ouvre l'alert modal
+        console.log(folderId)
+    };
+    
+    // Ouvre le modal d'alerte avec l'ID du courrier à supprimer
+    const handleReadClick = (folderId) => {
+        setReadFolderId(folderId);
+        setAlertOpenRead(true); // Ouvre l'alert modal
+        console.log(folderId)
+    };
+    
     useEffect(() => {
         if (folders && folders.data) {
             folders.data.forEach((folder) => console.log('Folder data:', folder));
@@ -853,7 +880,8 @@ const TableResponsive = () => {
                         <img src={search} alt="Search Icon" />
                     </div>
                     <div className='option_right'>
-                        <MdAdd onClick={handleOpenModal} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
+                        {/* <MdAdd onClick={handleOpenModal} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} /> */}
+                        <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
                     </div>
                 </section>
 
@@ -886,9 +914,9 @@ const TableResponsive = () => {
                                     <td className="td">
                                         {/* <MdEdit className="action-icon icon" title="Update" /> */}
                                         {/* <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal()} /> */}
-                                        <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id)} />
-                                        <MdDelete className="action-icon icon" title="Delete" />
-                                        <MdVisibility className="action-icon icon" title="Read" />
+                                        <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
+                                        <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
+                                        <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
                                     </td>
                                 </tr>
                             ))}
@@ -902,9 +930,13 @@ const TableResponsive = () => {
                             open={modalOpen}
                             handleClose={handleCloseModal}
                             folderId={selectedFolderId} // Passer l'ID du courrier à la modale
+                            mode={mode} // Passer le mode à la modale
                         />
                     )}
                 </AnimatePresence>
+                {/* Inclusion du modal d'alerte */}
+                <AlertDialogSlide open={alertOpen} setOpen={setAlertOpen} folderId={deleteFolderId} />
+                <CustomizedDialogs open={alertOpenRead} setOpen={setAlertOpenRead} folderId={readFolderId} />
             </main>
         </div>
     );
