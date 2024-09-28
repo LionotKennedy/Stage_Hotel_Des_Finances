@@ -1,0 +1,63 @@
+.container__users {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.submit-button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #0056b3;
+}
+
+
+
+
+
+
+
+
+
+.image-preview {
+    max-width: 300px;  // Ajuste cette valeur pour définir la largeur maximale
+    max-height: 300px; // Ajuste cette valeur pour définir la hauteur maximale
+    width: auto;       // Laisse le navigateur calculer la largeur pour maintenir le rapport d'aspect
+    height: auto;      // Laisse le navigateur calculer la hauteur pour maintenir le rapport d'aspect
+    display: block;    // S'assure que l'image est traitée comme un bloc
+    margin: 10px auto; // Centre l'image horizontalement
+    border: 1px solid #ccc; // Optionnel : ajoute une bordure autour de l'image
+    border-radius: 5px; // Optionnel : arrondit les coins de l'image
+    object-fit: cover; // Remplit le conteneur tout en maintenant le rapport d'aspect
+}

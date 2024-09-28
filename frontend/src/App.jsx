@@ -13,6 +13,7 @@ import Profile from './pages/profile/Profile';
 import ArchiveMore from "./pages/archivemore/ArchiveMore";
 import ProtectedRoute from './ProtectedRoute'; // Assurez-vous que le chemin est correct
 import { getProfile } from './services/authServices'; // Importez le service
+import UserPage from "./pages/userpage/UserPage";
 
 
 function App() {
@@ -131,6 +132,7 @@ function App() {
           <Route path="/utilisateur" element={<User />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/archive/details" element={<ArchiveMore />} />
+          <Route path="/profile/profile_page" element={<UserPage />} />
         </Route>
       )}
       <Route path="*" element={<Navigate to="/" />} />

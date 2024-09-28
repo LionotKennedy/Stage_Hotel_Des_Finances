@@ -1,20 +1,402 @@
+// import React, { useEffect, useState } from 'react';
+// import "./profilecard.scss"
+// import user_image from '../../assets/images/photo.jpg';  
+// import { getProfile } from '../../services/authServices'; // Importez le service
+
+// const ProfileCard = () => {
+//     const [userData, setUserData] = useState(null);
+//     const [error, setError] = useState('');
+
+//     useEffect(() => {
+//         const token = localStorage.getItem('token');
+//         const userId = localStorage.getItem('userId');
+
+//         if(token && userId) {
+//             fetchProfileData(userId, token);
+//         } else {
+//             setError("Utilisateur non trouvé. Veuillez vous reconnecter.")
+//         }
+//     }, []);
+
+//     const fetchProfileData = async (userId, token) => {
+//         try {
+//             const profileData = await getProfile(userId, token);
+//             console.log('Données du profil:', profileData);
+
+//             // Mettre à jour les états avec les données du profil
+//             setUserData(profileData);
+//         } catch (error) {
+//             setError(error.message);
+//         }
+//     };
+
+//     return (
+//         <div className="container__profile">
+
+//             <div className="profile__card">
+//                 <div className="image__profile">
+//                     <img src={user_image} alt="" className="profile__img" />
+//                 </div>
+
+//                 <div className="text__data">
+//                     <span className="name">Lionot RAZAFIMANDIMBY</span>
+//                     <span className="job">razafimandimbylionotkennedy@gmail.com</span>
+//                 </div>
+
+//                 <div className="media__buttons">
+//                     {/* style="background: #4267b2;" */}
+//                     <a href="#" className="link facebook">
+//                         <i className="bx bxl-facebook"></i>
+//                     </a>
+//                     {/* style="background: #1da1f2;" */}
+//                     <a href="#" className="link twitter">
+//                         <i className="bx bxl-twitter"></i>
+//                     </a>
+//                     {/* style="background: #e1306c;" */}
+//                     <a href="#" className="link instagram">
+//                         <i className="bx bxl-instagram"></i>
+//                     </a>
+//                     {/* style="background: #ff0000;" */}
+//                     <a href="#" className="link youtube">
+//                         <i className="bx bxl-youtube"></i>
+//                     </a>
+//                 </div>
+//                 <div className="buttons">
+//                     <button className="button__btn">Subscribe</button>
+//                     <button className="button__btn">Message</button>
+//                 </div>
+
+
+//                 <div className="analytics">
+//                     <div className="data">
+//                         <i className="bx bx-heart"></i>
+//                         <span className="number">60k</span>
+//                     </div>
+//                     <div className="data">
+//                         <i className="bx bx-message-rounded"></i>
+//                         <span className="number">20k</span>
+//                     </div>
+//                     <div className="data">
+//                         <i className="bx bx-share"></i>
+//                         <span className="number">12k</span>
+//                     </div>
+//                 </div>
+//             </div>
+//         </div>
+//     )
+// }
+
+// export default ProfileCard
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useEffect, useState } from 'react';
+// import './profilecard.scss';
+// import { getProfile } from '../../services/authServices'; // Importez le service
+
+// const ProfileCard = () => {
+//     const [userData, setUserData] = useState(null);
+//     const [error, setError] = useState('');
+
+//     useEffect(() => {
+//         const token = localStorage.getItem('token');
+//         const userId = localStorage.getItem('userId');
+
+//         if (token && userId) {
+//             fetchProfileData(userId, token);
+//         } else {
+//             setError("Utilisateur non trouvé. Veuillez vous reconnecter.");
+//         }
+//     }, []);
+
+//     const fetchProfileData = async (userId, token) => {
+//         try {
+//             const profileData = await getProfile(userId, token);
+//             console.log('Données du profil:', profileData);
+//             setUserData(profileData);
+//         } catch (error) {
+//             setError(error.message);
+//         }
+//     };
+
+//     return (
+//         <div className="container__profile">
+//             {error && <div className="error">{error}</div>}
+
+//             {userData ? (
+//                 <div className="profile__card">
+//                     <div className="image__profile">
+//                         <img
+//                             src={userData.profileImage || '/default-image-path.jpg'}
+//                             alt="Profile"
+//                             className="profile__img"
+//                         />
+//                     </div>
+
+//                     <div className="text__data">
+//                         <span className="name">{userData.name || "Nom inconnu"}</span>
+//                         <span className="job">{userData.email || "Email inconnu"}</span>
+//                     </div>
+
+//                     <div className="media__buttons">
+//                         <a href={userData.facebook || "#"} className="link facebook">
+//                             <i className="bx bxl-facebook"></i>
+//                         </a>
+//                         <a href={userData.twitter || "#"} className="link twitter">
+//                             <i className="bx bxl-twitter"></i>
+//                         </a>
+//                         <a href={userData.instagram || "#"} className="link instagram">
+//                             <i className="bx bxl-instagram"></i>
+//                         </a>
+//                         <a href={userData.youtube || "#"} className="link youtube">
+//                             <i className="bx bxl-youtube"></i>
+//                         </a>
+//                     </div>
+
+//                     <div className="buttons">
+//                         <button className="button__btn">Subscribe</button>
+//                         <button className="button__btn">Message</button>
+//                     </div>
+
+//                     <div className="analytics">
+//                         <div className="data">
+//                             <i className="bx bx-heart"></i>
+//                             <span className="number">{userData.likes || '0'}</span>
+//                         </div>
+//                         <div className="data">
+//                             <i className="bx bx-message-rounded"></i>
+//                             <span className="number">{userData.comments || '0'}</span>
+//                         </div>
+//                         <div className="data">
+//                             <i className="bx bx-share"></i>
+//                             <span className="number">{userData.shares || '0'}</span>
+//                         </div>
+//                     </div>
+//                 </div>
+//             ) : (
+//                 <div>Chargement des données...</div>
+//             )}
+//         </div>
+//     );
+// };
+
+// export default ProfileCard;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useEffect, useState } from 'react';
+// import "./profilecard.scss";
+// import { getProfile } from '../../services/authServices';
+
+// const ProfileCard = () => {
+//     const [userData, setUserData] = useState(null);
+//     const [error, setError] = useState('');
+//     const [loading, setLoading] = useState(true);
+
+//     useEffect(() => {
+//         const token = localStorage.getItem('token');
+//         const userId = localStorage.getItem('userId');
+
+//         if (token && userId) {
+//             fetchProfileData(userId, token);
+//         } else {
+//             setError("Utilisateur non trouvé. Veuillez vous reconnecter.");
+//         }
+//     }, []);
+
+//     const fetchProfileData = async (userId, token) => {
+//         try {
+//             const profileData = await getProfile(userId, token);
+//             console.log('Données du profil:', profileData);
+
+//             // Mettre à jour les états avec les données du profil
+//             setUserData(profileData.data);
+//             setLoading(false);
+//         } catch (error) {
+//             setError(error.message);
+//             setLoading(false);
+//         }
+//     };
+
+//     if (loading) {
+//         return <div>Loading...</div>;
+//     }
+
+//     if (error) {
+//         return <div>{error}</div>;
+//     }
+
+//     return (
+//         <div className="container__profile">
+//             <div className="profile__card">
+//                 <div className="image__profile">
+//                     <img 
+//                         src={userData.image || user_image} 
+//                         alt={`${userData.name}'s profile picture`} 
+//                         className="profile__img" 
+//                     />
+//                 </div>
+
+//                 <div className="text__data">
+//                     <span className="name">{userData.name}</span>
+//                     <span className="job">{userData.email}</span>
+//                 </div>
+
+//                 <div className="media__buttons">
+//                     <a href="#" className="link facebook">
+//                         <i className="bx bxl-facebook"></i>
+//                     </a>
+//                     <a href="#" className="link twitter">
+//                         <i className="bx bxl-twitter"></i>
+//                     </a>
+//                     <a href="#" className="link instagram">
+//                         <i className="bx bxl-instagram"></i>
+//                     </a>
+//                     <a href="#" className="link youtube">
+//                         <i className="bx bxl-youtube"></i>
+//                     </a>
+//                 </div>
+//                 <div className="buttons">
+//                     <button className="button__btn">Subscribe</button>
+//                     <button className="button__btn">Message</button>
+//                 </div>
+
+//                 <div className="analytics">
+//                     <div className="data">
+//                         <i className="bx bx-heart"></i>
+//                         <span className="number">60k</span>
+//                     </div>
+//                     <div className="data">
+//                         <i className="bx bx-message-rounded"></i>
+//                         <span className="number">20k</span>
+//                     </div>
+//                     <div className="data">
+//                         <i className="bx bx-share"></i>
+//                         <span className="number">12k</span>
+//                     </div>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// }
+
+// export default ProfileCard;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useEffect, useState } from 'react';
-import "./profilecard.scss"
-import user_image from '../../assets/images/photo.jpg';  
+import "./profilecard.scss";
 import { getProfile } from '../../services/authServices'; // Importez le service
+import FullScreenDialog from '../MUI/ProfileModal'; // Importez votre FullScreenDialog
+import { useNavigate } from 'react-router-dom';
+
+
 
 const ProfileCard = () => {
     const [userData, setUserData] = useState(null);
     const [error, setError] = useState('');
+    const [dialogOpen, setDialogOpen] = useState(false); // Nouvel état pour gérer l'ouverture du dialogue
+
+    const navigate = useNavigate();  // Initialisation de useNavigate
 
     useEffect(() => {
         const token = localStorage.getItem('token');
         const userId = localStorage.getItem('userId');
 
-        if(token && userId) {
+        if (token && userId) {
             fetchProfileData(userId, token);
         } else {
-            setError("Utilisateur non trouvé. Veuillez vous reconnecter.")
+            setError("Utilisateur non trouvé. Veuillez vous reconnecter.");
         }
     }, []);
 
@@ -22,50 +404,90 @@ const ProfileCard = () => {
         try {
             const profileData = await getProfile(userId, token);
             console.log('Données du profil:', profileData);
-            
-            // Mettre à jour les états avec les données du profil
-            setUserData(profileData);
+            setUserData(profileData);  // Mettre à jour les états avec les données du profil
         } catch (error) {
             setError(error.message);
         }
     };
 
+    // Fonction pour ouvrir le dialogue
+    const handleOpenDialog = () => {
+        setDialogOpen(true);
+    };
+
+    // Fonction pour fermer le dialogue
+    const handleCloseDialog = () => {
+        setDialogOpen(false);
+    };
+
+    // const handleSubscribeClick = () => {
+    //     navigate('/profile/profile_page');  // Redirection vers la page UserPage
+    // };
+
+    const handleSubscribeClick = () => {
+        if (userData) {
+            const userId = userData.data._id;  // Récupérer l'ID de l'utilisateur
+            navigate('/profile/profile_page', { state: { userId } });  // Passer l'ID à la UserPage
+        }
+    };
+
+    if (error) {
+        return <div>{error}</div>;
+    }
+
+    if (!userData) {
+        return <div>Chargement...</div>;
+    }
+
+    const { name, email, image } = userData.data; // Extraire les informations de l'utilisateur
+    console.log(image);
+
     return (
         <div className="container__profile">
-
             <div className="profile__card">
                 <div className="image__profile">
-                    <img src={user_image} alt="" className="profile__img" />
+                    {/* Afficher l'image récupérée de l'API */}
+                    <img
+                        // src={`http://127.0.0.1:9876/${image}`} 
+                        // alt="Profile Image" 
+                        // className="profile__img" 
+                        src={`http://127.0.0.1:9876/uploads/${image}`}
+                        alt="Profile Image"
+                        className="profile__img"
+                    />
                 </div>
 
                 <div className="text__data">
-                    <span className="name">Lionot RAZAFIMANDIMBY</span>
-                    <span className="job">razafimandimbylionotkennedy@gmail.com</span>
+                    {/* Afficher le nom et l'email récupérés */}
+                    <span className="name">{name}</span>
+                    <span className="job">{email}</span>
                 </div>
 
                 <div className="media__buttons">
-                    {/* style="background: #4267b2;" */}
                     <a href="#" className="link facebook">
                         <i className="bx bxl-facebook"></i>
                     </a>
-                    {/* style="background: #1da1f2;" */}
                     <a href="#" className="link twitter">
                         <i className="bx bxl-twitter"></i>
                     </a>
-                    {/* style="background: #e1306c;" */}
                     <a href="#" className="link instagram">
                         <i className="bx bxl-instagram"></i>
                     </a>
-                    {/* style="background: #ff0000;" */}
                     <a href="#" className="link youtube">
                         <i className="bx bxl-youtube"></i>
                     </a>
                 </div>
-                <div className="buttons">
-                    <button className="button__btn">Subscribe</button>
-                    <button className="button__btn">Message</button>
-                </div>
 
+                <div className="buttons">
+                    {/* <button className="button__btn">Subscribe</button> */}
+                    {/* <button className="button__btn">Message</button> */}
+                    <button className="button__btn" onClick={handleSubscribeClick}>
+                        Subscribe
+                    </button>
+                    <button className="button__btn" onClick={handleOpenDialog}>
+                        Message
+                    </button>
+                </div>
 
                 <div className="analytics">
                     <div className="data">
@@ -82,8 +504,10 @@ const ProfileCard = () => {
                     </div>
                 </div>
             </div>
+            {/* Appel du composant FullScreenDialog */}
+            <FullScreenDialog open={dialogOpen} handleClose={handleCloseDialog} />
         </div>
-    )
+    );
 }
 
-export default ProfileCard
+export default ProfileCard;

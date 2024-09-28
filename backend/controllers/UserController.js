@@ -156,7 +156,7 @@ const editUsers = async (req, res) => {
     const baseUrl = `${req.protocol}://${req.get("host")}`;
     const imageUrl = user.image
       ? `${baseUrl}/uploads/${user.image}`
-      : `${baseUrl}/uploads_default/user.png`;
+      : `${baseUrl}/uploads/uploads_default/user.png`;
 
     const userData = {
       name: user.name,
@@ -213,7 +213,7 @@ const updateUsers = async (req, res) => {
       updateObj.image = imagePath;
 
       // Supprimer l'ancienne image si elle existe
-      if (userExists.image && userExists.image !== "uploads_default/user.png") {
+      if (userExists.image && userExists.image !== "uploads/uploads_default/user.png") {
         const oldImagePath = path.join(
           __dirname,
           "../uploads",
