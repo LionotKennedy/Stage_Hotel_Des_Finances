@@ -58,9 +58,6 @@ export const useGetFolderById = (folderId) => {
   });
 };
 
-
-
-
 export const useUpdateFolder = () => {
   return useMutation(['updateFolder'], ({ folderId, data }) =>
     fetch(`${API_URL}/update_folder/${folderId}`, {
@@ -74,24 +71,6 @@ export const useUpdateFolder = () => {
     .then(res => res.json())
   );
 };
-
-
-
-// export const useDeleteFolder = () => {
-//   return useMutation(['deleteFolder'], ({ folderId }) =>
-//     fetch(`${API_URL}/delete_folder/${folderId}`, {
-//       method: 'DELETE',
-//       headers: {
-//         'Content-Type': 'application/json',
-//         Authorization: `Bearer ${localStorage.getItem('token')}`
-//       },
-//       body: JSON.stringify(data)
-//     })
-//     .then(res => res.json())
-    
-//   );
-// };
-
 
 export const useDeleteFolder = () => {
   return useMutation(['deleteFolder'], ({ folderId }) => // Correction du paramètre ici

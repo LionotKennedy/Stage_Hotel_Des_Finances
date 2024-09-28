@@ -1,12 +1,3 @@
-Je comprends que vous voulez ajouter la fonctionnalité de recherche filtrée par défaut basée 
-sur le nom et d'autres informations. Nous allons modifier votre code pour implémenter cette 
-fonctionnalité. Voici comment vous pouvez procéder :
-
-### 1. Modification du composant TableResponsive
-
-Voici le code modifié pour inclure la recherche filtrée par défaut :
-
-```jsx
 import React, { useEffect, useRef, useState } from 'react';
 import search from "../../assets/image/search.png"
 import { MdEdit, MdDelete, MdVisibility, MdAdd } from 'react-icons/md';
@@ -169,6 +160,12 @@ const TableResponsive = () => {
                             mode={mode}
                         />
                     )}
-                </An
+                    </AnimatePresence>
+                    <AlertDialogSlide open={alertOpen} setOpen={setAlertOpen} folderId={deleteFolderId} />
+                <CustomizedDialogs open={alertOpenRead} setOpen={setAlertOpenRead} folderId={readFolderId} />
+            </main>
+        </div>
+    );
+}
 
-Citations:
+export default TableResponsive;

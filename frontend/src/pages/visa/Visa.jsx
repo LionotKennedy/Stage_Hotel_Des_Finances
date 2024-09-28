@@ -3,6 +3,7 @@ import "./visa.scss"
 import customerList from '../../Data/user.json'
 import TablePersonalize from '../../components/table/TablePersonalize'
 import { MdEdit, MdDelete, MdVisibility } from 'react-icons/md';
+import TableVisa from '../../components/table/TableVisa';
 
 
 const customerTableHead = [
@@ -55,13 +56,14 @@ const handleDelete = (id) => {
 const Visa = () => {
   return (
     <div className='rowc container__visa'>
-      <TablePersonalize
+      {/* <TablePersonalize
         limit='10'
         headData={customerTableHead}
         renderHead={(item, index) => renderHead(item, index)}
         bodyData={customerList}
         renderBody={(item, index) => renderBody(item, index)}
-      />
+      /> */}
+      <TableVisa />
     </div>
   )
 }

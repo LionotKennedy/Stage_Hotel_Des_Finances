@@ -1,26 +1,17 @@
-Je comprends que vous voulez ajouter la fonctionnalité de recherche filtrée par défaut basée 
-sur le nom et d'autres informations. Nous allons modifier votre code pour implémenter cette 
-fonctionnalité. Voici comment vous pouvez procéder :
-
-### 1. Modification du composant TableResponsive
-
-Voici le code modifié pour inclure la recherche filtrée par défaut :
-
-```jsx
 import React, { useEffect, useRef, useState } from 'react';
+import "./tableResponsive.scss"
 import search from "../../assets/image/search.png"
 import { MdEdit, MdDelete, MdVisibility, MdAdd } from 'react-icons/md';
-import { FaArrowUp } from 'react-icons/fa';
+// import { FaArrowUp } from 'react-icons/fa';
 import { AnimatePresence } from 'framer-motion';
-import { useGetFolders } from '../../services/serviceFolder';
-import AlertDialogSlide from '../MUI_alert/deleteFolder';
-import CustomizedDialogs from '../MUI_read/readFolder';
-import CustomModal from '../MUI/CustomModal';
+import { useGetVisa } from '../../services/serviceVisa';
+import AlertDialogSlideVisa from '../MUI_alert/deleteVisa';
+import CustomizedVisaDialogs from '../MUI_read/readVisa';
+import VisaModal from '../MUI/VisaModal';
 
-const TableResponsive = () => {
+const TableVisa = () => {
     const tableRef = useRef(null);
     const searchRef = useRef(null);
-    const [searchTerm, setSearchTerm] = useState('');
     const [searchType, setSearchType] = useState('name');
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedFolderId, setSelectedFolderId] = useState(null);
@@ -28,8 +19,8 @@ const TableResponsive = () => {
     const [deleteFolderId, setDeleteFolderId] = useState(null);
     const [alertOpenRead, setAlertOpenRead] = useState(false);
     const [readFolderId, setReadFolderId] = useState(null);
-
-    const { data: folders, isLoading, isError } = useGetFolders();
+    const { data: folders, isLoading, isError } = useGetVisa();
+    const [mode, setMode] = useState('add');
 
     const handleOpenModal = (folderId, mode) => {
         setSelectedFolderId(folderId);
@@ -42,18 +33,20 @@ const TableResponsive = () => {
     const handleDeleteClick = (folderId) => {
         setDeleteFolderId(folderId);
         setAlertOpen(true);
+        console.log(folderId)
     };
-    
+
     const handleReadClick = (folderId) => {
         setReadFolderId(folderId);
         setAlertOpenRead(true);
+        console.log(folderId)
     };
 
     useEffect(() => {
         if (folders && folders.data) {
             folders.data.forEach((folder) => console.log('Folder data:', folder));
         }
-    }, [folders]);
+    }, [folders])
 
     useEffect(() => {
         const searchInput = searchRef.current;
@@ -63,9 +56,9 @@ const TableResponsive = () => {
         const searchTable = () => {
             tableRows.forEach((row, i) => {
                 let table_data = row.textContent.toLowerCase(),
-                    search_data = searchTerm.toLowerCase();
+                    search_data = searchInput.value.toLowerCase();
 
-                row.classList.toggle('hide', !table_data.includes(search_data));
+                row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
                 row.style.setProperty('--delay', i / 25 + 's');
             });
 
@@ -80,32 +73,7 @@ const TableResponsive = () => {
         return () => {
             searchInput.removeEventListener('input', searchTable);
         };
-    }, [searchTerm]);
-
-    const filterRows = (rows, searchTerm, searchType) => {
-        switch(searchType) {
-            case 'name':
-                return rows.filter(row => row.textContent.toLowerCase().includes(searchTerm.toLowerCase()));
-            case 'id':
-                return rows.filter(row => row.cells[1].textContent.includes(searchTerm));
-            default:
-                return rows;
-        }
-    };
-
-    useEffect(() => {
-        if (folders && folders.data) {
-            const filteredRows = filterRows(Array.from(tableRef.current.querySelectorAll('tbody tr')), searchTerm, searchType);
-            filteredRows.forEach((row, index) => {
-                row.style.display = 'table-row';
-            });
-            Array.from(tableRef.current.querySelectorAll('tbody tr')).forEach(row => {
-                if (!filteredRows.includes(row)) {
-                    row.style.display = 'none';
-                }
-            });
-        }
-    }, [folders, searchTerm, searchType]);
+    }, []);
 
     return (
         <div className='container__table'>
@@ -128,28 +96,22 @@ const TableResponsive = () => {
                     <table className='table'>
                         <thead className='thead'>
                             <tr>
-                                <th className='th'>ID Courrier <span className="icon-arrow"><FaArrowUp /></span></th>
-                                <th className='th'>Nom <span className="icon-arrow"><FaArrowUp /></span></th>
-                                <th className='th'>Prénom <span className="icon-arrow"><FaArrowUp /></span></th>
-                                <th className='th'>Matricule <span className="icon-arrow"><FaArrowUp /></span></th>
-                                <th className='th'>Expediteur <span className="icon-arrow"><FaArrowUp /></span></th>
-                                <th className='th'>Destination <span className="icon-arrow"><FaArrowUp /></span></th>
-                                <th className='th'>Numero Bordereaux <span className="icon-arrow"><FaArrowUp /></span></th>
-                                <th className='th'>Date Départ <span className="icon-arrow"><FaArrowUp /></span></th>
-                                <th className='th'>Actions <span className="icon-arrow"><FaArrowUp /></span></th>
+                                <th className='th'>ID Visa </th>
+                                <th className='th'>Numero </th>
+                                <th className='th'>Nom </th>
+                                <th className='th'>Prénom </th>
+                                <th className='th'>Reference </th>
+                                <th className='th'>Actions </th>
                             </tr>
                         </thead>
                         <tbody className='tbody'>
                             {folders && folders.data && folders.data.map((folder, index) => (
                                 <tr key={index}>
                                     <td className="td">{folder._id}</td>
-                                    <td className="td">{folder.id_nature.nom_depose}</td>
-                                    <td className="td">{folder.id_nature.prenom_depose}</td>
-                                    <td className="td">{folder.id_nature.matricule}</td>
-                                    <td className="td">{folder.expiditeur}</td>
-                                    <td className="td">{folder.destination}</td>
-                                    <td className="td">{folder.numero_bordereaux}</td>
-                                    <td className="td">{new Date(folder.date_depart).toLocaleDateString()}</td>
+                                    <td className="td">{folder.numero_visa}</td>
+                                    <td className="td">{folder.nom_depose_visa}</td>
+                                    <td className="td">{folder.prenom_depose_visa}</td>
+                                    <td className="td">{folder.reference}</td>
                                     <td className="td">
                                         <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
                                         <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
@@ -162,13 +124,19 @@ const TableResponsive = () => {
                 </section>
                 <AnimatePresence>
                     {modalOpen && (
-                        <CustomModal
+                        <VisaModal
                             open={modalOpen}
                             handleClose={handleCloseModal}
-                            folderId={selectedFolderId}
-                            mode={mode}
+                            folderId={selectedFolderId} // Passer l'ID du courrier à la modale
+                            mode={mode} // Passer le mode à la modale
                         />
                     )}
-                </An
+                </AnimatePresence>
+                <AlertDialogSlideVisa open={alertOpen} setOpen={setAlertOpen} folderId={deleteFolderId} />
+                <CustomizedVisaDialogs open={alertOpenRead} setOpen={setAlertOpenRead} folderId={readFolderId} />
+            </main>
+        </div>
+    )
+}
 
-Citations:
+export default TableVisa
