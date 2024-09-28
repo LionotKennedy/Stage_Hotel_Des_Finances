@@ -2,6 +2,7 @@ import React from 'react'
 import "./archivemore.scss"
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
+import TableArchive from '../../components/table/TableArchive';
 
 const ArchiveMore = () => {
     const navigate = useNavigate();
@@ -30,6 +31,7 @@ const ArchiveMore = () => {
             <p>Date début : {dateDebut}</p>
             <p>Salaire : {salaire}</p>
             <p>Date expiration : {dateExpiration}</p>
+            <TableArchive />
         </div>
     )
 }
