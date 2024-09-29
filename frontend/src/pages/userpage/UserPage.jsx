@@ -26,19 +26,12 @@ const UserPage = () => {
                 image: null
             });
 
-            const getUserImageSrc = (imagePath) => {
-                if (imagePath.startsWith('uploads/')) {
-                    return `http://127.0.0.1:9876${imagePath.replace('uploads/', '')}`;
-                } else {
-                    return `http://127.0.0.1:9876${imagePath}`;
-                }
-            };
-
-            setImagePreview(getUserImageSrc(userData.data.image));
+            setImagePreview(userData.data.image);
             
-            console.log('Données du formulaire:', userData.data);
+            // console.log('Données du formulaire:', userData.data);
             console.log('Données du formulairelll:', userData.data.image);
-            console.log('Données du formulaireccc:', imagePreview);
+            // console.log('Données du formulaireccc:', imagePreview);
+            // console.log('Données du formulaireccc:', imagePath);
         }
     }, [userData]);
 
