@@ -7,15 +7,15 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
-import { useDeleteVisa } from '../../services/serviceVisa';
+import { useDeleteArchive } from '../../services/serviceArchive';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function AlertDialogSlideVisa({ open, setOpen, folderId }) {
+export default function AlertDialogArchiveSlide({ open, setOpen, folderId }) {
 
-    const deleteVisaMutation = useDeleteVisa();
+    const deleteArchiveMutation = useDeleteArchive();
 
     const handleClose = () => {
         setOpen(false);
@@ -26,7 +26,7 @@ export default function AlertDialogSlideVisa({ open, setOpen, folderId }) {
         console.log(folderId);
 
         try {
-            await deleteVisaMutation.mutateAsync({folderId});
+            await deleteArchiveMutation.mutateAsync({folderId});
             console.log("Supprimer le dossier avec ID:", folderId);
             setOpen(false);
         } catch (error) {
@@ -43,10 +43,10 @@ export default function AlertDialogSlideVisa({ open, setOpen, folderId }) {
             onClose={handleClose}
             aria-describedby="alert-dialog-slide-description"
         >
-            <DialogTitle>{"Confirmation de suppression..."}</DialogTitle>
+            <DialogTitle>{"Confirmation de suppression"}</DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-slide-description">
-                    Êtes-vous sûr de vouloir supprimer le visa avec l'ID: {folderId} ?
+                    Êtes-vous sûr de vouloir supprimer le archive avec l'ID: {folderId} ?
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

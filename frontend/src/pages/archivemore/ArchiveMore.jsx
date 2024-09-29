@@ -170,7 +170,7 @@ const ArchiveMore = () => {
             </div>
             <h1>Détails de l'archive pour l'année {year}</h1>
             {/* Afficher les archives si elles sont disponibles */}
-            {data && data.data.length > 0 ? (
+            {/* {data && data.data.length > 0 ? (
                 <div>
                     <p>Nombre d'archives : {data.data.length}</p>
                     <ul>
@@ -190,7 +190,7 @@ const ArchiveMore = () => {
                 </div>
             ) : (
                 <p>Aucune archive trouvée pour cette année.</p>
-            )}
+            )} */}
             {/* <TableArchive /> */}
              {/* Afficher le tableau des archives si les données sont disponibles */}
              <TableArchive archives={data ? data.data : []} />
