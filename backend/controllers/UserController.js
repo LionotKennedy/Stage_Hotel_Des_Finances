@@ -137,6 +137,53 @@ const getUsers = async (req, res) => {
 };
 // ############### ENDING #################//
 
+// // ############### EDIT USERS #################//
+// const editUsers = async (req, res) => {
+//   try {
+//     const { id } = req.params; // Récupérer l'ID depuis les paramètres de la requête
+
+//     // Rechercher un seul utilisateur par son ID
+//     const user = await User.findOne({ _id: id });
+
+//     if (!user) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "User not found...",
+//       });
+//     }
+
+//     // Construction de l'URL complète de l'image
+//     const baseUrl = `${req.protocol}://${req.get("host")}`;
+//     const imageUrl = user.image
+//       ? `${baseUrl}/uploads/${user.image}`
+//       // ? `${baseUrl}${user.image}`
+//       : `${baseUrl}/uploads/uploads_default/user.png`;
+
+//     const userData = {
+//       name: user.name,
+//       email: user.email,
+//       password: user.password,
+//       role: user.role,
+//       status: user.status,
+//       image: imageUrl,
+//       id: user._id,
+//     };
+
+//     return res.status(200).json({
+//       success: true,
+//       message: "User fetched successfully",
+//       data: userData,
+//     });
+//   } catch (error) {
+//     return res.status(404).json({
+//       success: false,
+//       message: error.message,
+//     });
+//   }
+// };
+// // ############### ENDING #################//
+
+
 // ############### EDIT USERS #################//
 const editUsers = async (req, res) => {
   try {
@@ -154,9 +201,18 @@ const editUsers = async (req, res) => {
 
     // Construction de l'URL complète de l'image
     const baseUrl = `${req.protocol}://${req.get("host")}`;
-    const imageUrl = user.image
-      ? `${baseUrl}/uploads/${user.image}`
-      : `${baseUrl}/uploads/uploads_default/user.png`;
+
+    let imageUrl;
+    if (user.image && user.image.startsWith('uploads/')) {
+      // Si l'image commence par "uploads/", on construit l'URL normalement
+      imageUrl = `${baseUrl}/uploads/${user.image}`;
+    } else if (user.image && !user.image.startsWith('uploads/')) {
+      // Si l'image ne commence pas par "uploads/", on suppose qu'elle est dans le dossier par défaut
+      imageUrl = `${baseUrl}/uploads/uploads_default/${user.image}`;
+    } else {
+      // Si aucune image n'est trouvée, utiliser l'image par défaut
+      imageUrl = `${baseUrl}/uploads/uploads_default/user.png`;
+    }
 
     const userData = {
       name: user.name,
@@ -181,6 +237,8 @@ const editUsers = async (req, res) => {
   }
 };
 // ############### ENDING #################//
+
+
 
 // ############### UPDATE USERS #################//
 const updateUsers = async (req, res) => {

@@ -379,3 +379,146 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const UserPage = () => {
+//     const location = useLocation();
+//     const userId = location.state?.userId; // Récupérer l'ID utilisateur depuis l'état
+//     const { mutate: updateUser } = useUpdateUser(); // Utilisation du hook pour la mise à jour
+
+//     const { data: userData, error, isLoading } = useGetUserById(userId); // Récupérer les données utilisateur
+//     const [formData, setFormData] = useState({
+//         name: '',
+//         email: '',
+//         // password: '',
+//         image: null // Changer à null pour gérer le fichier
+//     });
+//     const [imagePreview, setImagePreview] = useState(''); // État pour prévisualiser l'image
+
+//     // useEffect(() => {
+//     //     if (userData && userData.data) {
+//     //         setFormData({
+//     //             name: userData.data.name || '',
+//     //             email: userData.data.email || '',
+//     //             // password: '',
+//     //             image: null
+//     //         });
+//     //         setImagePreview(`${userData.data.image}`);
+//     //             console.log('Données du formulaire:', userData.data.image);
+//     //             console.log('Données du formulaire:', userData.data);
+//     //             console.log('Données du formulaire:', userData);
+//     //             console.log('Données du formulaire:', imagePreview);
+//     //     }
+//     // }, [userData]);
+
+
+//     useEffect(() => {
+//         if (userData && userData.data) {
+//             setFormData({
+//                 name: userData.data.name || '',
+//                 email: userData.data.email || '',
+//                 image: null
+//             });
+
+//             const getUserImageSrc = (imagePath) => {
+//                 if (imagePath.startsWith('uploads_default')) {
+//                     return `${userData.data.image}`;
+//                 } else {
+//                     return `${userData.data.image}`;
+//                 }
+//             };
+
+//             setImagePreview(getUserImageSrc(userData.data.image));
+            
+//             console.log('Données du formulaire:', userData.data);
+//             console.log('Données du formulaire:', imagePreview);
+//         }
+//     }, [userData]);
+
+//     // const handleChange = (e) => {
+//     //     const { name, value, files } = e.target;
+//     //     if (name === 'image') {
+//     //         setFormData({ ...formData, [name]: files[0] });
+//     //         setImagePreview(URL.createObjectURL(files[0]));
+//     //     } else {
+//     //         setFormData({ ...formData, [name]: value });
+//     //     }
+//     // };
+
+//     // const handleSubmit = (e) => {
+//     //     e.preventDefault();
+
+//     //     // Appel de la fonction de mise à jour
+//     //     updateUser({ userId, data: formData }, {
+//     //         onSuccess: () => {
+//     //             console.log('Utilisateur mis à jour avec succès');
+//     //             // Réinitialiser le formulaire après l'envoi
+//     //             setFormData({ name: '', email: '', image: null });
+//     //             setImagePreview('');
+//     //         },
+//     //         onError: (error) => {
+//     //             console.error('Erreur lors de la mise à jour de l\'utilisateur:', error.message);
+//     //         }
+//     //     });
+//     // };
+
+
+//     const handleChange = (e) => {
+//         const { name, value, files } = e.target;
+//         if (name === 'image') {
+//             setFormData({ ...formData, [name]: files[0] });
+//             setImagePreview(URL.createObjectURL(files[0]));
+//         } else {
+//             setFormData({ ...formData, [name]: value });
+//         }
+//     };
+
+//     const handleSubmit = (e) => {
+//         e.preventDefault();
+
+//         updateUser({ userId, data: formData }, {
+//             onSuccess: () => {
+//                 console.log('Utilisateur mis à jour avec succès');
+//                 setFormData({ name: '', email: '', image: null });
+//                 setImagePreview('');
+//             },
+//             onError: (error) => {
+//                 console.error('Erreur lors de la mise à jour de l\'utilisateur:', error.message);
+//             }
+//         });
+//     };
+
+
+
+
+
+
+
+

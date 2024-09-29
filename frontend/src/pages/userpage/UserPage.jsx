@@ -7,31 +7,38 @@ import { useUpdateUser } from '../../services/serviceUser'; // Ajuste le chemin 
 
 const UserPage = () => {
     const location = useLocation();
-    const userId = location.state?.userId; // Récupérer l'ID utilisateur depuis l'état
-    const { mutate: updateUser } = useUpdateUser(); // Utilisation du hook pour la mise à jour
+    const userId = location.state?.userId;
+    const { mutate: updateUser } = useUpdateUser();
 
-    const { data: userData, error, isLoading } = useGetUserById(userId); // Récupérer les données utilisateur
+    const { data: userData, error, isLoading } = useGetUserById(userId);
     const [formData, setFormData] = useState({
         name: '',
         email: '',
-        // password: '',
-        image: null // Changer à null pour gérer le fichier
+        image: null
     });
-    const [imagePreview, setImagePreview] = useState(''); // État pour prévisualiser l'image
+    const [imagePreview, setImagePreview] = useState('');
 
     useEffect(() => {
         if (userData && userData.data) {
             setFormData({
                 name: userData.data.name || '',
                 email: userData.data.email || '',
-                // password: '',
                 image: null
             });
-            setImagePreview(`${userData.data.image}`);
-                console.log('Données du formulaire:', userData.data.image);
-                console.log('Données du formulaire:', userData.data);
-                console.log('Données du formulaire:', userData);
-                console.log('Données du formulaire:', imagePreview);
+
+            const getUserImageSrc = (imagePath) => {
+                if (imagePath.startsWith('uploads/')) {
+                    return `http://127.0.0.1:9876${imagePath.replace('uploads/', '')}`;
+                } else {
+                    return `http://127.0.0.1:9876${imagePath}`;
+                }
+            };
+
+            setImagePreview(getUserImageSrc(userData.data.image));
+            
+            console.log('Données du formulaire:', userData.data);
+            console.log('Données du formulairelll:', userData.data.image);
+            console.log('Données du formulaireccc:', imagePreview);
         }
     }, [userData]);
 
@@ -48,11 +55,9 @@ const UserPage = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Appel de la fonction de mise à jour
         updateUser({ userId, data: formData }, {
             onSuccess: () => {
                 console.log('Utilisateur mis à jour avec succès');
-                // Réinitialiser le formulaire après l'envoi
                 setFormData({ name: '', email: '', image: null });
                 setImagePreview('');
             },
@@ -61,6 +66,7 @@ const UserPage = () => {
             }
         });
     };
+
 
     return (
         <div className='container__users'>

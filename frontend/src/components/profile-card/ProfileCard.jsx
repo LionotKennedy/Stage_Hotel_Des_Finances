@@ -39,7 +39,7 @@ const ProfileCard = () => {
     // Fonction pour ouvrir le dialogue
     const userId = localStorage.getItem('userId');
     const handleOpenDialog = (userId) => {
-        
+
         setSelectedFolderId(userId);
         setDialogOpen(true);
     };
@@ -65,19 +65,58 @@ const ProfileCard = () => {
     }
 
     const { name, email, image } = userData.data; // Extraire les informations de l'utilisateur
-    console.log(image);
+    console.log("Coucou____" + image);
+    // console.log("Coucou"+userData.data);
 
     return (
         <div className="container__profile">
             <div className="profile__card">
                 <div className="image__profile">
                     {/* Afficher l'image récupérée de l'API */}
-                    <img
+                    {/* <img
                         // src={`http://127.0.0.1:9876/${image}`} 
                         // alt="Profile Image" 
                         // className="profile__img" 
                         // src={`http://127.0.0.1:9876/uploads/${image}`}
+
                         src={`http://127.0.0.1:9876${image}`}
+                        alt="Profile Image"
+                        className="profile__img"
+                    /> */}
+
+                    {/* <img
+                        src={
+                            userData.data.image.startsWith('uploads/')
+                                // ? `http://127.0.0.1:9876/${userData.data.image}`
+                                ? `http://127.0.0.1:9876/${userData.data.image}`
+                                : `http://127.0.0.1:9876/uploads/uploads_default/${userData.data.image}`
+                        }
+                        alt="Profile Image"
+                        className="profile__img"
+                    /> */}
+
+                    {/* <img
+                        src={
+                            userData.data.image.startsWith('uploads/')
+                                ? `http://127.0.0.1:9876/${image}`
+                                : `http://127.0.0.1:9876/uploads/${image}`
+                        }
+                        alt="Profile Image"
+                        className="profile__img"
+                    /> */}
+
+                    {/* <img
+                        src={
+                            image.startsWith('uploads_default/')
+                            ? `http://127.0.0.1:9876/uploads/${image}` // Si l'image est dans "upload_default/", ajouter "uploads/" devant
+                            : `http://127.0.0.1:9876/${image}` // Sinon, garder le chemin de l'image tel quel
+                        }
+                        alt="Profile Image"
+                        className="profile__img"
+                    /> */}
+
+                    <img
+                        src={getImageUrl(image)}
                         alt="Profile Image"
                         className="profile__img"
                     />
@@ -135,5 +174,14 @@ const ProfileCard = () => {
         </div>
     );
 }
+
+const getImageUrl = (image) => {
+    if (image.startsWith('uploads_default')) {
+        return `http://127.0.0.1:9876/uploads/${image}`;
+    } else {
+        return `http://127.0.0.1:9876${image}`;
+    }
+};
+
 
 export default ProfileCard;

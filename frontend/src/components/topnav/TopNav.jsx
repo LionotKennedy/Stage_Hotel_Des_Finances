@@ -84,10 +84,28 @@ const TopNav = ({ onLogout }) => {
     </div>
   );
 
-  // Ajouter une vérification pour éviter les erreurs si userData n'est pas encore disponible
+
+  const getUserImageSrc = (image) => {
+    if (image.startsWith('uploads_default')) {
+      return `http://127.0.0.1:9876/uploads/${image}`;
+    } else {
+      return `http://127.0.0.1:9876${image}`;
+    }
+  };
+
+
+  // // Ajouter une vérification pour éviter les erreurs si userData n'est pas encore disponible
+  // const userToggleContent = userData
+  //   // ? { display_name: userData.name, image: `http://127.0.0.1:9876${userData.image}` }
+  //   // : { display_name: 'Chargement...', image: user_image }; // Image par défaut ou message de chargement
+
+  //   ? { display_name: userData.name, image: `http://127.0.0.1:9876/uploads/${userData.image}` }
+  //   : { display_name: 'Chargement...', image: user_image };
+
+  
   const userToggleContent = userData
-    ? { display_name: userData.name, image: `http://127.0.0.1:9876${userData.image}` }
-    : { display_name: 'Chargement...', image: user_image }; // Image par défaut ou message de chargement
+  ? { display_name: userData.name, image: getUserImageSrc(userData.image) }
+  : { display_name: 'Chargement...', image: user_image };
 
   const renderUserMenu = (item, index) => {
     if (item.content === "Logout") {
