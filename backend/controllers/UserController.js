@@ -294,9 +294,9 @@ const deleteUsers = async (req, res) => {
         errors: errors.array(),
       });
     }
-
+    
     const { id } = req.params;
-
+    
     const userToDelete = await User.findById(id);
 
     if (!userToDelete) {
@@ -322,7 +322,7 @@ const deleteUsers = async (req, res) => {
         }
       });
     }
-
+    
     const deletedUser = await User.findByIdAndDelete({ _id: id });
 
     if (deletedUser) {
@@ -345,4 +345,114 @@ const deleteUsers = async (req, res) => {
 };
 // ############### ENDING #################//
 
-module.exports = { getUsers, editUsers, updateUsers, deleteUsers, createUsers };
+
+// ############### UPDATE ROLE AND STATUS #################//
+const UpdateRoleStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { role, status } = req.body;
+    
+    if (!role || !status) {
+      return res.status(400).json({
+        success: false,
+        message: "Le champ 'role' et 'status' sont requis."
+      });
+    }
+    
+    const userToUpdate = await User.findByIdAndUpdate(
+      { _id: id },
+      { $set: { role, status } },
+      { new: true }
+    );
+    
+    if (!userToUpdate) {
+      return res.status(404).json({
+        success: false,
+        message: "L'utilisateur n'a pas été trouvé."
+      });
+    }
+    
+    return res.status(200).json({
+      success: true,
+      message: "Rôle et statut de l'utilisateur mis à jour avec succès.",
+      data: userToUpdate
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Une erreur s'est produite lors de la mise à jour de l'utilisateur.",
+      error: error.message
+    });
+  }
+};
+// ############### ENDING #################//
+
+// ############### UPDATE PASSWORD USERS #################//
+const UpdatePassword = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { oldPassword, newPassword } = req.body;
+
+    if (!oldPassword || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Les champs 'ancien mot de passe' et 'nouveau mot de passe' sont requis."
+      });
+    }
+
+    const userToUpdate = await User.findById(id);
+
+    if (!userToUpdate) {
+      return res.status(404).json({
+        success: false,
+        message: "L'utilisateur n'a pas été trouvé."
+      });
+    }
+
+    // Vérification du mot de passe actuel
+    const isValidPassword = await bcrypt.compare(oldPassword, userToUpdate.password);
+    
+    if (!isValidPassword) {
+      return res.status(401).json({
+        success: false,
+        message: "Mot de passe actuel incorrect."
+      });
+    }
+
+    // Mise à jour du mot de passe si la vérification est réussie
+    const salt = await bcrypt.genSalt(10);
+    const hashedNewPassword = await bcrypt.hash(newPassword, salt);
+
+    const updatedUser = await User.findByIdAndUpdate(
+      { _id: id },
+      { $set: { password: hashedNewPassword } },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(500).json({
+        success: false,
+        message: "Erreur lors de la mise à jour du mot de passe."
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Mot de passe mis à jour avec succès.",
+      data: updatedUser
+    });
+
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour du mot de passe:", error.message);
+    return res.status(500).json({
+      success: false,
+      message: "Une erreur s'est produite lors de la mise à jour du mot de passe.",
+      error: error.message
+    });
+  }
+};
+
+// ############### ENDING #################//
+
+
+module.exports = { getUsers, editUsers, updateUsers, deleteUsers, createUsers, UpdateRoleStatus, UpdatePassword };

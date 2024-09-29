@@ -23,6 +23,8 @@ const {
   updateUsers,
   deleteUsers,
   createUsers,
+  UpdateRoleStatus,
+  UpdatePassword,
 } = require("../controllers/UserController");
 
 const {
@@ -58,5 +60,8 @@ router.route("/update_user/:id").put(upload.single("image"), verifyToken, update
 
 // Protected route: Only admin can create users
 router.post("/add_user", upload.single("image"), verifyToken, isAdmin, createUsers);
+router.put("/update_role_status/:id", verifyToken, UpdateRoleStatus);
+router.put("/update_password/:id", verifyToken, UpdatePassword);
+
 
 module.exports = router;
