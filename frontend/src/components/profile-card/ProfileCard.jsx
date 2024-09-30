@@ -10,7 +10,8 @@ import { useNavigate } from 'react-router-dom';
 const ProfileCard = () => {
     const [userData, setUserData] = useState(null);
     const [error, setError] = useState('');
-    const [dialogOpen, setDialogOpen] = useState(false); // Nouvel état pour gérer l'ouverture du dialogue
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [selectedFolderId, setSelectedFolderId] = useState(null);
 
     const navigate = useNavigate();  // Initialisation de useNavigate
 
@@ -36,7 +37,10 @@ const ProfileCard = () => {
     };
 
     // Fonction pour ouvrir le dialogue
-    const handleOpenDialog = () => {
+    const userId = localStorage.getItem('userId');
+    const handleOpenDialog = (userId) => {
+        
+        setSelectedFolderId(userId);
         setDialogOpen(true);
     };
 
@@ -106,7 +110,7 @@ const ProfileCard = () => {
                     <button className="button__btn" onClick={handleSubscribeClick}>
                         Subscribe
                     </button>
-                    <button className="button__btn" onClick={handleOpenDialog}>
+                    <button className="button__btn" onClick={() => handleOpenDialog(userId)}>
                         Message
                     </button>
                 </div>
@@ -127,7 +131,7 @@ const ProfileCard = () => {
                 </div>
             </div>
             {/* Appel du composant FullScreenDialog */}
-            <FullScreenDialog open={dialogOpen} handleClose={handleCloseDialog} />
+            <FullScreenDialog open={dialogOpen} handleClose={handleCloseDialog} userId={selectedFolderId} />
         </div>
     );
 }

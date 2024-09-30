@@ -1,3 +1,20 @@
 .container__users{
     padding-top: calc(var(--topnav-height) + 20px);
 } 
+
+.user__add {
+    // padding-top: 20px;
+    color: rgb(255, 255, 255);
+    width: 40px;
+    background-color: rgb(36, 140, 181);
+    height: 40px;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    
+    &:hover {
+        background-color: rgb(13, 66, 240);
+        transform: scale(1.1);
+        transition: all 0.1s ease-in-out;
+    }
+}

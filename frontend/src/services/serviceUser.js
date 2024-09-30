@@ -85,6 +85,53 @@ export const useUpdateUser = () => {
 };
 
 
+
+export const useAddUser = () => {
+  return useMutation(['addUser'], (data) =>
+  fetch(`${API_URL}/add_user`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(data)
+  })
+    .then(res => res.json())
+  );
+};
+
+
+
+export const useUpdatePermissionUser = () => {
+  return useMutation(["updateUser"], async ({ userId, data }) => {
+    // Créer une instance de FormData
+    const formData = new FormData();
+
+    // Ajouter chaque champ à FormData
+    formData.append("role", data.role);
+    formData.append("status", data.status);
+
+    // Envoyer la requête PUT
+    const response = await fetch(`${API_URL}/update_user/${userId}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`, // Authentification
+        // Pas besoin de définir 'Content-Type' ici, car 'FormData' le gère automatiquement
+      },
+      body: formData,
+    });
+
+    // Vérifier la réponse
+    if (!response.ok) {
+      throw new Error("Erreur lors de la mise à jour de l'utilisateur");
+    }
+
+    return response.json();
+  });
+};
+
+
+
 //   export const useUpdateUser = () => {
 //     return useMutation(['updateUser'], ({ userId, data }) =>
 //       fetch(`${API_URL}/update_user/${userId}`, {

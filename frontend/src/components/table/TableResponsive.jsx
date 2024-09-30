@@ -23,7 +23,7 @@ const TableResponsive = () => {
     const [deleteFolderId, setDeleteFolderId] = useState(null); // ID pour suppression
 
     const [alertOpenRead, setAlertOpenRead] = useState(false); // État pour l'alert modal
-    const [readFolderId, setReadFolderId] = useState(null); // ID pour suppression
+    const [readFolderId, setReadFolderId] = useState(null); // ID pour suppression 
 
     // Utilisez le hook pour récupérer les dossiers
     const { data: folders, isLoading, isError } = useGetFolders();

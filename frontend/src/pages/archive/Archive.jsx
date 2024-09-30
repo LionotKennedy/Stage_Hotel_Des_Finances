@@ -118,7 +118,7 @@ const Archive = () => {
   }
 
   return (
-    <div className='container__archive'>
+    <div className='container__archive'> 
       <h1>Archives</h1>
       {groups?.data && groups.data.length > 0 ? (
         <div className="card-container">

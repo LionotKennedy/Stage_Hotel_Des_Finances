@@ -27,7 +27,8 @@ async function setupJournalCleanup() {
     };
 
     // Exécuter la fonction toutes les minutes
-    setInterval(handleChanges, 60 * 1000); // Exécute toutes les minutes
+    // setInterval(handleChanges, 60 * 1000); // Exécute toutes les minutes
+    setInterval(handleChanges, 60 * 80000); // Exécute toutes les minutes
   });
   
   db.on('close', () => {

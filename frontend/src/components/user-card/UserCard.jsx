@@ -60,28 +60,40 @@
 
 
 
-import React from 'react';
+import React, { useState } from 'react';
 import "./usercard.scss";
 import { MdEdit, MdDelete, MdVisibility } from 'react-icons/md';
+import UserUpdateScreenDialog from '../MUI/UserModalUpdate';
 
 // Le composant reçoit un tableau d'utilisateurs via les props
 const UserCard = ({ users }) => {
+  const [selectedFolderId, setSelectedFolderId] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
   // Si users est indéfini ou vide, afficher un message d'erreur
   if (!users || !Array.isArray(users) || users.length === 0) {
     return <p>Aucun utilisateur trouvé.</p>;
   }
 
+  const handleOpenModal = (userId) => {
+    setSelectedFolderId(userId);
+    console.log(userId)
+    // setMode(mode);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => setModalOpen(false);
+
   return (
-    <div className='container__user'>
+    <div className='container__cards'>
       {users.map((user, index) => (
         <div key={index} className="content_user">
           <div className="user_details">
             <div className="img_user">
               {/* Utilisation d'une image par défaut si l'utilisateur n'a pas d'image */}
-              <img 
-                className="imageUser" 
-                src={user.image ? `http://127.0.0.1:9876/uploads/${user.image}` : "default_user_image.png"} 
-                alt="Profile" 
+              <img
+                className="imageUser"
+                src={user.image ? `http://127.0.0.1:9876/uploads/${user.image}` : "default_user_image.png"}
+                alt="Profile"
               />
             </div>
             <div className="text__user">
@@ -94,12 +106,20 @@ const UserCard = ({ users }) => {
             <div className="info__User">Rôle: {user.role}</div>
             <span>Statut: {user.status}</span><br />
             {/* Icônes d'édition, suppression et vue */}
-            <MdEdit className="icon__user" title="Modifier" />
+            <MdEdit onClick={() => handleOpenModal(user._id)} className="icon__user" title="Modifier" />
             <MdVisibility className="icon__user" title="Afficher" />
             <MdDelete className="icon__user" title="Supprimer" />
           </div>
         </div>
       ))}
+
+      {modalOpen && (
+        <UserUpdateScreenDialog
+          open={modalOpen}
+          handleClose={handleCloseModal}
+          userId={selectedFolderId} // Passer l'ID du courrier à la modale
+        />
+      )}
     </div>
   );
 }

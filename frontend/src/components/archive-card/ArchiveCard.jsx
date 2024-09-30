@@ -237,7 +237,7 @@ const ArchiveCard = ({ groups }) => {
   };
 
   return (
-    <div className='container__cards'>
+    <div className='container__cards'> 
       {groups.map((group, index) => (
         <div key={index} className="content_card" onClick={() => handleCardClick(group._id)}>
           <div className="card_details">
