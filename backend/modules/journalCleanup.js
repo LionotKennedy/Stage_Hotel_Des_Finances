@@ -155,6 +155,70 @@
 
 
 
+// const mongoose = require('mongoose');
+// const Journal = require('../models/Journal');
+
+// async function setupJournalCleanup() {
+//   const db = mongoose.connection;
+//   console.log("Début de la connexion MongoDB...");
+//   db.on('open', async () => {
+//     console.log('Connexion MongoDB établie');
+    
+//     // Initialiser la variable lastInsertTime
+//     let lastUpdateTime = new Date();
+    
+//     // Fonction pour traiter les changements
+//     const handleChanges = async () => {
+//       console.log("Commencement de la vérification des journaux...");
+      
+//       try {
+//         const oneDayAgo = new Date(lastUpdateTime.setDate(lastUpdateTime.getDate() - 1));
+//         console.log(oneDayAgo);
+        
+//         const deletedCount = await Journal.deleteMany({ createdAt: { $lt: oneDayAgo } });
+//         console.log(deletedCount);
+        
+//         console.log(`Vérification terminée. Supprimés ${deletedCount.deletedCount} journaux plus anciens que 1 jour.`);
+        
+//         if (deletedCount.deletedCount > 0) {
+//           console.log('Journaux supprimés avec succès.');
+//         } else {
+//           console.log('Aucun journal n\'a été supprimé.');
+//         }
+//       } catch (err) {
+//         console.error('Erreur lors de la vérification des changements:', err);
+//       }
+//     };
+
+//     // Exécuter la fonction toutes les minutes
+//     setInterval(handleChanges, 60 * 1000); // Exécute toutes les minutes
+    
+//     // Initialiser le premier cycle
+//     handleChanges();
+//   });
+  
+//   db.on('close', () => {
+//     console.log('Connexion MongoDB fermée');
+//   });
+// }
+
+// module.exports = { setupJournalCleanup };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const mongoose = require('mongoose');
 const Journal = require('../models/Journal');
 
@@ -164,20 +228,19 @@ async function setupJournalCleanup() {
   db.on('open', async () => {
     console.log('Connexion MongoDB établie');
     
-    // Initialiser la variable lastInsertTime
-    let lastUpdateTime = new Date();
-    
-    // Fonction pour traiter les changements
+    // Exécuter la fonction toutes les minutes
     const handleChanges = async () => {
       console.log("Commencement de la vérification des journaux...");
       
       try {
-        const oneDayAgo = new Date(lastUpdateTime.setDate(lastUpdateTime.getDate() - 1));
+        const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000); // Date actuelle moins 1 jour
+        const twoMonthsAgo = new Date(Date.now() - 2 * 30 * 24 * 60 * 60 * 1000); // Date actuelle moins 2 mois
+        const threeMonthsAgo = new Date(Date.now() - 3 * 30 * 24 * 60 * 60 * 1000); // Date actuelle moins 3 mois
         console.log(oneDayAgo);
+        console.log(twoMonthsAgo);
+        console.log(threeMonthsAgo);
         
         const deletedCount = await Journal.deleteMany({ createdAt: { $lt: oneDayAgo } });
-        console.log(deletedCount);
-        
         console.log(`Vérification terminée. Supprimés ${deletedCount.deletedCount} journaux plus anciens que 1 jour.`);
         
         if (deletedCount.deletedCount > 0) {
@@ -190,11 +253,11 @@ async function setupJournalCleanup() {
       }
     };
 
-    // Exécuter la fonction toutes les minutes
-    setInterval(handleChanges, 60 * 1000); // Exécute toutes les minutes
-    
     // Initialiser le premier cycle
     handleChanges();
+    
+    // Exécuter la fonction toutes les minutes
+    setInterval(handleChanges, 60 * 1000); // Exécute toutes les minutes
   });
   
   db.on('close', () => {
