@@ -30,6 +30,43 @@
 
 
 
+// const mongoose = require("mongoose");
+
+// const TokenSchema = new mongoose.Schema({
+//   userId: {
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref: 'Users',
+//     required: true
+//   },
+//   token: {
+//     type: String,
+//     required: true,
+//   },
+//   expires: {
+//     type: Date,
+//     default: Date.now,
+//     expires: '3h'
+//   }
+// });
+
+// const Token = mongoose.model("Token", TokenSchema);
+// module.exports = Token;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const mongoose = require("mongoose");
 
 const TokenSchema = new mongoose.Schema({
@@ -45,7 +82,11 @@ const TokenSchema = new mongoose.Schema({
   expires: {
     type: Date,
     default: Date.now,
-    expires: '3h'
+    expires: '3h'  // Expire automatiquement après 3 heures
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
   }
 });
 

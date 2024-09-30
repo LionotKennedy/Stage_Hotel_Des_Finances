@@ -40,7 +40,8 @@ if (xy == null) {
 
 const journalCleanup = require("./modules/journalCleanup");
 // const { archiveOldDatas } = require("./modules/automate");
-const { archiveOldData } = require("./modules/automate");
+// const { archiveOldData } = require("./modules/automate");
+const { archiveOldData, checkAndArchive } = require("./modules/automate");
 const { setupTokenCleanup } = require("./modules/tokenCleanup");
 // const { cleanupExpiredTokens } = require("./modules/tokenCleanup");
 
@@ -55,7 +56,13 @@ app.use("/api", visaRoute);
 // Démarre le job de nettoyage des journaux
 journalCleanup.setupJournalCleanup();
 // archiveOldDatas.archiveOldData();
+
+// Démarrer l'archivage au démarrage
 archiveOldData();
+
+// Planifier la vérification d'archivage toutes les minutes
+setInterval(checkAndArchive, 60 * 1000);
+
 
 setupTokenCleanup();
 // cleanupExpiredTokens();
