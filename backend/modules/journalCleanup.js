@@ -172,7 +172,7 @@ async function setupJournalCleanup() {
       console.log("Commencement de la vérification des journaux...");
       
       try {
-        const oneDayAgo = new Date(lastUpdateTime.setDate(lastUpdateTime.getDate() - 30));
+        const oneDayAgo = new Date(lastUpdateTime.setDate(lastUpdateTime.getDate() - 1));
         console.log(oneDayAgo);
         
         const deletedCount = await Journal.deleteMany({ createdAt: { $lt: oneDayAgo } });
