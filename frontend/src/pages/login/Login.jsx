@@ -37,12 +37,14 @@ const Login = ({ onLogin }) => {
         return () => clearTimeout(timer);
     }, []);
 
+
+    // Reset password handler
     const handleLogin = async () => {
         setLoading(true);
         setMessage('');
         setEmailError(false);
         setPasswordError(false);
-
+    
         if (!email || !password) {
             setMessage('Veuillez remplir tous les champs.');
             if (!email) setEmailError(true);
@@ -50,15 +52,26 @@ const Login = ({ onLogin }) => {
             setLoading(false);
             return;
         }
-
+    
         try {
             const result = await loginMutation.mutateAsync({ email, password });
-
+    
             if (result.success) {
                 const userStatus = result.data.status;
-                console.log('User status:', userStatus); // Debugging purposes, remove in production code!
+                const userRole = result.data.role; // Assurez-vous que le rôle est présent dans les données renvoyées
+                console.log('User status:', userStatus);
+                console.log('User role:', userRole); // Ajoutez ceci pour afficher le rôle dans la console
                 const userId = result.data._id;
-
+    
+                // Affichez un message en fonction du rôle
+                if (userRole === 1) {
+                    console.log('Bienvenue, administrateur !');
+                } else if (userRole === 0) {
+                    console.log('Bienvenue, utilisateur !');
+                } else {
+                    console.log('Rôle inconnu.');
+                }
+    
                 // Vérifiez le statut de l'utilisateur
                 if (userStatus === 'active') {
                     localStorage.setItem('token', result.accessToken);
@@ -67,8 +80,8 @@ const Login = ({ onLogin }) => {
                     console.log("Données utilisateur après connexion:", userData);
                     onLogin(userData);
                     onLogin(result.data);
-                    console.log("Données utilisateur stockées :", result.data); // Vérifie ici
-                    console.log("Id :", userId); // Vérifie ici
+                    console.log("Données utilisateur stockées :", result.data);
+                    console.log("Id :", userId);
                 } else {
                     setMessage('Votre compte est désactivé. Veuillez contacter le support.');
                 }
@@ -82,8 +95,9 @@ const Login = ({ onLogin }) => {
             setLoading(false);
         }
     };
-
-    // Reset password handler
+    
+    
+    
     const handleSendResetCode = async () => {
         setMessage('');
         if (!email) {

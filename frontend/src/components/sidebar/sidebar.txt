@@ -1,0 +1,246 @@
+Je comprends que vous voulez masquer certains éléments du menu de navigation en fonction du rôle de l'utilisateur. Voici comment vous pouvez modifier votre code pour implémenter cette logique :
+
+### Modification du composant Sidebar
+
+Modifiez le composant SideBar comme suit :
+
+```jsx
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import "./sidebar.scss";
+import sidebar_items from '../../Data/Sidebar__route.json';
+import logo from '../../assets/images/logo.png';
+
+const SidebarItem = props => {
+  const active = props.active ? 'active' : '';
+  
+  return (
+    <div className="sidebar__item">
+      <div className={`sidebar__item-inner ${active}`}>
+        <i className={props.icon}></i>
+        <span>
+          {props.title}
+        </span>
+      </div>
+    </div>
+  )
+}
+
+const SideBar = () => {
+  const location = useLocation();
+
+  // Fonction pour filtrer les éléments du menu basé sur le rôle
+  const filteredItems = sidebar_items.filter(item => {
+    // Si le role est 0, masquer les éléments avec route "/journal" et "/utilisateur"
+    if (localStorage.getItem('userRole') === '0') {
+      return item.route !== '/journal' && item.route !== '/utilisateur';
+    }
+    return true; // Sinon, afficher tous les éléments
+  });
+
+  const activeItem = filteredItems.findIndex(item => 
+    location.pathname.startsWith(item.route)
+  );
+  
+  return (
+    <div className='sidebar'>
+      <div className="sidebar__logo">
+        <img className='logo_img' src={logo} alt="company logo" />
+        {/* Bro-Coding */}
+      </div>
+      {filteredItems.map((item, index) => (
+        <Link to={item.route} key={index}>
+          <SidebarItem
+            title={item.display_name}
+            icon={item.icon}
+            active={index === activeItem}
+          />
+        </Link>
+      ))}
+    </div>
+  )
+}
+
+export default SideBar;
+```
+
+### Explications des modifications
+
+1. Nous avons ajouté une fonction `filteredItems` qui filtre les éléments du menu basé sur le rôle de l'utilisateur.
+2. Si le rôle est '0', nous masquons les éléments avec route "/journal" et "/utilisateur".
+3. La fonction `filter` est appliquée à `sidebar_items` avant d'afficher les éléments dans le composant.
+4. Le reste du composant reste inchangé, mais maintenant il utilise `filteredItems` au lieu de `sidebar_items`.
+
+### Points clés à considérer
+
+1. Assurez-vous que le champ 'userRole' est toujours disponible dans le localStorage après la connexion.
+2. Cette approche suppose que vous avez déjà implémenté un système pour stocker le rôle de l'utilisateur dans le localStorage.
+3. Vous pouvez facilement ajuster les routes à cacher ou à afficher en modifiant la condition dans la fonction `filteredItems`.
+
+### Exemple d'utilisation
+
+Pour utiliser cette nouvelle logique, vous n'avez pas besoin de modifier votre fichier App.jsx. Le comportement sera automatiquement pris en charge par le composant SideBar.
+
+Cette modification permettra de masquer les menus "Journal" et "Utilisateur" si le rôle de l'utilisateur est '0'. Pour d'autres rôles, tous les menus seront affichés normalement.
+
+N'oubliez pas de tester cette fonctionnalité avec différents rôles pour vous assurer qu'elle fonctionne comme prévu.
+
+Citations:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Pour gérer l'affichage des éléments du menu de la barre latérale (`Sidebar`) en fonction du rôle de l'utilisateur, tu peux procéder comme suit :
+
+1. **Récupérer le rôle de l'utilisateur** : Assure-toi que tu as accès au rôle de l'utilisateur dans ton composant `Sidebar`.
+
+2. **Filtrer les éléments du menu** : Lorsque tu affiches les éléments du menu, filtre-les en fonction du rôle de l'utilisateur. Par exemple, si le rôle de l'utilisateur est `0`, cache les éléments "Journal" et "Utilisateur".
+
+Voici comment tu peux modifier ton composant `Sidebar` :
+
+### 1. Passer le rôle de l'utilisateur
+
+Assure-toi de passer le rôle de l'utilisateur au composant `Sidebar`. Cela peut provenir de ton contexte global ou être passé en tant que prop.
+
+### 2. Modifier le composant `Sidebar`
+
+Voici un exemple de code modifié pour le composant `Sidebar` :
+
+```javascript
+import React from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import "./sidebar.scss"
+import sidebar_items from '../../Data/Sidebar__route.json'
+import logo from '../../assets/images/logo.png'
+
+const SidebarItem = props => {
+  const active = props.active ? 'active' : ''
+
+  return (
+    <div className="sidebar__item">
+      <div className={`sidebar__item-inner ${active}`}>
+        <i className={props.icon}></i>
+        <span>
+          {props.title}
+        </span>
+      </div>
+    </div>
+  )
+}
+
+const SideBar = ({ userRole }) => { // Recevoir le rôle de l'utilisateur comme prop
+  const location = useLocation()
+
+  const activeItem = sidebar_items.findIndex(item => 
+    location.pathname.startsWith(item.route)
+  );
+
+  // Filtrer les éléments de sidebar en fonction du rôle
+  const filteredSidebarItems = sidebar_items.filter(item => {
+    // Si le rôle est 0, ne pas afficher "Journal" et "Utilisateur"
+    if (userRole === 0) {
+      return item.route !== '/journal' && item.route !== '/utilisateur';
+    }
+    // Pour d'autres rôles, afficher tous les éléments
+    return true;
+  });
+
+  return (
+    <div className='sidebar'>
+      <div className="sidebar__logo">
+        <img className='logo_img' src={logo} alt="company logo" />
+      </div>
+      {
+        filteredSidebarItems.map((item, index) => (
+          <Link to={item.route} key={index}>
+            <SidebarItem
+              title={item.display_name}
+              icon={item.icon}
+              active={index === activeItem}
+            />
+          </Link>
+        ))
+      }
+    </div>
+  )
+}
+
+export default SideBar
+```
+
+### 3. Utiliser le composant Sidebar
+
+Lorsque tu utilises le composant `Sidebar`, passe le rôle de l'utilisateur :
+
+```javascript
+import React from 'react';
+import Sidebar from './Sidebar';
+
+const App = () => {
+  const userRole = 0; // Exemple de rôle d'utilisateur, remplace par la logique réelle
+
+  return (
+    <div>
+      <Sidebar userRole={userRole} />
+      {/* Autres composants */}
+    </div>
+  );
+}
+
+export default App;
+```
+
+### Explication
+
+- **Filtrage des éléments** : Dans le code ci-dessus, les éléments "Journal" et "Utilisateur" sont filtrés lorsque le rôle de l'utilisateur est `0`.
+- **Flexibilité** : Si tu souhaites ajouter d'autres rôles ou modifier la logique d'affichage, tu peux facilement adapter la condition dans le filtre.
+
+N'hésite pas à demander si tu as besoin de plus d'informations ou d'autres ajustements !

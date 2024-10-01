@@ -416,3 +416,141 @@
 // };
 
 // export default Login;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // const handleLogin = async () => {
+    //     setLoading(true);
+    //     setMessage('');
+    //     setEmailError(false);
+    //     setPasswordError(false);
+
+    //     if (!email || !password) {
+    //         setMessage('Veuillez remplir tous les champs.');
+    //         if (!email) setEmailError(true);
+    //         if (!password) setPasswordError(true);
+    //         setLoading(false);
+    //         return;
+    //     }
+
+    //     try {
+    //         const result = await loginMutation.mutateAsync({ email, password });
+
+    //         if (result.success) {
+    //             const userStatus = result.data.status;
+    //             console.log('User status:', userStatus); // Debugging purposes, remove in production code!
+    //             const userId = result.data._id;
+
+    //             // Vérifiez le statut de l'utilisateur
+    //             if (userStatus === 'active') {
+    //                 localStorage.setItem('token', result.accessToken);
+    //                 localStorage.setItem('userId', userId);
+    //                 const userData = await getProfile(userId, result.accessToken);
+    //                 console.log("Données utilisateur après connexion:", userData);
+    //                 onLogin(userData);
+    //                 onLogin(result.data);
+    //                 console.log("Données utilisateur stockées :", result.data); // Vérifie ici
+    //                 console.log("Id :", userId); // Vérifie ici
+    //             } else {
+    //                 setMessage('Votre compte est désactivé. Veuillez contacter le support.');
+    //             }
+    //         } else {
+    //             setMessage(result.message || 'Connexion échouée. Veuillez vérifier vos identifiants.');
+    //         }
+    //     } catch (error) {
+    //         console.error('Erreur lors de la connexion:', error);
+    //         setMessage('Une erreur s\'est produite. Veuillez réessayer.');
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
