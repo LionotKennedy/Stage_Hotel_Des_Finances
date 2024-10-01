@@ -12,7 +12,7 @@ const { validationResult } = require("express-validator");
 // Fonction pour vérifier la connexion Internet
 const checkInternetConnection = () => {
   return new Promise((resolve, reject) => {
-    dns.lookup('google.com', (err) => {
+    dns.lookup("google.com", (err) => {
       if (err && err.code === "ENOTFOUND") {
         reject(new Error("No internet connection"));
       } else {
@@ -22,7 +22,6 @@ const checkInternetConnection = () => {
   });
 };
 // ############### ENDING #################//
-
 
 // ############### CREATE USER #################//
 const createUsers = async (req, res) => {
@@ -50,10 +49,10 @@ const createUsers = async (req, res) => {
       });
     }
 
-    const password = randomstring.generate(6); 
+    const password = randomstring.generate(6);
     const hashPassword = await bcrypt.hash(password, 10);
 
-    let imagePath = "uploads_default/user.png"; 
+    let imagePath = "uploads_default/user.png";
 
     if (req.file) {
       imagePath = `/uploads/${req.file.filename}`;
@@ -63,7 +62,7 @@ const createUsers = async (req, res) => {
       name,
       email,
       password: hashPassword,
-      image: imagePath, 
+      image: imagePath,
     };
 
     if (req.body.role && req.body.role == 1) {
@@ -152,31 +151,31 @@ const editUsers = async (req, res) => {
       });
     }
 
-const baseUrl = `${req.protocol}://${req.get("host")}`;
+    const baseUrl = `${req.protocol}://${req.get("host")}`;
 
-console.log("Image récupérée :", user.image);
+    console.log("Image récupérée :", user.image);
 
-let imageUrl;
-let message;
+    let imageUrl;
+    let message;
 
-if (user.image && user.image.startsWith('/uploads')) {
-  // Si l'image commence par "/uploads", c'est une image personnalisée
-  imageUrl = `${baseUrl}${user.image}`;
-  message = "personnaliser";
-  console.log(message);
-} else if (user.image && user.image.startsWith('uploads_default/')) {
-  // Si l'image commence par "uploads_default/", c'est une image par défaut
-  imageUrl = `${baseUrl}/uploads/${user.image}`;
-  message = "par default";
-  console.log(message);
-} else {
-  // Si aucune image n'est trouvée ou si le chemin n'est pas reconnu, utiliser l'image par défaut
-  imageUrl = `${baseUrl}/uploads/uploads_default/user.png`;
-  message = "par default";
-}
+    if (user.image && user.image.startsWith("/uploads")) {
+      // Si l'image commence par "/uploads", c'est une image personnalisée
+      imageUrl = `${baseUrl}${user.image}`;
+      message = "personnaliser";
+      console.log(message);
+    } else if (user.image && user.image.startsWith("uploads_default/")) {
+      // Si l'image commence par "uploads_default/", c'est une image par défaut
+      imageUrl = `${baseUrl}/uploads/${user.image}`;
+      message = "par default";
+      console.log(message);
+    } else {
+      // Si aucune image n'est trouvée ou si le chemin n'est pas reconnu, utiliser l'image par défaut
+      imageUrl = `${baseUrl}/uploads/uploads_default/user.png`;
+      message = "par default";
+    }
 
-console.log(`Message pour l'image : ${message}`);
-console.log("URL générée pour l'image :", imageUrl);
+    console.log(`Message pour l'image : ${message}`);
+    console.log("URL générée pour l'image :", imageUrl);
 
     const userData = {
       name: user.name,
@@ -201,8 +200,6 @@ console.log("URL générée pour l'image :", imageUrl);
   }
 };
 // ############### ENDING #################//
-
-
 
 // ############### UPDATE USERS #################//
 const updateUsers = async (req, res) => {
@@ -235,7 +232,10 @@ const updateUsers = async (req, res) => {
       updateObj.image = imagePath;
 
       // Supprimer l'ancienne image si elle existe
-      if (userExists.image && userExists.image !== "uploads/uploads_default/user.png") {
+      if (
+        userExists.image &&
+        userExists.image !== "uploads/uploads_default/user.png"
+      ) {
         const oldImagePath = path.join(
           __dirname,
           "../uploads",
@@ -294,9 +294,9 @@ const deleteUsers = async (req, res) => {
         errors: errors.array(),
       });
     }
-    
+
     const { id } = req.params;
-    
+
     const userToDelete = await User.findById(id);
 
     if (!userToDelete) {
@@ -322,7 +322,7 @@ const deleteUsers = async (req, res) => {
         }
       });
     }
-    
+
     const deletedUser = await User.findByIdAndDelete({ _id: id });
 
     if (deletedUser) {
@@ -345,43 +345,43 @@ const deleteUsers = async (req, res) => {
 };
 // ############### ENDING #################//
 
-
 // ############### UPDATE ROLE AND STATUS #################//
 const UpdateRoleStatus = async (req, res) => {
   try {
     const { id } = req.params;
     const { role, status } = req.body;
-    
+
     if (!role || !status) {
       return res.status(400).json({
         success: false,
-        message: "Le champ 'role' et 'status' sont requis."
+        message: "Le champ 'role' et 'status' sont requis.",
       });
     }
-    
+
     const userToUpdate = await User.findByIdAndUpdate(
       { _id: id },
       { $set: { role, status } },
       { new: true }
     );
-    
+
     if (!userToUpdate) {
       return res.status(404).json({
         success: false,
-        message: "L'utilisateur n'a pas été trouvé."
+        message: "L'utilisateur n'a pas été trouvé.",
       });
     }
-    
+
     return res.status(200).json({
       success: true,
       message: "Rôle et statut de l'utilisateur mis à jour avec succès.",
-      data: userToUpdate
+      data: userToUpdate,
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "Une erreur s'est produite lors de la mise à jour de l'utilisateur.",
-      error: error.message
+      message:
+        "Une erreur s'est produite lors de la mise à jour de l'utilisateur.",
+      error: error.message,
     });
   }
 };
@@ -396,7 +396,8 @@ const UpdatePassword = async (req, res) => {
     if (!oldPassword || !newPassword) {
       return res.status(400).json({
         success: false,
-        message: "Les champs 'ancien mot de passe' et 'nouveau mot de passe' sont requis."
+        message:
+          "Les champs 'ancien mot de passe' et 'nouveau mot de passe' sont requis.",
       });
     }
 
@@ -405,17 +406,20 @@ const UpdatePassword = async (req, res) => {
     if (!userToUpdate) {
       return res.status(404).json({
         success: false,
-        message: "L'utilisateur n'a pas été trouvé."
+        message: "L'utilisateur n'a pas été trouvé.",
       });
     }
 
     // Vérification du mot de passe actuel
-    const isValidPassword = await bcrypt.compare(oldPassword, userToUpdate.password);
-    
+    const isValidPassword = await bcrypt.compare(
+      oldPassword,
+      userToUpdate.password
+    );
+
     if (!isValidPassword) {
       return res.status(401).json({
         success: false,
-        message: "Mot de passe actuel incorrect."
+        message: "Mot de passe actuel incorrect.",
       });
     }
 
@@ -432,27 +436,37 @@ const UpdatePassword = async (req, res) => {
     if (!updatedUser) {
       return res.status(500).json({
         success: false,
-        message: "Erreur lors de la mise à jour du mot de passe."
+        message: "Erreur lors de la mise à jour du mot de passe.",
       });
     }
 
     return res.status(200).json({
       success: true,
       message: "Mot de passe mis à jour avec succès.",
-      data: updatedUser
+      data: updatedUser,
     });
-
   } catch (error) {
-    console.error("Erreur lors de la mise à jour du mot de passe:", error.message);
+    console.error(
+      "Erreur lors de la mise à jour du mot de passe:",
+      error.message
+    );
     return res.status(500).json({
       success: false,
-      message: "Une erreur s'est produite lors de la mise à jour du mot de passe.",
-      error: error.message
+      message:
+        "Une erreur s'est produite lors de la mise à jour du mot de passe.",
+      error: error.message,
     });
   }
 };
 
 // ############### ENDING #################//
 
-
-module.exports = { getUsers, editUsers, updateUsers, deleteUsers, createUsers, UpdateRoleStatus, UpdatePassword };
+module.exports = {
+  getUsers,
+  editUsers,
+  updateUsers,
+  deleteUsers,
+  createUsers,
+  UpdateRoleStatus,
+  UpdatePassword,
+};

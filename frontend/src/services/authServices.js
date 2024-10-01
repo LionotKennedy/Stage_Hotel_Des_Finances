@@ -93,42 +93,71 @@ export const useNewPasswordVerification = () => {
 //   }
 // };
 
+// export const getProfile = async (userId, token) => {
+//   try {
+//     const response = await fetch(`${API_URL}/profile/${userId || ""}`, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//         "Content-Type": "application/json",
+//       },
+//     });
+//     const data = await response.json();
+
+//     // Vérifiez si le token est toujours valide
+//     const now = Date.now() / 1000;
+//     if (data.expireAt && data.expireAt < now) {
+//       // throw new Error('Token a expiré');
+//       // console.log( error.message);
+//       localStorage.removeItem("token");
+//       localStorage.removeItem("userId");
+//     }
+
+//     // Si le token est valide, retournez les données
+//     return data;
+//   } catch (error) {
+//     console.error(
+//       "Erreur lors de la récupération du profil utilisateur:",
+//       error
+//     );
+
+//     // Si le token est expiré, supprimez-le et l'ID utilisateur du localStorage
+//     localStorage.removeItem("token");
+//     localStorage.removeItem("userId");
+
+//     throw new Error(
+//       "Échec de la récupération du profil utilisateur foryyyy:" + error.message
+//     );
+//   }
+// };
+
+
+
 export const getProfile = async (userId, token) => {
   try {
-    const response = await fetch(`${API_URL}/profile/${userId || ""}`, {
+    const response = await fetch(`${API_URL}/profile/${userId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
-    const data = await response.json();
 
-    // Vérifiez si le token est toujours valide
-    const now = Date.now() / 1000;
-    if (data.expireAt && data.expireAt < now) {
-      // throw new Error('Token a expiré');
-      // console.log( error.message);
-      localStorage.removeItem("token");
-      localStorage.removeItem("userId");
+    if (!response.ok) {
+      const errorData = await response.json();
+      if (errorData.message === "Token has expired") {
+        throw new Error("Token a expiré");
+      }
     }
 
-    // Si le token est valide, retournez les données
+    const data = await response.json();
     return data;
   } catch (error) {
-    console.error(
-      "Erreur lors de la récupération du profil utilisateur:",
-      error
-    );
-
-    // Si le token est expiré, supprimez-le et l'ID utilisateur du localStorage
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
-
-    throw new Error(
-      "Échec de la récupération du profil utilisateur foryyyy:" + error.message
-    );
+    console.error('Erreur lors de la récupération du profil utilisateur:', error);
+    throw new Error(error.message);
   }
 };
+
+
+
 
 export const logout = async (token) => {
   // const response = await fetch('http://127.0.0.1:9876/api/logout', {
