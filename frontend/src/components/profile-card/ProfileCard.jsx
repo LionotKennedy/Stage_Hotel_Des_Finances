@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 const ProfileCard = () => {
     const [userData, setUserData] = useState(null);
-    const [error, setError] = useState('');
+    const [error, setError] = useState(''); 
     const [dialogOpen, setDialogOpen] = useState(false);
     const [selectedFolderId, setSelectedFolderId] = useState(null);
 

@@ -412,6 +412,7 @@ import "./journal.scss";
 import Table from '../../components/table/Table';
 import { MdEdit, MdDelete, MdVisibility } from 'react-icons/md';
 import { useGetJournals } from '../../services/serviceJournal';
+import JournalDialogs from '../../components/MUI_read/readJournal'; 
 
 
 
@@ -434,6 +435,8 @@ const getUserImageSrc = (image) => {
 const Journal = () => {
   // Utilisez le hook pour récupérer les journaux
   const { data: journals, isLoading, isError } = useGetJournals();
+  const [alertOpenRead, setAlertOpenRead] = useState(false); 
+  const [readFolderId, setReadFolderId] = useState(null);
 
   useEffect(() => {
     if (journals && journals.data) {

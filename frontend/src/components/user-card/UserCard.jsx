@@ -62,13 +62,15 @@
 
 import React, { useState } from 'react';
 import "./usercard.scss";
-import { MdEdit, MdDelete, MdVisibility } from 'react-icons/md';
+import { MdEdit, MdVisibility } from 'react-icons/md';
 import UserUpdateScreenDialog from '../MUI/UserModalUpdate';
+import { useNavigate } from 'react-router-dom';
 
 // Le composant reçoit un tableau d'utilisateurs via les props
 const UserCard = ({ users }) => {
   const [selectedFolderId, setSelectedFolderId] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const navigate = useNavigate();  // Initialisation de useNavigate
   // Si users est indéfini ou vide, afficher un message d'erreur
   if (!users || !Array.isArray(users) || users.length === 0) {
     return <p>Aucun utilisateur trouvé.</p>;
@@ -80,6 +82,18 @@ const UserCard = ({ users }) => {
     // setMode(mode);
     setModalOpen(true);
   };
+  
+  const handleShowClick = (userId) => {
+    console.log("Show")
+    console.log(userId)
+    // setSelectedFolderId(userId);
+    navigate('/utilisateur/show_user', { state: { userId } });  // Passer l'ID à la UserPage
+    if (selectedFolderId) {
+      // const userId = selectedFolderId.data._id;  // Récupérer l'ID de l'utilisateur
+      console.log(userId)
+      // navigate('/utilisateur/show_user', { state: { userId } });  // Passer l'ID à la UserPage
+    }
+};
 
   const handleCloseModal = () => setModalOpen(false);
 
@@ -113,8 +127,8 @@ const UserCard = ({ users }) => {
             <span>Statut: {user.status}</span><br />
             {/* Icônes d'édition, suppression et vue */}
             <MdEdit onClick={() => handleOpenModal(user._id)} className="icon__user" title="Modifier" />
-            <MdVisibility className="icon__user" title="Afficher" />
-            <MdDelete className="icon__user" title="Supprimer" />
+            <MdVisibility className="icon__user" title="Afficher" onClick={() => handleShowClick(user._id)} />
+            {/* <MdDelete className="icon__user" title="Supprimer" /> */}
           </div>
         </div>
       ))}

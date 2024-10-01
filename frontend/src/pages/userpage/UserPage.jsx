@@ -10,7 +10,7 @@ const UserPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const userId = location.state?.userId;
-    const { mutate: updateUser } = useUpdateUser();
+    const { mutate: updateUser } = useUpdateUser(); 
 
     const { data: userData, error, isLoading } = useGetUserById(userId);
     const [formData, setFormData] = useState({
