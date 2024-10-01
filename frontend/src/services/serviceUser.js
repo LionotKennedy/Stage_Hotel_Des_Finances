@@ -115,3 +115,27 @@ export const useAddUser = () => {
       .then(res => res.json())
     );
   };
+
+
+  export const useUpdateUserPassword = () => {
+    return useMutation(['updatePassword'], async ({ userId, oldPassword, newPassword }) => {
+      const response = await fetch(`${API_URL}/update_password/${userId}`, {
+        method: 'PUT', // Utilisez PATCH ou PUT selon votre API
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({
+          oldPassword,
+          newPassword
+        }),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Erreur lors de la mise à jour du mot de passe");
+      }
+  
+      return response.json();
+    });
+  };

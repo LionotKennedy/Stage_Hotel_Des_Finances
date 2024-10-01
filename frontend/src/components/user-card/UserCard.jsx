@@ -83,6 +83,7 @@ const UserCard = ({ users }) => {
 
   const handleCloseModal = () => setModalOpen(false);
 
+
   return (
     <div className='container__cards'>
       {users.map((user, index) => (
@@ -92,7 +93,12 @@ const UserCard = ({ users }) => {
               {/* Utilisation d'une image par défaut si l'utilisateur n'a pas d'image */}
               <img
                 className="imageUser"
-                src={user.image ? `http://127.0.0.1:9876/uploads/${user.image}` : "default_user_image.png"}
+                // src={user.image ? `http://127.0.0.1:9876/uploads/${user.image}` : "default_user_image.png"}
+                src={
+                  user.image.startsWith('uploads_default/')
+                  ? `http://127.0.0.1:9876/uploads/${user.image}` // Si l'image est dans "upload_default/", ajouter "uploads/" devant
+                  : `http://127.0.0.1:9876${user.image}` // Sinon, garder le chemin de l'image tel quel
+              }
                 alt="Profile"
               />
             </div>

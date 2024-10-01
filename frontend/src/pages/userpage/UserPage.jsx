@@ -1,12 +1,14 @@
 
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './userpage.scss'; // Assurez-vous d'avoir un fichier CSS pour le style
 import { useGetUserById } from '../../services/serviceUser'; // Ajuste le chemin en fonction de l'emplacement de ton fichier
 import { useUpdateUser } from '../../services/serviceUser'; // Ajuste le chemin si nécessaire
+import { FaArrowLeft } from 'react-icons/fa';
 
 const UserPage = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const userId = location.state?.userId;
     const { mutate: updateUser } = useUpdateUser();
 
@@ -27,7 +29,7 @@ const UserPage = () => {
             });
 
             setImagePreview(userData.data.image);
-            
+
             // console.log('Données du formulaire:', userData.data);
             console.log('Données du formulairelll:', userData.data.image);
             // console.log('Données du formulaireccc:', imagePreview);
@@ -53,6 +55,7 @@ const UserPage = () => {
                 console.log('Utilisateur mis à jour avec succès');
                 setFormData({ name: '', email: '', image: null });
                 setImagePreview('');
+                navigate('/profile');
             },
             onError: (error) => {
                 console.error('Erreur lors de la mise à jour de l\'utilisateur:', error.message);
@@ -60,11 +63,22 @@ const UserPage = () => {
         });
     };
 
+    const handleBackClick = () => {
+        navigate('/profile');
+    };
 
     return (
         <div className='container__users'>
             <div>
                 <h1>User Page</h1>
+                <div className='icon__back'>
+                    <FaArrowLeft
+                        className='back-icon'
+                        onClick={handleBackClick}
+                        size={44}
+                        style={{ cursor: 'pointer' }}
+                    />
+                </div>
                 {userId ? (
                     <p>ID Utilisateur: {userId}</p> // Afficher l'ID utilisateur
                 ) : (
@@ -97,17 +111,6 @@ const UserPage = () => {
                         required
                     />
                 </div>
-                {/* <div className="form-group">
-                    <label htmlFor="password">Mot de passe:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        required
-                    />
-                </div> */}
                 <div className="form-group">
                     <label htmlFor="image">Image:</label>
                     <input
@@ -115,9 +118,9 @@ const UserPage = () => {
                         id="image"
                         name="image"
                         onChange={handleChange}
-                        required
+                        // required
                     />
-                      {imagePreview && <img src={imagePreview} alt="Prévisualisation" className="image-preview" />} {/* Affiche l'image prévisualisée */}
+                    {imagePreview && <img src={imagePreview} alt="Prévisualisation" className="image-preview" />} {/* Affiche l'image prévisualisée */}
                 </div>
                 {/* <button type="submit" className="submit-button">Envoyer</button> */}
                 <button type="submit" className="submit-button">Envoyer</button>
