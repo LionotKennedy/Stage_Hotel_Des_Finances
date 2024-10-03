@@ -96,7 +96,7 @@ const TableVisa = () => {
                     <table className='table'>
                         <thead className='thead'>
                             <tr>
-                                <th className='th'>ID Visa </th>
+                                {/* <th className='th'>ID Visa </th> */}
                                 <th className='th'>Numero </th>
                                 <th className='th'>Nom </th>
                                 <th className='th'>Prénom </th>
@@ -107,7 +107,7 @@ const TableVisa = () => {
                         <tbody className='tbody'>
                             {folders && folders.data && folders.data.map((folder, index) => (
                                 <tr key={index}>
-                                    <td className="td">{folder._id}</td>
+                                    {/* <td className="td">{folder._id}</td> */}
                                     <td className="td">{folder.numero_visa}</td>
                                     <td className="td">{folder.nom_depose_visa}</td>
                                     <td className="td">{folder.prenom_depose_visa}</td>

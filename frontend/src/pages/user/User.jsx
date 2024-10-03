@@ -5,10 +5,11 @@ import { useGetUser } from '../../services/serviceUser';
 import { MdAdd } from 'react-icons/md';
 import UserScreenDialog from '../../components/MUI/UserModal';
 // import CustomModal from '../../components/MUI/CustomModal';
-// import CalendarComponent from '../../components/calendar/Calendar';
+
+import CalendarComponent from '../../components/calendar/Calendar';
 // import DateRangeCalendarComponent from '../../components/calendar/DateRangeCalendar';
-// import BasicDateCalendar from '../../components/calendar/BasicDateCalendar';
-// import CurrentTime from '../../components/Timer/CurrentTime';
+import BasicDateCalendar from '../../components/calendar/BasicDateCalendar';
+import CurrentTime from '../../components/Timer/CurrentTime';
 // import StyledTimeClock from '../../components/Timer/StyledTimeClock';
 // import MuiCalendarComponent from '../../components/calendar/MuiCalendarComponent';
 
@@ -44,7 +45,9 @@ const User = () => {
 
   return (
     <div className='container__archive'>
+      <div className='add__users'>
       <MdAdd onClick={handleOpenDialog} className="icon_adds user__add" style={{ marginLeft: '10px', fontSize: '24px' }} />
+      </div>
       {users?.data && users.data.length > 0 ? (
         <div className="card-container">
           <UserCard users={users.data} />
@@ -62,11 +65,11 @@ const User = () => {
 
       {/* <CustomModal open={modalOpen} handleClose={handleCloseModal} /> */}
 
-      {/* <CalendarComponent /> */}
-      {/* <MuiCalendarComponent /> */}
       {/* <DateRangeCalendarComponent /> */}
-      {/* <BasicDateCalendar /> */}
-      {/* <CurrentTime /> */}
+      {/* <MuiCalendarComponent /> */}
+      <CalendarComponent />
+      <BasicDateCalendar />
+      <CurrentTime />
       {/* <StyledTimeClock /> */}
     </div>
   )

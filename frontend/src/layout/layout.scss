@@ -190,6 +190,42 @@
 
 
 
+/* RESPONSIVE */
+// @media (max-width: 998px) {
+//     .layout__content{
+    //         padding-left: 0px; 
+//         &.actif {
+    //             padding-left: var(--sidebar-width);
+    //         }
+    //     }
+// }
+
+
+
+
+
+
+// ::-webkit-scrollbar {
+    //     width: 5px;
+    // }
+    
+    // ::-webkit-scrollbar-thumb {
+        //     /* background-color: var(--main-color); */
+        //     // background-image: linear-gradient(to right,
+        //     //         var(--main-color),
+        //     //         var(--second-color));
+//     background-color: rgb(138, 138, 138);
+// }
+
+//     // background-color: var(--main-bg);
+//     background-color: rgb(138, 138, 138);
+//     width: 50px;
+// }
+
+
+
+
+
 .layout {
     color: var(--txt-color);
 }
@@ -201,6 +237,9 @@
     background-color: aqua;
     width: 100%;
     transition: all 0.3s ease-in-out;
+    &.actif {
+        padding-left: 0px;
+    }
 
     @media (max-width: 998px) {
         padding-left: 0px;
@@ -215,36 +254,4 @@
     padding: 30px;
 }
 
-
-/* RESPONSIVE */
-// @media (max-width: 998px) {
-//     .layout__content{
-//         padding-left: 0px; 
-//         &.actif {
-//             padding-left: var(--sidebar-width);
-//         }
-//     }
-// }
-
-
-
-
-
-
-// ::-webkit-scrollbar {
-//     width: 5px;
-// }
-
-// ::-webkit-scrollbar-thumb {
-//     /* background-color: var(--main-color); */
-//     // background-image: linear-gradient(to right,
-//     //         var(--main-color),
-//     //         var(--second-color));
-//     background-color: rgb(138, 138, 138);
-// }
-
 // ::-webkit-scrollbar-track {
-//     // background-color: var(--main-bg);
-//     background-color: rgb(138, 138, 138);
-//     width: 50px;
-// }

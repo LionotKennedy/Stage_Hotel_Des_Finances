@@ -111,7 +111,7 @@ const TableArchive = ({ archives }) => {
                     <table className='table'>
                         <thead className='thead'>
                             <tr>
-                                <th className='th'>ID</th>
+                                {/* <th className='th'>ID</th> */}
                                 <th className='th'>Description</th>
                                 <th className='th'>Nom</th>
                                 <th className='th'>Prénom</th>
@@ -127,7 +127,7 @@ const TableArchive = ({ archives }) => {
                             {archives && archives.length > 0 ? (
                                 archives.map((archive) => (
                                     <tr key={archive._id}>
-                                        <td className="td">{archive._id}</td>
+                                        {/* <td className="td">{archive._id}</td> */}
                                         <td className="td">{archive.description}</td>
                                         <td className="td">{archive.nom_depose}</td>
                                         <td className="td">{archive.prenom_depose}</td>

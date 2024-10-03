@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import search from "../../assets/image/search.png"
 import { MdEdit, MdDelete, MdVisibility, MdAdd } from 'react-icons/md';
-import { FaArrowUp } from 'react-icons/fa';
+import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 import { AnimatePresence } from 'framer-motion';
 import { useGetFolders } from '../../services/serviceFolder'; // Assurez-vous que le chemin est correct
 import AlertDialogSlide from '../MUI_alert/deleteFolder'; // Importer l'alert modal
@@ -101,6 +101,7 @@ const TableResponsive = () => {
                     <div className='option_right'>
                         {/* <MdAdd onClick={handleOpenModal} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} /> */}
                         <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
+                        <FaArrowDown className="icon_add" style={{ marginLeft: '20px', fontSize: '24px' }} />
                     </div>
                 </section>
 
@@ -108,12 +109,13 @@ const TableResponsive = () => {
                     <table className='table'>
                         <thead className='thead'>
                             <tr>
-                                <th className='th'>ID Courrier </th>
+                                {/* <th className='th'>ID Courrier </th> */}
                                 <th className='th'>Nom </th>
                                 <th className='th'>Prénom </th>
                                 <th className='th'>Matricule </th>
                                 <th className='th'>Expediteur </th>
                                 <th className='th'>Destination </th>
+                                <th className='th'>Description </th>
                                 <th className='th'>Numero Bordereaux </th>
                                 <th className='th'>Date Départ </th>
                                 <th className='th'>Actions </th>
@@ -122,12 +124,13 @@ const TableResponsive = () => {
                         <tbody className='tbody'>
                             {folders && folders.data && folders.data.map((folder, index) => (
                                 <tr key={index}>
-                                    <td className="td">{folder._id}</td>
+                                    {/* <td className="td">{folder._id}</td> */}
                                     <td className="td">{folder.id_nature.nom_depose}</td>
                                     <td className="td">{folder.id_nature.prenom_depose}</td>
                                     <td className="td">{folder.id_nature.matricule}</td>
                                     <td className="td">{folder.expiditeur}</td>
                                     <td className="td">{folder.destination}</td>
+                                    <td className="td">{folder.id_nature.description}</td>
                                     <td className="td">{folder.numero_bordereaux}</td>
                                     <td className="td">{new Date(folder.date_depart).toLocaleDateString()}</td>
                                     <td className="td">

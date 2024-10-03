@@ -119,7 +119,7 @@ const Archive = () => {
 
   return (
     <div className='container__archive'> 
-      <h1>Archives</h1>
+      <h1 className='title_archive'>Archives</h1>
       {groups?.data && groups.data.length > 0 ? (
         <div className="card-container">
           {/* Pass groups as a prop to ArchiveCard */}

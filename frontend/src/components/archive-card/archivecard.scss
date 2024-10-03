@@ -1,16 +1,20 @@
 
 .container__card {
-    // background-color: black; 
+    background-color: black; 
+    // text-align: center;
     display: flex;
     justify-content: center;
-    // height: 100vh;
     align-items: center;
 }
 
 
 .content_card {
-    width: 80%;
-    height: 6rem;
+    // width: calc(100% - 80%);
+    // left: 20%;
+    margin-left: 5%;
+    width: 90%;
+    // height: 6rem;
+    // height: 100vh;
     padding: 15px;
     cursor: pointer;
     display: flex;

@@ -10,6 +10,11 @@
     // border-right: 1px solid rgba(164, 164, 164, 0.633);
     z-index: 999;
     transition: all 0.3s ease-in-out;
+    // display: none;
+
+    &.actif {
+        transform: translateX(-100%);
+    }
 
     @media (max-width: 998px) {
         transform: translateX(-100%);

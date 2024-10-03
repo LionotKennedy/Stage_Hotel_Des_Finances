@@ -15,6 +15,7 @@ import Table from '../../components/table/Table'
 import Badge from '../../components/badge/Badge'
 
 import statusCards from '../../Data/status-card-data.json'
+import CalendarComponent from '../../components/calendar/Calendar'
 
 const chartOptions = {
   series: [{
@@ -209,12 +210,12 @@ const Home = () => {
               <h3>top customers</h3>
             </div>
             <div className="card__body">
-              <Table
+              {/* <Table
                 headData={topCustomers.head}
                 renderHead={(item, index) => renderCusomerHead(item, index)}
                 bodyData={topCustomers.body}
                 renderBody={(item, index) => renderCusomerBody(item, index)}
-              />
+              /> */}
             </div>
             <div className="card__footer">
               <Link to='/home'>view all</Link>
@@ -223,20 +224,21 @@ const Home = () => {
         </div>
         <div className="col-8">
           <div className="card">
-            <div className="card__header">
+            {/* <div className="card__header">
               <h3>latest orders</h3>
-            </div>
+            </div> */}
             <div className="card__body">
-              <Table
+              {/* <Table
                 headData={latestOrders.header}
                 renderHead={(item, index) => renderOrderHead(item, index)}
                 bodyData={latestOrders.body}
                 renderBody={(item, index) => renderOrderBody(item, index)}
-              />
+              /> */}
+              <CalendarComponent />
             </div>
-            <div className="card__footer">
+            {/* <div className="card__footer">
               <Link to='/home'>view all</Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

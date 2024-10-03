@@ -457,7 +457,7 @@ const Journal = () => {
     'Action',
     'Détails',
     'Date',
-    'Utilisateur',
+    // 'Utilisateur',
     // 'Image du Journal',
     'Actions', // Colonne pour les actions (modifier, supprimer, lire)
   ];
@@ -478,8 +478,9 @@ const Journal = () => {
         <td>{item.adressEmail}</td>
         <td>{item.action}</td>
         <td>{item.details}</td>
-        <td>{item.date}</td>
-        <td>{item.user}</td>
+        <td>{new Date(item.date).toLocaleDateString()}</td>
+        {/* <td>{item.date}</td> */}
+        {/* <td>{item.user}</td> */}
         <td>
           <MdVisibility onClick={() => handleRead(item._id)} style={{ cursor: 'pointer', marginRight: '10px' }} />
           {/* <MdEdit onClick={() => handleEdit(item._id)} style={{ cursor: 'pointer', marginRight: '10px' }} /> */}
