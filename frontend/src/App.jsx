@@ -240,6 +240,16 @@ import ShowUser from "./pages/showuser/ShowUser";
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState(null);
+  const [userRole, setUserRole] = useState(null); // Add state for user role
+
+  // const handleLogin = (userData, role) => {
+  //   setIsAuthenticated(true);
+  //   setUserRole(role); // Store the role
+  // };
+  // const handleLogin = (userData, role) => {
+  //   setIsAuthenticated(true);
+  //   setUserRole(role); // Store the role
+  // };
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
@@ -252,6 +262,7 @@ function App() {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
+    localStorage.removeItem('userRole');
     setIsAuthenticated(false);
   };
 
@@ -291,6 +302,7 @@ function App() {
         <Route
           path="/"
           element={isAuthenticated ? <Navigate to="/accueil" /> : <Login onLogin={() => setIsAuthenticated(true)} />}
+          // element={isAuthenticated ? <Navigate to="/accueil" /> : <Login onLogin={handleLogin} />}
         />
         {isAuthenticated && (
           <Route element={<Layout onLogout={handleLogout} />}>

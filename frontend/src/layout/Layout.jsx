@@ -7,6 +7,18 @@ import TopNav from '../components/topnav/TopNav';
 import ThemeAction from '../redux/actions/ThemeAction';
 
 const Layout = ({ onLogout }) => {
+  // const Layout = ({ userRole, onLogout }) => {
+  //   useEffect(() => {
+  //     if (userRole !== null) {
+  //       console.log("Rôle de l'utilisateur connecté :", userRole); // Display role in console
+  //     }
+  //   }, [userRole]);
+
+  // const Layout = ({ onLogout }) => {
+  //   useEffect(() => {
+  //     console.log("Rôle de l'utilisateur connecté :", userRole); // Display role in console
+  //   }, [userRole]);
+
   const themeReducer = useSelector(state => state.ThemeReducer);
   const dispatch = useDispatch();
 

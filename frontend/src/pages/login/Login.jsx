@@ -76,10 +76,11 @@ const Login = ({ onLogin }) => {
                 if (userStatus === 'active') {
                     localStorage.setItem('token', result.accessToken);
                     localStorage.setItem('userId', userId);
+                    localStorage.setItem('userRole', userRole);
                     const userData = await getProfile(userId, result.accessToken);
                     console.log("Données utilisateur après connexion:", userData);
-                    onLogin(userData);
-                    onLogin(result.data);
+                    onLogin(userData, userRole);
+                    // onLogin(result.data);
                     console.log("Données utilisateur stockées :", result.data);
                     console.log("Id :", userId);
                 } else {
