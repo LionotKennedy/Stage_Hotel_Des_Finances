@@ -407,12 +407,13 @@
 
 
 
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import "./journal.scss";
 import Table from '../../components/table/Table';
 import { MdEdit, MdDelete, MdVisibility } from 'react-icons/md';
 import { useGetJournals } from '../../services/serviceJournal';
 import JournalDialogs from '../../components/MUI_read/readJournal'; 
+import AlertJournalDialogSlide from '../../components/MUI_alert/deleteJournal'; // Importer l'alert modal
 
 
 
@@ -435,8 +436,12 @@ const getUserImageSrc = (image) => {
 const Journal = () => {
   // Utilisez le hook pour récupérer les journaux
   const { data: journals, isLoading, isError } = useGetJournals();
+
   const [alertOpenRead, setAlertOpenRead] = useState(false); 
   const [readFolderId, setReadFolderId] = useState(null);
+
+  const [alertOpen, setAlertOpen] = useState(false); // État pour l'alert modal
+  const [deleteJournalId, setDeleteJournalId] = useState(null); // ID pour suppression
 
   useEffect(() => {
     if (journals && journals.data) {
@@ -447,12 +452,12 @@ const Journal = () => {
 
   // Définir les colonnes du tableau
   const customerTableHead = [
-    'Action',
-    'Date',
-    'Détails',
-    'Utilisateur',
     'Nom d’utilisateur',
     'Email',
+    'Action',
+    'Détails',
+    'Date',
+    'Utilisateur',
     // 'Image du Journal',
     'Actions', // Colonne pour les actions (modifier, supprimer, lire)
   ];
@@ -469,15 +474,15 @@ const Journal = () => {
   
     return (
       <tr key={index}>
-        <td>{item.action}</td>
-        <td>{item.date}</td>
-        <td>{item.details}</td>
-        <td>{item.user}</td>
         <td>{item.userName}</td>
         <td>{item.adressEmail}</td>
+        <td>{item.action}</td>
+        <td>{item.details}</td>
+        <td>{item.date}</td>
+        <td>{item.user}</td>
         <td>
           <MdVisibility onClick={() => handleRead(item._id)} style={{ cursor: 'pointer', marginRight: '10px' }} />
-          <MdEdit onClick={() => handleEdit(item._id)} style={{ cursor: 'pointer', marginRight: '10px' }} />
+          {/* <MdEdit onClick={() => handleEdit(item._id)} style={{ cursor: 'pointer', marginRight: '10px' }} /> */}
           <MdDelete onClick={() => handleDelete(item._id)} style={{ cursor: 'pointer' }} />
         </td>
       </tr>
@@ -488,16 +493,20 @@ const Journal = () => {
   const handleRead = (id) => {
     console.log('Lire journal avec id:', id);
     // Logique pour lire les détails du journal
+    setReadFolderId(id);
+    setAlertOpenRead(true); // Ouvre l'alert modal
   };
-
+  
   const handleEdit = (id) => {
     console.log('Modifier journal avec id:', id);
     // Logique pour éditer le journal
   };
-
+  
   const handleDelete = (id) => {
     console.log('Supprimer journal avec id:', id);
     // Logique pour supprimer le journal
+    setDeleteJournalId(id);
+    setAlertOpen(true); // Ouvre l'alert modal
   };
 
   // Gérer l'état de chargement et d'erreur
@@ -529,6 +538,8 @@ const Journal = () => {
           </div>
         </div>
       </div>
+      <JournalDialogs open={alertOpenRead} setOpen={setAlertOpenRead} id={readFolderId} />
+      <AlertJournalDialogSlide open={alertOpen} setOpen={setAlertOpen} id={deleteJournalId} />
     </div>
   );
 };

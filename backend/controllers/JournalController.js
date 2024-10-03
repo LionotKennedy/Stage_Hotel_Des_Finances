@@ -39,9 +39,9 @@ const editJournalById = async (req, res) => {
       details: journal.details,
       createdAt: journal.createdAt,
       updatedAt: journal.updatedAt,
-      // date_depart: journal.date_depart,
-      // expiditeur: journal.expiditeur,
-      // destination: journal.destination,
+      userName: journal.userName,
+      adressEmail: journal.adressEmail,
+      imageJournale: journal.imageJournale,
       id: journal._id,
     };
 

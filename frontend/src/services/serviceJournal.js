@@ -24,12 +24,12 @@ export const useGetJournals = () => {
   };
   
 
-  export const useGetJournalById = (folderId) => {
-    return useQuery(['journal', folderId], async () => { // Utilisez une clé de requête unique pour chaque ID
+  export const useGetJournalById = (id) => {
+    return useQuery(['journal', id], async () => { // Utilisez une clé de requête unique pour chaque ID
       const token = localStorage.getItem('token');
       console.log('Token:', token); // Debugging token
       
-      const response = await fetch(`${API_URL}/edit_journal/${folderId}`, { // Ajoutez l'ID au chemin de l'URL
+      const response = await fetch(`${API_URL}/edit_journal/${id}`, { // Ajoutez l'ID au chemin de l'URL
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -47,8 +47,8 @@ export const useGetJournals = () => {
   
 
   export const useDeleteJournal = () => {
-    return useMutation(['deleteJournal'], ({ folderId }) => // Correction du paramètre ici
-      fetch(`${API_URL}/delete_journal/${folderId}`, { // Corrigez l'URL ici
+    return useMutation(['deleteJournal'], ({ id }) => // Correction du paramètre ici
+      fetch(`${API_URL}/delete_journal/${id}`, { // Corrigez l'URL ici
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

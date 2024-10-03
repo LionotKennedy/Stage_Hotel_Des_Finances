@@ -9,7 +9,7 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { FaTimes } from 'react-icons/fa';
-import { useGetArchiveById } from '../../services/serviceArchive';
+import { useGetJournalById } from '../../services/serviceJournal';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -24,13 +24,13 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
 }));
 
-export default function JournalDialogs({ open, setOpen, folderId }) {
+export default function JournalDialogs({ open, setOpen, id }) {
     const handleClose = () => {
         setOpen(false);
     };
 
     // Récupération des données du dossier par ID
-    const { data: folderData, isLoading, error } = useGetArchiveById(folderId);
+    const { data: folderData, isLoading, error } = useGetJournalById(id);
 
     // Gestion des états de chargement et des erreurs
     if (isLoading) {
@@ -43,6 +43,7 @@ export default function JournalDialogs({ open, setOpen, folderId }) {
 
     // Récupération des données du dossier
     const folder = folderData?.data;
+    console.log(folder);
 
     return (
         <React.Fragment>
@@ -52,7 +53,7 @@ export default function JournalDialogs({ open, setOpen, folderId }) {
                 open={open}
             >
                 <DialogTitle sx={{ m: 0, p: 3 }} id="customized-dialog-title">
-                    Informations du Archive
+                    Informations du journeaux
                 </DialogTitle>
                 <IconButton
                     aria-label="close"
@@ -69,28 +70,28 @@ export default function JournalDialogs({ open, setOpen, folderId }) {
                 <DialogContent dividers>
                     {/* Affichage des données du dossier */}
                     <Typography gutterBottom>
-                        <strong>Numéro de bordereau:</strong> {folder?.numero_bordereaux}
+                        <strong>Action : </strong> {folder?.action}
                     </Typography>
                     <Typography gutterBottom>
-                        <strong>Date de départ:</strong> {new Date(folder?.date_depart).toLocaleDateString()}
+                        <strong>Date de creation : </strong> {new Date(folder?.createdAt).toLocaleDateString()}
                     </Typography>
                     <Typography gutterBottom>
-                        <strong>Expéditeur:</strong> {folder?.expiditeur}
+                        <strong>Details : </strong> {folder?.details}
                     </Typography>
                     <Typography gutterBottom>
-                        <strong>Destination:</strong> {folder?.destination}
+                        <strong>Nom : </strong> {folder?.userName}
                     </Typography>
                     <Typography gutterBottom>
-                        <strong>Description:</strong> {folder?.description}
+                        <strong>Adresse Email : </strong> {folder?.adressEmail}
                     </Typography>
                     <Typography gutterBottom>
-                        <strong>Nom déposé:</strong> {folder?.nom_depose}
+                        {/* <strong>Phote de profile:</strong> <img className='imge' src={`http://127.0.0.1:9876${folder?.imageJournale}`} /> */}
                     </Typography>
                     <Typography gutterBottom>
-                        <strong>Prénom déposé:</strong> {folder?.prenom_depose}
+                        {/* <strong>Prénom déposé:</strong> {folder?.prenom_depose} */}
                     </Typography>
                     <Typography gutterBottom>
-                        <strong>Matricule:</strong> {folder?.matricule}
+                        {/* <strong>Matricule:</strong> {folder?.matricule} */}
                     </Typography>
                 </DialogContent>
                 <DialogActions>

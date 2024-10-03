@@ -1,4 +1,5 @@
-Bien sûr, je comprends que vous souhaitez récupérer le rôle de l'utilisateur depuis la base de données plutôt que de le stocker dans le localStorage. Voici comment vous pouvez modifier votre code pour implémenter cette logique :
+Bien sûr, je comprends que vous souhaitez récupérer le rôle de l'utilisateur depuis la base de données plutôt
+ que de le stocker dans le localStorage. Voici comment vous pouvez modifier votre code pour implémenter cette logique :
 
 ### Modification du composant Login
 
@@ -206,10 +207,14 @@ export default SideBar;
 
 1. Dans le composant Login, nous récupérons maintenant le rôle de l'utilisateur et le stockons dans localStorage.
 2. Dans le composant App, nous ajoutons un nouvel état `userRole` pour stocker le rôle de l'utilisateur.
-3. Nous modifions les routes conditionnelles dans App.jsx pour utiliser le rôle de l'utilisateur pour décider si afficher ou masquer certaines pages.
-4. Dans le composant SideBar, nous utilisons toujours localStorage pour récupérer le rôle de l'utilisateur, car c'est la méthode que vous préférez.
+3. Nous modifions les routes conditionnelles dans App.jsx pour utiliser le rôle de l'utilisateur pour décider si 
+afficher ou masquer certaines pages.
+4. Dans le composant SideBar, nous utilisons toujours localStorage pour récupérer le rôle de l'utilisateur,
+ car c'est la méthode que vous préférez.
 
-Cette approche permet de récupérer le rôle de l'utilisateur depuis la base de données au moment du login et d'utiliser ce rôle pour contrôler l'accès aux différentes pages et menus dans votre application. Assurez-vous que votre API retourne toujours le rôle de l'utilisateur avec les informations de connexion.
+Cette approche permet de récupérer le rôle de l'utilisateur depuis la base de données au moment du login et d'utiliser
+ ce rôle pour contrôler l'accès aux différentes pages et menus dans votre application. Assurez-vous que votre API retourne
+  toujours le rôle de l'utilisateur avec les informations de connexion.
 
 Citations:
 [1] https://www.youtube.com/watch?v=YOV_nrl0sfI

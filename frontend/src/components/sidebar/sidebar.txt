@@ -1,4 +1,5 @@
-Je comprends que vous voulez masquer certains éléments du menu de navigation en fonction du rôle de l'utilisateur. Voici comment vous pouvez modifier votre code pour implémenter cette logique :
+Je comprends que vous voulez masquer certains éléments du menu de navigation en fonction du rôle de l'utilisateur.
+ Voici comment vous pouvez modifier votre code pour implémenter cette logique :
 
 ### Modification du composant Sidebar
 
@@ -79,9 +80,11 @@ export default SideBar;
 
 ### Exemple d'utilisation
 
-Pour utiliser cette nouvelle logique, vous n'avez pas besoin de modifier votre fichier App.jsx. Le comportement sera automatiquement pris en charge par le composant SideBar.
+Pour utiliser cette nouvelle logique, vous n'avez pas besoin de modifier votre fichier App.jsx. Le comportement sera automatiquement 
+pris en charge par le composant SideBar.
 
-Cette modification permettra de masquer les menus "Journal" et "Utilisateur" si le rôle de l'utilisateur est '0'. Pour d'autres rôles, tous les menus seront affichés normalement.
+Cette modification permettra de masquer les menus "Journal" et "Utilisateur" si le rôle de l'utilisateur est '0'. 
+Pour d'autres rôles, tous les menus seront affichés normalement.
 
 N'oubliez pas de tester cette fonctionnalité avec différents rôles pour vous assurer qu'elle fonctionne comme prévu.
 
@@ -138,17 +141,20 @@ Citations:
 
 
 
-Pour gérer l'affichage des éléments du menu de la barre latérale (`Sidebar`) en fonction du rôle de l'utilisateur, tu peux procéder comme suit :
+Pour gérer l'affichage des éléments du menu de la barre latérale (`Sidebar`) en fonction du rôle de l'utilisateur, 
+tu peux procéder comme suit :
 
 1. **Récupérer le rôle de l'utilisateur** : Assure-toi que tu as accès au rôle de l'utilisateur dans ton composant `Sidebar`.
 
-2. **Filtrer les éléments du menu** : Lorsque tu affiches les éléments du menu, filtre-les en fonction du rôle de l'utilisateur. Par exemple, si le rôle de l'utilisateur est `0`, cache les éléments "Journal" et "Utilisateur".
+2. **Filtrer les éléments du menu** : Lorsque tu affiches les éléments du menu, filtre-les en fonction du rôle de l'utilisateur. 
+Par exemple, si le rôle de l'utilisateur est `0`, cache les éléments "Journal" et "Utilisateur".
 
 Voici comment tu peux modifier ton composant `Sidebar` :
 
 ### 1. Passer le rôle de l'utilisateur
 
-Assure-toi de passer le rôle de l'utilisateur au composant `Sidebar`. Cela peut provenir de ton contexte global ou être passé en tant que prop.
+Assure-toi de passer le rôle de l'utilisateur au composant `Sidebar`. Cela peut provenir de ton contexte global ou 
+être passé en tant que prop.
 
 ### 2. Modifier le composant `Sidebar`
 
