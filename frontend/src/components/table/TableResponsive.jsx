@@ -1610,10 +1610,47 @@ const TableResponsive = () => {
     };
 
     const handleOptionClick = (option) => {
-        setSelectedOption(option); // Mettez à jour l'option sélectionnée
-        console.log(`Option selected: ${option}`); // Affichez un message dans la console
-        setDropdownOpen(false); // Fermez le menu déroulant après la sélection
+        setSelectedOption(option);
+        console.log(`Option selected: ${option}`);
+
+        switch (option) {
+            case 'option1':
+                handleOption1();
+                break;
+            case 'option2':
+                handleOption1();
+                break;
+            case 'option3':
+                handleOption1();
+                break;
+        }
+
+        setDropdownOpen(false);
     };
+
+    const handleOption1 = () => {
+        console.log("Données pour Option :", getOption1Data());
+    };
+
+    const getOption1Data = () => {
+        return folders.data.map((folder) => ({
+            id: folder._id,
+            nom_depose: folder.id_nature.nom_depose,
+            prenom_depose: folder.id_nature.prenom_depose,
+            matricule: folder.id_nature.matricule,
+            expideur: folder.expiditeur,
+            destination: folder.destination,
+            description: folder.id_nature.description,
+            numero_bordereaux: folder.numero_bordereaux,
+            date_depart: new Date(folder.date_depart).toLocaleDateString(),
+            actions: [
+                { label: 'Modifier', action: () => handleOpenModal(folder._id, 'edit') },
+                { label: 'Supprimer', action: () => handleDeleteClick(folder._id) },
+                { label: 'Lire', action: () => handleReadClick(folder._id) }
+            ]
+        }));
+    };
+
 
     useEffect(() => {
         const searchInput = searchRef.current;
@@ -1715,6 +1752,7 @@ const TableResponsive = () => {
 
                     <div className='option_right'>
                         <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
+                        <MdEdit className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
                         <div className="dropdown-container">
                             <FaArrowDown onClick={toggleDropdown} className="icon_add" style={{ marginLeft: '20px', fontSize: '24px' }} />
                             {dropdownOpen && (
