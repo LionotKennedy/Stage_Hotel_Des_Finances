@@ -939,21 +939,21 @@
 //     }, [folders]);
 
 //     // const logSearchValue = () => {
-    //     //     const searchValue = searchRef.current.value;
+//     //     const searchValue = searchRef.current.value;
 //     //     console.log('Valeur saisie :', searchValue);
 //     // };
 
 //     useEffect(() => {
-    //         const searchInput = searchRef.current;
+//         const searchInput = searchRef.current;
 //         const table = tableRef.current;
 //         const tableRows = table.querySelectorAll('tbody tr');
 
 //         const searchTable = () => {
 //             tableRows.forEach((row, i) => {
-    //                 let search_data = searchInput.value.toLowerCase();
-    //                 let table_data = '';
+//                 let search_data = searchInput.value.toLowerCase();
+//                 let table_data = '';
 
-    //                 if (searchType === 'nom') {
+//                 if (searchType === 'nom') {
 //                     table_data = row.querySelectorAll('td')[0].textContent.toLowerCase();
 //                 } else if (searchType === 'numero') {
 //                     table_data = row.querySelectorAll('td')[6].textContent.toLowerCase();
@@ -969,7 +969,7 @@
 //             });
 
 //             document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
-    //                 visible_row.style.backgroundColor = (i % 2 === 0) ? '--second-bg' : '--second-bg';
+//                 visible_row.style.backgroundColor = (i % 2 === 0) ? '--second-bg' : '--second-bg';
 //                 visible_row.style.animationDelay = `${i * 0.1}s`;
 //             });
 //         };
@@ -1572,6 +1572,7 @@ const TableResponsive = () => {
     const [alertOpenRead, setAlertOpenRead] = useState(false); // État pour l'alert modal
     const [readFolderId, setReadFolderId] = useState(null); // ID pour suppression
     const [searchValue, setSearchValue] = useState('');
+    const [selectedOption, setSelectedOption] = useState(null); // État pour stocker l'option sélectionnée
 
     // Utilisez le hook pour récupérer les dossiers
     const { data: folders, refetch, isLoading, isError } = useGetFolders();
@@ -1608,8 +1609,13 @@ const TableResponsive = () => {
         console.log('Dropdown toggled!');
     };
 
+    const handleOptionClick = (option) => {
+        setSelectedOption(option); // Mettez à jour l'option sélectionnée
+        console.log(`Option selected: ${option}`); // Affichez un message dans la console
+        setDropdownOpen(false); // Fermez le menu déroulant après la sélection
+    };
 
-        useEffect(() => {
+    useEffect(() => {
         const searchInput = searchRef.current;
         const table = tableRef.current;
         const tableRows = table.querySelectorAll('tbody tr');
@@ -1693,7 +1699,7 @@ const TableResponsive = () => {
                             <img src={search} alt="Search Icon" />
                         </div>
                     )}
-                    <div className='option_right'>
+                    {/* <div className='option_right'>
                         <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
                         <div className="dropdown-container">
                             <FaArrowDown onClick={toggleDropdown} className="icon_add" style={{ marginLeft: '20px', fontSize: '24px' }} />
@@ -1702,6 +1708,23 @@ const TableResponsive = () => {
                                     <button onClick={() => setSelectedOption('option1')}>Option 1</button>
                                     <button onClick={() => setSelectedOption('option2')}>Option 2</button>
                                     <button onClick={() => setSelectedOption('option3')}>Option 3</button>
+                                </div>
+                            )}
+                        </div>
+                    </div> */}
+
+                    <div className='option_right'>
+                        <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
+                        <div className="dropdown-container">
+                            <FaArrowDown onClick={toggleDropdown} className="icon_add" style={{ marginLeft: '20px', fontSize: '24px' }} />
+                            {dropdownOpen && (
+                                <div className="dropdown-menu">
+                                    {/* <button onClick={() => setSelectedOption('option1')} className="dropdown-item">Option 1</button>
+                                    <button onClick={() => setSelectedOption('option2')} className="dropdown-item">Option 2</button>
+                                    <button onClick={() => setSelectedOption('option3')} className="dropdown-item">Option 3</button> */}
+                                     <button onClick={() => handleOptionClick('option1')} className="dropdown-item">Option 1</button>
+                                    <button onClick={() => handleOptionClick('option2')} className="dropdown-item">Option 2</button>
+                                    <button onClick={() => handleOptionClick('option3')} className="dropdown-item">Option 3</button>
                                 </div>
                             )}
                         </div>
