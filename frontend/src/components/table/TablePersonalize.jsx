@@ -86,10 +86,10 @@ const TablePersonalize = props => {
                         <option value="name">Search by Name</option>
                         <option value="id">Search by ID</option>
                     </select>
-                    <div className="input-group">
+                    {/* <div className="input-group">
                         <input type="search" placeholder="Search Data..." ref={searchRef} />
                         <img src={search} alt="" />
-                    </div>
+                    </div> */}
                     <div className='option_right'>
                         <div className="export__file">
                             <label htmlFor="export-file" className="export__file-btn" title="Export File"></label>

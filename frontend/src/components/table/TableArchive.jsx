@@ -97,10 +97,10 @@ const TableArchive = ({ archives }) => {
                         <option value="name">Search by Name</option>
                         <option value="id">Search by ID</option>
                     </select>
-                    <div className="input-group">
+                    {/* <div className="input-group">
                         <input type="search" placeholder="Search Data..." ref={searchRef} />
                         <img src={search} alt="Search Icon" />
-                    </div>
+                    </div> */}
                     <div className='option_right'>
                         {/* <MdAdd onClick={handleOpenModal} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} /> */}
                         <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
