@@ -1560,6 +1560,8 @@ import AlertDialogSlide from '../MUI_alert/deleteFolder'; // Importer l'alert mo
 import CustomizedDialogs from '../MUI_read/readFolder'; // Importer l'alert modal
 import "./tableResponsive.scss";
 import CustomModal from '../MUI/CustomModal';
+import { PDFDownloadLink } from '@react-pdf/renderer'; // Import PDFDownloadLink
+import PdfContent from '../printer/PdfContent'; // Adjust the import path as necessary
 
 const TableResponsive = () => {
     const tableRef = useRef(null);
@@ -1578,6 +1580,16 @@ const TableResponsive = () => {
     const { data: folders, refetch, isLoading, isError } = useGetFolders();
     const [mode, setMode] = useState('add'); // Nouveau état pour le mode de la modale
     const [dropdownOpen, setDropdownOpen] = useState(false);
+
+        // Generate PDF Link
+        const generatePDF = () => {
+            console.log('Generating')
+            return (
+                <PDFDownloadLink document={<PdfContent folders={folders.data} />} fileName="folders.pdf">
+                    {({ loading }) => (loading ? 'Loading document...' : <MdPictureAsPdf className="icon_add" style={{ fontSize: '24px', marginLeft: '20px' }} title="Download PDF" />)}
+                </PDFDownloadLink>
+            );
+        };
 
     const handleOpenModal = (folderId, mode) => {
         setSelectedFolderId(folderId);
@@ -1752,7 +1764,7 @@ const TableResponsive = () => {
 
                     <div className='option_right'>
                         <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
-                        <MdEdit className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
+                        <MdEdit onClick={() => generatePDF()} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
                         <div className="dropdown-container">
                             <FaArrowDown onClick={toggleDropdown} className="icon_add" style={{ marginLeft: '20px', fontSize: '24px' }} />
                             {dropdownOpen && (
