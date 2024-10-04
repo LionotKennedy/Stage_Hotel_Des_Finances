@@ -1,43 +1,40 @@
-// // src/PdfContent.jsx
-// import React from 'react';
-// import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+// src/PdfContent.jsx
+import React from 'react';
+import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 
-// // Créer des styles pour le PDF
-// const styles = StyleSheet.create({
-//   page: {
-//     padding: 30,
-//     backgroundColor: '#E4E4E4',
-//   },
-//   section: {
-//     margin: 10,
-//     padding: 10,
-//     flexGrow: 1,
-//   },
-//   title: {
-//     fontSize: 24,
-//     textAlign: 'center',
-//     marginBottom: 20,
-//   },
-//   text: {
-//     fontSize: 14,
-//     marginBottom: 10,
-//   },
-// });
+const styles = StyleSheet.create({
+    page: {
+        padding: 30,
+        backgroundColor: '#E4E4E4',
+    },
+    section: {
+        margin: 10,
+        padding: 10,
+        flexGrow: 1,
+    },
+    title: {
+        fontSize: 24,
+        textAlign: 'center',
+        marginBottom: 20,
+    },
+    text: {
+        fontSize: 14,
+        marginBottom: 10,
+    },
+});
 
-// // Composant PDF contenant les données à imprimer
-// const PdfContent = () => (
-//   <Document>
-//     <Page size="A4" style={styles.page}>
-//       <View style={styles.section}>
-//         <Text style={styles.title}>Coucou</Text>
-//         <Text style={styles.text}>CiCi</Text>
-//       </View>
-//     </Page>
-//   </Document>
-// );
+const PdfContent = () => (
+    <Document>
+        <Page size="A4" style={styles.page}>
+            <View style={styles.section}>
+                <Text style={styles.title}>Coucou</Text>
+                <Text style={styles.text}>Bonjour, ceci est un exemple de PDF généré dynamiquement.</Text>
+            </View>
+        </Page>
+    </Document>
+);
 
-// export default PdfContent;
-
+export default PdfContent;
 
 
 
@@ -138,42 +135,42 @@
 
 
 
-// src/PdfContent.jsx
-import React from 'react';
-import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+// // src/PdfContent.jsx
+// import React from 'react';
+// import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 
-// Create styles
-const styles = StyleSheet.create({
-    page: {
-        flexDirection: 'row',
-        padding: 30,
-    },
-    section: {
-        margin: 10,
-        padding: 10,
-        flexGrow: 1,
-    },
-});
+// // Create styles
+// const styles = StyleSheet.create({
+//     page: {
+//         flexDirection: 'row',
+//         padding: 30,
+//     },
+//     section: {
+//         margin: 10,
+//         padding: 10,
+//         flexGrow: 1,
+//     },
+// });
 
-const PdfContent = ({ folders }) => {
-    return (
-        <Document>
-            <Page size="A4" style={styles.page}>
-                {folders.map((folder, index) => (
-                    <View key={index} style={styles.section}>
-                        <Text>Nom: {folder.id_nature.nom_depose}</Text>
-                        <Text>Prénom: {folder.id_nature.prenom_depose}</Text>
-                        <Text>Matricule: {folder.id_nature.matricule}</Text>
-                        <Text>Expéditeur: {folder.expiditeur}</Text>
-                        <Text>Destination: {folder.destination}</Text>
-                        <Text>Description: {folder.id_nature.description}</Text>
-                        <Text>Numéro Bordereaux: {folder.numero_bordereaux}</Text>
-                        <Text>Date Départ: {new Date(folder.date_depart).toLocaleDateString()}</Text>
-                    </View>
-                ))}
-            </Page>
-        </Document>
-    );
-};
+// const PdfContent = ({ folders }) => {
+//     return (
+//         <Document>
+//             <Page size="A4" style={styles.page}>
+//                 {folders.map((folder, index) => (
+//                     <View key={index} style={styles.section}>
+//                         <Text>Nom: {folder.id_nature.nom_depose}</Text>
+//                         <Text>Prénom: {folder.id_nature.prenom_depose}</Text>
+//                         <Text>Matricule: {folder.id_nature.matricule}</Text>
+//                         <Text>Expéditeur: {folder.expiditeur}</Text>
+//                         <Text>Destination: {folder.destination}</Text>
+//                         <Text>Description: {folder.id_nature.description}</Text>
+//                         <Text>Numéro Bordereaux: {folder.numero_bordereaux}</Text>
+//                         <Text>Date Départ: {new Date(folder.date_depart).toLocaleDateString()}</Text>
+//                     </View>
+//                 ))}
+//             </Page>
+//         </Document>
+//     );
+// };
 
-export default PdfContent;
+// export default PdfContent;

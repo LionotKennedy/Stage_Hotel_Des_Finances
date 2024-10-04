@@ -1537,10 +1537,160 @@
 
 
 
+{/* <div className='option_right'>
+    <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
+    <div className="dropdown-container">
+        <FaArrowDown onClick={toggleDropdown} className="icon_add" style={{ marginLeft: '20px', fontSize: '24px' }} />
+        {dropdownOpen && (
+            <div className="dropdown-menu">
+                <button onClick={() => setSelectedOption('option1')}>Option 1</button>
+                <button onClick={() => setSelectedOption('option2')}>Option 2</button>
+                <button onClick={() => setSelectedOption('option3')}>Option 3</button>
+            </div>
+        )}
+    </div>
+</div> */}
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useEffect, useRef, useState } from 'react';
+// import search from "../../assets/image/search.png";
+// import { MdEdit, MdDelete, MdVisibility, MdAdd } from 'react-icons/md';
+// import { FaArrowDown } from 'react-icons/fa';
+// import { AnimatePresence } from 'framer-motion';
+// import { useGetFolders } from '../../services/serviceFolder'; // Assurez-vous que le chemin est correct
+// import AlertDialogSlide from '../MUI_alert/deleteFolder'; // Importer l'alert modal
+// import CustomizedDialogs from '../MUI_read/readFolder'; // Importer l'alert modal
+// import "./tableResponsive.scss";
+// import CustomModal from '../MUI/CustomModal';
+// import { PDFDownloadLink } from '@react-pdf/renderer'; // Import PDFDownloadLink
+// import PdfContent from '../printer/PdfContent'; // Adjust the import path as necessary
+
+// const TableResponsive = () => {
+//     const tableRef = useRef(null);
+//     const searchRef = useRef(null);
+//     const [searchType, setSearchType] = useState('nom');
+//     const [modalOpen, setModalOpen] = useState(false); // État pour gérer l'ouverture/fermeture de la modale
+//     const [selectedFolderId, setSelectedFolderId] = useState(null); // État pour gérer l'ID du courrier sélectionné
+//     const [alertOpen, setAlertOpen] = useState(false); // État pour l'alert modal
+//     const [deleteFolderId, setDeleteFolderId] = useState(null); // ID pour suppression
+//     const [alertOpenRead, setAlertOpenRead] = useState(false); // État pour l'alert modal
+//     const [readFolderId, setReadFolderId] = useState(null); // ID pour suppression
+//     const [searchValue, setSearchValue] = useState('');
+//     const [selectedOption, setSelectedOption] = useState(null); // État pour stocker l'option sélectionnée
+
+//     // Utilisez le hook pour récupérer les dossiers
+//     const { data: folders, refetch, isLoading, isError } = useGetFolders();
+//     const [mode, setMode] = useState('add'); // Nouveau état pour le mode de la modale
+//     const [dropdownOpen, setDropdownOpen] = useState(false);
+
+//         // Generate PDF Link
+//         const generatePDF = () => {
+//             console.log('Generating')
+//             return (
+//                 <PDFDownloadLink document={<PdfContent folders={folders.data} />} fileName="folders.pdf">
+//                     {({ loading }) => (loading ? 'Loading document...' : <MdPictureAsPdf className="icon_add" style={{ fontSize: '24px', marginLeft: '20px' }} title="Download PDF" />)}
+//                 </PDFDownloadLink>
+//             );
+//         };
+
+//     const handleOpenModal = (folderId, mode) => {
+//         setSelectedFolderId(folderId);
+//         setMode(mode);
+//         setModalOpen(true);
+//     };
+
+//     const handleCloseModal = () => setModalOpen(false);
+
+//     const handleDeleteClick = (folderId) => {
+//         setDeleteFolderId(folderId);
+//         setAlertOpen(true);
+//         console.log(folderId);
+//     };
+
+//     const handleReadClick = (folderId) => {
+//         setReadFolderId(folderId);
+//         setAlertOpenRead(true); // Ouvre l'alert modal
+//         console.log(folderId);
+//     };
+
+//     // Fetch data when folders change
+//     useEffect(() => {
+//         refetch();
+//     }, [refetch]);
+
+//     const toggleDropdown = () => {
+//         setDropdownOpen(!dropdownOpen);
+//         console.log('Dropdown toggled!');
+//     };
+
+//     const handleOptionClick = (option) => {
+//         setSelectedOption(option);
+//         console.log(`Option selected: ${option}`);
+
+//         switch (option) {
+//             case 'option1':
+//                 handleOption1();
+//                 break;
+//             case 'option2':
+//                 handleOption1();
+//                 break;
+//             case 'option3':
+//                 handleOption1();
+//                 break;
+//         }
+
+//         setDropdownOpen(false);
+//     };
+
+//     const handleOption1 = () => {
+//         console.log("Données pour Option :", getOption1Data());
+//     };
+
+//     const getOption1Data = () => {
+//         return folders.data.map((folder) => ({
+//             id: folder._id,
+//             nom_depose: folder.id_nature.nom_depose,
+//             prenom_depose: folder.id_nature.prenom_depose,
+//             matricule: folder.id_nature.matricule,
+//             expideur: folder.expiditeur,
+//             destination: folder.destination,
+//             description: folder.id_nature.description,
+//             numero_bordereaux: folder.numero_bordereaux,
+//             date_depart: new Date(folder.date_depart).toLocaleDateString(),
+//             actions: [
+//                 { label: 'Modifier', action: () => handleOpenModal(folder._id, 'edit') },
+//                 { label: 'Supprimer', action: () => handleDeleteClick(folder._id) },
+//                 { label: 'Lire', action: () => handleReadClick(folder._id) }
+//             ]
+//         }));
+//     };
 
 
 
@@ -1567,29 +1717,56 @@ const TableResponsive = () => {
     const tableRef = useRef(null);
     const searchRef = useRef(null);
     const [searchType, setSearchType] = useState('nom');
-    const [modalOpen, setModalOpen] = useState(false); // État pour gérer l'ouverture/fermeture de la modale
-    const [selectedFolderId, setSelectedFolderId] = useState(null); // État pour gérer l'ID du courrier sélectionné
-    const [alertOpen, setAlertOpen] = useState(false); // État pour l'alert modal
-    const [deleteFolderId, setDeleteFolderId] = useState(null); // ID pour suppression
-    const [alertOpenRead, setAlertOpenRead] = useState(false); // État pour l'alert modal
-    const [readFolderId, setReadFolderId] = useState(null); // ID pour suppression
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedFolderId, setSelectedFolderId] = useState(null);
+    const [alertOpen, setAlertOpen] = useState(false);
+    const [deleteFolderId, setDeleteFolderId] = useState(null);
+    const [alertOpenRead, setAlertOpenRead] = useState(false);
+    const [readFolderId, setReadFolderId] = useState(null);
     const [searchValue, setSearchValue] = useState('');
-    const [selectedOption, setSelectedOption] = useState(null); // État pour stocker l'option sélectionnée
-
-    // Utilisez le hook pour récupérer les dossiers
+    const [selectedOption, setSelectedOption] = useState(null);
     const { data: folders, refetch, isLoading, isError } = useGetFolders();
-    const [mode, setMode] = useState('add'); // Nouveau état pour le mode de la modale
+    const [mode, setMode] = useState('add');
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
-        // Generate PDF Link
-        const generatePDF = () => {
-            console.log('Generating')
-            return (
-                <PDFDownloadLink document={<PdfContent folders={folders.data} />} fileName="folders.pdf">
-                    {({ loading }) => (loading ? 'Loading document...' : <MdPictureAsPdf className="icon_add" style={{ fontSize: '24px', marginLeft: '20px' }} title="Download PDF" />)}
-                </PDFDownloadLink>
-            );
-        };
+    // const generatePDF = async () => {
+    //     try {
+    //         console.log('Generating PDF');
+    //         const pdf = <PdfContent />;
+    //         return (
+    //             <PDFDownloadLink document={pdf} fileName="folders.pdf">
+    //                 {({ loading }) => (
+    //                     loading ? 'Chargement...' : null
+    //                 )}
+    //             </PDFDownloadLink>
+    //         );
+    //     } catch (error) {
+    //         console.error('Erreur lors de la génération du PDF:', error);
+    //         alert('Erreur lors de la génération du PDF');
+    //     }
+    // };
+
+    const generatePDF = async () => {
+        try {
+            console.log('Generating PDF');
+            const pdf = <PdfContent />;
+            
+            // Utiliser FileSaver.js pour le téléchargement local
+            const blob = await pdf.toBlob();
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'MesDossiers.pdf';
+            link.click();
+
+            // Nettoyer les objets créés
+            URL.revokeObjectURL(link.href);
+
+        } catch (error) {
+            console.error('Erreur lors de la génération du PDF:', error);
+            alert('Erreur lors de la génération du PDF');
+        }
+    }
+    
 
     const handleOpenModal = (folderId, mode) => {
         setSelectedFolderId(folderId);
@@ -1607,11 +1784,10 @@ const TableResponsive = () => {
 
     const handleReadClick = (folderId) => {
         setReadFolderId(folderId);
-        setAlertOpenRead(true); // Ouvre l'alert modal
+        setAlertOpenRead(true);
         console.log(folderId);
     };
 
-    // Fetch data when folders change
     useEffect(() => {
         refetch();
     }, [refetch]);
@@ -1621,28 +1797,46 @@ const TableResponsive = () => {
         console.log('Dropdown toggled!');
     };
 
-    const handleOptionClick = (option) => {
+
+    const handleOptionClick = async (option) => {
         setSelectedOption(option);
         console.log(`Option selected: ${option}`);
-
+    
         switch (option) {
             case 'option1':
-                handleOption1();
+                await generatePDF();
+                console.log("PDF généré avec succès");
                 break;
             case 'option2':
-                handleOption1();
+                // ... autre logique ...
                 break;
             case 'option3':
-                handleOption1();
+                // ... autre logique ...
                 break;
         }
-
+    
         setDropdownOpen(false);
     };
+    
+    // const handleOptionClick = (option) => {
+    //     setSelectedOption(option);
+    //     console.log(`Option selected: ${option}`);
 
-    const handleOption1 = () => {
-        console.log("Données pour Option :", getOption1Data());
-    };
+    //     switch (option) {
+    //         case 'option1':
+    //           generatePDF();
+    //           console.log("PDF generated successfully");
+    //           break;
+    //         case 'option2':
+    //           // ... autre logique ...
+    //           break;
+    //         case 'option3':
+    //           // ... autre logique ...
+    //           break;
+    //       }
+
+    //     setDropdownOpen(false);
+    // };
 
     const getOption1Data = () => {
         return folders.data.map((folder) => ({
@@ -1662,7 +1856,6 @@ const TableResponsive = () => {
             ]
         }));
     };
-
 
     useEffect(() => {
         const searchInput = searchRef.current;
@@ -1748,30 +1941,14 @@ const TableResponsive = () => {
                             <img src={search} alt="Search Icon" />
                         </div>
                     )}
-                    {/* <div className='option_right'>
-                        <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
-                        <div className="dropdown-container">
-                            <FaArrowDown onClick={toggleDropdown} className="icon_add" style={{ marginLeft: '20px', fontSize: '24px' }} />
-                            {dropdownOpen && (
-                                <div className="dropdown-menu">
-                                    <button onClick={() => setSelectedOption('option1')}>Option 1</button>
-                                    <button onClick={() => setSelectedOption('option2')}>Option 2</button>
-                                    <button onClick={() => setSelectedOption('option3')}>Option 3</button>
-                                </div>
-                            )}
-                        </div>
-                    </div> */}
 
                     <div className='option_right'>
                         <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
-                        <MdEdit onClick={() => generatePDF()} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
+                        {/* <MdEdit onClick={() => generatePDF()} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} /> */}
                         <div className="dropdown-container">
                             <FaArrowDown onClick={toggleDropdown} className="icon_add" style={{ marginLeft: '20px', fontSize: '24px' }} />
                             {dropdownOpen && (
                                 <div className="dropdown-menu">
-                                    {/* <button onClick={() => setSelectedOption('option1')} className="dropdown-item">Option 1</button>
-                                    <button onClick={() => setSelectedOption('option2')} className="dropdown-item">Option 2</button>
-                                    <button onClick={() => setSelectedOption('option3')} className="dropdown-item">Option 3</button> */}
                                      <button onClick={() => handleOptionClick('option1')} className="dropdown-item">Option 1</button>
                                     <button onClick={() => handleOptionClick('option2')} className="dropdown-item">Option 2</button>
                                     <button onClick={() => handleOptionClick('option3')} className="dropdown-item">Option 3</button>
@@ -1809,7 +1986,7 @@ const TableResponsive = () => {
                             folderId={selectedFolderId} // Passer l'ID du courrier à la modale
                             mode={mode} // Passer le mode à la modale
                             onSuccess={refetch} // Re-fetch folders when the modal closes successfully
-                        />
+                            />
                     )}
                 </AnimatePresence>
                 {/* Inclusion du modal d'alerte */}
