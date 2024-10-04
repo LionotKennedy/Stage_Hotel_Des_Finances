@@ -796,332 +796,6 @@
 
 
 
-import React, { useEffect, useRef, useState } from 'react';
-import search from "../../assets/image/search.png"
-import { MdEdit, MdDelete, MdVisibility, MdAdd } from 'react-icons/md';
-import { FaArrowDown } from 'react-icons/fa';
-import { AnimatePresence } from 'framer-motion';
-import { useGetFolders } from '../../services/serviceFolder'; // Assurez-vous que le chemin est correct
-import AlertDialogSlide from '../MUI_alert/deleteFolder'; // Importer l'alert modal
-import CustomizedDialogs from '../MUI_read/readFolder'; // Importer l'alert modal
-
-import "./tableResponsive.scss"
-import CustomModal from '../MUI/CustomModal';
-
-const TableResponsive = () => {
-    const tableRef = useRef(null);
-    const searchRef = useRef(null);
-    const [searchType, setSearchType] = useState('nom');
-    const [modalOpen, setModalOpen] = useState(false); // État pour gérer l'ouverture/fermeture de la modale
-    const [selectedFolderId, setSelectedFolderId] = useState(null); // État pour gérer l'ID du courrier sélectionné
-
-    const [alertOpen, setAlertOpen] = useState(false); // État pour l'alert modal
-    const [deleteFolderId, setDeleteFolderId] = useState(null); // ID pour suppression
-
-    const [alertOpenRead, setAlertOpenRead] = useState(false); // État pour l'alert modal
-    const [readFolderId, setReadFolderId] = useState(null); // ID pour suppression
-
-    const [searchValue, setSearchValue] = useState('');
-
-    // Utilisez le hook pour récupérer les dossiers
-    const { data: folders, isLoading, isError } = useGetFolders();
-    const [mode, setMode] = useState('add'); // Nouveau état pour le mode de la modale
-
-    const [dropdownOpen, setDropdownOpen] = useState(false);
-
-    const handleOpenModal = (folderId, mode) => {
-        setSelectedFolderId(folderId);
-        setMode(mode);
-        setModalOpen(true);
-    };
-
-    const handleCloseModal = () => setModalOpen(false);
-
-    const handleDeleteClick = (folderId) => {
-        setDeleteFolderId(folderId);
-        setAlertOpen(true);
-        console.log(folderId)
-    };
-
-    const handleReadClick = (folderId) => {
-        setReadFolderId(folderId);
-        setAlertOpenRead(true); // Ouvre l'alert modal
-        console.log(folderId)
-    };
-
-
-    useEffect(() => {
-        // if (folders && folders.data) {
-        //     folders.data.forEach((folder) => console.log('Folder data:', folder));
-        // }
-        dataFetch()
-        // displayData()
-
-    }, [folders])
-
-    // Fonction pour afficher la valeur de l'input de recherche dans la console
-    // const logSearchValue = () => {
-    //     const searchValue = searchRef.current.value; // Récupère la valeur actuelle de l'input
-    //     console.log('Valeur saisie :', searchValue); // Affiche la valeur dans la console
-    // };
-
-    // useEffect(() => {
-    //     const searchInput = searchRef.current;
-    //     const table = tableRef.current;
-    //     const tableRows = table.querySelectorAll('tbody tr');
-
-    //     const searchTable = () => {
-    //         tableRows.forEach((row, i) => {
-    //             let search_data = searchInput.value.toLowerCase();
-    //             let table_data = '';
-
-    //             // Vérifiez la valeur de searchType et ajustez en conséquence
-    //             if (searchType === 'nom') {
-    //                 // Si le type est "nom", utilisez uniquement la colonne "nom"
-    //                 table_data = row.querySelectorAll('td')[0].textContent.toLowerCase(); // Première colonne pour le nom
-    //             } else if (searchType === 'numero') {
-    //                 // Si le type est "id", utilisez la colonne correspondante pour l'ID (ajustez selon votre table)
-    //                 table_data = row.querySelectorAll('td')[6].textContent.toLowerCase(); // Deuxième colonne pour l'ID
-    //             }
-    //             else if (searchType === 'matricule') {
-    //                 // Si le type est "id", utilisez la colonne correspondante pour l'ID (ajustez selon votre table)
-    //                 table_data = row.querySelectorAll('td')[2].textContent.toLowerCase(); // Deuxième colonne pour l'ID
-    //             }
-    //             else if (searchType === 'date') {
-    //                 // Si le type est "id", utilisez la colonne correspondante pour l'ID (ajustez selon votre table)
-    //                 table_data = row.querySelectorAll('td')[7].textContent.toLowerCase(); // Deuxième colonne pour l'ID
-    //                 console.log(searchType)
-    //             }
-
-    //             // Effectuer la recherche uniquement dans la colonne spécifiée
-    //             row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
-    //             row.style.setProperty('--delay', i / 25 + 's');
-    //         });
-
-    //         document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
-    //             visible_row.style.backgroundColor = (i % 2 === 0) ? '--second-bg' : '--second-bg';
-    //             visible_row.style.animationDelay = `${i * 0.1}s`;
-    //         });
-    //     };
-
-    //     // Ajoutez l'écouteur d'événement pour la recherche
-    //     searchInput.addEventListener('input', searchTable);
-
-    //     return () => {
-    //         searchInput.removeEventListener('input', searchTable);
-    //     };
-    // }, [searchType]);
-
-    // Détection du changement de type de recherche
-
-
-
-
-
-    // useEffect(() => {
-    //     if (searchType === 'date') {
-    //         // setShowDateMessage(true); // Affiche le message si "date" est sélectionné
-    //         console.log('Dropdown toggled! 1'); // Ajout d'un message lorsqu'on clique sur le bouton
-    //     } else {
-    //         // setShowDateMessage(false); // Cache le message pour d'autres types
-    //         console.log('Dropdown toggled! 2'); // Ajout d'un message lorsqu'on clique sur le bouton
-    //     }
-    // }, [searchType]);
-
-    const toggleDropdown = () => {
-        setDropdownOpen(!dropdownOpen);
-        console.log('Dropdown toggled!');
-    };
-
-    const dataFetch = () => {
-        // if (folders && folders.data) {
-        //     folders.data.forEach((folder) => console.log('Folder data:', folder));
-        // }
-        console.log("Actualisation")
-        console.log(folders)
-        // displayData()
-    }
-    useEffect(() => {
-        const searchInput = searchRef.current;
-        const table = tableRef.current;
-        const tableRows = table.querySelectorAll('tbody tr');
-
-        const searchTable = () => {
-            tableRows.forEach((row, i) => {
-                let search_data = searchValue.toLowerCase();
-                let table_data = '';
-
-                if (searchType === 'nom') {
-                    table_data = row.querySelectorAll('td')[0].textContent.toLowerCase();
-                } else if (searchType === 'numero') {
-                    table_data = row.querySelectorAll('td')[6].textContent.toLowerCase();
-                } else if (searchType === 'matricule') {
-                    table_data = row.querySelectorAll('td')[2].textContent.toLowerCase();
-                } else if (searchType === 'date') {
-                    table_data = row.querySelectorAll('td')[7].textContent;
-                    search_data = new Date(search_data).toLocaleDateString(); // Convertir pour une comparaison de date
-                }
-
-                row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
-                row.style.setProperty('--delay', i / 25 + 's');
-            });
-
-            document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
-                visible_row.style.backgroundColor = (i % 2 === 0) ? '--second-bg' : '--second-bg';
-                visible_row.style.animationDelay = `${i * 0.1}s`;
-            });
-        };
-
-        searchTable();
-    }, [searchType, searchValue]);
-
-
-    const displayData = () => {
-        if (!folders || !folders.data) return null;
-
-        return folders.data.map((folder, index) => (
-            <tr key={index}>
-                <td className="td">{folder.id_nature.nom_depose}</td>
-                <td className="td">{folder.id_nature.prenom_depose}</td>
-                <td className="td">{folder.id_nature.matricule}</td>
-                <td className="td">{folder.expiditeur}</td>
-                <td className="td">{folder.destination}</td>
-                <td className="td">{folder.id_nature.description}</td>
-                <td className="td">{folder.numero_bordereaux}</td>
-                <td className="td">{new Date(folder.date_depart).toLocaleDateString()}</td>
-                <td className="td">
-                    <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
-                    <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
-                    <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
-                </td>
-            </tr>
-        ));
-    };
-
-    return (
-        <div className='container__table'>
-            <main className="table" ref={tableRef} id="customers_table">
-                <section className="table__header">
-                    <select className='searchByeverything' value={searchType} onChange={(e) => setSearchType(e.target.value)}>
-                        <option value="nom">Search by Nom</option>
-                        <option value="numero">Search by Numero</option>
-                        <option value="matricule">Search by matricule</option>
-                        <option value="date">Search by Date</option>
-                    </select>
-                    {/* <div className="input-group">
-                        <input type="search" placeholder="Search Data..." ref={searchRef} />
-                        <img src={search} alt="Search Icon" />
-                    </div> */}
-                    {searchType === 'date' ? (
-                        <input
-                            type="date"
-                            ref={searchRef}
-                            onChange={(e) => setSearchValue(e.target.value)}
-                            placeholder="Select Date..."
-                        />
-                    ) : (
-                        <div className="input-group">
-                            <input
-                                type="search"
-                                placeholder="Search Data..."
-                                ref={searchRef}
-                                onChange={(e) => setSearchValue(e.target.value)}
-                            />
-                            <img src={search} alt="Search Icon" />
-                        </div>
-                    )}
-                    <div className='option_right'>
-                        {/* <MdAdd onClick={handleOpenModal} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} /> */}
-                        <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
-                        {/* <FaArrowDown onClick={toggleDropdown} className="icon_add" style={{ marginLeft: '20px', fontSize: '24px' }} /> */}
-                        <div className="dropdown-container">
-                            <FaArrowDown onClick={toggleDropdown} className="icon_add" style={{ marginLeft: '20px', fontSize: '24px' }} />
-                            {dropdownOpen && (
-                                <div className="dropdown-menu">
-                                    <button onClick={() => setSelectedOption('option1')}>Option 1</button>
-                                    <button onClick={() => setSelectedOption('option2')}>Option 2</button>
-                                    <button onClick={() => setSelectedOption('option3')}>Option 3</button>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </section>
-
-                <section className="table__body">
-                    <table className='table'>
-                        <thead className='thead'>
-                            <tr>
-                                {/* <th className='th'>ID Courrier </th> */}
-                                <th className='th'>Nom </th>
-                                <th className='th'>Prénom </th>
-                                <th className='th'>Matricule </th>
-                                <th className='th'>Expediteur </th>
-                                <th className='th'>Destination </th>
-                                <th className='th'>Description </th>
-                                <th className='th'>Numero Bordereaux </th>
-                                <th className='th'>Date Départ </th>
-                                <th className='th'>Actions </th>
-                            </tr>
-                        </thead>
-                        <tbody className='tbody'>
-                            {/* {displayData()} */}
-                            {/* {folders && folders.data && displayData()} */}
-                            {folders && folders.data && folders.data.map((folder, index) => (
-                                <tr key={index}>
-                                    <td className="td">{folder.id_nature.nom_depose}</td>
-                                    <td className="td">{folder.id_nature.prenom_depose}</td>
-                                    <td className="td">{folder.id_nature.matricule}</td>
-                                    <td className="td">{folder.expiditeur}</td>
-                                    <td className="td">{folder.destination}</td>
-                                    <td className="td">{folder.id_nature.description}</td>
-                                    <td className="td">{folder.numero_bordereaux}</td>
-                                    <td className="td">{new Date(folder.date_depart).toLocaleDateString()}</td>
-                                    <td className="td">
-                                        <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
-                                        <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
-                                        <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </section>
-                <AnimatePresence>
-                    {/* <CustomModal open={modalOpen} handleClose={handleCloseModal} /> */}
-                    {modalOpen && (
-                        <CustomModal
-                            open={modalOpen}
-                            handleClose={handleCloseModal}
-                            folderId={selectedFolderId} // Passer l'ID du courrier à la modale
-                            mode={mode} // Passer le mode à la modale
-                            dataFetch={dataFetch}
-                            displayData={displayData}
-                        />
-                    )}
-                    {/* displayData={displayData} */}
-                </AnimatePresence>
-                {/* Inclusion du modal d'alerte */}
-                <AlertDialogSlide open={alertOpen} setOpen={setAlertOpen} folderId={deleteFolderId} />
-                <CustomizedDialogs open={alertOpenRead} setOpen={setAlertOpenRead} folderId={readFolderId} />
-            </main>
-        </div>
-    );
-}
-
-export default TableResponsive;
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1242,7 +916,6 @@ export default TableResponsive;
 //     const handleOpenModal = (folderId, mode) => {
 //         setSelectedFolderId(folderId);
 //         setMode(mode);
-//         setModalOpen(true);
 //     };
 
 //     const handleCloseModal = () => setModalOpen(false);
@@ -1266,21 +939,21 @@ export default TableResponsive;
 //     }, [folders]);
 
 //     // const logSearchValue = () => {
-//     //     const searchValue = searchRef.current.value;
+    //     //     const searchValue = searchRef.current.value;
 //     //     console.log('Valeur saisie :', searchValue);
 //     // };
 
 //     useEffect(() => {
-//         const searchInput = searchRef.current;
+    //         const searchInput = searchRef.current;
 //         const table = tableRef.current;
 //         const tableRows = table.querySelectorAll('tbody tr');
 
 //         const searchTable = () => {
 //             tableRows.forEach((row, i) => {
-//                 let search_data = searchInput.value.toLowerCase();
-//                 let table_data = '';
+    //                 let search_data = searchInput.value.toLowerCase();
+    //                 let table_data = '';
 
-//                 if (searchType === 'nom') {
+    //                 if (searchType === 'nom') {
 //                     table_data = row.querySelectorAll('td')[0].textContent.toLowerCase();
 //                 } else if (searchType === 'numero') {
 //                     table_data = row.querySelectorAll('td')[6].textContent.toLowerCase();
@@ -1296,7 +969,7 @@ export default TableResponsive;
 //             });
 
 //             document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
-//                 visible_row.style.backgroundColor = (i % 2 === 0) ? '--second-bg' : '--second-bg';
+    //                 visible_row.style.backgroundColor = (i % 2 === 0) ? '--second-bg' : '--second-bg';
 //                 visible_row.style.animationDelay = `${i * 0.1}s`;
 //             });
 //         };
@@ -1413,3 +1086,665 @@ export default TableResponsive;
 
 // export default TableResponsive;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useEffect, useRef, useState } from 'react';
+// import search from "../../assets/image/search.png"
+// import { MdEdit, MdDelete, MdVisibility, MdAdd } from 'react-icons/md';
+// import { FaArrowDown } from 'react-icons/fa';
+// import { AnimatePresence } from 'framer-motion';
+// import { useGetFolders } from '../../services/serviceFolder'; // Assurez-vous que le chemin est correct
+// import AlertDialogSlide from '../MUI_alert/deleteFolder'; // Importer l'alert modal
+// import CustomizedDialogs from '../MUI_read/readFolder'; // Importer l'alert modal
+
+// import "./tableResponsive.scss"
+// import CustomModal from '../MUI/CustomModal';
+
+// const TableResponsive = () => {
+//     const tableRef = useRef(null);
+//     const searchRef = useRef(null);
+//     const [searchType, setSearchType] = useState('nom');
+//     const [modalOpen, setModalOpen] = useState(false); // État pour gérer l'ouverture/fermeture de la modale
+//     const [selectedFolderId, setSelectedFolderId] = useState(null); // État pour gérer l'ID du courrier sélectionné
+
+//     const [alertOpen, setAlertOpen] = useState(false); // État pour l'alert modal
+//     const [deleteFolderId, setDeleteFolderId] = useState(null); // ID pour suppression
+
+//     const [alertOpenRead, setAlertOpenRead] = useState(false); // État pour l'alert modal
+//     const [readFolderId, setReadFolderId] = useState(null); // ID pour suppression
+
+//     const [searchValue, setSearchValue] = useState('');
+
+//     // Utilisez le hook pour récupérer les dossiers
+//     const { data: folders, isLoading, isError } = useGetFolders();
+//     const [mode, setMode] = useState('add'); // Nouveau état pour le mode de la modale
+
+//     const [dropdownOpen, setDropdownOpen] = useState(false);
+
+//     const handleOpenModal = (folderId, mode) => {
+//         setSelectedFolderId(folderId);
+//         setMode(mode);
+//         setModalOpen(true);
+//     };
+
+//     const handleCloseModal = () => setModalOpen(false);
+
+//     const handleDeleteClick = (folderId) => {
+//         setDeleteFolderId(folderId);
+//         setAlertOpen(true);
+//         console.log(folderId)
+//     };
+
+//     const handleReadClick = (folderId) => {
+//         setReadFolderId(folderId);
+//         setAlertOpenRead(true); // Ouvre l'alert modal
+//         console.log(folderId)
+//     };
+
+
+//     useEffect(() => {
+//         // if (folders && folders.data) {
+//         //     folders.data.forEach((folder) => console.log('Folder data:', folder));
+//         // }
+//         dataFetch()
+//         displayData()
+
+//     }, [folders])
+
+//     const toggleDropdown = () => {
+//         setDropdownOpen(!dropdownOpen);
+//         console.log('Dropdown toggled!');
+//     };
+
+//     const dataFetch = () => {
+//         // if (folders && folders.data) {
+//         //     folders.data.forEach((folder) => console.log('Folder data:', folder));
+//         // }
+//         console.log("Actualisation")
+//         console.log(folders)
+//         // displayData()
+//     }
+//     useEffect(() => {
+//         const searchInput = searchRef.current;
+//         const table = tableRef.current;
+//         const tableRows = table.querySelectorAll('tbody tr');
+
+//         const searchTable = () => {
+//             tableRows.forEach((row, i) => {
+//                 let search_data = searchValue.toLowerCase();
+//                 let table_data = '';
+
+//                 if (searchType === 'nom') {
+//                     table_data = row.querySelectorAll('td')[0].textContent.toLowerCase();
+//                 } else if (searchType === 'numero') {
+//                     table_data = row.querySelectorAll('td')[6].textContent.toLowerCase();
+//                 } else if (searchType === 'matricule') {
+//                     table_data = row.querySelectorAll('td')[2].textContent.toLowerCase();
+//                 } else if (searchType === 'date') {
+//                     table_data = row.querySelectorAll('td')[7].textContent;
+//                     search_data = new Date(search_data).toLocaleDateString(); // Convertir pour une comparaison de date
+//                 }
+
+//                 row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
+//                 row.style.setProperty('--delay', i / 25 + 's');
+//             });
+
+//             document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
+//                 visible_row.style.backgroundColor = (i % 2 === 0) ? '--second-bg' : '--second-bg';
+//                 visible_row.style.animationDelay = `${i * 0.1}s`;
+//             });
+//         };
+
+//         searchTable();
+//     }, [searchType, searchValue]);
+
+
+//     const displayData = () => {
+//         if (!folders || !folders.data) return null;
+
+//         return folders.data.map((folder, index) => (
+//             <tr key={index}>
+//                 <td className="td">{folder.id_nature.nom_depose}</td>
+//                 <td className="td">{folder.id_nature.prenom_depose}</td>
+//                 <td className="td">{folder.id_nature.matricule}</td>
+//                 <td className="td">{folder.expiditeur}</td>
+//                 <td className="td">{folder.destination}</td>
+//                 <td className="td">{folder.id_nature.description}</td>
+//                 <td className="td">{folder.numero_bordereaux}</td>
+//                 <td className="td">{new Date(folder.date_depart).toLocaleDateString()}</td>
+//                 <td className="td">
+//                     <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
+//                     <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
+//                     <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
+//                 </td>
+//             </tr>
+//         ));
+//     };
+
+//     return (
+//         <div className='container__table'>
+//             <main className="table" ref={tableRef} id="customers_table">
+//                 <section className="table__header">
+//                     <select className='searchByeverything' value={searchType} onChange={(e) => setSearchType(e.target.value)}>
+//                         <option value="nom">Search by Nom</option>
+//                         <option value="numero">Search by Numero</option>
+//                         <option value="matricule">Search by matricule</option>
+//                         <option value="date">Search by Date</option>
+//                     </select>
+//                     {/* <div className="input-group">
+//                         <input type="search" placeholder="Search Data..." ref={searchRef} />
+//                         <img src={search} alt="Search Icon" />
+//                     </div> */}
+//                     {searchType === 'date' ? (
+//                         <input
+//                             type="date"
+//                             ref={searchRef}
+//                             onChange={(e) => setSearchValue(e.target.value)}
+//                             placeholder="Select Date..."
+//                         />
+//                     ) : (
+//                         <div className="input-group">
+//                             <input
+//                                 type="search"
+//                                 placeholder="Search Data..."
+//                                 ref={searchRef}
+//                                 onChange={(e) => setSearchValue(e.target.value)}
+//                             />
+//                             <img src={search} alt="Search Icon" />
+//                         </div>
+//                     )}
+//                     <div className='option_right'>
+//                         {/* <MdAdd onClick={handleOpenModal} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} /> */}
+//                         <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
+//                         {/* <FaArrowDown onClick={toggleDropdown} className="icon_add" style={{ marginLeft: '20px', fontSize: '24px' }} /> */}
+//                         <div className="dropdown-container">
+//                             <FaArrowDown onClick={toggleDropdown} className="icon_add" style={{ marginLeft: '20px', fontSize: '24px' }} />
+//                             {dropdownOpen && (
+//                                 <div className="dropdown-menu">
+//                                     <button onClick={() => setSelectedOption('option1')}>Option 1</button>
+//                                     <button onClick={() => setSelectedOption('option2')}>Option 2</button>
+//                                     <button onClick={() => setSelectedOption('option3')}>Option 3</button>
+//                                 </div>
+//                             )}
+//                         </div>
+//                     </div>
+//                 </section>
+
+//                 <section className="table__body">
+//                     <table className='table'>
+//                         <thead className='thead'>
+//                             <tr>
+//                                 {/* <th className='th'>ID Courrier </th> */}
+//                                 <th className='th'>Nom </th>
+//                                 <th className='th'>Prénom </th>
+//                                 <th className='th'>Matricule </th>
+//                                 <th className='th'>Expediteur </th>
+//                                 <th className='th'>Destination </th>
+//                                 <th className='th'>Description </th>
+//                                 <th className='th'>Numero Bordereaux </th>
+//                                 <th className='th'>Date Départ </th>
+//                                 <th className='th'>Actions </th>
+//                             </tr>
+//                         </thead>
+//                         <tbody className='tbody'>
+//                             {/* {displayData()} */}
+//                             {/* {folders && folders.data && displayData()} */}
+//                             {folders && folders.data && folders.data.map((folder, index) => (
+//                                 <tr key={index}>
+//                                     <td className="td">{folder.id_nature.nom_depose}</td>
+//                                     <td className="td">{folder.id_nature.prenom_depose}</td>
+//                                     <td className="td">{folder.id_nature.matricule}</td>
+//                                     <td className="td">{folder.expiditeur}</td>
+//                                     <td className="td">{folder.destination}</td>
+//                                     <td className="td">{folder.id_nature.description}</td>
+//                                     <td className="td">{folder.numero_bordereaux}</td>
+//                                     <td className="td">{new Date(folder.date_depart).toLocaleDateString()}</td>
+//                                     <td className="td">
+//                                         <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
+//                                         <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
+//                                         <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
+//                                     </td>
+//                                 </tr>
+//                             ))}
+//                         </tbody>
+//                     </table>
+//                 </section>
+//                 <AnimatePresence>
+//                     {/* <CustomModal open={modalOpen} handleClose={handleCloseModal} /> */}
+//                     {modalOpen && (
+//                         <CustomModal
+//                             open={modalOpen}
+//                             handleClose={handleCloseModal}
+//                             folderId={selectedFolderId} // Passer l'ID du courrier à la modale
+//                             mode={mode} // Passer le mode à la modale
+//                             dataFetch={dataFetch}
+//                             displayData={displayData}
+//                         />
+//                     )}
+//                     {/* displayData={displayData} */}
+//                 </AnimatePresence>
+//                 {/* Inclusion du modal d'alerte */}
+//                 <AlertDialogSlide open={alertOpen} setOpen={setAlertOpen} folderId={deleteFolderId} />
+//                 <CustomizedDialogs open={alertOpenRead} setOpen={setAlertOpenRead} folderId={readFolderId} />
+//             </main>
+//         </div>
+//     );
+// }
+
+// export default TableResponsive;
+
+
+
+
+
+
+
+
+
+
+
+// //         setModalOpen(true);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React, { useEffect, useRef, useState } from 'react';
+import search from "../../assets/image/search.png";
+import { MdEdit, MdDelete, MdVisibility, MdAdd } from 'react-icons/md';
+import { FaArrowDown } from 'react-icons/fa';
+import { AnimatePresence } from 'framer-motion';
+import { useGetFolders } from '../../services/serviceFolder'; // Assurez-vous que le chemin est correct
+import AlertDialogSlide from '../MUI_alert/deleteFolder'; // Importer l'alert modal
+import CustomizedDialogs from '../MUI_read/readFolder'; // Importer l'alert modal
+import "./tableResponsive.scss";
+import CustomModal from '../MUI/CustomModal';
+
+const TableResponsive = () => {
+    const tableRef = useRef(null);
+    const searchRef = useRef(null);
+    const [searchType, setSearchType] = useState('nom');
+    const [modalOpen, setModalOpen] = useState(false); // État pour gérer l'ouverture/fermeture de la modale
+    const [selectedFolderId, setSelectedFolderId] = useState(null); // État pour gérer l'ID du courrier sélectionné
+    const [alertOpen, setAlertOpen] = useState(false); // État pour l'alert modal
+    const [deleteFolderId, setDeleteFolderId] = useState(null); // ID pour suppression
+    const [alertOpenRead, setAlertOpenRead] = useState(false); // État pour l'alert modal
+    const [readFolderId, setReadFolderId] = useState(null); // ID pour suppression
+    const [searchValue, setSearchValue] = useState('');
+
+    // Utilisez le hook pour récupérer les dossiers
+    const { data: folders, refetch, isLoading, isError } = useGetFolders();
+    const [mode, setMode] = useState('add'); // Nouveau état pour le mode de la modale
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+
+    const handleOpenModal = (folderId, mode) => {
+        setSelectedFolderId(folderId);
+        setMode(mode);
+        setModalOpen(true);
+    };
+
+    const handleCloseModal = () => setModalOpen(false);
+
+    const handleDeleteClick = (folderId) => {
+        setDeleteFolderId(folderId);
+        setAlertOpen(true);
+        console.log(folderId);
+    };
+
+    const handleReadClick = (folderId) => {
+        setReadFolderId(folderId);
+        setAlertOpenRead(true); // Ouvre l'alert modal
+        console.log(folderId);
+    };
+
+    // Fetch data when folders change
+    useEffect(() => {
+        refetch();
+    }, [refetch]);
+
+    const toggleDropdown = () => {
+        setDropdownOpen(!dropdownOpen);
+        console.log('Dropdown toggled!');
+    };
+
+
+        useEffect(() => {
+        const searchInput = searchRef.current;
+        const table = tableRef.current;
+        const tableRows = table.querySelectorAll('tbody tr');
+
+        const searchTable = () => {
+            tableRows.forEach((row, i) => {
+                let search_data = searchValue.toLowerCase();
+                let table_data = '';
+
+                if (searchType === 'nom') {
+                    table_data = row.querySelectorAll('td')[0].textContent.toLowerCase();
+                } else if (searchType === 'numero') {
+                    table_data = row.querySelectorAll('td')[6].textContent.toLowerCase();
+                } else if (searchType === 'matricule') {
+                    table_data = row.querySelectorAll('td')[2].textContent.toLowerCase();
+                } else if (searchType === 'date') {
+                    table_data = row.querySelectorAll('td')[7].textContent;
+                    search_data = new Date(search_data).toLocaleDateString(); // Convertir pour une comparaison de date
+                }
+
+                row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
+                row.style.setProperty('--delay', i / 25 + 's');
+            });
+
+            document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
+                visible_row.style.backgroundColor = (i % 2 === 0) ? '--second-bg' : '--second-bg';
+                visible_row.style.animationDelay = `${i * 0.1}s`;
+            });
+        };
+
+        searchTable();
+    }, [searchType, searchValue]);
+
+    const displayData = () => {
+        if (!folders || !folders.data) return null;
+
+        return folders.data.map((folder, index) => (
+            <tr key={index}>
+                <td className="td">{folder.id_nature.nom_depose}</td>
+                <td className="td">{folder.id_nature.prenom_depose}</td>
+                <td className="td">{folder.id_nature.matricule}</td>
+                <td className="td">{folder.expiditeur}</td>
+                <td className="td">{folder.destination}</td>
+                <td className="td">{folder.id_nature.description}</td>
+                <td className="td">{folder.numero_bordereaux}</td>
+                <td className="td">{new Date(folder.date_depart).toLocaleDateString()}</td>
+                <td className="td">
+                    <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
+                    <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
+                    <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
+                </td>
+            </tr>
+        ));
+    };
+
+    return (
+        <div className='container__table'>
+            <main className="table" ref={tableRef} id="customers_table">
+                <section className="table__header">
+                    <select className='searchByeverything' value={searchType} onChange={(e) => setSearchType(e.target.value)}>
+                        <option value="nom">Search by Nom</option>
+                        <option value="numero">Search by Numero</option>
+                        <option value="matricule">Search by Matricule</option>
+                        <option value="date">Search by Date</option>
+                    </select>
+                    {searchType === 'date' ? (
+                        <input
+                            type="date"
+                            ref={searchRef}
+                            onChange={(e) => setSearchValue(e.target.value)}
+                            placeholder="Select Date..."
+                        />
+                    ) : (
+                        <div className="input-group">
+                            <input
+                                type="search"
+                                placeholder="Search Data..."
+                                ref={searchRef}
+                                onChange={(e) => setSearchValue(e.target.value)}
+                            />
+                            <img src={search} alt="Search Icon" />
+                        </div>
+                    )}
+                    <div className='option_right'>
+                        <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
+                        <div className="dropdown-container">
+                            <FaArrowDown onClick={toggleDropdown} className="icon_add" style={{ marginLeft: '20px', fontSize: '24px' }} />
+                            {dropdownOpen && (
+                                <div className="dropdown-menu">
+                                    <button onClick={() => setSelectedOption('option1')}>Option 1</button>
+                                    <button onClick={() => setSelectedOption('option2')}>Option 2</button>
+                                    <button onClick={() => setSelectedOption('option3')}>Option 3</button>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </section>
+
+                <section className="table__body">
+                    <table className='table'>
+                        <thead className='thead'>
+                            <tr>
+                                <th className='th'>Nom </th>
+                                <th className='th'>Prénom </th>
+                                <th className='th'>Matricule </th>
+                                <th className='th'>Expediteur </th>
+                                <th className='th'>Destination </th>
+                                <th className='th'>Description </th>
+                                <th className='th'>Numero Bordereaux </th>
+                                <th className='th'>Date Départ </th>
+                                <th className='th'>Actions </th>
+                            </tr>
+                        </thead>
+                        <tbody className='tbody'>
+                            {displayData()}
+                        </tbody>
+                    </table>
+                </section>
+                <AnimatePresence>
+                    {modalOpen && (
+                        <CustomModal
+                            open={modalOpen}
+                            handleClose={handleCloseModal}
+                            folderId={selectedFolderId} // Passer l'ID du courrier à la modale
+                            mode={mode} // Passer le mode à la modale
+                            onSuccess={refetch} // Re-fetch folders when the modal closes successfully
+                        />
+                    )}
+                </AnimatePresence>
+                {/* Inclusion du modal d'alerte */}
+                <AlertDialogSlide open={alertOpen} setOpen={setAlertOpen} folderId={deleteFolderId} />
+                <CustomizedDialogs open={alertOpenRead} setOpen={setAlertOpenRead} folderId={readFolderId} />
+            </main>
+        </div>
+    );
+}
+
+export default TableResponsive;

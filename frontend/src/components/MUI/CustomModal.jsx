@@ -14,7 +14,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function CustomModal({ open, handleClose, folderId, mode, dataFetch, displayData }) {
+export default function CustomModal({ open, handleClose, folderId, mode, dataFetch, onSuccess }) {
   const [fields, setFields] = useState({
     numero_bordereaux: '',
     date_depart: '',
@@ -90,8 +90,8 @@ export default function CustomModal({ open, handleClose, folderId, mode, dataFet
       } else {
         await addFolderMutation.mutateAsync(formattedFields);
       }
-      dataFetch();
-      displayData()
+      // dataFetch();
+      onSuccess()
       handleClose();
     } catch (error) {
       console.error('Erreur lors de l\'envoi du formulaire:', error);
