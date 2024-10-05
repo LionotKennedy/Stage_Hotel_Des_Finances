@@ -13,7 +13,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function AlertDialogSlideVisa({ open, setOpen, folderId }) {
+export default function AlertDialogSlideVisa({ open, setOpen, folderId, onSuccess }) {
 
     const deleteVisaMutation = useDeleteVisa();
 
@@ -29,6 +29,7 @@ export default function AlertDialogSlideVisa({ open, setOpen, folderId }) {
             await deleteVisaMutation.mutateAsync({folderId});
             console.log("Supprimer le dossier avec ID:", folderId);
             setOpen(false);
+            onSuccess();
         } catch (error) {
             console.error('Erreur lors de l\'envoi du formulaire:', error);
             setError('Une erreur est survenue lors de l\'ajout/modification du dossier.');

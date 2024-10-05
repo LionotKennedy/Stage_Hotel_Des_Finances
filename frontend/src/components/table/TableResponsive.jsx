@@ -1712,6 +1712,8 @@ import "./tableResponsive.scss";
 import CustomModal from '../MUI/CustomModal';
 import { PDFDownloadLink } from '@react-pdf/renderer'; // Import PDFDownloadLink
 import PdfContent from '../printer/PdfContent'; // Adjust the import path as necessary
+import jsPDF from 'jspdf';
+import { saveAs } from 'file-saver';
 
 const TableResponsive = () => {
     const tableRef = useRef(null);
@@ -1746,26 +1748,48 @@ const TableResponsive = () => {
     //     }
     // };
 
+
+    // const generatePDF = async () => {
+    //     try {
+    //         console.log('Generating PDF');
+    //         const pdf = <PdfContent />;
+            
+    //         // Utiliser FileSaver.js pour le téléchargement local
+    //         const blob = await pdf.toBlob();
+    //         const link = document.createElement('a');
+    //         link.href = URL.createObjectURL(blob);
+    //         link.download = 'MesDossiers.pdf';
+    //         link.click();
+
+    //         // Nettoyer les objets créés
+    //         URL.revokeObjectURL(link.href);
+
+    //     } catch (error) {
+    //         console.error('Erreur lors de la génération du PDF:', error);
+    //         alert('Erreur lors de la génération du PDF');
+    //     }
+    // }
+
+
     const generatePDF = async () => {
         try {
             console.log('Generating PDF');
-            const pdf = <PdfContent />;
+            const doc = new jsPDF();
             
-            // Utiliser FileSaver.js pour le téléchargement local
-            const blob = await pdf.toBlob();
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'MesDossiers.pdf';
-            link.click();
+            // Ajoutez ici le contenu de votre PDF
+            doc.text('Titre du PDF', 10, 10);
+            doc.text('Contenu du PDF', 10, 20);
 
-            // Nettoyer les objets créés
-            URL.revokeObjectURL(link.href);
+            // Sauvegardez le PDF
+            const pdf = doc;
+            saveAs(pdf, 'doc.pdf');
+            console.log("PDF généré avec succès");
 
         } catch (error) {
             console.error('Erreur lors de la génération du PDF:', error);
             alert('Erreur lors de la génération du PDF');
         }
-    }
+    };
     
 
     const handleOpenModal = (folderId, mode) => {
@@ -1990,7 +2014,7 @@ const TableResponsive = () => {
                     )}
                 </AnimatePresence>
                 {/* Inclusion du modal d'alerte */}
-                <AlertDialogSlide open={alertOpen} setOpen={setAlertOpen} folderId={deleteFolderId} />
+                <AlertDialogSlide open={alertOpen} setOpen={setAlertOpen} folderId={deleteFolderId}  onSuccess={refetch} />
                 <CustomizedDialogs open={alertOpenRead} setOpen={setAlertOpenRead} folderId={readFolderId} />
             </main>
         </div>

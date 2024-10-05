@@ -1,6 +1,6 @@
 import React from 'react'
 import "./visa.scss"
-import customerList from '../../Data/user.json'
+// import customerList from '../../Data/user.json'
 import TablePersonalize from '../../components/table/TablePersonalize'
 import { MdEdit, MdDelete, MdVisibility } from 'react-icons/md';
 import TableVisa from '../../components/table/TableVisa';

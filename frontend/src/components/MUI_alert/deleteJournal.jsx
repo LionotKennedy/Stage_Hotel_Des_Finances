@@ -13,7 +13,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function AlertJournalDialogSlide({ open, setOpen, id }) {
+export default function AlertJournalDialogSlide({ open, setOpen, id, onSuccess }) {
 
     const deleteJournalMutation = useDeleteJournal();
 
@@ -29,6 +29,7 @@ export default function AlertJournalDialogSlide({ open, setOpen, id }) {
             await deleteJournalMutation.mutateAsync({id});
             console.log("Supprimer le dossier avec ID:", id);
             setOpen(false);
+            onSuccess();
         } catch (error) {
             console.error('Erreur lors de l\'envoi du formulaire:', error);
             setError('Une erreur est survenue lors de l\'ajout/modification du dossier.');

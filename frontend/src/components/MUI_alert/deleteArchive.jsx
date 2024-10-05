@@ -13,7 +13,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function AlertDialogArchiveSlide({ open, setOpen, folderId }) {
+export default function AlertDialogArchiveSlide({ open, setOpen, folderId, onSuccess }) {
 
     const deleteArchiveMutation = useDeleteArchive();
 
@@ -24,11 +24,14 @@ export default function AlertDialogArchiveSlide({ open, setOpen, folderId }) {
     const handleConfirmDelete = async () => {
         // Ajoutez votre logique de suppression ici avec folderId
         console.log(folderId);
+        console.log(onSuccess);
+
 
         try {
             await deleteArchiveMutation.mutateAsync({folderId});
             console.log("Supprimer le dossier avec ID:", folderId);
             setOpen(false);
+            onSuccess();
         } catch (error) {
             console.error('Erreur lors de l\'envoi du formulaire:', error);
             setError('Une erreur est survenue lors de l\'ajout/modification du dossier.');

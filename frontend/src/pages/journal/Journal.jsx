@@ -407,10 +407,27 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useEffect,useState } from 'react';
 import "./journal.scss";
 import Table from '../../components/table/Table';
-import { MdEdit, MdDelete, MdVisibility } from 'react-icons/md';
+import { MdDelete, MdVisibility } from 'react-icons/md';
 import { useGetJournals } from '../../services/serviceJournal';
 import JournalDialogs from '../../components/MUI_read/readJournal'; 
 import AlertJournalDialogSlide from '../../components/MUI_alert/deleteJournal'; // Importer l'alert modal
@@ -435,7 +452,7 @@ const getUserImageSrc = (image) => {
 
 const Journal = () => {
   // Utilisez le hook pour récupérer les journaux
-  const { data: journals, isLoading, isError } = useGetJournals();
+  const { data: journals, refetch, isLoading, isError } = useGetJournals();
 
   const [alertOpenRead, setAlertOpenRead] = useState(false); 
   const [readFolderId, setReadFolderId] = useState(null);
@@ -449,6 +466,10 @@ const Journal = () => {
       // console.log('Journal data image:', journals.imageJournale); // S'assurer que les journaux sont bien récupérés
     }
   }, [journals]);
+
+  useEffect(() => {
+    refetch();
+}, [refetch]);
 
   // Définir les colonnes du tableau
   const customerTableHead = [
@@ -483,7 +504,6 @@ const Journal = () => {
         {/* <td>{item.user}</td> */}
         <td>
           <MdVisibility onClick={() => handleRead(item._id)} style={{ cursor: 'pointer', marginRight: '10px' }} />
-          {/* <MdEdit onClick={() => handleEdit(item._id)} style={{ cursor: 'pointer', marginRight: '10px' }} /> */}
           <MdDelete onClick={() => handleDelete(item._id)} style={{ cursor: 'pointer' }} />
         </td>
       </tr>
@@ -498,10 +518,6 @@ const Journal = () => {
     setAlertOpenRead(true); // Ouvre l'alert modal
   };
   
-  const handleEdit = (id) => {
-    console.log('Modifier journal avec id:', id);
-    // Logique pour éditer le journal
-  };
   
   const handleDelete = (id) => {
     console.log('Supprimer journal avec id:', id);
@@ -540,7 +556,7 @@ const Journal = () => {
         </div>
       </div>
       <JournalDialogs open={alertOpenRead} setOpen={setAlertOpenRead} id={readFolderId} />
-      <AlertJournalDialogSlide open={alertOpen} setOpen={setAlertOpen} id={deleteJournalId} />
+      <AlertJournalDialogSlide open={alertOpen} setOpen={setAlertOpen} id={deleteJournalId} onSuccess={refetch} />
     </div>
   );
 };

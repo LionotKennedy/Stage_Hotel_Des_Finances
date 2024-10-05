@@ -1,4 +1,5 @@
-Je comprends votre frustration et je vais vous aider à adapter votre code pour utiliser jsPDF et télécharger le fichier PDF localement. Voici comment vous pouvez modifier votre code :
+Je comprends votre frustration et je vais vous aider à adapter votre code pour utiliser jsPDF et télécharger 
+le fichier PDF localement. Voici comment vous pouvez modifier votre code :
 
 ### Modification du composant TableResponsive
 
@@ -86,6 +87,7 @@ export default TableResponsive;
 2. Testez le code pour voir si le PDF se télécharge correctement.
 3. Si nécessaire, ajustez la taille et l'apparence du PDF en utilisant les méthodes de `jsPDF`.
 
-N'hésitez pas à demander plus d'aide si vous rencontrez des problèmes ou si vous avez besoin d'aide pour ajouter du contenu à votre PDF. Je suis là pour vous aider davantage.
+N'hésitez pas à demander plus d'aide si vous rencontrez des problèmes ou si vous avez besoin d'aide pour ajouter du contenu à
+ votre PDF. Je suis là pour vous aider davantage.
 
 Citations:

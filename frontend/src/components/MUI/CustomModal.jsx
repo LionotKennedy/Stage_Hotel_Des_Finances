@@ -14,7 +14,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function CustomModal({ open, handleClose, folderId, mode, dataFetch, onSuccess }) {
+export default function CustomModal({ open, handleClose, folderId, mode, onSuccess }) {
   const [fields, setFields] = useState({
     numero_bordereaux: '',
     date_depart: '',
@@ -69,30 +69,18 @@ export default function CustomModal({ open, handleClose, folderId, mode, dataFet
       date_depart: new Date(fields.date_depart).toISOString(), // Par exemple, si le backend attend un format ISO
     };
 
-    // try {
-    //   await addFolderMutation.mutateAsync(formattedFields);
-    //   handleClose();
-    // } catch (error) {
-    //   console.error('Erreur lors de l\'envoi du formulaire:', error);
-    //   setError('Une erreur est survenue lors de l\'ajout du dossier.');
-    // }
-
-
-
     try {
       if (mode === 'edit') {
-        // Logique pour modifier un dossier
-        // Vous devez implémenter ici la logique pour mettre à jour un dossier existant
-        // Par exemple, vous pourriez utiliser une mutation GraphQL pour mettre à jour un dossier
         await updateFolderMutation.mutateAsync({ folderId, data: formattedFields }); // Utiliser la mutation pour mettre à jour
         console.log('Dossier mis à jour avec succès');
         console.log('Modification d\'un dossier');
       } else {
         await addFolderMutation.mutateAsync(formattedFields);
       }
-      // dataFetch();
       onSuccess()
+      // console.log(onSuccess);
       handleClose();
+
     } catch (error) {
       console.error('Erreur lors de l\'envoi du formulaire:', error);
       setError('Une erreur est survenue lors de l\'ajout/modification du dossier.');

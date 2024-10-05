@@ -127,7 +127,7 @@
 
 
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import "./archivemore.scss";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
@@ -142,7 +142,7 @@ const ArchiveMore = () => {
     const { year } = location.state || {};
 
     // Utilisation du hook pour récupérer les données basées sur l'année
-    const { data, isLoading, isError, error } = useGetArchiveByYear(year);
+    const { data, isLoading,refetch , isError, error } = useGetArchiveByYear(year);
 
     const handleBackClick = () => {
         navigate('/archive');
@@ -157,6 +157,10 @@ const ArchiveMore = () => {
     if (isError) {
         return <p>Erreur: {error.message}</p>;
     }
+
+    useEffect(() => {
+        refetch();
+    }, [refetch]);
 
     return (
         <div className='container__archive-more'>
@@ -193,7 +197,7 @@ const ArchiveMore = () => {
             )} */}
             {/* <TableArchive /> */}
              {/* Afficher le tableau des archives si les données sont disponibles */}
-             <TableArchive archives={data ? data.data : []} />
+             <TableArchive archives={data ? data.data : []} updatesSuccess={refetch} />
         </div>
     );
 }

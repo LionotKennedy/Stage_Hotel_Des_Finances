@@ -15,7 +15,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function ArchiveModal({ open, handleClose, folderId, mode }) {
+export default function ArchiveModal({ open, handleClose, folderId, mode, onSuccess }) {
   const [fields, setFields] = useState({
     numero_bordereaux: '',
     date_depart: '',
@@ -51,6 +51,7 @@ export default function ArchiveModal({ open, handleClose, folderId, mode }) {
     }
 
     console.log(folderData);
+
   }, [folderData]);
 
   const handleChange = (e) => {
@@ -78,7 +79,10 @@ export default function ArchiveModal({ open, handleClose, folderId, mode }) {
       } else {
         await addArchiveMutation.mutateAsync(formattedFields);
       }
+      // onSuccess();
+      onSuccess();
       handleClose();
+      console.log(onSuccess);
     } catch (error) {
       console.error('Erreur lors de l\'envoi du formulaire:', error);
       setError('Une erreur est survenue lors de l\'ajout/modification du dossier.');

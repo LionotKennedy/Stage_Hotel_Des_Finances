@@ -1,9 +1,8 @@
 
-
 import React, { useEffect, useRef, useState } from 'react';
 import "./tablepersonalize.scss";
 import search from "../../assets/image/search.png";
-import { MdEdit, MdDelete, MdVisibility, MdAdd } from 'react-icons/md';
+import { MdAdd } from 'react-icons/md';
 import { AnimatePresence } from 'framer-motion';
 import ModalAdd from '../modal/ModalAdd';
 
@@ -63,20 +62,6 @@ const TablePersonalize = props => {
         setCurrPage(page);
     };
 
-    const handleRead = (id) => {
-        console.log('Read item with id:', id);
-        // Logique pour lire les détails de l'élément
-    };
-
-    const handleEdit = (id) => {
-        console.log('Edit item with id:', id);
-        // Logique pour éditer l'élément
-    };
-
-    const handleDelete = (id) => {
-        console.log('Delete item with id:', id);
-        // Logique pour supprimer l'élément
-    };
 
     return (
         <div className='container__table'>
@@ -86,10 +71,10 @@ const TablePersonalize = props => {
                         <option value="name">Search by Name</option>
                         <option value="id">Search by ID</option>
                     </select>
-                    {/* <div className="input-group">
+                    <div className="input-group">
                         <input type="search" placeholder="Search Data..." ref={searchRef} />
                         <img src={search} alt="" />
-                    </div> */}
+                    </div>
                     <div className='option_right'>
                         <div className="export__file">
                             <label htmlFor="export-file" className="export__file-btn" title="Export File"></label>

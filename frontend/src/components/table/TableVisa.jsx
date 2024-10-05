@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import "./tableResponsive.scss"
 import search from "../../assets/image/search.png"
 import { MdEdit, MdDelete, MdVisibility, MdAdd } from 'react-icons/md';
-// import { FaArrowUp } from 'react-icons/fa';
 import { AnimatePresence } from 'framer-motion';
 import { useGetVisa } from '../../services/serviceVisa';
 import AlertDialogSlideVisa from '../MUI_alert/deleteVisa';
@@ -19,7 +18,7 @@ const TableVisa = () => {
     const [deleteFolderId, setDeleteFolderId] = useState(null);
     const [alertOpenRead, setAlertOpenRead] = useState(false);
     const [readFolderId, setReadFolderId] = useState(null);
-    const { data: folders, isLoading, isError } = useGetVisa();
+    const { data: folders,refetch, isLoading, isError } = useGetVisa();
     const [mode, setMode] = useState('add');
 
     const handleOpenModal = (folderId, mode) => {
@@ -47,6 +46,10 @@ const TableVisa = () => {
             folders.data.forEach((folder) => console.log('Folder data:', folder));
         }
     }, [folders])
+
+    useEffect(() => {
+        refetch();
+    }, [refetch]);
 
     useEffect(() => {
         const searchInput = searchRef.current;
@@ -129,10 +132,11 @@ const TableVisa = () => {
                             handleClose={handleCloseModal}
                             folderId={selectedFolderId} // Passer l'ID du courrier à la modale
                             mode={mode} // Passer le mode à la modale
+                            onSuccess={refetch}
                         />
                     )}
                 </AnimatePresence>
-                <AlertDialogSlideVisa open={alertOpen} setOpen={setAlertOpen} folderId={deleteFolderId} />
+                <AlertDialogSlideVisa open={alertOpen} setOpen={setAlertOpen} folderId={deleteFolderId}  onSuccess={refetch} />
                 <CustomizedVisaDialogs open={alertOpenRead} setOpen={setAlertOpenRead} folderId={readFolderId} />
             </main>
         </div>

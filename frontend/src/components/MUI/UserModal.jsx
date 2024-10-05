@@ -16,7 +16,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function UserScreenDialog({ open, handleClose }) {
+export default function UserScreenDialog({ open, handleClose, onSuccess }) {
 
     const [fields, setFields] = useState({
         name: '',
@@ -41,9 +41,10 @@ export default function UserScreenDialog({ open, handleClose }) {
         };
 
         try {
-            // await addUserMutation.mutateAsync(formattedFields);
+            await addUserMutation.mutateAsync(formattedFields);
             console.log(formattedFields);
             handleClose();
+            onSuccess()
         } catch (error) {
             console.error('Erreur lors de l\'envoi du formulaire:', error);
             setError('Une erreur est survenue lors de l\'ajout/modification du dossier.');      

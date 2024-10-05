@@ -9,7 +9,7 @@ import AlertDialogArchiveSlide from '../MUI_alert/deleteArchive';
 import ArchiveDialogs from '../MUI_read/readArchive'; 
 import ArchiveModal from '../MUI/ArchiveModal';
 
-const TableArchive = ({ archives }) => {
+const TableArchive = ({ archives, updatesSuccess }) => {
 
     const tableRef = useRef(null);
     const searchRef = useRef(null);
@@ -24,7 +24,7 @@ const TableArchive = ({ archives }) => {
     const [readFolderId, setReadFolderId] = useState(null);
 
     // Utilisez le hook pour récupérer les dossiers
-    const { data: folders, isLoading, isError } = useGetFolders();
+    const { data: folders, refetch, isLoading, isError } = useGetFolders();
 
 
     const [mode, setMode] = useState('add'); 
@@ -52,10 +52,16 @@ const TableArchive = ({ archives }) => {
     };
 
     useEffect(() => {
+        refetch();
+        
+    }, [refetch]);
+    
+    useEffect(() => {
         if (folders && folders.data) {
             folders.data.forEach((folder) => console.log('Folder data:', folder));
         }
     }, [folders])
+
 
     useEffect(() => {
         const searchInput = searchRef.current;
@@ -97,10 +103,10 @@ const TableArchive = ({ archives }) => {
                         <option value="name">Search by Name</option>
                         <option value="id">Search by ID</option>
                     </select>
-                    {/* <div className="input-group">
+                    <div className="input-group">
                         <input type="search" placeholder="Search Data..." ref={searchRef} />
                         <img src={search} alt="Search Icon" />
-                    </div> */}
+                    </div>
                     <div className='option_right'>
                         {/* <MdAdd onClick={handleOpenModal} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} /> */}
                         <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
@@ -158,10 +164,11 @@ const TableArchive = ({ archives }) => {
                             handleClose={handleCloseModal}
                             folderId={selectedFolderId} 
                             mode={mode}
+                            onSuccess={refetch}
                         />
                     )}
                 </AnimatePresence>
-                <AlertDialogArchiveSlide open={alertOpen} setOpen={setAlertOpen} folderId={deleteFolderId} />
+                <AlertDialogArchiveSlide open={alertOpen} setOpen={setAlertOpen} folderId={deleteFolderId} onSuccess={refetch} />
                 <ArchiveDialogs open={alertOpenRead} setOpen={setAlertOpenRead} folderId={readFolderId} />
             </main>
         </div>

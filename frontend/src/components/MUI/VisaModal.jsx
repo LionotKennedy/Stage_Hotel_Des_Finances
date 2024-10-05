@@ -14,7 +14,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function VisaModal({ open, handleClose, folderId, mode }) {
+export default function VisaModal({ open, handleClose, folderId, mode, onSuccess }) {
   const [fields, setFields] = useState({
     numero_visa: '',
     nom_depose_visa: '',
@@ -65,6 +65,7 @@ export default function VisaModal({ open, handleClose, folderId, mode }) {
       } else {
         await addVisaMutation.mutateAsync(formattedFields);
       }
+      onSuccess();
       handleClose();
     } catch (error) {
       console.error('Erreur lors de l\'envoi du formulaire:', error);

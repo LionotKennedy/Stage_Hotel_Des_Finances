@@ -16,7 +16,7 @@ import CurrentTime from '../../components/Timer/CurrentTime';
 
 const User = () => {
   const [modalOpen, setModalOpen] = useState(false); // État pour gérer l'ouverture/fermeture de la modale
-  const { data: users, isLoading, isError } = useGetUser();
+  const { data: users, refetch, isLoading, isError } = useGetUser();
 
   // Fonction pour ouvrir le dialogue
   const handleOpenDialog = () => {
@@ -34,6 +34,11 @@ const User = () => {
       console.log('Données des archives par groupes:', users.data);
     }
   }, [users]);
+
+  useEffect(() => {
+    refetch();
+}, [refetch]);
+
 
   if (isLoading) {
     return <p>Chargement des archives...</p>;
@@ -56,7 +61,7 @@ const User = () => {
         <p>Aucune utilisateur trouvée.</p>
       )}
 
-      <UserScreenDialog open={modalOpen} handleClose={handleCloseDialog} />
+      <UserScreenDialog open={modalOpen} handleClose={handleCloseDialog} onSuccess={refetch} />
 
 
       {/* <button onClick={handleOpenModal} className="open-modal-btn">
