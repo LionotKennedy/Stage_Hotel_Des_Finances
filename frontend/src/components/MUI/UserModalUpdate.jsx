@@ -1604,7 +1604,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function UserUpdateScreenDialog({ open, handleClose, userId }) {
+export default function UserUpdateScreenDialog({ open, handleClose, userId, onSuccessUpdate }) {
     const { mutate: updateUser } = useUpdatePermissionUser();
     const { data: userData } = useGetUserById(userId);
     const [imagePreview, setImagePreview] = useState('');
@@ -1671,6 +1671,7 @@ export default function UserUpdateScreenDialog({ open, handleClose, userId }) {
                     console.error('Erreur lors de la mise à jour de l\'utilisateur:', error.message);
                 }
             });
+            onSuccessUpdate();
             handleClose();
         } catch (error) {
             console.error('Erreur lors de l\'envoi du formulaire:', error);

@@ -67,7 +67,7 @@ import UserUpdateScreenDialog from '../MUI/UserModalUpdate';
 import { useNavigate } from 'react-router-dom';
 
 // Le composant reçoit un tableau d'utilisateurs via les props
-const UserCard = ({ users }) => {
+const UserCard = ({ users, refetch }) => {
   const [selectedFolderId, setSelectedFolderId] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();  // Initialisation de useNavigate
@@ -138,6 +138,7 @@ const UserCard = ({ users }) => {
           open={modalOpen}
           handleClose={handleCloseModal}
           userId={selectedFolderId} // Passer l'ID du courrier à la modale
+          onSuccessUpdate={refetch} // On passe refetch ici
         />
       )}
     </div>

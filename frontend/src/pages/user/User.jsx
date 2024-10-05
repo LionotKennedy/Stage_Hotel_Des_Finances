@@ -4,12 +4,12 @@ import UserCard from '../../components/user-card/UserCard'
 import { useGetUser } from '../../services/serviceUser';
 import { MdAdd } from 'react-icons/md';
 import UserScreenDialog from '../../components/MUI/UserModal';
-// import CustomModal from '../../components/MUI/CustomModal';
 
 import CalendarComponent from '../../components/calendar/Calendar';
-// import DateRangeCalendarComponent from '../../components/calendar/DateRangeCalendar';
 import BasicDateCalendar from '../../components/calendar/BasicDateCalendar';
 import CurrentTime from '../../components/Timer/CurrentTime';
+// import CustomModal from '../../components/MUI/CustomModal';
+// import DateRangeCalendarComponent from '../../components/calendar/DateRangeCalendar';
 // import StyledTimeClock from '../../components/Timer/StyledTimeClock';
 // import MuiCalendarComponent from '../../components/calendar/MuiCalendarComponent';
 
@@ -21,6 +21,7 @@ const User = () => {
   // Fonction pour ouvrir le dialogue
   const handleOpenDialog = () => {
     setModalOpen(true);
+    refetch(); // Rafraîchir les données
   };
 
   // Fonction pour fermer le dialogue
@@ -30,14 +31,15 @@ const User = () => {
 
 
   useEffect(() => {
-    if (users && users.data) {
-      console.log('Données des archives par groupes:', users.data);
-    }
+    // if (users && users.data) {
+    //   console.log('Données des archives par groupes:', users.data);
+    // }
+    users?.data?.forEach((users) => console.log('Folder data:', users));
   }, [users]);
 
   useEffect(() => {
-    refetch();
-}, [refetch]);
+    if (refetch) refetch(); // Assure-toi que refetch est bien défini
+}, [refetch]);  // Vérifie aussi si c'est nécessaire, ou si tu peux déplacer ça dans `TableArchive`.
 
 
   if (isLoading) {
@@ -55,7 +57,7 @@ const User = () => {
       </div>
       {users?.data && users.data.length > 0 ? (
         <div className="card-container">
-          <UserCard users={users.data} />
+          <UserCard users={users.data} refetch={refetch} />
         </div>
       ) : (
         <p>Aucune utilisateur trouvée.</p>

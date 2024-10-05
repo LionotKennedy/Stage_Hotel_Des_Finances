@@ -9,7 +9,7 @@ import AlertDialogArchiveSlide from '../MUI_alert/deleteArchive';
 import ArchiveDialogs from '../MUI_read/readArchive'; 
 import ArchiveModal from '../MUI/ArchiveModal';
 
-const TableArchive = ({ archives, updatesSuccess }) => {
+const TableArchive = ({ archives, refetch }) => {
 
     const tableRef = useRef(null);
     const searchRef = useRef(null);
@@ -24,7 +24,7 @@ const TableArchive = ({ archives, updatesSuccess }) => {
     const [readFolderId, setReadFolderId] = useState(null);
 
     // Utilisez le hook pour récupérer les dossiers
-    const { data: folders, refetch, isLoading, isError } = useGetFolders();
+    const { data: folders, isLoading, isError } = useGetFolders();
 
 
     const [mode, setMode] = useState('add'); 
@@ -51,15 +51,12 @@ const TableArchive = ({ archives, updatesSuccess }) => {
         console.log(folderId)
     };
 
-    useEffect(() => {
-        refetch();
-        
-    }, [refetch]);
     
     useEffect(() => {
-        if (folders && folders.data) {
-            folders.data.forEach((folder) => console.log('Folder data:', folder));
-        }
+        // if (folders && folders.data) {
+        //     folders.data.forEach((folder) => console.log('Folder data:', folder));
+        // }
+        folders?.data?.forEach((folder) => console.log('Folder data:', folder));
     }, [folders])
 
 
@@ -164,7 +161,7 @@ const TableArchive = ({ archives, updatesSuccess }) => {
                             handleClose={handleCloseModal}
                             folderId={selectedFolderId} 
                             mode={mode}
-                            onSuccess={refetch}
+                            onSuccess={refetch} // On passe refetch ici
                         />
                     )}
                 </AnimatePresence>

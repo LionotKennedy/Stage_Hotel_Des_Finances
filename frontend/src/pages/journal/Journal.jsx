@@ -461,15 +461,16 @@ const Journal = () => {
   const [deleteJournalId, setDeleteJournalId] = useState(null); // ID pour suppression
 
   useEffect(() => {
-    if (journals && journals.data) {
-      console.log('Journal data:', journals.data); // S'assurer que les journaux sont bien récupérés
-      // console.log('Journal data image:', journals.imageJournale); // S'assurer que les journaux sont bien récupérés
-    }
+    // if (journals && journals.data) {
+    //   console.log('Journal data:', journals.data); // S'assurer que les journaux sont bien récupérés
+    //   // console.log('Journal data image:', journals.imageJournale); // S'assurer que les journaux sont bien récupérés
+    // }
+    journals?.data?.forEach((journals) => console.log('Folder data:', journals));
   }, [journals]);
 
-  useEffect(() => {
-    refetch();
-}, [refetch]);
+//   useEffect(() => {
+//     refetch();
+// }, [refetch]);
 
   // Définir les colonnes du tableau
   const customerTableHead = [
@@ -525,6 +526,10 @@ const Journal = () => {
     setDeleteJournalId(id);
     setAlertOpen(true); // Ouvre l'alert modal
   };
+
+  useEffect(() => {
+    if (refetch) refetch(); // Assure-toi que refetch est bien défini
+}, [refetch]);  // Vérifie aussi si c'est nécessaire, ou si tu peux déplacer ça dans `TableArchive`.
 
   // Gérer l'état de chargement et d'erreur
   if (isLoading) {

@@ -82,7 +82,7 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
       // onSuccess();
       onSuccess();
       handleClose();
-      console.log(onSuccess);
+      // console.log(onSuccess);
     } catch (error) {
       console.error('Erreur lors de l\'envoi du formulaire:', error);
       setError('Une erreur est survenue lors de l\'ajout/modification du dossier.');
