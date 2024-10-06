@@ -1700,6 +1700,483 @@
 
 
 
+
+
+
+
+
+
+
+
+// const generatePDF = async () => {
+//     try {
+//         console.log('Generating PDF');
+//         const pdf = <PdfContent />;
+//         return (
+//             <PDFDownloadLink document={pdf} fileName="folders.pdf">
+//                 {({ loading }) => (
+//                     loading ? 'Chargement...' : null
+//                 )}
+//             </PDFDownloadLink>
+//         );
+//     } catch (error) {
+//         console.error('Erreur lors de la génération du PDF:', error);
+//         alert('Erreur lors de la génération du PDF');
+//     }
+// };
+
+
+// const generatePDF = async () => {
+//     try {
+//         console.log('Generating PDF');
+//         const pdf = <PdfContent />;
+
+//         // Utiliser FileSaver.js pour le téléchargement local
+//         const blob = await pdf.toBlob();
+//         const link = document.createElement('a');
+//         link.href = URL.createObjectURL(blob);
+//         link.download = 'MesDossiers.pdf';
+//         link.click();
+
+//         // Nettoyer les objets créés
+//         URL.revokeObjectURL(link.href);
+
+//     } catch (error) {
+//         console.error('Erreur lors de la génération du PDF:', error);
+//         alert('Erreur lors de la génération du PDF');
+//     }
+// }
+
+
+// const generatePDF = async () => {
+//     try {
+//         console.log('Generating PDF');
+//         const doc = new jsPDF();
+
+//         // Ajoutez ici le contenu de votre PDF
+//         doc.text('Titre du PDF', 10, 10);
+//         doc.text('Contenu du PDF', 10, 20);
+
+//         // Sauvegardez le PDF
+//         const pdf = doc;
+//         saveAs(pdf, 'doc.pdf');
+//         console.log("PDF généré avec succès");
+
+//     } catch (error) {
+//         console.error('Erreur lors de la génération du PDF:', error);
+//         alert('Erreur lors de la génération du PDF');
+//     }
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const handleOptionClick = (option) => {
+//     setSelectedOption(option);
+//     console.log(`Option selected: ${option}`);
+
+//     switch (option) {
+//         case 'option1':
+//           generatePDF();
+//           console.log("PDF generated successfully");
+//           break;
+//         case 'option2':
+//           // ... autre logique ...
+//           break;
+//         case 'option3':
+//           // ... autre logique ...
+//           break;
+//       }
+
+//     setDropdownOpen(false);
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const generatePDF = () => {
+//     try {
+//         const doc = new jsPDF();
+
+//         // Ajoutez ici le contenu de votre PDF
+//         doc.text('Titre du PDF', 10, 10);
+//         doc.text('Contenu du PDF', 10, 20);
+
+//         // Sauvegardez le PDF
+//         const pdf = doc;
+//         saveAs(pdf, 'document.pdf');
+//         console.log("PDF généré avec succès");
+//     } catch (error) {
+//         console.error('Erreur lors de la génération du PDF:', error);
+//         alert('Erreur lors de la génération du PDF');
+//     }
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//     const generatePDF = async () => {
+//     try {
+//         console.log('Generating PDF');
+//         const pdf = <PdfContent />;
+//         return (
+//             <PDFDownloadLink document={pdf} fileName="folders.pdf">
+//                 {({ loading }) => (
+//                     loading ? 'Chargement...' : null
+//                 )}
+//             </PDFDownloadLink>
+//         );
+//     } catch (error) {
+//         console.error('Erreur lors de la génération du PDF:', error);
+//         alert('Erreur lors de la génération du PDF');
+//     }
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const generatePDF = async () => {
+//     try {
+//         console.log('Generating PDF');
+//         const doc = new jsPDF();
+
+//         // Ajoutez le contenu de votre PDF ici
+//         doc.text('Titre du PDF', 10, 10);
+//         doc.text('Contenu du PDF', 10, 20);
+
+//         // Générer le PDF en format Blob
+//         const pdfBlob = doc.output('blob');
+
+//         // Utiliser FileSaver.js pour sauvegarder le PDF
+//         saveAs(pdfBlob, 'MesDossiers.pdf');
+//         console.log("PDF généré avec succès");
+
+//     } catch (error) {
+//         console.error('Erreur lors de la génération du PDF:', error);
+//         alert('Erreur lors de la génération du PDF');
+//     }
+// };
+
+
+
+// const generatePDF = async () => {
+//     try {
+//         console.log('Generating PDF');
+//         const doc = new jsPDF();
+
+//         // Capturez le contenu à partir de la référence
+//         const content = contentRef.current;
+//         if (content) {
+//             doc.html(content, {
+//                 callback: function (doc) {
+//                     // Générer le PDF en format Blob
+//                     const pdfBlob = doc.output('blob');
+//                     saveAs(pdfBlob, 'MesDossiers.pdf');
+//                     console.log("PDF généré avec succès");
+//                 },
+//                 x: 10,
+//                 y: 10,
+//             });
+//         }
+//     } catch (error) {
+//         console.error('Erreur lors de la génération du PDF:', error);
+//         alert('Erreur lors de la génération du PDF');
+//     }
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const generatePDF = async () => {
+//     try {
+//         const doc = new jsPDF();
+//         const content = contentRef.current;
+
+//         if (content) {
+//             // Assurez-vous que le contenu est visible
+//             content.style.display = 'block';
+
+//             await doc.html(content, {
+//                 callback: function (doc) {
+//                     const pdfBlob = doc.output('blob');
+//                     saveAs(pdfBlob, 'MesDossiers.pdf');
+//                 },
+//                 x: 10,
+//                 y: 10,
+//             });
+
+//             // Remettre le contenu à l'état caché
+//             content.style.display = 'none';
+//         }
+//     } catch (error) {
+//         console.error('Erreur lors de la génération du PDF:', error);
+//         alert('Erreur lors de la génération du PDF');
+//     }
+// };
+
+
+
+// const generatePDF = async () => {
+//     try {
+//         const doc = new jsPDF({
+//             orientation: "portrait",
+//             unit: "mm",
+//             format: "a4",
+//             putOnlyUsedFonts: true,
+//             floatPrecision: 16, // or "smart"
+//         });
+
+//         const content = contentRef.current;
+
+//         if (content) {
+//             content.style.display = 'block';
+
+//             const options = {
+//                 callback: function (doc) {
+//                     const pdfBlob = doc.output('blob');
+//                     saveAs(pdfBlob, 'MesDossiers.pdf');
+//                 },
+//                 x: 10,
+//                 y: 10,
+//                 html2canvas: {
+//                     scale: 2, // Increase the scale for better quality
+//                 },
+//                 margin: [10, 10], // Add margins
+//             };
+
+//             await doc.html(content, options);
+//             content.style.display = 'none';
+//         }
+//     } catch (error) {
+//         console.error('Erreur lors de la génération du PDF:', error);
+//         alert('Erreur lors de la génération du PDF');
+//     }
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const generatePDF = async () => {
+//     try {
+//         const doc = new jsPDF('p', 'pt', 'a4'); // 'p' pour portrait, 'pt' pour points, 'a4' pour format A4
+//         const content = contentRef.current;
+
+//         if (content) {
+//             content.style.display = 'block'; // Rendre le contenu visible
+
+//             // Configuration de la taille de police
+//             doc.setFontSize(10); // Définir la taille de la police à 10
+
+//             const pageHeight = doc.internal.pageSize.height; // Hauteur de la page
+//             const pageWidth = doc.internal.pageSize.width; // Largeur de la page
+//             const margin = 20; // Marge
+//             let yOffset = margin; // Décalage vertical
+
+//             // Titre
+//             doc.text("Folder Data Report", margin, yOffset);
+//             yOffset += 20; // Ajouter un espacement
+
+//             // En-tête du tableau
+//             const headers = ["Nom", "Prénom", "Matricule", "Expediteur", "Destination", "Description", "Numero Bordereaux", "Date Départ"];
+//             const columnWidths = [25, 25, 25, 25, 25, 35, 25, 25]; // Largeur des colonnes
+
+//             headers.forEach((header, i) => {
+//                 doc.text(header, margin + columnWidths.slice(0, i).reduce((a, b) => a + b, 0), yOffset);
+//             });
+
+//             yOffset += 20; // Ajouter un espacement après l'en-tête
+
+//             // Données du tableau
+//             folders.data.forEach((folder, index) => {
+//                 const rowData = [
+//                     folder.id_nature.nom_depose,
+//                     folder.id_nature.prenom_depose,
+//                     folder.id_nature.matricule,
+//                     folder.expiditeur,
+//                     folder.destination,
+//                     folder.id_nature.description,
+//                     folder.numero_bordereaux,
+//                     new Date(folder.date_depart).toLocaleDateString(),
+//                 ];
+
+//                 rowData.forEach((data, i) => {
+//                     doc.text(data.toString(), margin + columnWidths.slice(0, i).reduce((a, b) => a + b, 0), yOffset);
+//                 });
+
+//                 yOffset += 15; // Espacement entre les lignes
+
+//                 // Saut de page si le contenu dépasse la hauteur de la page
+//                 if (yOffset > pageHeight - margin) {
+//                     doc.addPage(); // Ajouter une nouvelle page
+//                     yOffset = margin; // Réinitialiser le décalage vertical
+//                 }
+//             });
+
+//             const pdfBlob = doc.output('blob');
+//             saveAs(pdfBlob, 'MesDossiers.pdf');
+
+//             content.style.display = 'none'; // Remettre le contenu à l'état caché
+//         }
+//     } catch (error) {
+//         console.error('Erreur lors de la génération du PDF:', error);
+//         alert('Erreur lors de la génération du PDF');
+//     }
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useEffect, useRef, useState } from 'react';
 import search from "../../assets/image/search.png";
 import { MdEdit, MdDelete, MdVisibility, MdAdd } from 'react-icons/md';
@@ -1710,8 +2187,9 @@ import AlertDialogSlide from '../MUI_alert/deleteFolder'; // Importer l'alert mo
 import CustomizedDialogs from '../MUI_read/readFolder'; // Importer l'alert modal
 import "./tableResponsive.scss";
 import CustomModal from '../MUI/CustomModal';
-import { PDFDownloadLink } from '@react-pdf/renderer'; // Import PDFDownloadLink
-import PdfContent from '../printer/PdfContent'; // Adjust the import path as necessary
+// import { PDFDownloadLink } from '@react-pdf/renderer'; // Import PDFDownloadLink
+// import PdfContent from '../printer/PdfContent'; // Adjust the import path as necessary
+import ContentToPrint from '../printer/ContentToPrint'; // Adjust the import path as necessary
 import jsPDF from 'jspdf';
 import { saveAs } from 'file-saver';
 
@@ -1730,67 +2208,150 @@ const TableResponsive = () => {
     const { data: folders, refetch, isLoading, isError } = useGetFolders();
     const [mode, setMode] = useState('add');
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const contentRef = useRef();
 
-    // const generatePDF = async () => {
-    //     try {
-    //         console.log('Generating PDF');
-    //         const pdf = <PdfContent />;
-    //         return (
-    //             <PDFDownloadLink document={pdf} fileName="folders.pdf">
-    //                 {({ loading }) => (
-    //                     loading ? 'Chargement...' : null
-    //                 )}
-    //             </PDFDownloadLink>
-    //         );
-    //     } catch (error) {
-    //         console.error('Erreur lors de la génération du PDF:', error);
-    //         alert('Erreur lors de la génération du PDF');
-    //     }
-    // };
-
-
-    // const generatePDF = async () => {
-    //     try {
-    //         console.log('Generating PDF');
-    //         const pdf = <PdfContent />;
-            
-    //         // Utiliser FileSaver.js pour le téléchargement local
-    //         const blob = await pdf.toBlob();
-    //         const link = document.createElement('a');
-    //         link.href = URL.createObjectURL(blob);
-    //         link.download = 'MesDossiers.pdf';
-    //         link.click();
-
-    //         // Nettoyer les objets créés
-    //         URL.revokeObjectURL(link.href);
-
-    //     } catch (error) {
-    //         console.error('Erreur lors de la génération du PDF:', error);
-    //         alert('Erreur lors de la génération du PDF');
-    //     }
-    // }
 
 
     const generatePDF = async () => {
         try {
-            console.log('Generating PDF');
-            const doc = new jsPDF();
-            
-            // Ajoutez ici le contenu de votre PDF
-            doc.text('Titre du PDF', 10, 10);
-            doc.text('Contenu du PDF', 10, 20);
+            const doc = new jsPDF('p', 'pt', 'A4'); // Utilisez 'A4' pour le format A4
+            const content = contentRef.current;
 
-            // Sauvegardez le PDF
-            const pdf = doc;
-            saveAs(pdf, 'doc.pdf');
-            console.log("PDF généré avec succès");
+            if (content) {
+                content.style.display = 'block'; // Rendre le contenu visible
 
+                // Configuration de la taille de police
+                doc.setFontSize(10); // Définir la taille de la police à 10
+
+                const pageHeight = doc.internal.pageSize.height; // Hauteur de la page
+                const pageWidth = doc.internal.pageSize.width; // Largeur de la page
+                const margin = 20; // Marge
+                let yOffset = margin; // Décalage vertical
+
+                // Titre
+                doc.text("Folder Data Report", margin, yOffset);
+                yOffset += 20; // Ajouter un espacement
+
+                // En-tête du tableau
+                const headers = ["Nom", "Prénom", "Matricule", "Expediteur", "Destination", "Description", "Numero Bordereaux", "Date Départ"];
+                const columnWidths = [50, 50, 50, 50, 50, 70, 50, 50]; // Largeur des colonnes ajustées
+
+                headers.forEach((header, i) => {
+                    doc.text(header, margin + columnWidths.slice(0, i).reduce((a, b) => a + b, 0), yOffset);
+                });
+
+                yOffset += 20; // Ajouter un espacement après l'en-tête
+
+                // Données du tableau
+                folders.data.forEach((folder, index) => {
+                    const rowData = [
+                        folder.id_nature.nom_depose,
+                        folder.id_nature.prenom_depose,
+                        folder.id_nature.matricule,
+                        folder.expiditeur,
+                        folder.destination,
+                        folder.id_nature.description,
+                        folder.numero_bordereaux,
+                        new Date(folder.date_depart).toLocaleDateString(),
+                    ];
+
+                    rowData.forEach((data, i) => {
+                        doc.text(data.toString(), margin + columnWidths.slice(0, i).reduce((a, b) => a + b, 0), yOffset);
+                    });
+
+                    yOffset += 5; // Espacement entre les lignes réduit
+
+                    // Saut de page si le contenu dépasse la hauteur de la page
+                    if (yOffset > pageHeight - margin) {
+                        doc.addPage(); // Ajouter une nouvelle page
+                        yOffset = margin; // Réinitialiser le décalage vertical
+                    }
+                });
+
+                const pdfBlob = doc.output('blob');
+                saveAs(pdfBlob, 'MesDossiers.pdf');
+
+                content.style.display = 'none'; // Remettre le contenu à l'état caché
+            }
         } catch (error) {
             console.error('Erreur lors de la génération du PDF:', error);
             alert('Erreur lors de la génération du PDF');
         }
     };
+
+
+
+    const generateWord = async () => {
+        try {
+            const content = contentRef.current;
+            if (content) {
+                content.style.display = 'block'; // Rendre le contenu visible
     
+                const wordContent = createDocx();
+    
+                const blob = new Blob([wordContent], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+                saveAs(blob, 'MesDossiers.docx');
+    
+                content.style.display = 'none'; // Remettre le contenu à l'état caché
+            }
+        } catch (error) {
+            console.error('Erreur lors de la génération du fichier Word:', error);
+            alert('Erreur lors de la génération du fichier Word');
+        }
+    };
+
+    
+
+    const createDocx = () => {
+        const zip = new JSZip();
+        const doc = new docxtemplater();
+    
+        const xmlTemplate = `
+        <document>
+            <table>
+                <tr>
+                    <td><w:p><w:r><t>${tables.name}</t></w:r></w:p></td>
+                    <td><w:p><w:r><t>${tables.prenom}</t></w:r></w:p></td>
+                    <td><w:p><w:r><t>${tables.matricule}</t></w:r></w:p></td>
+                    <td><w:p><w:r><t>${tables.expiditeur}</t></w:r></w:p></td>
+                    <td><w:p><w:r><t>${tables.destination}</t></w:r></w:p></td>
+                    <td><w:p><w:r><t>${tables.description}</t></w:r></w:p></td>
+                    <td><w:p><w:r><t>${tables.numero_bordereaux}</t></w:r></w:p></td>
+                    <td><w:p><w:r><t>${tables.date_depart}</t></w:r></w:p></td>
+                </tr>
+            </table>
+        </document>
+        `;
+    
+        var content = new Blob([xmlTemplate], {type: 'text/xml'});
+        doc.read(content, 'string');
+    
+        var ctx = {};
+        ctx.tables = folders.data.map((folder) => ({
+            name: folder.id_nature.nom_depose,
+            prenom: folder.id_nature.prenom_depose,
+            matricule: folder.id_nature.matricule,
+            expiditeur: folder.expiditeur,
+            destination: folder.destination,
+            description: folder.id_nature.description,
+            numero_bordereaux: folder.numero_bordereaux,
+            date_depart: new Date(folder.date_depart).toLocaleDateString(),
+        }));
+    
+        doc.fill(ctx);
+    
+        var buf = doc.render({
+            template: zip.files['word/document.xml'],
+            renderStyle: 'binary'
+        });
+    
+        return buf;
+    };
+    
+
+
+
+
 
     const handleOpenModal = (folderId, mode) => {
         setSelectedFolderId(folderId);
@@ -1825,42 +2386,25 @@ const TableResponsive = () => {
     const handleOptionClick = async (option) => {
         setSelectedOption(option);
         console.log(`Option selected: ${option}`);
-    
+
         switch (option) {
             case 'option1':
                 await generatePDF();
                 console.log("PDF généré avec succès");
                 break;
             case 'option2':
+                await generateWord();
+                console.log("Fichier Word généré avec succès");
                 // ... autre logique ...
                 break;
             case 'option3':
                 // ... autre logique ...
                 break;
         }
-    
+
         setDropdownOpen(false);
     };
-    
-    // const handleOptionClick = (option) => {
-    //     setSelectedOption(option);
-    //     console.log(`Option selected: ${option}`);
 
-    //     switch (option) {
-    //         case 'option1':
-    //           generatePDF();
-    //           console.log("PDF generated successfully");
-    //           break;
-    //         case 'option2':
-    //           // ... autre logique ...
-    //           break;
-    //         case 'option3':
-    //           // ... autre logique ...
-    //           break;
-    //       }
-
-    //     setDropdownOpen(false);
-    // };
 
     const getOption1Data = () => {
         return folders.data.map((folder) => ({
@@ -1940,6 +2484,20 @@ const TableResponsive = () => {
     return (
         <div className='container__table'>
             <main className="table" ref={tableRef} id="customers_table">
+                {/* <div ref={contentRef} className="hidden-content">
+                    <ContentToPrint />
+                </div> */}
+
+                {/* <div ref={contentRef} className="content-to-print">
+                    <ContentToPrint folders={folders?.data} />
+                </div> */}
+                
+                <div ref={contentRef} className="content-to-print">
+                    <div className="hidden-content">
+                        <ContentToPrint folders={folders?.data} />
+                    </div>
+                </div>
+
                 <section className="table__header">
                     <select className='searchByeverything' value={searchType} onChange={(e) => setSearchType(e.target.value)}>
                         <option value="nom">Search by Nom</option>
@@ -1973,7 +2531,7 @@ const TableResponsive = () => {
                             <FaArrowDown onClick={toggleDropdown} className="icon_add" style={{ marginLeft: '20px', fontSize: '24px' }} />
                             {dropdownOpen && (
                                 <div className="dropdown-menu">
-                                     <button onClick={() => handleOptionClick('option1')} className="dropdown-item">Option 1</button>
+                                    <button onClick={() => handleOptionClick('option1')} className="dropdown-item">Option 1</button>
                                     <button onClick={() => handleOptionClick('option2')} className="dropdown-item">Option 2</button>
                                     <button onClick={() => handleOptionClick('option3')} className="dropdown-item">Option 3</button>
                                 </div>
@@ -2010,11 +2568,11 @@ const TableResponsive = () => {
                             folderId={selectedFolderId} // Passer l'ID du courrier à la modale
                             mode={mode} // Passer le mode à la modale
                             onSuccess={refetch} // Re-fetch folders when the modal closes successfully
-                            />
+                        />
                     )}
                 </AnimatePresence>
                 {/* Inclusion du modal d'alerte */}
-                <AlertDialogSlide open={alertOpen} setOpen={setAlertOpen} folderId={deleteFolderId}  onSuccess={refetch} />
+                <AlertDialogSlide open={alertOpen} setOpen={setAlertOpen} folderId={deleteFolderId} onSuccess={refetch} />
                 <CustomizedDialogs open={alertOpenRead} setOpen={setAlertOpenRead} folderId={readFolderId} />
             </main>
         </div>

@@ -624,3 +624,43 @@ main.table {
         color: #007bff; /* Couleur de survol de l'icône */
     }
 }
+
+
+// .hidden-content {
+//     display: none; /* Cela cachera le contenu dans l'interface utilisateur */
+// }
+
+// @media print {
+//     .hidden-content {
+//         display: block; /* Cela peut rendre visible uniquement lors de l'impression */
+//     }
+// }
+
+
+
+// .content-to-print {
+//     display: none;
+// }
+
+// @media print {
+//     .content-to-print {
+//         display: block;
+//     }
+// }
+
+
+
+.content-to-print {
+    display: none;
+}
+
+@media print {
+    .content-to-print {
+        display: block !important;
+        font-size: 10px; /* Réduire la taille du texte */
+    }
+}
+
+// .hidden-content {
+//     display: none;
+// }
