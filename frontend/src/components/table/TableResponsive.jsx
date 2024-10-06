@@ -2253,23 +2253,23 @@ const TableResponsive = () => {
 
                 const pageHeight = doc.internal.pageSize.height; // Hauteur de la page
                 const pageWidth = doc.internal.pageSize.width; // Largeur de la page
-                const margin = 20; // Marge
+                const margin = 15; // Marge
                 let yOffset = margin; // Décalage vertical
 
                 // Titre
                 doc.text("Folder Data Report", margin, yOffset);
-                yOffset += 20; // Ajouter un espacement
+                yOffset += 50; // Ajouter un espacement
 
                 // En-tête du tableau
-                const headers = ["Nom", "Prénom", "Matricule", "Expediteur", "Destination", "Description", "Numero Bordereaux", "Date Départ"];
-                const columnWidths = [50, 50, 50, 50, 50, 70, 50, 50]; // Largeur des colonnes ajustées
-                const columnHeights = [50, 50, 50, 50, 50, 70, 50, 50]; // Largeur des colonnes ajustées
+                const headers = ["Nom", "Prénom", "Matricule", "Expediteur", "Destination", "Description", "N° Bordereaux", "Date Départ"];
+                const columnWidths = [75, 60, 60, 65, 80, 85, 80, 100]; // Largeur des colonnes ajustées
+                // const columnHeights = [50, 50, 50, 50, 50, 70, 50, 50]; // Largeur des colonnes ajustées
 
                 headers.forEach((header, i) => {
                     doc.text(header, margin + columnWidths.slice(0, i).reduce((a, b) => a + b, 0), yOffset);
                 });
 
-                yOffset += 20; // Ajouter un espacement après l'en-tête
+                yOffset += 30; // Ajouter un espacement après l'en-tête
 
                 // Données du tableau
                 folders.data.forEach((folder, index) => {
@@ -2288,7 +2288,7 @@ const TableResponsive = () => {
                         doc.text(data.toString(), margin + columnWidths.slice(0, i).reduce((a, b) => a + b, 0), yOffset);
                     });
 
-                    yOffset += 5; // Espacement entre les lignes réduit
+                    yOffset += 30; // Espacement entre les lignes réduit
 
                     // Saut de page si le contenu dépasse la hauteur de la page
                     if (yOffset > pageHeight - margin) {
@@ -2313,12 +2313,12 @@ const TableResponsive = () => {
             const content = contentRef.current;
             if (content) {
                 content.style.display = 'block'; // Rendre le contenu visible
-    
+
                 const wordContent = createDocx();
-    
+
                 const blob = new Blob([wordContent], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
                 saveAs(blob, 'MesDossiers.docx');
-    
+
                 content.style.display = 'none'; // Remettre le contenu à l'état caché
             }
         } catch (error) {
@@ -2330,7 +2330,7 @@ const TableResponsive = () => {
     const createDocx = () => {
         const zip = new JSZip();
         const doc = new docxtemplater();
-    
+
         const xmlTemplate = `
         <document>
             <table>
@@ -2347,10 +2347,10 @@ const TableResponsive = () => {
             </table>
         </document>
         `;
-    
-        var content = new Blob([xmlTemplate], {type: 'text/xml'});
+
+        var content = new Blob([xmlTemplate], { type: 'text/xml' });
         doc.read(content, 'string');
-    
+
         var ctx = {};
         ctx.tables = folders.data.map((folder) => ({
             name: folder.id_nature.nom_depose,
@@ -2362,17 +2362,17 @@ const TableResponsive = () => {
             numero_bordereaux: folder.numero_bordereaux,
             date_depart: new Date(folder.date_depart).toLocaleDateString(),
         }));
-    
+
         doc.fill(ctx);
-    
+
         var buf = doc.render({
             template: zip.files['word/document.xml'],
             renderStyle: 'binary'
         });
-    
+
         return buf;
     };
-    
+
 
     const handleOpenModal = (folderId, mode) => {
         setSelectedFolderId(folderId);
@@ -2445,7 +2445,7 @@ const TableResponsive = () => {
         }));
     };
 
-    
+
     useEffect(() => {
         const searchInput = searchRef.current;
         const table = tableRef.current;
@@ -2512,7 +2512,7 @@ const TableResponsive = () => {
                 {/* <div ref={contentRef} className="content-to-print">
                     <ContentToPrint folders={folders?.data} />
                 </div> */}
-                
+
                 <div ref={contentRef} className="content-to-print">
                     <div className="hidden-contents">
                         <ContentToPrint folders={folders?.data} />
@@ -2548,7 +2548,9 @@ const TableResponsive = () => {
                     <div className='option_right'>
                         <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
                         <div className="dropdown-container">
-                            <FaArrowDown onClick={toggleDropdown} className="icon_add" style={{ marginLeft: '20px', fontSize: '24px' }} />
+                            <div  onClick={toggleDropdown} className='background_download'>
+                                <FaArrowDown className="icon_download" style={{ marginLeft: '0px', fontSize: '20px' }} />
+                            </div>
                             {dropdownOpen && (
                                 <div className="dropdown-menu">
                                     <button onClick={() => handleOptionClick('option1')} className="dropdown-item">Option 1</button>

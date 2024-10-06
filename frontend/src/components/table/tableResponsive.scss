@@ -24,6 +24,12 @@ main.table {
 
 .icon {
     margin-right: 10px; /* Espace entre les icônes */
+    cursor: pointer;
+    transition: all 0.2s ease-out;
+    &:hover {
+        transform: scale(1.5);
+        transition: all 0.2s ease-out;
+    }
 }
 
 
@@ -358,11 +364,15 @@ main.table {
     position: relative;
     height: 30px;
     background-color: var(--main-bg);
+    // background-color: #0dbd00;
     display: flex;
     align-items: center;
     box-shadow: var(--box-shadow);
     border-radius: var(--border-radius);
+    width: 17%;
     border: none;
+    color: var(--txt-color);
+    padding: 0rem 2.5rem;
 }
 
 
@@ -571,12 +581,14 @@ main.table {
     display: none; /* Masquer par défaut */
     position: absolute;
     background-color: white;
+    // background-color: var(--second-color);
     border: 1px solid #ccc;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     z-index: 1000; /* Assurez-vous que le menu est au-dessus des autres éléments */
     border-radius: 4px;
     margin-top: 5px;
     width: 250px; /* Largeur du menu déroulant, augmentée ici */
+    // height: 10vh;
     animation: fadeIn 0.3s ease; /* Animation d'apparition */
 }
 
@@ -586,6 +598,8 @@ main.table {
 }
 
 .dropdown-menu button {
+    color: black;
+    // color: var(--txt-color);
     width: 100%;
     padding: 10px;
     background-color: transparent;
@@ -594,7 +608,7 @@ main.table {
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s;
-
+    
     &:hover {
         background-color: #f0f0f0; /* Couleur de survol */
     }
@@ -636,3 +650,33 @@ main.table {
     }
 }
 
+
+
+.icon_download {
+    color: #fffafb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    
+}
+
+.background_download {
+    background-color: #0dbd00;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    margin-left: 20px;
+    transition: all 0.2s ease;
+    &:hover{
+        // transform: scaleX(1.8);
+        transition: all 0.2s ease;
+        transform: translateY(5px);
+        
+    }
+}
