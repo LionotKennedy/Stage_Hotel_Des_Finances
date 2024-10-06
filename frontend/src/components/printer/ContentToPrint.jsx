@@ -353,7 +353,8 @@ export default ContentToPrint;
 
 
 // import React from 'react';
-// import { docxtemplater } from 'docxtemplater';
+// // import { docxtemplater } from 'docxtemplater';
+// import  docxtemplater  from 'docxtemplater';
 // import { saveAs } from 'file-saver';
 // import JSZip from 'jszip';
 

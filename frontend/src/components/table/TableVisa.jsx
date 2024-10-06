@@ -11,14 +11,16 @@ import VisaModal from '../MUI/VisaModal';
 const TableVisa = () => {
     const tableRef = useRef(null);
     const searchRef = useRef(null);
-    const [searchType, setSearchType] = useState('name');
+    const [searchType, setSearchType] = useState('nom');
+    const [searchValue, setSearchValue] = useState('');
+
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedFolderId, setSelectedFolderId] = useState(null);
     const [alertOpen, setAlertOpen] = useState(false);
     const [deleteFolderId, setDeleteFolderId] = useState(null);
     const [alertOpenRead, setAlertOpenRead] = useState(false);
     const [readFolderId, setReadFolderId] = useState(null);
-    const { data: folders,refetch, isLoading, isError } = useGetVisa();
+    const { data: folders, refetch, isLoading, isError } = useGetVisa();
     const [mode, setMode] = useState('add');
 
     const handleOpenModal = (folderId, mode) => {
@@ -58,8 +60,18 @@ const TableVisa = () => {
 
         const searchTable = () => {
             tableRows.forEach((row, i) => {
-                let table_data = row.textContent.toLowerCase(),
-                    search_data = searchInput.value.toLowerCase();
+                let search_data = searchValue.toLowerCase();
+                let table_data = '';
+
+                if (searchType === 'nom') {
+                    table_data = row.querySelectorAll('td')[1].textContent.toLowerCase();
+                } else if (searchType === 'prenom') {
+                    table_data = row.querySelectorAll('td')[2].textContent.toLowerCase();
+                } else if (searchType === 'numero') {
+                    table_data = row.querySelectorAll('td')[0].textContent.toLowerCase();
+                } else if (searchType === 'reference') {
+                    table_data = row.querySelectorAll('td')[3].textContent.toLowerCase();
+                }
 
                 row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
                 row.style.setProperty('--delay', i / 25 + 's');
@@ -71,23 +83,44 @@ const TableVisa = () => {
             });
         };
 
-        searchInput.addEventListener('input', searchTable);
+        searchTable();
+    }, [searchType, searchValue]);
 
-        return () => {
-            searchInput.removeEventListener('input', searchTable);
-        };
-    }, []);
+    const displayData = () => {
+        if (!folders || !folders.data) return null;
+
+        return folders.data.map((folder, index) => (
+            <tr key={index}>
+                <td className="td">{folder.numero_visa}</td>
+                <td className="td">{folder.nom_depose_visa}</td>
+                <td className="td">{folder.prenom_depose_visa}</td>
+                <td className="td">{folder.reference}</td>
+                <td className="td">
+                    <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
+                    <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
+                    <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
+                </td>
+            </tr>
+        ));
+    };
+
+
 
     return (
         <div className='container__table'>
             <main className="table" ref={tableRef} id="customers_table">
                 <section className="table__header">
                     <select className='searchByeverything' value={searchType} onChange={(e) => setSearchType(e.target.value)}>
-                        <option value="name">Search by Name</option>
-                        <option value="id">Search by ID</option>
+                    <option value="nom">Search by Nom</option>
+                        <option value="prenom">Search by prenom</option>
+                        <option value="numero">Search by Numero</option>
+                        <option value="reference">Search by reference</option>
                     </select>
                     <div className="input-group">
-                        <input type="search" placeholder="Search Data..." ref={searchRef} />
+                        <input type="search"
+                                placeholder="Search Data..."
+                                ref={searchRef}
+                                onChange={(e) => setSearchValue(e.target.value)} />
                         <img src={search} alt="Search Icon" />
                     </div>
                     <div className='option_right'>
@@ -108,9 +141,8 @@ const TableVisa = () => {
                             </tr>
                         </thead>
                         <tbody className='tbody'>
-                            {folders && folders.data && folders.data.map((folder, index) => (
+                            {/* {folders && folders.data && folders.data.map((folder, index) => (
                                 <tr key={index}>
-                                    {/* <td className="td">{folder._id}</td> */}
                                     <td className="td">{folder.numero_visa}</td>
                                     <td className="td">{folder.nom_depose_visa}</td>
                                     <td className="td">{folder.prenom_depose_visa}</td>
@@ -121,7 +153,8 @@ const TableVisa = () => {
                                         <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
                                     </td>
                                 </tr>
-                            ))}
+                            ))} */}
+                            {displayData()}
                         </tbody>
                     </table>
                 </section>
@@ -136,7 +169,7 @@ const TableVisa = () => {
                         />
                     )}
                 </AnimatePresence>
-                <AlertDialogSlideVisa open={alertOpen} setOpen={setAlertOpen} folderId={deleteFolderId}  onSuccess={refetch} />
+                <AlertDialogSlideVisa open={alertOpen} setOpen={setAlertOpen} folderId={deleteFolderId} onSuccess={refetch} />
                 <CustomizedVisaDialogs open={alertOpenRead} setOpen={setAlertOpenRead} folderId={readFolderId} />
             </main>
         </div>

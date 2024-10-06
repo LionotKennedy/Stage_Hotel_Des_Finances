@@ -2177,6 +2177,33 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useEffect, useRef, useState } from 'react';
 import search from "../../assets/image/search.png";
 import { MdEdit, MdDelete, MdVisibility, MdAdd } from 'react-icons/md';
@@ -2197,13 +2224,14 @@ const TableResponsive = () => {
     const tableRef = useRef(null);
     const searchRef = useRef(null);
     const [searchType, setSearchType] = useState('nom');
+    const [searchValue, setSearchValue] = useState('');
+
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedFolderId, setSelectedFolderId] = useState(null);
     const [alertOpen, setAlertOpen] = useState(false);
     const [deleteFolderId, setDeleteFolderId] = useState(null);
     const [alertOpenRead, setAlertOpenRead] = useState(false);
     const [readFolderId, setReadFolderId] = useState(null);
-    const [searchValue, setSearchValue] = useState('');
     const [selectedOption, setSelectedOption] = useState(null);
     const { data: folders, refetch, isLoading, isError } = useGetFolders();
     const [mode, setMode] = useState('add');
@@ -2235,6 +2263,7 @@ const TableResponsive = () => {
                 // En-tête du tableau
                 const headers = ["Nom", "Prénom", "Matricule", "Expediteur", "Destination", "Description", "Numero Bordereaux", "Date Départ"];
                 const columnWidths = [50, 50, 50, 50, 50, 70, 50, 50]; // Largeur des colonnes ajustées
+                const columnHeights = [50, 50, 50, 50, 50, 70, 50, 50]; // Largeur des colonnes ajustées
 
                 headers.forEach((header, i) => {
                     doc.text(header, margin + columnWidths.slice(0, i).reduce((a, b) => a + b, 0), yOffset);
@@ -2279,8 +2308,6 @@ const TableResponsive = () => {
         }
     };
 
-
-
     const generateWord = async () => {
         try {
             const content = contentRef.current;
@@ -2299,8 +2326,6 @@ const TableResponsive = () => {
             alert('Erreur lors de la génération du fichier Word');
         }
     };
-
-    
 
     const createDocx = () => {
         const zip = new JSZip();
@@ -2349,10 +2374,6 @@ const TableResponsive = () => {
     };
     
 
-
-
-
-
     const handleOpenModal = (folderId, mode) => {
         setSelectedFolderId(folderId);
         setMode(mode);
@@ -2381,7 +2402,6 @@ const TableResponsive = () => {
         setDropdownOpen(!dropdownOpen);
         console.log('Dropdown toggled!');
     };
-
 
     const handleOptionClick = async (option) => {
         setSelectedOption(option);
@@ -2425,6 +2445,7 @@ const TableResponsive = () => {
         }));
     };
 
+    
     useEffect(() => {
         const searchInput = searchRef.current;
         const table = tableRef.current;
@@ -2493,7 +2514,7 @@ const TableResponsive = () => {
                 </div> */}
                 
                 <div ref={contentRef} className="content-to-print">
-                    <div className="hidden-content">
+                    <div className="hidden-contents">
                         <ContentToPrint folders={folders?.data} />
                     </div>
                 </div>
@@ -2526,7 +2547,6 @@ const TableResponsive = () => {
 
                     <div className='option_right'>
                         <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
-                        {/* <MdEdit onClick={() => generatePDF()} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} /> */}
                         <div className="dropdown-container">
                             <FaArrowDown onClick={toggleDropdown} className="icon_add" style={{ marginLeft: '20px', fontSize: '24px' }} />
                             {dropdownOpen && (

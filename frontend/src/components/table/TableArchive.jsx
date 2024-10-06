@@ -4,38 +4,38 @@ import "./tableResponsive.scss";
 import search from "../../assets/image/search.png"
 import { MdEdit, MdDelete, MdVisibility, MdAdd } from 'react-icons/md';
 import { AnimatePresence } from 'framer-motion';
-import { useGetFolders } from '../../services/serviceFolder'; 
+import { useGetFolders } from '../../services/serviceFolder';
 import AlertDialogArchiveSlide from '../MUI_alert/deleteArchive';
-import ArchiveDialogs from '../MUI_read/readArchive'; 
+import ArchiveDialogs from '../MUI_read/readArchive';
 import ArchiveModal from '../MUI/ArchiveModal';
 
 const TableArchive = ({ archives, refetch }) => {
-
     const tableRef = useRef(null);
     const searchRef = useRef(null);
-    const [searchType, setSearchType] = useState('name');
-    const [modalOpen, setModalOpen] = useState(false); 
-    const [selectedFolderId, setSelectedFolderId] = useState(null); 
+    const [searchType, setSearchType] = useState('nom');
+    const [searchValue, setSearchValue] = useState('');
 
-    const [alertOpen, setAlertOpen] = useState(false); 
-    const [deleteFolderId, setDeleteFolderId] = useState(null); 
 
-    const [alertOpenRead, setAlertOpenRead] = useState(false); 
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedFolderId, setSelectedFolderId] = useState(null);
+    const [alertOpen, setAlertOpen] = useState(false);
+    const [deleteFolderId, setDeleteFolderId] = useState(null);
+    const [alertOpenRead, setAlertOpenRead] = useState(false);
     const [readFolderId, setReadFolderId] = useState(null);
 
     // Utilisez le hook pour récupérer les dossiers
     const { data: folders, isLoading, isError } = useGetFolders();
 
 
-    const [mode, setMode] = useState('add'); 
+    const [mode, setMode] = useState('add');
 
     const handleOpenModal = (folderId, mode) => {
-        setSelectedFolderId(folderId); 
+        setSelectedFolderId(folderId);
         setMode(mode);
-        setModalOpen(true); 
+        setModalOpen(true);
     };
 
-    const handleCloseModal = () => setModalOpen(false); 
+    const handleCloseModal = () => setModalOpen(false);
 
     // Ouvre le modal d'alerte avec l'ID du courrier à supprimer
     const handleDeleteClick = (folderId) => {
@@ -51,13 +51,15 @@ const TableArchive = ({ archives, refetch }) => {
         console.log(folderId)
     };
 
-    
+
     useEffect(() => {
         // if (folders && folders.data) {
         //     folders.data.forEach((folder) => console.log('Folder data:', folder));
         // }
         folders?.data?.forEach((folder) => console.log('Folder data:', folder));
     }, [folders])
+
+
 
 
     useEffect(() => {
@@ -92,18 +94,93 @@ const TableArchive = ({ archives, refetch }) => {
 
 
 
+
+    // useEffect(() => {
+    //     const searchInput = searchRef.current;
+    //     const table = tableRef.current;
+    //     const tableRows = table.querySelectorAll('tbody tr');
+
+
+    //     const searchTable = () => {
+    //         tableRows.forEach((row, i) => {
+    //             let search_data = searchValue.toLowerCase();
+    //             let table_data = '';
+
+    //             if (searchType === 'nom') {
+    //                 table_data = row.querySelectorAll('td')[0].textContent.toLowerCase();
+    //             } else if (searchType === 'numero') {
+    //                 table_data = row.querySelectorAll('td')[6].textContent.toLowerCase();
+    //             } else if (searchType === 'matricule') {
+    //                 table_data = row.querySelectorAll('td')[2].textContent.toLowerCase();
+    //             } else if (searchType === 'date') {
+    //                 table_data = row.querySelectorAll('td')[7].textContent;
+    //                 search_data = new Date(search_data).toLocaleDateString(); // Convertir pour une comparaison de date
+    //             }
+
+    //             row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
+    //             row.style.setProperty('--delay', i / 25 + 's');
+    //         });
+
+    //         document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
+    //             visible_row.style.backgroundColor = (i % 2 === 0) ? '--second-bg' : '--second-bg';
+    //             visible_row.style.animationDelay = `${i * 0.1}s`;
+    //         });
+    //     };
+
+    //     searchTable();
+    // }, [searchType, searchValue]);
+
+
+    // const displayData = () => {
+    //     if (!archives || !archives.data) return null;
+
+    //     return archives.data.map((archive, index) => (
+    //         <tr key={index}>
+    //             <td className="td">{archive.description}</td>
+    //             <td className="td">{archive.nom_depose}</td>
+    //             <td className="td">{archive.prenom_depose}</td>
+    //             <td className="td">{archive.matricule}</td>
+    //             <td className="td">{archive.numero_bordereaux}</td>
+    //             <td className="td">{new Date(archive.date_depart).toLocaleDateString()}</td>
+    //             <td className="td">{archive.expiditeur}</td>
+    //             <td className="td">{archive.destination}</td>
+    //             <td className="td">
+    //                 <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(archive._id, 'edit')} />
+    //                 <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(archive._id)} />
+    //                 <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(archive._id)} />
+    //             </td>
+    //         </tr>
+    //     ));
+    // };
+
     return (
         <div className='container__table'>
             <main className="table" id="archive_table">
                 <section className="table__header">
                     <select className='searchByeverything' value={searchType} onChange={(e) => setSearchType(e.target.value)}>
-                        <option value="name">Search by Name</option>
-                        <option value="id">Search by ID</option>
+                        <option value="nom">Search by Nom</option>
+                        <option value="numero">Search by Numero</option>
+                        <option value="matricule">Search by Matricule</option>
+                        <option value="date">Search by Date</option>
                     </select>
-                    <div className="input-group">
-                        <input type="search" placeholder="Search Data..." ref={searchRef} />
-                        <img src={search} alt="Search Icon" />
-                    </div>
+                    {searchType === 'date' ? (
+                        <input
+                            type="date"
+                            ref={searchRef}
+                            onChange={(e) => setSearchValue(e.target.value)}
+                            placeholder="Select Date..."
+                        />
+                    ) : (
+                        <div className="input-group">
+                            <input
+                                type="search"
+                                placeholder="Search Data..."
+                                ref={searchRef}
+                                onChange={(e) => setSearchValue(e.target.value)}
+                            />
+                            <img src={search} alt="Search Icon" />
+                        </div>
+                    )}
                     <div className='option_right'>
                         {/* <MdAdd onClick={handleOpenModal} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} /> */}
                         <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
@@ -130,7 +207,6 @@ const TableArchive = ({ archives, refetch }) => {
                             {archives && archives.length > 0 ? (
                                 archives.map((archive) => (
                                     <tr key={archive._id}>
-                                        {/* <td className="td">{archive._id}</td> */}
                                         <td className="td">{archive.description}</td>
                                         <td className="td">{archive.nom_depose}</td>
                                         <td className="td">{archive.prenom_depose}</td>
@@ -151,6 +227,7 @@ const TableArchive = ({ archives, refetch }) => {
                                     <td colSpan="10">Aucune archive trouvée pour cette année.</td>
                                 </tr>
                             )}
+                            {/* {displayData()} */}
                         </tbody>
                     </table>
                 </section>
@@ -159,7 +236,7 @@ const TableArchive = ({ archives, refetch }) => {
                         <ArchiveModal
                             open={modalOpen}
                             handleClose={handleCloseModal}
-                            folderId={selectedFolderId} 
+                            folderId={selectedFolderId}
                             mode={mode}
                             onSuccess={refetch} // On passe refetch ici
                         />
