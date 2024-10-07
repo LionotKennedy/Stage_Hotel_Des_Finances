@@ -304,7 +304,7 @@
 
 // // Fonction pour rendre les lignes du tableau
 // const renderBody = (item, index) => (
-  
+
 //   <tr key={index}>
 //     <td>{item.action}</td>
 //     <td>{item.date}</td>
@@ -424,12 +424,12 @@
 
 
 
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./journal.scss";
 import Table from '../../components/table/Table';
 import { MdDelete, MdVisibility } from 'react-icons/md';
 import { useGetJournals } from '../../services/serviceJournal';
-import JournalDialogs from '../../components/MUI_read/readJournal'; 
+import JournalDialogs from '../../components/MUI_read/readJournal';
 import AlertJournalDialogSlide from '../../components/MUI_alert/deleteJournal'; // Importer l'alert modal
 
 
@@ -454,7 +454,7 @@ const Journal = () => {
   // Utilisez le hook pour récupérer les journaux
   const { data: journals, refetch, isLoading, isError } = useGetJournals();
 
-  const [alertOpenRead, setAlertOpenRead] = useState(false); 
+  const [alertOpenRead, setAlertOpenRead] = useState(false);
   const [readFolderId, setReadFolderId] = useState(null);
 
   const [alertOpen, setAlertOpen] = useState(false); // État pour l'alert modal
@@ -468,9 +468,9 @@ const Journal = () => {
     journals?.data?.forEach((journals) => console.log('Folder data:', journals));
   }, [journals]);
 
-//   useEffect(() => {
-//     refetch();
-// }, [refetch]);
+  //   useEffect(() => {
+  //     refetch();
+  // }, [refetch]);
 
   // Définir les colonnes du tableau
   const customerTableHead = [
@@ -493,7 +493,7 @@ const Journal = () => {
     console.log('Image Journal:', item.imageJournale); // Affiche l'image originale dans la console
     console.log('URL de l\'image:', imageUrl); // Affiche l'URL générée pour l'image
     console.log('Image Journal:', item.imageJournale); // Afficher l'image dans la console
-  
+
     return (
       <tr key={index}>
         <td>{item.userName}</td>
@@ -504,13 +504,13 @@ const Journal = () => {
         {/* <td>{item.date}</td> */}
         {/* <td>{item.user}</td> */}
         <td>
-          <MdVisibility onClick={() => handleRead(item._id)} style={{ cursor: 'pointer', marginRight: '10px' }} />
-          <MdDelete onClick={() => handleDelete(item._id)} style={{ cursor: 'pointer' }} />
+          <MdVisibility onClick={() => handleRead(item._id)} style={{ cursor: 'pointer', marginRight: '10px' }} className='icon' />
+          <MdDelete onClick={() => handleDelete(item._id)} style={{ cursor: 'pointer' }} className='icon' />
         </td>
       </tr>
     );
   };
-  
+
 
   const handleRead = (id) => {
     console.log('Lire journal avec id:', id);
@@ -518,8 +518,8 @@ const Journal = () => {
     setReadFolderId(id);
     setAlertOpenRead(true); // Ouvre l'alert modal
   };
-  
-  
+
+
   const handleDelete = (id) => {
     console.log('Supprimer journal avec id:', id);
     // Logique pour supprimer le journal
@@ -529,7 +529,7 @@ const Journal = () => {
 
   useEffect(() => {
     if (refetch) refetch(); // Assure-toi que refetch est bien défini
-}, [refetch]);  // Vérifie aussi si c'est nécessaire, ou si tu peux déplacer ça dans `TableArchive`.
+  }, [refetch]);  // Vérifie aussi si c'est nécessaire, ou si tu peux déplacer ça dans `TableArchive`.
 
   // Gérer l'état de chargement et d'erreur
   if (isLoading) {
@@ -543,8 +543,12 @@ const Journal = () => {
   return (
     <div>
       <h2 className="page-header">
-        Journaux utilisateur
       </h2>
+      <div className='title__journal'>
+        <span>
+          Journaux utilisateur
+        </span>
+      </div>
       <div className="row">
         <div className="col-12">
           <div className="card">

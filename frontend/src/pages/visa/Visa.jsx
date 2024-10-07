@@ -56,6 +56,9 @@ import TableVisa from '../../components/table/TableVisa';
 const Visa = () => {
   return (
     <div className='rowc container__visa'>
+        <div className='title_visa'>
+        <span>Visa</span>
+      </div>
       {/* <TablePersonalize
         limit='10'
         headData={customerTableHead}

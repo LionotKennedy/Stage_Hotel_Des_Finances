@@ -142,7 +142,7 @@ const ArchiveMore = () => {
     const { year } = location.state || {};
 
     // Utilisation du hook pour récupérer les données basées sur l'année
-    const { data, isLoading, refetch , isError, error } = useGetArchiveByYear(year);
+    const { data, isLoading, refetch, isError, error } = useGetArchiveByYear(year);
 
     const handleBackClick = () => {
         navigate('/archive');
@@ -165,16 +165,20 @@ const ArchiveMore = () => {
 
     return (
         <div className='container__archive-more'>
-            <div className='icon__back'>
-                <FaArrowLeft
-                    className='back-icon'
-                    onClick={handleBackClick}
-                    size={44}
-                    style={{ cursor: 'pointer' }}
-                />
+            <div className='content__archive-more'>
+                <div className='icon__back'>
+                    <FaArrowLeft
+                        className='back-icon'
+                        onClick={handleBackClick}
+                        size={24}
+                        style={{ cursor: 'pointer' }}
+                    />
+                </div>
+                <div className='title__archive-more'>
+                    <span>Détails de l'archive pour l'année {year}</span>
+                </div>
             </div>
-            <h1>Détails de l'archive pour l'année {year}</h1>
-             <TableArchive archives={data ? data.data : []} refetch={refetch} />
+            <TableArchive archives={data ? data.data : []} refetch={refetch} />
         </div>
     );
 }
@@ -183,7 +187,7 @@ export default ArchiveMore;
 
 
 
-{/* Afficher les archives si elles sont disponibles */}
+{/* Afficher les archives si elles sont disponibles */ }
 {/* {data && data.data.length > 0 ? (
     <div>
         <p>Nombre d'archives : {data.data.length}</p>
@@ -205,5 +209,5 @@ export default ArchiveMore;
 ) : (
     <p>Aucune archive trouvée pour cette année.</p>
 )} */}
-{/* <TableArchive /> */}
- {/* Afficher le tableau des archives si les données sont disponibles */}
+{/* <TableArchive /> */ }
+{/* Afficher le tableau des archives si les données sont disponibles */ }

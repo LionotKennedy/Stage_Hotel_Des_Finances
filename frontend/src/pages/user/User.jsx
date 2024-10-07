@@ -39,7 +39,7 @@ const User = () => {
 
   useEffect(() => {
     if (refetch) refetch(); // Assure-toi que refetch est bien défini
-}, [refetch]);  // Vérifie aussi si c'est nécessaire, ou si tu peux déplacer ça dans `TableArchive`.
+  }, [refetch]);  // Vérifie aussi si c'est nécessaire, ou si tu peux déplacer ça dans `TableArchive`.
 
 
   if (isLoading) {
@@ -52,8 +52,13 @@ const User = () => {
 
   return (
     <div className='container__archive'>
-      <div className='add__users'>
-      <MdAdd onClick={handleOpenDialog} className="icon_adds user__add" style={{ marginLeft: '10px', fontSize: '24px' }} />
+      <div className='content__users'>
+        <div className='title__user'>
+          <span>Liste de l'utilisateur</span>
+        </div>
+        <div className='add__users'>
+          <MdAdd onClick={handleOpenDialog} className="icon_adds user__add" style={{ marginLeft: '10px', fontSize: '24px' }} />
+        </div>
       </div>
       {users?.data && users.data.length > 0 ? (
         <div className="card-container">

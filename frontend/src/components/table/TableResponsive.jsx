@@ -2219,6 +2219,7 @@ import CustomModal from '../MUI/CustomModal';
 import ContentToPrint from '../printer/ContentToPrint'; // Adjust the import path as necessary
 import jsPDF from 'jspdf';
 import { saveAs } from 'file-saver';
+import JSZip from 'jszip';
 
 const TableResponsive = () => {
     const tableRef = useRef(null);

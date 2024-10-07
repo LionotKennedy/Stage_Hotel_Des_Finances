@@ -6,7 +6,10 @@ import "./dossier.scss"
 const Dossier = () => {
   return (
     <div className="container__dossier">
-        <TableResponsive />
+      <div className='title_corrier'>
+        <span>Courrier</span>
+      </div>
+      <TableResponsive />
       {/* <div className='container__folder row'>
         <div className='row'>
 

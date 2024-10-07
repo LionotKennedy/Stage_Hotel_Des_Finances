@@ -17,7 +17,7 @@
 //       console.log('Données du formulairelll:', userData);
 //     }
 //   }, [userData])
-  
+
 
 //   const handleBackClick = () => {
 //     navigate('/utilisateur');
@@ -110,31 +110,39 @@ const ShowUser = () => {
 
   return (
     <div className="container__users">
-      <h1>User Profile</h1>
-      <div className="icon__back">
-        <FaArrowLeft
-          className="back-icon"
-          onClick={handleBackClick}
-          size={44}
-          style={{ cursor: 'pointer' }}
-        />
+      <div className='content__header__show'>
+        <div className="icon__back__show">
+          <FaArrowLeft
+            className="back__icon__show"
+            onClick={handleBackClick}
+            size={24}
+            style={{ cursor: 'pointer' }}
+          />
+        </div>
+        <div className='title__show'>
+          <span>Profile d'utilisateur</span>
+        </div>
       </div>
 
       {userId ? (
-        <p>ID Utilisateur: {userId}</p>
+        <div className='id__user__show'>
+          <p>ID Utilisateur: {userId}</p>
+        </div>
       ) : (
         <p>ID utilisateur non trouvé.</p>
       )}
       {isLoading && <p>Chargement des données...</p>}
       {error && <p>Erreur lors de la récupération des données utilisateur: {error.message}</p>}
-      
+
       {/* Afficher les données de l'utilisateur si elles existent */}
       {userData && userData.data && (
-        <div className="user-details">
-          <h2>Nom: {userData.data.name}</h2>
-          <p>Email: {userData.data.email}</p>
-          <p>Rôle: {userData.data.role === 1 ? 'Admin' : 'Utilisateur'}</p>
-          <p>Statut: {userData.data.status}</p>
+        <div className="user__details">
+          <div className='user__info'>
+            <h3>Nom: {userData.data.name}</h3>
+            <p>Email: {userData.data.email}</p>
+            <p>Rôle: {userData.data.role === 1 ? 'Admin' : 'Utilisateur'}</p>
+            <p>Statut: {userData.data.status}</p>
+          </div>
           <div className="imgs_show">
             <img className="img_show" src={userData.data.image} alt="User" />
           </div>
