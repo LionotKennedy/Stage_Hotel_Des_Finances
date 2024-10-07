@@ -2225,6 +2225,8 @@ import "jspdf-autotable";
 import * as XLSX from 'xlsx';
 // import { Document, Packer, Paragraph, Table, TableCell, TableRow, TextRun } from 'docx';
 // import htmlDocx from 'html-docx-js';
+import Table from '../printer/Table';
+import imageData from "../../assets/images/logo.png";
 
 const TableResponsive = () => {
     const tableRef = useRef(null);
@@ -2244,37 +2246,70 @@ const TableResponsive = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const contentRef = useRef();
 
+
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+
+
     const exportPdf = async () => {
         const doc = new jsPDF({ orientation: "landscape" });
 
+        // doc.addImage(imageData, 'JPEG', 10, 10, 50, 50); // x, y, largeur, hauteur
+        doc.addImage(imageData, 'JPEG', 10, 10, 30, 30); // x, y, largeur, hauteur (30, 30 pour une image plus petite)
+
         doc.autoTable({
-            html: "#my-table",
+            // html: "#my-table",
+            html: "#teste",
+            // startY: 70, // Démarrer la table après l'image
+            startY: 50, // Démarrer la table après l'image
         });
 
         doc.save("mypdf.pdf");
     };
 
+    // const exportPdf = async () => {
+    //     const doc = new jsPDF({ orientation: "landscape" });
+
+    //     // Ajouter l'image de gauche
+    //     doc.addImage(imageDataLeft, 'JPEG', 10, 10, 30, 30); // x, y, largeur, hauteur pour l'image de gauche
+
+    //     // Ajouter l'image de droite
+    //     const pageWidth = doc.internal.pageSize.getWidth();
+    //     const imageWidth = 30; // Largeur de l'image
+    //     const imageXRight = pageWidth - imageWidth - 10; // x position de l'image de droite (10px de marge)
+    //     doc.addImage(imageDataRight, 'JPEG', imageXRight, 10, imageWidth, 30); // x, y, largeur, hauteur pour l'image de droite
+
+    //     doc.autoTable({
+    //         html: "#teste",
+    //         startY: 70, // Démarrer la table après les images
+    //     });
+
+    //     doc.save("mypdf.pdf");
+    // };
+
+
 
     const exportExcel = () => {
         // Récupérer le tableau HTML
-        const table = document.getElementById('my-table');
-        
+        // const table = document.getElementById('my-table');
+        const table = document.getElementById('teste');
+
         // Créer un nouveau classeur
         const wb = XLSX.utils.table_to_book(table);
-        
+
         // Enregistrer le fichier Excel
         XLSX.writeFile(wb, 'mydata.xlsx');
-      };
+    };
 
 
     //   const exportWord = () => {
     //     // Récupérer le contenu HTML du tableau
     //     const table = document.getElementById('my-table');
     //     const htmlContent = table.outerHTML;
-    
+
     //     // Convertir le contenu HTML en format DOCX
     //     const docx = htmlDocx.asBlob(htmlContent);
-    
+
     //     // Créer un lien pour télécharger le fichier
     //     const url = window.URL.createObjectURL(docx);
     //     const a = document.createElement('a');
@@ -2287,22 +2322,23 @@ const TableResponsive = () => {
 
 
 
-const exportWord = () => {
-    const doc = new jsPDF();
-    
-    // Ajouter le contenu du tableau
-    doc.autoTable({
-        html: '#my-table',
-        styles: { cellPadding: 6 }
-    });
+    const exportWord = () => {
+        const doc = new jsPDF();
 
-    doc.save('MesDossiers.docx');
-};
+        // Ajouter le contenu du tableau
+        doc.autoTable({
+            // html: '#my-table',
+            html: "#teste",
+            styles: { cellPadding: 6 }
+        });
+
+        doc.save('MesDossiers.docx');
+    };
 
 
 
 
-    
+
 
 
     const generatePDF = async () => {
@@ -2567,6 +2603,56 @@ const exportWord = () => {
         ));
     };
 
+    const searchTable = () => {
+        const searchInput = searchRef.current;
+        const table = tableRef.current;
+        const tableRows = table.querySelectorAll('tbody tr');
+
+        let search_data = '';
+        let startDateInput = '';
+        let endDateInput = '';
+
+        if (searchType === 'date') {
+            startDateInput = new Date(searchValue).getTime();
+            endDateInput = new Date(endDate).getTime();
+
+            tableRows.forEach((row, i) => {
+                const folder = folders.data[i];
+                const date = new Date(folder.date_depart);
+
+                row.classList.toggle('hide',
+                    (date.getTime() < startDateInput || date.getTime() > endDateInput)
+                );
+                row.style.setProperty('--delay', i / 25 + 's');
+            });
+        } else {
+            let table_data = '';
+
+            switch (searchType) {
+                case 'nom':
+                    table_data = row.querySelectorAll('td')[0].textContent.toLowerCase();
+                    break;
+                case 'numero':
+                    table_data = row.querySelectorAll('td')[6].textContent.toLowerCase();
+                    break;
+                case 'matricule':
+                    table_data = row.querySelectorAll('td')[2].textContent.toLowerCase();
+                    break;
+            }
+
+            row.classList.toggle('hide', table_data.indexOf(searchValue.toLowerCase()) < 0);
+            row.style.setProperty('--delay', i / 25 + 's');
+        }
+    };
+
+    const handleSearch = () => {
+        searchTable();
+    };
+
+    const startDateRef = useRef(null);
+    const endDateRef = useRef(null);
+
+
     return (
         <div className='container__table'>
             <main className="table" ref={tableRef} id="customers_table">
@@ -2592,12 +2678,27 @@ const exportWord = () => {
                         <option value="date">Search by Date</option>
                     </select>
                     {searchType === 'date' ? (
-                        <input
-                            type="date"
-                            ref={searchRef}
-                            onChange={(e) => setSearchValue(e.target.value)}
-                            placeholder="Select Date..."
-                        />
+                        // <input
+                        //     type="date"
+                        //     ref={searchRef}
+                        //     onChange={(e) => setSearchValue(e.target.value)}
+                        //     placeholder="Select Date..."
+                        // />
+                        <>
+                            <input
+                                type="date"
+                                ref={startDateRef}
+                                onChange={(e) => setStartDate(e.target.value)}
+                                placeholder="Start Date..."
+                            />
+                            <input
+                                type="date"
+                                ref={endDateRef}
+                                onChange={(e) => setEndDate(e.target.value)}
+                                placeholder="End Date..."
+                            />
+                            <button onClick={handleSearch}>Rechercher</button>
+                        </>
                     ) : (
                         <div className="input-group">
                             <input
@@ -2672,6 +2773,9 @@ const exportWord = () => {
                 <AlertDialogSlide open={alertOpen} setOpen={setAlertOpen} folderId={deleteFolderId} onSuccess={refetch} />
                 <CustomizedDialogs open={alertOpenRead} setOpen={setAlertOpenRead} folderId={readFolderId} />
             </main>
+            <div className="content-to-print" >
+                <Table />
+            </div>
         </div>
     );
 }
@@ -2772,16 +2876,16 @@ export default TableResponsive;
 //                     new Table({
 //                         rows: [
 //                             new TableRow({
-//                                 children: headers.map(header => 
+//                                 children: headers.map(header =>
 //                                     new TableCell({
 //                                         children: [new Paragraph(header)],
 //                                         width: { size: 4000 } // Ajustez la largeur si nécessaire
 //                                     })
 //                                 ),
 //                             }),
-//                             ...tableData.map(row => 
+//                             ...tableData.map(row =>
 //                                 new TableRow({
-//                                     children: row.map(cell => 
+//                                     children: row.map(cell =>
 //                                         new TableCell({
 //                                             children: [new Paragraph(cell.toString())],
 //                                             width: { size: 4000 } // Ajustez la largeur si nécessaire
