@@ -1,96 +1,4 @@
 
-import React, { useEffect, useRef, useState } from 'react';
-import "./tableResponsive.scss";
-import search from "../../assets/image/search.png"
-import { MdEdit, MdDelete, MdVisibility, MdAdd } from 'react-icons/md';
-import { AnimatePresence } from 'framer-motion';
-import { useGetFolders } from '../../services/serviceFolder';
-import AlertDialogArchiveSlide from '../MUI_alert/deleteArchive';
-import ArchiveDialogs from '../MUI_read/readArchive';
-import ArchiveModal from '../MUI/ArchiveModal';
-
-const TableArchive = ({ archives, refetch }) => {
-    const tableRef = useRef(null);
-    const searchRef = useRef(null);
-    const [searchType, setSearchType] = useState('nom');
-    const [searchValue, setSearchValue] = useState('');
-
-
-    const [modalOpen, setModalOpen] = useState(false);
-    const [selectedFolderId, setSelectedFolderId] = useState(null);
-    const [alertOpen, setAlertOpen] = useState(false);
-    const [deleteFolderId, setDeleteFolderId] = useState(null);
-    const [alertOpenRead, setAlertOpenRead] = useState(false);
-    const [readFolderId, setReadFolderId] = useState(null);
-
-    // Utilisez le hook pour récupérer les dossiers
-    const { data: folders, isLoading, isError } = useGetFolders();
-
-
-    const [mode, setMode] = useState('add');
-
-    const handleOpenModal = (folderId, mode) => {
-        setSelectedFolderId(folderId);
-        setMode(mode);
-        setModalOpen(true);
-    };
-
-    const handleCloseModal = () => setModalOpen(false);
-
-    // Ouvre le modal d'alerte avec l'ID du courrier à supprimer
-    const handleDeleteClick = (folderId) => {
-        setDeleteFolderId(folderId);
-        setAlertOpen(true); // Ouvre l'alert modal
-        console.log(folderId)
-    };
-
-    // Ouvre le modal d'alerte avec l'ID du courrier à supprimer
-    const handleReadClick = (folderId) => {
-        setReadFolderId(folderId);
-        setAlertOpenRead(true); // Ouvre l'alert modal
-        console.log(folderId)
-    };
-
-
-    useEffect(() => {
-        // if (folders && folders.data) {
-        //     folders.data.forEach((folder) => console.log('Folder data:', folder));
-        // }
-        folders?.data?.forEach((folder) => console.log('Folder data:', folder));
-    }, [folders])
-
-
-
-
-    useEffect(() => {
-        const searchInput = searchRef.current;
-        const table = tableRef.current;
-
-        if (!table || !searchInput) return; 
-
-        const tableRows = table.querySelectorAll('tbody tr');
-
-        const searchTable = () => {
-            tableRows.forEach((row, i) => {
-                let table_data = row.textContent.toLowerCase(),
-                    search_data = searchInput.value.toLowerCase();
-
-                row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
-                row.style.setProperty('--delay', i / 25 + 's');
-            });
-
-            document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
-                visible_row.style.backgroundColor = (i % 2 === 0) ? '--second-bg' : '--second-bg';
-                visible_row.style.animationDelay = `${i * 0.1}s`;
-            });
-        };
-
-        searchInput.addEventListener('input', searchTable);
-
-        return () => {
-            searchInput.removeEventListener('input', searchTable);
-        };
-    }, [archives]); 
 
 
 
@@ -153,6 +61,164 @@ const TableArchive = ({ archives, refetch }) => {
     //     ));
     // };
 
+    // const displayData = () => {
+    //     if (!folders || !folders.data) return null;
+
+    //     return folders.data.map((folder, index) => (
+    //         <tr key={index}>
+    //             <td className="td">{folder.description}</td>
+    //             <td className="td">{folder.nom_depose}</td>
+    //             <td className="td">{folder.prenom_depose}</td>
+    //             <td className="td">{folder.matricule}</td>
+    //             <td className="td">{folder.numero_bordereaux}</td>
+    //             <td className="td">{new Date(folder.date_depart).toLocaleDateString()}</td>
+    //             <td className="td">{folder.expiditeur}</td>
+    //             <td className="td">{folder.destination}</td>
+    //             <td className="td">
+    //                 <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
+    //                 <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
+    //                 <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
+    //             </td>
+    //         </tr>
+    //     ));
+    // };
+
+
+
+
+
+
+
+  
+    
+
+
+
+
+import React, { useEffect, useRef, useState } from 'react';
+import "./tableResponsive.scss";
+import search from "../../assets/image/search.png"
+import { MdEdit, MdDelete, MdVisibility, MdAdd } from 'react-icons/md';
+import { AnimatePresence } from 'framer-motion';
+import { useGetFolders } from '../../services/serviceFolder';
+import AlertDialogArchiveSlide from '../MUI_alert/deleteArchive';
+import ArchiveDialogs from '../MUI_read/readArchive';
+import ArchiveModal from '../MUI/ArchiveModal';
+
+const TableArchive = ({ archives, refetch }) => {
+    const tableRef = useRef(null);
+    const searchRef = useRef(null);
+    const [searchType, setSearchType] = useState('nom');
+    const [searchValue, setSearchValue] = useState('');
+
+
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedFolderId, setSelectedFolderId] = useState(null);
+    const [alertOpen, setAlertOpen] = useState(false);
+    const [deleteFolderId, setDeleteFolderId] = useState(null);
+    const [alertOpenRead, setAlertOpenRead] = useState(false);
+    const [readFolderId, setReadFolderId] = useState(null);
+
+    // Utilisez le hook pour récupérer les dossiers
+    const { data: folders, isLoading, isError } = useGetFolders();
+
+
+    const [mode, setMode] = useState('add');
+
+    const handleOpenModal = (folderId, mode) => {
+        setSelectedFolderId(folderId);
+        setMode(mode);
+        setModalOpen(true);
+    };
+
+    const handleCloseModal = () => setModalOpen(false);
+
+    // Ouvre le modal d'alerte avec l'ID du courrier à supprimer
+    const handleDeleteClick = (folderId) => {
+        setDeleteFolderId(folderId);
+        setAlertOpen(true); // Ouvre l'alert modal
+        console.log(folderId)
+    };
+
+    // Ouvre le modal d'alerte avec l'ID du courrier à supprimer
+    const handleReadClick = (folderId) => {
+        setReadFolderId(folderId);
+        setAlertOpenRead(true); // Ouvre l'alert modal
+        console.log(folderId)
+    };
+
+
+    useEffect(() => {
+        // if (folders && folders.data) {
+        //     folders.data.forEach((folder) => console.log('Folder data:', folder));
+        // }
+        folders?.data?.forEach((folder) => console.log('Folder data:', folder));
+    }, [folders])
+
+    useEffect(() => {
+        console.log("Valeur de recherche :", searchValue);
+    }, [searchValue]);
+    
+
+
+    useEffect(() => {
+        const searchInput = searchRef.current;
+        const table = tableRef.current;
+    
+        if (!table) {
+            console.error('Table reference is null.');
+            return;
+        }
+    
+        const tableRows = table.querySelectorAll('tbody tr');
+    
+        const searchTable = () => {
+            const search_data = searchValue.trim().toLowerCase();
+    
+            // Si le champ de recherche est vide, afficher toutes les lignes
+            if (search_data === "") {
+                tableRows.forEach((row, i) => {
+                    row.classList.remove('hide');
+                    row.style.setProperty('--delay', i / 25 + 's');
+                });
+                return; // Sortir de la fonction car aucun filtrage n'est nécessaire
+            }
+    
+            tableRows.forEach((row, i) => {
+                let table_data = '';
+    
+                if (searchType === 'nom') {
+                    table_data = row.querySelectorAll('td')[1]?.textContent.toLowerCase();
+                } else if (searchType === 'numero') {
+                    table_data = row.querySelectorAll('td')[4]?.textContent.toLowerCase();
+                } else if (searchType === 'matricule') {
+                    table_data = row.querySelectorAll('td')[3]?.textContent.toLowerCase();
+                } else if (searchType === 'date') {
+                    table_data = row.querySelectorAll('td')[5]?.textContent;
+                    if (search_data) {
+                        table_data = new Date(table_data).toLocaleDateString();
+                    }
+                }
+    
+                // Masquer la ligne si elle ne correspond pas à la recherche
+                if (table_data && search_data) {
+                    row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
+                    row.style.setProperty('--delay', i / 25 + 's');
+                }
+            });
+    
+            // Appliquer des styles aux lignes visibles
+            document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
+                visible_row.style.backgroundColor = (i % 2 === 0) ? '--second-bg' : '--second-bg';
+                visible_row.style.animationDelay = `${i * 0.1}s`;
+            });
+        };
+    
+        searchTable();
+    }, [searchType, searchValue]);
+
+    
+
     return (
         <div className='container__table'>
             <main className="table" id="archive_table">
@@ -165,11 +231,11 @@ const TableArchive = ({ archives, refetch }) => {
                     </select>
                     {searchType === 'date' ? (
                         <input
-                            type="date"
-                            ref={searchRef}
+                        type="date"
+                        ref={searchRef}
                             onChange={(e) => setSearchValue(e.target.value)}
                             placeholder="Select Date..."
-                        />
+                            />
                     ) : (
                         <div className="input-group">
                             <input
@@ -178,6 +244,8 @@ const TableArchive = ({ archives, refetch }) => {
                                 ref={searchRef}
                                 onChange={(e) => setSearchValue(e.target.value)}
                             />
+
+
                             <img src={search} alt="Search Icon" />
                         </div>
                     )}
@@ -188,7 +256,7 @@ const TableArchive = ({ archives, refetch }) => {
                 </section>
 
                 <section className="table__body">
-                    <table className='table'>
+                    <table className='table' ref={tableRef}>
                         <thead className='thead'>
                             <tr>
                                 {/* <th className='th'>ID</th> */}
@@ -204,43 +272,43 @@ const TableArchive = ({ archives, refetch }) => {
                             </tr>
                         </thead>
                         <tbody className='tbody'>
-                            {archives && archives.length > 0 ? (
-                                archives.map((archive) => (
-                                    <tr key={archive._id}>
-                                        <td className="td">{archive.description}</td>
-                                        <td className="td">{archive.nom_depose}</td>
-                                        <td className="td">{archive.prenom_depose}</td>
-                                        <td className="td">{archive.matricule}</td>
-                                        <td className="td">{archive.numero_bordereaux}</td>
-                                        <td className="td">{new Date(archive.date_depart).toLocaleDateString()}</td>
-                                        <td className="td">{archive.expiditeur}</td>
-                                        <td className="td">{archive.destination}</td>
-                                        <td className="td">
-                                            <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(archive._id, 'edit')} />
-                                            <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(archive._id)} />
-                                            <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(archive._id)} />
-                                        </td>
-                                    </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan="10">Aucune archive trouvée pour cette année.</td>
-                                </tr>
-                            )}
                             {/* {displayData()} */}
+                    {archives && archives.length > 0 ? (
+                        archives.map((archive) => (
+                            <tr key={archive._id}>
+                                <td className="td">{archive.description}</td>
+                                <td className="td">{archive.nom_depose}</td>
+                                <td className="td">{archive.prenom_depose}</td>
+                                <td className="td">{archive.matricule}</td>
+                                <td className="td">{archive.numero_bordereaux}</td>
+                                <td className="td">{new Date(archive.date_depart).toLocaleDateString()}</td>
+                                <td className="td">{archive.expiditeur}</td>
+                                <td className="td">{archive.destination}</td>
+                                <td className="td">
+                                    <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(archive._id, 'edit')} />
+                                    <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(archive._id)} />
+                                    <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(archive._id)} />
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="10">Aucune archive trouvée pour cette année.</td>
+                        </tr>
+                    )}
                         </tbody>
                     </table>
                 </section>
                 <AnimatePresence>
                     {modalOpen && (
                         <ArchiveModal
-                            open={modalOpen}
+                        open={modalOpen}
                             handleClose={handleCloseModal}
                             folderId={selectedFolderId}
                             mode={mode}
                             onSuccess={refetch} // On passe refetch ici
-                        />
-                    )}
+                            />
+                        )}
                 </AnimatePresence>
                 <AlertDialogArchiveSlide open={alertOpen} setOpen={setAlertOpen} folderId={deleteFolderId} onSuccess={refetch} />
                 <ArchiveDialogs open={alertOpenRead} setOpen={setAlertOpenRead} folderId={readFolderId} />
@@ -250,3 +318,273 @@ const TableArchive = ({ archives, refetch }) => {
 };
 
 export default TableArchive;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // useEffect(() => {
+    //     const searchInput = searchRef.current;
+    //     const table = tableRef.current;
+    
+    //     if (!table) {
+    //         console.error('Table reference is null.');
+    //         return;
+    //     }
+    
+    //     const tableRows = table.querySelectorAll('tbody tr');
+    
+    //     const searchTable = () => {
+    //         tableRows.forEach((row, i) => {
+    //             let search_data = searchValue.trim().toLowerCase(); // Utiliser trim() pour éviter les espaces vides
+    //             let table_data = '';
+    //             console.log(search_data)
+    
+    //             if (searchType === 'nom') {
+    //                 table_data = row.querySelectorAll('td')[0]?.textContent.toLowerCase();
+    //             } else if (searchType === 'numero') {
+    //                 table_data = row.querySelectorAll('td')[6]?.textContent.toLowerCase();
+    //             } else if (searchType === 'matricule') {
+    //                 table_data = row.querySelectorAll('td')[2]?.textContent.toLowerCase();
+    //             } else if (searchType === 'date') {
+    //                 table_data = row.querySelectorAll('td')[5]?.textContent;
+    //                 if (search_data) {
+    //                     search_data = new Date(search_data).toLocaleDateString(); // Convertir pour une comparaison de date
+    //                 }
+    //             }
+    
+    //             // Masquer la ligne si elle ne correspond pas à la recherche
+    //             if (table_data && search_data) {
+    //                 row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
+    //                 row.style.setProperty('--delay', i / 25 + 's');
+    //             }
+    //         });
+    
+    //         // Appliquer des styles aux lignes visibles
+    //         document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
+    //             visible_row.style.backgroundColor = (i % 2 === 0) ? '--second-bg' : '--second-bg';
+    //             visible_row.style.animationDelay = `${i * 0.1}s`;
+    //         });
+    //     };
+    
+    //     searchTable();
+    // }, [searchType, searchValue]);
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//                             <input
+//   type="search"
+//   placeholder="Search Data..."
+//   ref={searchRef}
+//   onChange={(e) => {
+//     setSearchValue(e.target.value);
+//     console.log("Valeur recherchée:", e.target.value); // Affiche la valeur dans la console
+//   }}
+// />
+
+
+
+
+
+
+
+
+
+
+    // useEffect(() => {
+    //     const searchInput = searchRef.current;
+    //     const table = tableRef.current;
+    
+    //     if (!table) {
+    //         console.error('Table reference is null.');
+    //         return;
+    //     }
+    
+    //     const tableRows = table.querySelectorAll('tbody tr');
+    
+    //     const searchTable = () => {
+    //         tableRows.forEach((row, i) => {
+    //             let search_data = searchValue.toLowerCase();
+    //             let table_data = '';
+    
+    //             if (searchType === 'nom') {
+    //                 table_data = row.querySelectorAll('td')[0].textContent.toLowerCase();
+    //             } else if (searchType === 'numero') {
+    //                 table_data = row.querySelectorAll('td')[6].textContent.toLowerCase();
+    //             } else if (searchType === 'matricule') {
+    //                 table_data = row.querySelectorAll('td')[2].textContent.toLowerCase();
+    //             } else if (searchType === 'date') {
+    //                 table_data = row.querySelectorAll('td')[7].textContent;
+    //                 search_data = new Date(search_data).toLocaleDateString(); // Convertir pour une comparaison de date
+    //             }
+    
+    //             row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
+    //             row.style.setProperty('--delay', i / 25 + 's');
+    //         });
+    
+    //         document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
+    //             visible_row.style.backgroundColor = (i % 2 === 0) ? '--second-bg' : '--second-bg';
+    //             visible_row.style.animationDelay = `${i * 0.1}s`;
+    //         });
+    //     };
+    
+    //     searchTable();
+    // }, [searchType, searchValue]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // useEffect(() => {
+    //     if (folders && Array.isArray(folders.data)) {
+    //         folders.data.forEach((folder) => console.log('Folder data:', folder));
+    //     }
+    // }, [folders]);
+
+
+
+
+    // useEffect(() => {
+    //     const searchInput = searchRef.current;
+    //     const table = tableRef.current;
+
+    //     if (!table) {
+    //         console.error('Table reference is null.');
+    //         return;
+    //     }
+
+    //     const tableRows = table.querySelectorAll('tbody tr');
+
+    //     const searchTable = () => {
+    //         tableRows.forEach((row, i) => {
+    //             let search_data = searchValue.toLowerCase();
+    //             let table_data = '';
+
+    //             if (searchType === 'nom') {
+    //                 table_data = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+    //             } else if (searchType === 'numero') {
+    //                 table_data = row.querySelector('td:nth-child(7)').textContent.toLowerCase();
+    //             } else if (searchType === 'matricule') {
+    //                 table_data = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+    //             } else if (searchType === 'date') {
+    //                 table_data = row.querySelector('td:nth-child(7)').textContent;
+    //                 search_data = new Date(search_data).toLocaleDateString();
+    //             }
+
+    //             row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
+    //             row.style.setProperty('--delay', i / 25 + 's');
+    //         });
+
+    //         document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
+    //             visible_row.style.backgroundColor = (i % 2 === 0) ? '--second-bg' : '--second-bg';
+    //             visible_row.style.animationDelay = `${i * 0.1}s`;
+    //         });
+    //     };
+
+    //     searchTable();
+    // }, [searchType, searchValue]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // useEffect(() => {
+    //     const searchInput = searchRef.current;
+    //     const table = tableRef.current;
+
+    //     if (!table || !searchInput) return; 
+
+    //     const tableRows = table.querySelectorAll('tbody tr');
+
+    //     const searchTable = () => {
+    //         tableRows.forEach((row, i) => {
+    //             let table_data = row.textContent.toLowerCase(),
+    //                 search_data = searchInput.value.toLowerCase();
+
+    //             row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
+    //             row.style.setProperty('--delay', i / 25 + 's');
+    //         });
+
+    //         document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
+    //             visible_row.style.backgroundColor = (i % 2 === 0) ? '--second-bg' : '--second-bg';
+    //             visible_row.style.animationDelay = `${i * 0.1}s`;
+    //         });
+    //     };
+
+    //     searchInput.addEventListener('input', searchTable);
+
+    //     return () => {
+    //         searchInput.removeEventListener('input', searchTable);
+    //     };
+    // }, [archives]); 
