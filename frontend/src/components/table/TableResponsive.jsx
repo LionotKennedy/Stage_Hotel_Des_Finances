@@ -2220,6 +2220,11 @@ import ContentToPrint from '../printer/ContentToPrint'; // Adjust the import pat
 import jsPDF from 'jspdf';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
+// import { jsPDF } from "jspdf";
+import "jspdf-autotable";
+import * as XLSX from 'xlsx';
+// import { Document, Packer, Paragraph, Table, TableCell, TableRow, TextRun } from 'docx';
+// import htmlDocx from 'html-docx-js';
 
 const TableResponsive = () => {
     const tableRef = useRef(null);
@@ -2239,6 +2244,65 @@ const TableResponsive = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const contentRef = useRef();
 
+    const exportPdf = async () => {
+        const doc = new jsPDF({ orientation: "landscape" });
+
+        doc.autoTable({
+            html: "#my-table",
+        });
+
+        doc.save("mypdf.pdf");
+    };
+
+
+    const exportExcel = () => {
+        // Récupérer le tableau HTML
+        const table = document.getElementById('my-table');
+        
+        // Créer un nouveau classeur
+        const wb = XLSX.utils.table_to_book(table);
+        
+        // Enregistrer le fichier Excel
+        XLSX.writeFile(wb, 'mydata.xlsx');
+      };
+
+
+    //   const exportWord = () => {
+    //     // Récupérer le contenu HTML du tableau
+    //     const table = document.getElementById('my-table');
+    //     const htmlContent = table.outerHTML;
+    
+    //     // Convertir le contenu HTML en format DOCX
+    //     const docx = htmlDocx.asBlob(htmlContent);
+    
+    //     // Créer un lien pour télécharger le fichier
+    //     const url = window.URL.createObjectURL(docx);
+    //     const a = document.createElement('a');
+    //     a.href = url;
+    //     a.download = 'mydata.docx';
+    //     a.click();
+    //     window.URL.revokeObjectURL(url); // Libérer l'URL
+    //   };
+
+
+
+
+const exportWord = () => {
+    const doc = new jsPDF();
+    
+    // Ajouter le contenu du tableau
+    doc.autoTable({
+        html: '#my-table',
+        styles: { cellPadding: 6 }
+    });
+
+    doc.save('MesDossiers.docx');
+};
+
+
+
+
+    
 
 
     const generatePDF = async () => {
@@ -2548,8 +2612,18 @@ const TableResponsive = () => {
 
                     <div className='option_right'>
                         <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
+                        <button
+                            className="btn btn-primary float-end mt-2 mb-2"
+                            onClick={exportPdf}
+                        >
+                            Export
+                        </button>
+                        <button onClick={exportExcel}>Exporter vers Excel</button>
+                        <button onClick={exportWord}>Exporter vers Word</button>
+                        {/* <button onClick={generateDocx}>Générer DOCX</button> */}
+                        {/* <button onClick={generateWords}>Générer DOCX2</button> */}
                         <div className="dropdown-container">
-                            <div  onClick={toggleDropdown} className='background_download'>
+                            <div onClick={toggleDropdown} className='background_download'>
                                 <FaArrowDown className="icon_download" style={{ marginLeft: '0px', fontSize: '20px' }} />
                             </div>
                             {dropdownOpen && (
@@ -2564,7 +2638,7 @@ const TableResponsive = () => {
                 </section>
 
                 <section className="table__body">
-                    <table className='table'>
+                    <table className='table' id="my-table">
                         <thead className='thead'>
                             <tr>
                                 <th className='th'>Nom </th>
@@ -2603,3 +2677,206 @@ const TableResponsive = () => {
 }
 
 export default TableResponsive;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const generateWords = async () => {
+//     try {
+//         // Créer un tableau de données à partir des dossiers
+//         const tableData = folders.data.map((folder) => ([
+//             folder.id_nature.nom_depose,
+//             folder.id_nature.prenom_depose,
+//             folder.id_nature.matricule,
+//             folder.expiditeur,
+//             folder.destination,
+//             folder.id_nature.description,
+//             folder.numero_bordereaux,
+//             new Date(folder.date_depart).toLocaleDateString(),
+//         ]));
+
+//         // Ajouter l'en-tête du tableau
+//         const headers = ["Nom", "Prénom", "Matricule", "Expediteur", "Destination", "Description", "Numero Bordereaux", "Date Départ"];
+
+//         // Créer le document
+//         const doc = new Document({
+//             sections: [{
+//                 properties: {},
+//                 children: [
+//                     new Paragraph("Liste des Dossiers"),
+//                     new Table({
+//                         rows: [
+//                             new TableRow({
+//                                 children: headers.map(header => 
+//                                     new TableCell({
+//                                         children: [new Paragraph(header)],
+//                                         width: { size: 4000 } // Ajustez la largeur si nécessaire
+//                                     })
+//                                 ),
+//                             }),
+//                             ...tableData.map(row => 
+//                                 new TableRow({
+//                                     children: row.map(cell => 
+//                                         new TableCell({
+//                                             children: [new Paragraph(cell.toString())],
+//                                             width: { size: 4000 } // Ajustez la largeur si nécessaire
+//                                         })
+//                                     ),
+//                                 })
+//                             ),
+//                         ],
+//                     }),
+//                 ],
+//             }],
+//         });
+
+//         // Sauvegarder le document
+//         Packer.toBlob(doc).then((blob) => {
+//             saveAs(blob, "MesDossiers.docx");
+//         });
+//     } catch (error) {
+//         console.error('Erreur lors de la génération du fichier Word:', error);
+//         alert('Erreur lors de la génération du fichier Word');
+//     }
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const generateDocx = () => {
+//     // Exemple de données : un tableau d'IDs
+//     const ids = [1, 2, 3, 4, 5];
+
+//     // Créer le document
+//     const doc = new Document({
+//         sections: [{
+//             properties: {},
+//             children: [
+//                 new Paragraph("Liste des IDs"),
+//                 new Table({
+//                     rows: [
+//                         new TableRow({
+//                             children: [
+//                                 new TableCell({
+//                                     children: [new Paragraph("ID")],
+//                                 }),
+//                             ],
+//                         }),
+//                         ...ids.map(id => (
+//                             new TableRow({
+//                                 children: [
+//                                     new TableCell({
+//                                         children: [new Paragraph(id.toString())],
+//                                     }),
+//                                 ],
+//                             })
+//                         )),
+//                     ],
+//                 }),
+//             ],
+//         }],
+//     });
+
+//     // Sauvegarder le document
+//     Packer.toBlob(doc).then((blob) => {
+//         saveAs(blob, "ids_document.docx");
+//     });
+// };
