@@ -498,7 +498,7 @@ main.table {
     .icon_download {
         &:hover{
             color: #006b21;
-            transform: rotateZ(90deg);
+            // transform: rotateZ(90deg);
         }
         
     }
@@ -512,122 +512,13 @@ main.table {
 }
 
 
-
-
-
-    
-    
-    // .dropdown-container {
-        // background: #000;
-        // height: 20vh;
-        // position: relative;
-        // left: 0;
-        // display: flex;
-        // }
-        
-    // .dropdown-container{
-    //     background-color: #006b21;
-    //     display: block;
-    //     justify-content: center;
-    //     align-items: center;
-    // }
-    
-    
-    
-    
-    
-    
- 
-    
-    
-    
-
-    
-    // .dropdown-container {
-    //     position: relative;
-    //     display: inline-block;
-    // }
-    
-    // .dropdown-menu {
-    //     display: none; /* Masquer par défaut */
-    //     position: absolute;
-    //     background-color: white;
-    //     border: 1px solid #ccc;
-    //     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    //     z-index: 1000; /* Assurez-vous que le menu est au-dessus des autres éléments */
-    //     border-radius: 4px;
-    //     margin-top: 5px;
-    //     width: 200px; /* Largeur du menu déroulant */
-    //     animation: fadeIn 0.3s ease; /* Animation d'apparition */
-    // }
-    
-    // .dropdown-container:hover .dropdown-menu,
-    // .dropdown-container:focus-within .dropdown-menu {
-    //     display: block; /* Afficher le menu lorsque le conteneur est survolé ou actif */
-    // }
-    
-    // .dropdown-menu button {
-        //     width: 100%;
-    //     padding: 10px;
-    //     background-color: transparent;
-    //     border: none;
-    //     text-align: left;
-    //     cursor: pointer;
-    //     font-size: 16px;
-    //     transition: background-color 0.3s;
-    
-    //     &:hover {
-    //         background-color: #f0f0f0; /* Couleur de survol */
-    //     }
-    // }
-    
-    // @keyframes fadeIn {
-        //     from {
-    //         opacity: 0;
-    //         transform: translateY(-10px);
-    //     }
-    //     to {
-        //         opacity: 1;
-        //         transform: translateY(0);
-        //     }
-    // }
-    
-    // /* Styles pour l'icône du menu déroulant */
-    // .icon_add {
-    //     cursor: pointer;
-    //     color: #333; /* Couleur de l'icône */
-    //     transition: color 0.3s;
-    
-    //     &:hover {
-        //         color: #007bff; /* Couleur de survol de l'icône */
-        //     }
-        // }
-    
-    
-    
-    
-        
-    
-        
-        
-        
-        
-    
-    
-    
-    
-        
-        
-        
-    
-    
-    
-    
-        
-        
-        
-        
-    
-    
-    
-    /* Styles pour l'icône du menu déroulant */
+.dropdown-item {
+    // width: 1.2rem;
+    display: flex;
+    // justify-content: center;
+    // align-items: center;
+    gap: 0.2rem;
+    img {
+        width: 1.1rem;
+    }
+}

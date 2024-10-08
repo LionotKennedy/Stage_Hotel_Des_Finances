@@ -127,6 +127,69 @@
 
 
 
+
+
+
+
+
+{/* Afficher les archives si elles sont disponibles */ }
+{/* {data && data.data.length > 0 ? (
+    <div>
+        <p>Nombre d'archives : {data.data.length}</p>
+        <ul>
+            {data.data.map((archive) => (
+                <li key={archive._id}>
+                    <p><strong>Description :</strong> {archive.description}</p>
+                    <p><strong>Nom :</strong> {archive.nom_depose}</p>
+                    <p><strong>Prénom :</strong> {archive.prenom_depose}</p>
+                    <p><strong>Matricule :</strong> {archive.matricule}</p>
+                    <p><strong>Numéro de bordereau :</strong> {archive.numero_bordereaux}</p>
+                    <p><strong>Date de départ :</strong> {new Date(archive.date_depart).toLocaleDateString()}</p>
+                    <p><strong>Expéditeur :</strong> {archive.expiditeur}</p>
+                    <p><strong>Destination :</strong> {archive.destination}</p>
+                </li>
+            ))}
+        </ul>
+    </div>
+) : (
+    <p>Aucune archive trouvée pour cette année.</p>
+)} */}
+{/* <TableArchive /> */ }
+{/* Afficher le tableau des archives si les données sont disponibles */ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useEffect } from 'react';
 import "./archivemore.scss";
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -178,36 +241,9 @@ const ArchiveMore = () => {
                     <span>Détails de l'archive pour l'année {year}</span>
                 </div>
             </div>
-            <TableArchive archives={data ? data.data : []} refetch={refetch} />
+            <TableArchive archives={data ? data.data : []} refetch={refetch} year={year} />
         </div>
     );
 }
 
 export default ArchiveMore;
-
-
-
-{/* Afficher les archives si elles sont disponibles */ }
-{/* {data && data.data.length > 0 ? (
-    <div>
-        <p>Nombre d'archives : {data.data.length}</p>
-        <ul>
-            {data.data.map((archive) => (
-                <li key={archive._id}>
-                    <p><strong>Description :</strong> {archive.description}</p>
-                    <p><strong>Nom :</strong> {archive.nom_depose}</p>
-                    <p><strong>Prénom :</strong> {archive.prenom_depose}</p>
-                    <p><strong>Matricule :</strong> {archive.matricule}</p>
-                    <p><strong>Numéro de bordereau :</strong> {archive.numero_bordereaux}</p>
-                    <p><strong>Date de départ :</strong> {new Date(archive.date_depart).toLocaleDateString()}</p>
-                    <p><strong>Expéditeur :</strong> {archive.expiditeur}</p>
-                    <p><strong>Destination :</strong> {archive.destination}</p>
-                </li>
-            ))}
-        </ul>
-    </div>
-) : (
-    <p>Aucune archive trouvée pour cette année.</p>
-)} */}
-{/* <TableArchive /> */ }
-{/* Afficher le tableau des archives si les données sont disponibles */ }

@@ -7,6 +7,15 @@ import { useGetVisa } from '../../services/serviceVisa';
 import AlertDialogSlideVisa from '../MUI_alert/deleteVisa';
 import CustomizedVisaDialogs from '../MUI_read/readVisa';
 import VisaModal from '../MUI/VisaModal';
+import jsPDF from 'jspdf';
+import "jspdf-autotable";
+import * as XLSX from 'xlsx';
+import { FaArrowDown } from 'react-icons/fa';
+import imageData from "../../assets/images/logo.png";
+import pdf from "../../assets/image/pdf.png";
+import excel from "../../assets/image/excel.png";
+import word from "../../assets/image/json.png";
+import ContentToPrintVisa from '../printer/ContentToPrintVisa';
 
 const TableVisa = () => {
     const tableRef = useRef(null);
@@ -22,6 +31,65 @@ const TableVisa = () => {
     const [readFolderId, setReadFolderId] = useState(null);
     const { data: folders, refetch, isLoading, isError } = useGetVisa();
     const [mode, setMode] = useState('add');
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [selectedOption, setSelectedOption] = useState(null);
+    const contentRef = useRef();
+
+
+    const exportPdf = async () => {
+        const doc = new jsPDF({ orientation: "landscape" });
+        // doc.addImage(imageData, 'JPEG', 10, 10, 50, 50); // x, y, largeur, hauteur
+        doc.addImage(imageData, 'JPEG', 10, 10, 30, 30); // x, y, largeur, hauteur (30, 30 pour une image plus petite)
+        doc.autoTable({
+            html: "#table_visa",
+            startY: 50, // Démarrer la table après l'image
+        });
+        doc.save("mypdf.pdf");
+    };
+
+
+    const exportExcel = () => {
+        // const table = document.getElementById('my-table');
+        const table = document.getElementById('table_visa');
+        const wb = XLSX.utils.table_to_book(table);
+        XLSX.writeFile(wb, 'mydata.xlsx');
+    };
+
+
+    const exportWord = () => {
+        const doc = new jsPDF();
+        doc.autoTable({
+            html: "#table_visa",
+            styles: { cellPadding: 6 }
+        });
+        doc.save('MesDossiers.docx');
+    };
+
+    const toggleDropdown = () => {
+        setDropdownOpen(!dropdownOpen);
+        console.log('Dropdown toggled!');
+    };
+
+    const handleOptionClick = async (option) => {
+        setSelectedOption(option);
+        console.log(`Option selected: ${option}`);
+        switch (option) {
+            case 'option1':
+                await exportPdf();
+                console.log("PDF généré avec succès");
+                break;
+            case 'option2':
+                await exportWord();
+                console.log("Fichier Word généré avec succès");
+                break;
+            case 'option3':
+                await exportExcel();
+                console.log("Fichier Word généré avec succès");
+                break;
+        }
+        setDropdownOpen(false);
+    };
+
 
     const handleOpenModal = (folderId, mode) => {
         setSelectedFolderId(folderId);
@@ -109,22 +177,39 @@ const TableVisa = () => {
     return (
         <div className='container__table'>
             <main className="table" ref={tableRef} id="customers_table">
+                <div ref={contentRef} className="content-to-print">
+                    <div className="hidden-contents">
+                        <ContentToPrintVisa folders={folders?.data} />
+                    </div>
+                </div>
                 <section className="table__header">
                     <select className='searchByeverything' value={searchType} onChange={(e) => setSearchType(e.target.value)}>
-                    <option value="nom">Search by Nom</option>
+                        <option value="nom">Search by Nom</option>
                         <option value="prenom">Search by prenom</option>
                         <option value="numero">Search by Numero</option>
                         <option value="reference">Search by reference</option>
                     </select>
                     <div className="input-group">
                         <input type="search"
-                                placeholder="Search Data..."
-                                ref={searchRef}
-                                onChange={(e) => setSearchValue(e.target.value)} />
+                            placeholder="Search Data..."
+                            ref={searchRef}
+                            onChange={(e) => setSearchValue(e.target.value)} />
                         <img src={search} alt="Search Icon" />
                     </div>
                     <div className='option_right'>
                         <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
+                        <div className="dropdown-container">
+                            <div onClick={toggleDropdown} className='background_download'>
+                                <FaArrowDown className="icon_download" style={{ marginLeft: '0px', fontSize: '20px' }} />
+                            </div>
+                            {dropdownOpen && (
+                                <div className="dropdown-menu">
+                                    <button onClick={() => handleOptionClick('option1')} className="dropdown-item"><img src={pdf} alt="Search Icon" />PDF</button>
+                                    <button onClick={() => handleOptionClick('option2')} className="dropdown-item"><img src={word} alt="Search Icon" />DOCX</button>
+                                    <button onClick={() => handleOptionClick('option3')} className="dropdown-item"><img src={excel} alt="Search Icon" />EXCEL</button>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </section>
 

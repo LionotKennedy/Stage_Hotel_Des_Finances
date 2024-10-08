@@ -3,7 +3,7 @@ import React from 'react'
 const Table = () => {
   return (
     <div>
-        <table id='teste'>
+        <table id='testes'>
           <thead>
             <tr>
               <th>Name</th>
