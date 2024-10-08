@@ -84,3 +84,24 @@ export const useDeleteFolder = () => {
     .then(res => res.json())
   );
 };
+
+export const useGetFoldersByMonth = () => {
+  return useQuery('folders', async () => {
+    const token = localStorage.getItem('token');
+    console.log('Token:', token); // Debugging token
+
+    const response = await fetch(`${API_URL}/count_letters_by_month`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    // Vérifiez si la réponse est OK
+    if (!response.ok) {
+      console.error('Erreur lors de la récupération des dossiers:', response.status, response.statusText);
+      throw new Error('Erreur lors de la récupération des dossiers');
+    }
+
+    return response.json();
+  });
+};
