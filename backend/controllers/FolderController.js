@@ -313,7 +313,7 @@ const deleteFolderById = async (req, res) => {
         message: "Folder not found",
       });
     }
-
+    
     // Étape 2 : Supprimer la nature associée
     const nature = await Nature.findByIdAndDelete(courrier.id_nature);
     if (!nature) {
@@ -322,10 +322,10 @@ const deleteFolderById = async (req, res) => {
         message: "Nature associated with this folder not found",
       });
     }
-
+    
     // Étape 3 : Supprimer le courrier
     await Courrier.findByIdAndDelete(id);
-
+    
     const newJournal = new Journal({
       action: "Suppression de dossier",
       details: `Dossier supprimé avec le numéro bordereaux: ${courrier.numero_bordereaux}`,
@@ -349,10 +349,170 @@ const deleteFolderById = async (req, res) => {
 };
 // ############### ENDING #################//
 
+// ############### COUNT LETTER BY MONTH #################//
+
+// const CountLettersByMonth = async (req, res) => {
+//   try {
+//     // Récupérer l'année actuelle
+//     const currentYear = new Date().getFullYear();
+
+//     // Créer des bornes de date pour l'année spécifiée
+//     const startDate = new Date(`${currentYear}-01-01T00:00:00.000Z`);
+//     const endDate = new Date(`${currentYear + 1}-01-01T00:00:00.000Z`);
+
+//     // Pipeline d'agrégation pour grouper les courriers par mois et les compter
+//     const courrierByMonth = await Courrier.aggregate([
+//       {
+//         // Filtrer les courriers de l'année en cours
+//         $match: {
+//           date_depart: {
+//             $gte: startDate,  // Date de début de l'année
+//             $lt: endDate      // Date de fin de l'année
+//           },
+//         },
+//       },
+//       {
+//         // Extraire le mois à partir de la date
+//         $project: {
+//           month: { $month: "$date_depart" },
+//         },
+//       },
+//       {
+//         // Grouper par mois et compter
+//         $group: {
+//           _id: "$month",
+//           count: { $sum: 1 },
+//         },
+//       },
+//       {
+//         // Trier par mois
+//         $sort: { _id: 1 },
+//       },
+//     ]);
+
+//     // Vérifier si des résultats existent
+//     if (courrierByMonth.length === 0) {
+//       return res.status(404).json({
+//         success: false,
+//         message: `No courriers found for the year ${currentYear}`,
+//       });
+//     }
+
+//     return res.status(200).json({
+//       success: true,
+//       message: "Count retrieved successfully",
+//       data: {
+//         year: currentYear,
+//         courrierByMonth, // Le nombre de courriers pour chaque mois
+//       },
+//     });
+//   } catch (error) {
+//     console.error("Error counting letters:", error);
+//     return res.status(500).json({
+//       success: false,
+//       message: "Server error: " + error.message,
+//     });
+//   }
+// };
+
+
+
+
+
+
+
+const CountLettersByMonth = async (req, res) => {
+  try {
+    // Récupérer l'année actuelle
+    const currentYear = new Date().getFullYear();
+
+    // Créer des bornes de date pour l'année spécifiée
+    const startDate = new Date(`${currentYear}-01-01T00:00:00.000Z`);
+    const endDate = new Date(`${currentYear + 1}-01-01T00:00:00.000Z`);
+
+    // Pipeline d'agrégation pour grouper les courriers par mois et les compter
+    const courrierByMonth = await Courrier.aggregate([
+      {
+        // Filtrer les courriers de l'année en cours
+        $match: {
+          date_depart: {
+            $gte: startDate,  // Date de début de l'année
+            $lt: endDate      // Date de fin de l'année
+          },
+        },
+      },
+      {
+        // Extraire le mois à partir de la date
+        $project: {
+          month: { $month: "$date_depart" },
+        },
+      },
+      {
+        // Grouper par mois et compter
+        $group: {
+          _id: "$month",
+          count: { $sum: 1 },
+        },
+      },
+      {
+        // Trier par mois
+        $sort: { _id: 1 },
+      },
+    ]);
+
+    // Tableau pour convertir les numéros de mois en noms de mois
+    const monthNames = [
+      "", "January", "February", "March", "April", "May", "June", 
+      "July", "August", "September", "October", "November", "December"
+    ];
+
+    // Remplacer les ID des mois par leurs noms dans la réponse
+    const courrierByMonthWithNames = courrierByMonth.map(item => ({
+      month: monthNames[item._id],
+      count: item.count,
+    }));
+
+    // Vérifier si des résultats existent
+    if (courrierByMonth.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: `No courriers found for the year ${currentYear}`,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Count retrieved successfully",
+      data: {
+        year: currentYear,
+        courrierByMonth: courrierByMonthWithNames, // Le nombre de courriers pour chaque mois avec noms
+      },
+    });
+  } catch (error) {
+    console.error("Error counting letters:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error: " + error.message,
+    });
+  }
+};
+
+
+
+
+
+
+
+
+
+
+// ############### ENDING #################//
+
 module.exports = {
   addFolder,
   getFolder,
   editFolderById,
   updateFolderById,
   deleteFolderById,
+  CountLettersByMonth,
 };
