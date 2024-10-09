@@ -427,16 +427,27 @@ const CountLettersByMonth = async (req, res) => {
   }
 };
 
-
-
-
-
-
-
-
-
-
 // ############### ENDING #################//
+
+// ############### COUNT LETTERS #################//
+const countLetters = async (req, res) => {
+  try {
+    // Compte le nombre de courriers dans la collection
+    const count = await Courrier.countDocuments();
+
+    return res.status(200).json({
+      success: true,
+      message: "Number of letters counted successfully",
+      count: count,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Server error: " + error.message,
+    });
+  }
+};
+// ################# ENDING ####################//
 
 module.exports = {
   addFolder,
@@ -445,4 +456,5 @@ module.exports = {
   updateFolderById,
   deleteFolderById,
   CountLettersByMonth,
+  countLetters,
 };

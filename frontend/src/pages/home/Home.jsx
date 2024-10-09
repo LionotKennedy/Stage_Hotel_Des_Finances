@@ -418,6 +418,37 @@
 
 
 
+  // useEffect(() => {
+  //   if (isLoadingFolder) {
+  //     console.log('Chargement des archives...');
+  //     return;
+  //   }
+
+  //   if (isErrorFolder) {
+  //     console.error('Erreur lors de la récupération des archives');
+  //     return;
+  //   }
+
+  //   // Vérifiez les données des archives
+  //   if (folderData && Array.isArray(folderData.data)) {
+  //     console.log('Données des archives:', folderData.data);
+  //     console.log('Nombre des archives:', folderData.data.length);
+  //     setFolderCount(folderData.data.length);
+  //   } else {
+  //     console.log("courrier n'est pas un tableau :", folderData);
+  //     setFolderCount(0);
+  //   }
+  // }, [folderData, isLoadingFolder, isErrorFolder]);
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -445,7 +476,8 @@ import Table from '../../components/table/Table'
 
 import Badge from '../../components/badge/Badge'
 
-import { useGetFoldersByMonth, useGetFolders } from '../../services/serviceFolder';
+import { useGetFoldersByMonth } from '../../services/serviceFolder';
+import { useCountFolders } from '../../services/serviceFolder';
 
 import { getAllArchive } from '../../services/serviceArchive';
 import { useGetVisa } from '../../services/serviceVisa';
@@ -458,7 +490,7 @@ import CurrentTime from '../../components/Timer/CurrentTime';
 
 
 const Home = () => {
-  const { data, isLoading, isError } = useGetFoldersByMonth();
+  const { data: monthData, isLoading, isError } = useGetFoldersByMonth();
   const [chartData, setChartData] = useState([]);
   const [chartCategories, setChartCategories] = useState([]);
   const themeReducer = useSelector(state => state.ThemeReducer.mode);
@@ -473,30 +505,31 @@ const Home = () => {
   const { data: userData, isLoading: isLoadingUser, isError: isErrorUser } = useGetUser();
 
   const [folderCount, setFolderCount] = useState(0);
-  const { data: folderData, isLoading: isLoadingFolder, isError: isErrorFolder } = useGetFolders();
+  const { data: folderData, isLoading: isLoadingFolder, isError: isErrorFolder } = useCountFolders();
+
 
 
   useEffect(() => {
     if (isLoadingFolder) {
-      console.log('Chargement des courrier...');
+      console.log('Chargement des dossiers...');
       return;
     }
-
+  
     if (isErrorFolder) {
-      console.error('Erreur lors de la récupération des courrier');
+      console.error('Erreur lors de la récupération des dossiers');
       return;
     }
-
-    // Vérifiez les données des archives
-    if (folderData && Array.isArray(folderData.data)) {
-      console.log('Données des courrier:', folderData.data);
-      console.log('Nombre des courrier:', folderData.data.length);
-      setFolderCount(folderData.data.length);
+  
+    // Vérifiez les données des dossiers
+    if (folderData && typeof folderData.count === 'number') {
+      console.log('Nombre de dossiers:', folderData.count);
+      setFolderCount(folderData.count);
     } else {
-      console.log("folder Data n'est pas un tableau :", folderData);
+      console.log("Données incorrectes ou manquantes dans la réponse de l'API");
       setFolderCount(0);
     }
   }, [folderData, isLoadingFolder, isErrorFolder]);
+
 
 
   useEffect(() => {
@@ -570,8 +603,8 @@ const Home = () => {
 
 
   useEffect(() => {
-    if (data && data.success && Array.isArray(data.data.courrierByMonth)) {
-      const folders = data.data.courrierByMonth;
+    if (monthData && monthData.success && Array.isArray(monthData.data.courrierByMonth)) {
+      const folders = monthData.data.courrierByMonth;
 
 
       const sortedMonths = [...new Set(folders.map(folder => folder.month))].sort((a, b) => {
@@ -588,9 +621,9 @@ const Home = () => {
       setChartCategories(sortedMonths);
       console.log("Folders data format:", folders.length); // Affiche le nombre de dossiers.
     } else {
-      console.log("No folders or incorrect data format:", data);
+      console.log("No folders or incorrect data format:", monthData);
     }
-  }, [data]);
+  }, [monthData]);
 
   const chartOptions = {
     series: [{
@@ -621,6 +654,125 @@ const Home = () => {
   };
 
 
+  const [statusCardsData, setStatusCardsData] = useState({
+    archiveCount: 0,
+    visaCount: 0,
+    userCount: 0,
+    folderCount: 0
+  });
+
+  const statusCards = [
+    { title: "Total archive", field: "archiveCount" },
+    { title: "Daily visits", field: "visaCount" },
+    { title: "Total utilisateur", field: "userCount" },
+    { title: "Total orders", field: "folderCount" }
+  ];
+
+  useEffect(() => {
+    // Vérifiez les données des archives
+    if (isLoadingArchive) {
+      console.log('Chargement des archives...');
+      return;
+    }
+
+    if (isErrorArchive) {
+      console.error('Erreur lors de la récupération des archives');
+      return;
+    }
+
+    if (archiveData && Array.isArray(archiveData.data)) {
+      setStatusCardsData(prevState => ({
+        ...prevState,
+        archiveCount: archiveData.data.length
+      }));
+    } else {
+      console.log("archiveData n'est pas un tableau :", archiveData);
+      setStatusCardsData(prevState => ({
+        ...prevState,
+        archiveCount: 0
+      }));
+    }
+  }, [archiveData, isLoadingArchive, isErrorArchive]);
+
+  useEffect(() => {
+    // Vérifiez les données des visas
+    if (isLoadingVisa) {
+      console.log('Chargement des visa...');
+      return;
+    }
+
+    if (isErrorVisa) {
+      console.error('Erreur lors de la récupération des visa');
+      return;
+    }
+
+    if (visaData && Array.isArray(visaData.data)) {
+      setStatusCardsData(prevState => ({
+        ...prevState,
+        visaCount: visaData.data.length
+      }));
+    } else {
+      console.log("visaData n'est pas un tableau :", visaData);
+      setStatusCardsData(prevState => ({
+        ...prevState,
+        visaCount: 0
+      }));
+    }
+  }, [visaData, isLoadingVisa, isErrorVisa]);
+
+
+  useEffect(() => {
+    // Vérifiez les données des utilisateurs
+    if (isLoadingUser) {
+      console.log('Chargement des user...');
+      return;
+    }
+
+    if (isErrorUser) {
+      console.error('Erreur lors de la récupération des user');
+      return;
+    }
+
+    if (userData && Array.isArray(userData.data)) {
+      setStatusCardsData(prevState => ({
+        ...prevState,
+        userCount: userData.data.length
+      }));
+    } else {
+      console.log("userData n'est pas un tableau :", userData);
+      setStatusCardsData(prevState => ({
+        ...prevState,
+        userCount: 0
+      }));
+    }
+  }, [userData, isLoadingUser, isErrorUser]);
+
+  useEffect(() => {
+    // Vérifiez les données des dossiers
+    if (isLoadingFolder) {
+      console.log('Chargement des dossiers...');
+      return;
+    }
+
+    if (isErrorFolder) {
+      console.error('Erreur lors de la récupération des dossiers');
+      return;
+    }
+
+    if (folderData && typeof folderData.count === 'number') {
+      setStatusCardsData(prevState => ({
+        ...prevState,
+        folderCount: folderData.count
+      }));
+    } else {
+      console.log("Données incorrectes ou manquantes dans la réponse de l'API");
+      setStatusCardsData(prevState => ({
+        ...prevState,
+        folderCount: 0
+      }));
+    }
+  }, [folderData, isLoadingFolder, isErrorFolder]);
+
 
   return (
     <div>
@@ -628,12 +780,23 @@ const Home = () => {
       <div className="row card_row">
         <div className="col-6 card_col">
           <div className="row">
-            {
+            {/* {
               statusCards.map((item, index) => (
                 <div className="col-6" key={index}>
                   <StatusCard
                     icon={item.icon}
                     count={item.count}
+                    title={item.title}
+                  />
+                </div>
+              ))
+            } */}
+            {
+              statusCards.map((item, index) => (
+                <div className="col-6" key={index}>
+                  <StatusCard
+                    icon={getIcon(item.title)}
+                    count={getItemValue(item.field)}
                     title={item.title}
                   />
                 </div>
@@ -699,11 +862,186 @@ const Home = () => {
       </div>
     </div>
   )
+  function getIcon(title) {
+    switch (title) {
+      case "Total archive":
+        return "bx bx-shopping-bag";
+      case "Daily visits":
+        return "bx bx-cart";
+      case "Total utilisateur":
+        return "bx bx-dollar-circle";
+      case "Total orders":
+        return "bx bx-receipt";
+      default:
+        return "";
+    }
+  }
+  
+  function getItemValue(field) {
+    return statusCardsData[field];
+  }
 }
+
 
 export default Home
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // useEffect(() => {
+  //   if (isLoadingFolder) {
+  //     console.log('Chargement des courrier...');
+  //     return;
+  //   }
+
+  //   if (isErrorFolder) {
+  //     console.error('Erreur lors de la récupération des courrier');
+  //     return;
+  //   }
+
+  //   // Vérifiez les données des archives
+  //   if (folderData && Array.isArray(folderData.data)) {
+  //     console.log('Données des courrier:', folderData.data);
+  //     console.log('Nombre des courrier:', folderData.data.length);
+  //     setFolderCount(folderData.data.length);
+  //   } else {
+  //     console.log("folder Data n'est pas un tableau :", folderData);
+  //     setFolderCount(0);
+  //   }
+  // }, [folderData, isLoadingFolder, isErrorFolder]);
+
+
+
+
+
+
+
+  // useEffect(() => {
+  //   if (isLoadingFolder) {
+  //     console.log('Chargement des courrier...');
+  //     return;
+  //   }
+  
+  //   if (isErrorFolder) {
+  //     console.error('Erreur lors de la récupération des courrier');
+  //     return;
+  //   }
+  
+  //   // Afficher le contenu de folderData
+  //   console.log("folderData :", folderData);
+  
+  //   // Vérifiez les données des archives
+  //   if (folderData && Array.isArray(folderData.data)) {
+  //     console.log('Données des courrier:', folderData.data);
+  //     console.log('Nombre des courrier:', folderData.data.length);
+  //     setFolderCount(folderData.data.length);
+  //   } else {
+  //     console.log("folderData n'est pas un tableau :", folderData);
+  //     setFolderCount(0);
+  //   }
+  // }, [folderData, isLoadingFolder, isErrorFolder]);
+  
+
+
+
+
+
+  // useEffect(() => {
+  //   if (isLoadingFolder) {
+  //     console.log('Chargement des courrier...');
+  //     return;
+  //   }
+  
+  //   if (isErrorFolder) {
+  //     console.error('Erreur lors de la récupération des courrier');
+  //     return;
+  //   }
+  
+  //   // Afficher le contenu de folderData
+  //   console.log("folderData :", folderData);
+  
+  //   // Vérifiez les données des archives
+  //   if (Array.isArray(folderData.data)) {
+  //     console.log('Données des courrier:', folderData.data);
+  //     console.log('Nombre des courrier:', folderData.data.length);
+  //     setFolderCount(folderData.data.length);
+  //   } else {
+  //     console.error("folderData n'est pas un tableau :", folderData);
+  //     setFolderCount(0);
+  //   }
+  // }, [folderData, isLoadingFolder, isErrorFolder]);
+
+
+
+
+
+
+
+
+  // useEffect(() => {
+  //   if (isLoadingFolder) {
+  //     console.log('Chargement des courriers...');
+  //     return;
+  //   }
+  
+  //   if (isErrorFolder) {
+  //     console.error('Erreur lors de la récupération des courriers');
+  //     return;
+  //   }
+  
+  //   // Afficher le contenu de folderData pour inspecter
+  //   console.log("folderData :", folderData);
+  
+  //   // Vérifier si 'folderData.data' est un objet avec les courriers à l'intérieur
+  //   if (folderData && folderData.data && Array.isArray(folderData.data.courriers)) {
+  //     console.log('Données des courriers:', folderData.data.courriers);
+  //     console.log('Nombre des courriers:', folderData.data.courriers.length);
+  //     setFolderCount(folderData.data.courriers.length);
+  //   } else {
+  //     console.error("Données des courriers manquantes ou mal formatées dans folderData.data :", folderData.data);
+  //     setFolderCount(0);
+  //   }
+  // }, [folderData, isLoadingFolder, isErrorFolder]);
+
+  
+
+
+
+
+
+
+  
 
 
 

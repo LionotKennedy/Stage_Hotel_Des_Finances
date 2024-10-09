@@ -20,6 +20,8 @@ export const useGetFolders = () => {
       return response.json();
     });
   };
+
+  
   
   
   export const useAddFolder = () => {
@@ -34,11 +36,11 @@ export const useGetFolders = () => {
     })
       .then(res => res.json())
     );
-};
+  };
 
-
-export const useGetFolderById = (folderId) => {
-  return useQuery(['folder', folderId], async () => { // Utilisez une clé de requête unique pour chaque ID
+  
+  export const useGetFolderById = (folderId) => {
+    return useQuery(['folder', folderId], async () => { // Utilisez une clé de requête unique pour chaque ID
     const token = localStorage.getItem('token');
     console.log('Token:', token); // Debugging token
     
@@ -59,8 +61,8 @@ export const useGetFolderById = (folderId) => {
 };
 
 export const useUpdateFolder = () => {
-  return useMutation(['updateFolder'], ({ folderId, data }) =>
-    fetch(`${API_URL}/update_folder/${folderId}`, {
+return useMutation(['updateFolder'], ({ folderId, data }) =>
+  fetch(`${API_URL}/update_folder/${folderId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -89,8 +91,67 @@ export const useGetFoldersByMonth = () => {
   return useQuery('folders', async () => {
     const token = localStorage.getItem('token');
     console.log('Token:', token); // Debugging token
-
+    
     const response = await fetch(`${API_URL}/count_letters_by_month`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    
+    // Vérifiez si la réponse est OK
+    if (!response.ok) {
+      console.error('Erreur lors de la récupération des dossiers:', response.status, response.statusText);
+      throw new Error('Erreur lors de la récupération des dossiers');
+    }
+    
+    return response.json();
+  });
+};
+
+
+export const useGetFolders_2 = () => {
+  return useQuery('folders', async () => {
+    const token = localStorage.getItem('token');
+    console.log('Token:', token); // Debugging token
+    
+    const response = await fetch(`${API_URL}/get_folder`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    
+    if (!response.ok) {
+      console.error('Erreur lors de la récupération des dossiers:', response.status, response.statusText);
+      throw new Error('Erreur lors de la récupération des dossiers');
+    }
+    
+    const result = await response.json();
+    console.log("Résultat brut:", result);
+    
+    // Assurez-vous que les données sont au format attendu
+    if (result && result.data && Array.isArray(result.data.courriers)) {
+      return {
+        success: true,
+        message: 'Count retrieved successfully',
+        data: result.data.courriers  // Retourne uniquement le tableau des courriers
+      };
+    } else {
+      console.error("Données incorrectes ou manquantes dans la réponse de l'API");
+      throw new Error('Données incorrectes ou manquantes');
+    }
+  });
+};
+
+
+
+
+
+export const useCountFolders = () => {
+  return useQuery('countLetters', async () => {
+    const token = localStorage.getItem('token');
+    console.log('Token:', token); // Debugging token
+
+    const response = await fetch(`${API_URL}/count_letters`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -102,6 +163,7 @@ export const useGetFoldersByMonth = () => {
       throw new Error('Erreur lors de la récupération des dossiers');
     }
 
-    return response.json();
+    const data = await response.json();
+    return { success: true, count: data.count }; // Retournez uniquement le nombre de dossiers
   });
 };
