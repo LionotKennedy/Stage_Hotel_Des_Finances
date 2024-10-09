@@ -138,7 +138,7 @@ const loginUser = async (req, res) => {
     if(userData.status != "active") {
       return res.status(400).json({
         success: false,
-        message: "Your account is not active",
+        message: "Votre compte est désactivé. Veuillez contacter le support.",
       });
     }
 

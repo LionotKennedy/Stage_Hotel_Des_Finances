@@ -44,25 +44,39 @@ const Login = ({ onLogin }) => {
         setMessage('');
         setEmailError(false);
         setPasswordError(false);
-    
-        if (!email || !password) {
-            setMessage('Veuillez remplir tous les champs.');
+
+        // if (!email || !password) {
+        //     setMessage('Veuillez remplir tous les champs.');
+        //     if (!email) setEmailError(true);
+        //     if (!password) setPasswordError(true);
+        //     setLoading(false);
+        //     return;
+        // }
+
+        if (!email) {
+            setMessage('Veuillez entrer votre adresse email.');
             if (!email) setEmailError(true);
-            if (!password) setPasswordError(true);
             setLoading(false);
             return;
         }
-    
+        else if (!password) {
+            setMessage('Veuillez entrer votre mot de passe.');
+            if (!password) setPasswordError(true);
+            setLoading(false);
+            return;
+        };
+
+
         try {
             const result = await loginMutation.mutateAsync({ email, password });
-    
+
             if (result.success) {
                 const userStatus = result.data.status;
                 const userRole = result.data.role; // Assurez-vous que le rôle est présent dans les données renvoyées
                 console.log('User status:', userStatus);
                 console.log('User role:', userRole); // Ajoutez ceci pour afficher le rôle dans la console
                 const userId = result.data._id;
-    
+
                 // Affichez un message en fonction du rôle
                 if (userRole === 1) {
                     console.log('Bienvenue, administrateur !');
@@ -71,7 +85,7 @@ const Login = ({ onLogin }) => {
                 } else {
                     console.log('Rôle inconnu.');
                 }
-    
+
                 // Vérifiez le statut de l'utilisateur
                 if (userStatus === 'active') {
                     localStorage.setItem('token', result.accessToken);
@@ -96,9 +110,9 @@ const Login = ({ onLogin }) => {
             setLoading(false);
         }
     };
-    
-    
-    
+
+
+
     const handleSendResetCode = async () => {
         setMessage('');
         if (!email) {
@@ -208,7 +222,7 @@ const Login = ({ onLogin }) => {
                         <>
                             <MdLock size={90} className='react__icons' />
                             <h3 className="title">User Login</h3>
-                            <div className="text-input">
+                            <div className="text-input" style={{ border: emailError ? '2px solid red' : '' }}>
                                 <RiUserFill className='react__icons' />
                                 <input
                                     type="text"
@@ -218,11 +232,11 @@ const Login = ({ onLogin }) => {
                                         setEmail(e.target.value);
                                         setEmailError(false); // Clear error on input change
                                     }}
-                                    style={{ borderColor: emailError ? 'red' : '' }} // Highlight in red
+                                    // style={{ borderColor: emailError ? 'red' : '' }} // Highlight in red
                                     autoComplete="off"
                                 />
                             </div>
-                            <div className="text-input">
+                            <div className="text-input" style={{ border: passwordError ? '2px solid red' : '' }}>
                                 <RiLockFill className='react__icons' />
                                 <input
                                     type="password"
@@ -232,16 +246,16 @@ const Login = ({ onLogin }) => {
                                         setPassword(e.target.value);
                                         setPasswordError(false); // Clear error on input change
                                     }}
-                                    style={{ borderColor: passwordError ? 'red' : '' }} // Highlight in red
+                                    // style={{ borderColor: passwordError ? 'red' : '' }} // Highlight in red
                                     autoComplete="off"
                                 />
                             </div>
                             <button className="login-btn" onClick={handleLogin}>LOGIN</button>
                             <a className="forgot text_login" onClick={() => setForgotPassword(true)}>Forgot Username/Password?</a>
-                            <div className="create">
+                            {/* <div className="create">
                                 <a className='text_login' href="#">Create Your Account</a>
                                 <i className="ri-arrow-right-fill"></i>
-                            </div>
+                            </div> */}
                             {message && <p className="error-message">{message}</p>} {/* Error message display */}
                         </>
                     )}

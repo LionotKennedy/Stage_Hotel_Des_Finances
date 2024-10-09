@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 const ProfileCard = () => {
     const [userData, setUserData] = useState(null);
-    const [error, setError] = useState(''); 
+    const [error, setError] = useState('');
     const [dialogOpen, setDialogOpen] = useState(false);
     const [selectedFolderId, setSelectedFolderId] = useState(null);
 
@@ -73,48 +73,6 @@ const ProfileCard = () => {
             <div className="profile__card">
                 <div className="image__profile">
                     {/* Afficher l'image récupérée de l'API */}
-                    {/* <img
-                        // src={`http://127.0.0.1:9876/${image}`} 
-                        // alt="Profile Image" 
-                        // className="profile__img" 
-                        // src={`http://127.0.0.1:9876/uploads/${image}`}
-
-                        src={`http://127.0.0.1:9876${image}`}
-                        alt="Profile Image"
-                        className="profile__img"
-                    /> */}
-
-                    {/* <img
-                        src={
-                            userData.data.image.startsWith('uploads/')
-                                // ? `http://127.0.0.1:9876/${userData.data.image}`
-                                ? `http://127.0.0.1:9876/${userData.data.image}`
-                                : `http://127.0.0.1:9876/uploads/uploads_default/${userData.data.image}`
-                        }
-                        alt="Profile Image"
-                        className="profile__img"
-                    /> */}
-
-                    {/* <img
-                        src={
-                            userData.data.image.startsWith('uploads/')
-                                ? `http://127.0.0.1:9876/${image}`
-                                : `http://127.0.0.1:9876/uploads/${image}`
-                        }
-                        alt="Profile Image"
-                        className="profile__img"
-                    /> */}
-
-                    {/* <img
-                        src={
-                            image.startsWith('uploads_default/')
-                            ? `http://127.0.0.1:9876/uploads/${image}` // Si l'image est dans "upload_default/", ajouter "uploads/" devant
-                            : `http://127.0.0.1:9876/${image}` // Sinon, garder le chemin de l'image tel quel
-                        }
-                        alt="Profile Image"
-                        className="profile__img"
-                    /> */}
-
                     <img
                         src={getImageUrl(image)}
                         alt="Profile Image"
@@ -130,27 +88,25 @@ const ProfileCard = () => {
 
                 <div className="media__buttons">
                     <a href="#" className="link facebook">
-                        <i className="bx bxl-facebook"></i>
+                        {/* <i className="bx bxl-facebook"></i> */}
                     </a>
                     <a href="#" className="link twitter">
-                        <i className="bx bxl-twitter"></i>
+                        {/* <i className="bx bxl-twitter"></i> */}
                     </a>
                     <a href="#" className="link instagram">
-                        <i className="bx bxl-instagram"></i>
+                        {/* <i className="bx bxl-instagram"></i> */}
                     </a>
                     <a href="#" className="link youtube">
-                        <i className="bx bxl-youtube"></i>
+                        {/* <i className="bx bxl-youtube"></i> */}
                     </a>
                 </div>
 
                 <div className="buttons">
-                    {/* <button className="button__btn">Subscribe</button> */}
-                    {/* <button className="button__btn">Message</button> */}
                     <button className="button__btn" onClick={handleSubscribeClick}>
-                        Subscribe
+                        Modification profile
                     </button>
                     <button className="button__btn" onClick={() => handleOpenDialog(userId)}>
-                        Message
+                        Change mot de passe
                     </button>
                 </div>
 

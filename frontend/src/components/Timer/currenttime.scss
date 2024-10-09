@@ -54,8 +54,9 @@
 .time-paper {
     width: 300px; // Largeur du papier
     height: 300px; // Hauteur du papier
-    border-radius: 50%; // Coin arrondi pour créer une forme circulaire
+    border-radius: 5%; // Coin arrondi pour créer une forme circulaire
     background-color: rgba(255, 255, 255, 0.1); // Fond léger
+    // background-color: var(--main-bg);
     border: 2px solid rgba(255, 255, 255, 0.25); // Bordure légère
     box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.9); // Ombre
     display: flex; // Flex pour centrer le contenu

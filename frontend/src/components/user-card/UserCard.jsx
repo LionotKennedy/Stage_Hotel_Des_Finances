@@ -1,76 +1,16 @@
-// import React from 'react'
-// import "./usercard.scss"
-// import user from "../../assets/images/user.png"
-// import { MdEdit, MdDelete, MdVisibility, MdAdd } from 'react-icons/md';
-
-// const UserCard = ({ users }) => {
-//     // Si users est indéfini ou s'il ne s'agit pas d'un tableau, on retourne null ou un message.
-//     if (!users || !Array.isArray(users)) {
-//       return <p>Aucun utilisateur trouvé.</p>;
-//     }
-//   return (
-//     <div className='container__user'>
-//       {users.map((user, index) => (
-//       <div key={index} className="content_user">
-//         <div className="user_details">
-//           <div className="img_user">
-//             <img className="imageUser" src={user} alt="image" />
-//           </div>
-//           <div className="text__user">
-//             <div className="date_user">RAZAFIMANDIMBY</div>
-//             <span>Lionot</span><br />
-//             <span>razafimandimbylionotkennedy@gmail.com</span>
-//           </div>
-//         </div>
-//         <div className="_user">
-//           <div className="info__User">Role: personnel</div>
-//           <span>Statut: active</span><br />
-//           <MdEdit className="icon__user" title="Update" />
-//            {/* <MdDelete className="icon" title="Delete" /> */}
-//             <MdVisibility className="icon__user" title="Read" />
-//         </div>
-//       </div>
-//        ))}
-//     </div>
-//   )
-// }
-
-// export default UserCard
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "./usercard.scss";
 import { MdEdit, MdVisibility } from 'react-icons/md';
 import UserUpdateScreenDialog from '../MUI/UserModalUpdate';
 import { useNavigate } from 'react-router-dom';
-
-// Le composant reçoit un tableau d'utilisateurs via les props
 const UserCard = ({ users, refetch }) => {
   const [selectedFolderId, setSelectedFolderId] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();  // Initialisation de useNavigate
+
   // Si users est indéfini ou vide, afficher un message d'erreur
   if (!users || !Array.isArray(users) || users.length === 0) {
     return <p>Aucun utilisateur trouvé.</p>;
@@ -96,6 +36,11 @@ const UserCard = ({ users, refetch }) => {
 };
 
   const handleCloseModal = () => setModalOpen(false);
+
+  // useEffect(() => {
+  //   if (onSuccess) onSuccess(); // Assure-toi que refetch est bien défini
+  // }, [onSuccess]);  // Vérifie aussi si c'est nécessaire, ou si tu peux déplacer ça dans `TableArchive`.
+
 
 
   return (
@@ -138,7 +83,7 @@ const UserCard = ({ users, refetch }) => {
           open={modalOpen}
           handleClose={handleCloseModal}
           userId={selectedFolderId} // Passer l'ID du courrier à la modale
-          onSuccessUpdate={refetch} // On passe refetch ici
+          onSuccess={refetch} // On passe refetch ici
         />
       )}
     </div>

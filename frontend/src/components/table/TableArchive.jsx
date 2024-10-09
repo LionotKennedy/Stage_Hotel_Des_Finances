@@ -119,9 +119,10 @@ const TableArchive = ({ archives, refetch, year }) => {
         // if (folders && folders.data) {
         //     folders.data.forEach((folder) => console.log('Folder data:', folder));
         // }
-        folders?.data?.forEach((folder) => console.log('Folder data:', folder));
+        // folders?.data?.forEach((folder) => console.log('Folder data:', folder));
     }, [folders])
 
+    
     useEffect(() => {
         console.log("Valeur de recherche :", searchValue);
     }, [searchValue]);

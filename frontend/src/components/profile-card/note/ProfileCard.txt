@@ -584,3 +584,66 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    {/* <img
+                        // src={`http://127.0.0.1:9876/${image}`} 
+                        // alt="Profile Image" 
+                        // className="profile__img" 
+                        // src={`http://127.0.0.1:9876/uploads/${image}`}
+
+                        src={`http://127.0.0.1:9876${image}`}
+                        alt="Profile Image"
+                        className="profile__img"
+                    /> */}
+
+                    {/* <img
+                        src={
+                            userData.data.image.startsWith('uploads/')
+                                // ? `http://127.0.0.1:9876/${userData.data.image}`
+                                ? `http://127.0.0.1:9876/${userData.data.image}`
+                                : `http://127.0.0.1:9876/uploads/uploads_default/${userData.data.image}`
+                        }
+                        alt="Profile Image"
+                        className="profile__img"
+                    /> */}
+
+                    {/* <img
+                        src={
+                            userData.data.image.startsWith('uploads/')
+                                ? `http://127.0.0.1:9876/${image}`
+                                : `http://127.0.0.1:9876/uploads/${image}`
+                        }
+                        alt="Profile Image"
+                        className="profile__img"
+                    /> */}
+
+                    {/* <img
+                        src={
+                            image.startsWith('uploads_default/')
+                            ? `http://127.0.0.1:9876/uploads/${image}` // Si l'image est dans "upload_default/", ajouter "uploads/" devant
+                            : `http://127.0.0.1:9876/${image}` // Sinon, garder le chemin de l'image tel quel
+                        }
+                        alt="Profile Image"
+                        className="profile__img"
+                    /> */}

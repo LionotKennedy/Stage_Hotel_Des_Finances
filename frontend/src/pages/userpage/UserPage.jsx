@@ -5,12 +5,14 @@ import './userpage.scss'; // Assurez-vous d'avoir un fichier CSS pour le style
 import { useGetUserById } from '../../services/serviceUser'; // Ajuste le chemin en fonction de l'emplacement de ton fichier
 import { useUpdateUser } from '../../services/serviceUser'; // Ajuste le chemin si nécessaire
 import { FaArrowLeft } from 'react-icons/fa';
+import { FaFileImage, FaImages, FaImage, FaRegFileImage } from 'react-icons/fa';
+
 
 const UserPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const userId = location.state?.userId;
-    const { mutate: updateUser } = useUpdateUser(); 
+    const { mutate: updateUser } = useUpdateUser();
 
     const { data: userData, error, isLoading } = useGetUserById(userId);
     const [formData, setFormData] = useState({
@@ -29,8 +31,6 @@ const UserPage = () => {
             });
 
             setImagePreview(userData.data.image);
-
-            // console.log('Données du formulaire:', userData.data);
             console.log('Données du formulairelll:', userData.data.image);
             // console.log('Données du formulaireccc:', imagePreview);
             // console.log('Données du formulaireccc:', imagePath);
@@ -69,18 +69,22 @@ const UserPage = () => {
 
     return (
         <div className='container__users'>
-            <div>
-                <h1>User Page</h1>
+            <div className='content__headers'>
                 <div className='icon__back'>
                     <FaArrowLeft
-                        className='back-icon'
+                        className='back__icon'
                         onClick={handleBackClick}
                         size={44}
                         style={{ cursor: 'pointer' }}
                     />
                 </div>
+                <div className='title__profile'>
+                    <span>Modification du profile</span>
+                </div>
                 {userId ? (
-                    <p>ID Utilisateur: {userId}</p> // Afficher l'ID utilisateur
+                    <div className='id__import'>
+                        <p>ID Utilisateur: {userId}</p>
+                    </div>
                 ) : (
                     <p>ID utilisateur non trouvé.</p>
                 )}
@@ -89,41 +93,53 @@ const UserPage = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="user-form" encType="multipart/form-data">
-                <div className="form-group">
-                    <label htmlFor="name">Nom:</label>
-                    <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                    />
+                <div className='container__form'>
+                    <div className='image___recive'>
+                        {imagePreview && <img src={imagePreview} alt="Prévisualisation" className="image-preview" />} {/* Affiche l'image prévisualisée */}
+                    </div>
+                    <div className='content__form'>
+                        <div className="form-group">
+                            <label htmlFor="name">Nom:</label>
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleChange}
+                                placeholder="Nom d'utilisateur"
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="email">Email:</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                placeholder='Adresse email'
+                                required
+                            />
+                        </div>
+                        <div className="form-group content__input">
+                            <label htmlFor="image">
+                                Image : <FaRegFileImage className="icon" />
+                            </label>
+                            <input
+                                type="file"
+                                id="image"
+                                name="image"
+                                onChange={handleChange}
+                                style={{ display: "none" }}
+                            // required
+                            />
+                        </div>
+                        <div className='btn__update__profile'>
+                            <button type="submit" className="submit-button">Enregistrer</button>
+                        </div>
+                    </div>
                 </div>
-                <div className="form-group">
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="image">Image:</label>
-                    <input
-                        type="file"
-                        id="image"
-                        name="image"
-                        onChange={handleChange}
-                        // required
-                    />
-                    {imagePreview && <img src={imagePreview} alt="Prévisualisation" className="image-preview" />} {/* Affiche l'image prévisualisée */}
-                </div>
-                {/* <button type="submit" className="submit-button">Envoyer</button> */}
-                <button type="submit" className="submit-button">Envoyer</button>
             </form>
         </div>
     );

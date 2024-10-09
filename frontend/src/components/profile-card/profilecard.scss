@@ -115,14 +115,15 @@
     border-radius: 24px;
     margin: 0 10px;
     padding: 8px 24px;
-    background-color: #4070f4;
-    // background-color: var(--second-color);
+    // background-color: #4070f4;
+    background-color: var(--second-color);
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .buttons .button__btn:hover {
-    background-color: #4070f1;
+    background-color: var(--main-color);
+    // background-color: #4070f1;
 }
 
 

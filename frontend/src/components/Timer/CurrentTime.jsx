@@ -71,7 +71,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Paper } from '@mui/material';
-// import './currenttime.scss'; // Importer le fichier SCSS
+import './currenttime.scss'; // Importer le fichier SCSS
 
 const CurrentTime = () => {
   const [currentTime, setCurrentTime] = useState(new Date());

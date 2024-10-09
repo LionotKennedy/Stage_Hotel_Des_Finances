@@ -10,7 +10,7 @@ import BasicDateCalendar from '../../components/calendar/BasicDateCalendar';
 import CurrentTime from '../../components/Timer/CurrentTime';
 // import CustomModal from '../../components/MUI/CustomModal';
 // import DateRangeCalendarComponent from '../../components/calendar/DateRangeCalendar';
-// import StyledTimeClock from '../../components/Timer/StyledTimeClock';
+import StyledTimeClock from '../../components/Timer/StyledTimeClock';
 // import MuiCalendarComponent from '../../components/calendar/MuiCalendarComponent';
 
 
@@ -30,12 +30,12 @@ const User = () => {
   };
 
 
-  useEffect(() => {
-    // if (users && users.data) {
-    //   console.log('Données des archives par groupes:', users.data);
-    // }
-    users?.data?.forEach((users) => console.log('Folder data:', users));
-  }, [users]);
+  // useEffect(() => {
+  //   // if (users && users.data) {
+  //   //   console.log('Données des archives par groupes:', users.data);
+  //   // }
+  //   users?.data?.forEach((users) => console.log('Folder data:', users));
+  // }, [users]);
 
   useEffect(() => {
     if (refetch) refetch(); // Assure-toi que refetch est bien défini
@@ -67,16 +67,7 @@ const User = () => {
       ) : (
         <p>Aucune utilisateur trouvée.</p>
       )}
-
       <UserScreenDialog open={modalOpen} handleClose={handleCloseDialog} onSuccess={refetch} />
-
-
-      {/* <button onClick={handleOpenModal} className="open-modal-btn">
-        Ouvrir la Modale
-      </button> */}
-
-      {/* <CustomModal open={modalOpen} handleClose={handleCloseModal} /> */}
-
       {/* <DateRangeCalendarComponent /> */}
       {/* <MuiCalendarComponent /> */}
       <CalendarComponent />

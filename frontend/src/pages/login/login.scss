@@ -219,6 +219,7 @@
     margin: 5px 0;
     transition: all 0.3s ease-in-out;
 
+
    
     &:focus-within {
         background: #ffb6c1; 
@@ -236,6 +237,12 @@
 .error-message {
     color: red;
     margin-top: 10px;
+    font-size: 13px;
+}
+.message {
+    color: rgb(30, 173, 85);
+    margin-top: 10px;
+    font-size: 13px;
 }
 
 .text-input input {

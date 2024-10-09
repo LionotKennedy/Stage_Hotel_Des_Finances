@@ -453,24 +453,18 @@ const getUserImageSrc = (image) => {
 const Journal = () => {
   // Utilisez le hook pour récupérer les journaux
   const { data: journals, refetch, isLoading, isError } = useGetJournals();
-
   const [alertOpenRead, setAlertOpenRead] = useState(false);
   const [readFolderId, setReadFolderId] = useState(null);
-
   const [alertOpen, setAlertOpen] = useState(false); // État pour l'alert modal
   const [deleteJournalId, setDeleteJournalId] = useState(null); // ID pour suppression
 
-  useEffect(() => {
-    // if (journals && journals.data) {
-    //   console.log('Journal data:', journals.data); // S'assurer que les journaux sont bien récupérés
-    //   // console.log('Journal data image:', journals.imageJournale); // S'assurer que les journaux sont bien récupérés
-    // }
-    journals?.data?.forEach((journals) => console.log('Folder data:', journals));
-  }, [journals]);
-
-  //   useEffect(() => {
-  //     refetch();
-  // }, [refetch]);
+  // useEffect(() => {
+  //   // if (journals && journals.data) {
+  //   //   console.log('Journal data:', journals.data); // S'assurer que les journaux sont bien récupérés
+  //   //   // console.log('Journal data image:', journals.imageJournale); // S'assurer que les journaux sont bien récupérés
+  //   // }
+  //   journals?.data?.forEach((journals) => console.log('Folder data:', journals));
+  // }, [journals]);
 
   // Définir les colonnes du tableau
   const customerTableHead = [
@@ -479,8 +473,6 @@ const Journal = () => {
     'Action',
     'Détails',
     'Date',
-    // 'Utilisateur',
-    // 'Image du Journal',
     'Actions', // Colonne pour les actions (modifier, supprimer, lire)
   ];
 
@@ -501,8 +493,6 @@ const Journal = () => {
         <td>{item.action}</td>
         <td>{item.details}</td>
         <td>{new Date(item.date).toLocaleDateString()}</td>
-        {/* <td>{item.date}</td> */}
-        {/* <td>{item.user}</td> */}
         <td>
           <MdVisibility onClick={() => handleRead(item._id)} style={{ cursor: 'pointer', marginRight: '10px' }} className='icon' />
           <MdDelete onClick={() => handleDelete(item._id)} style={{ cursor: 'pointer' }} className='icon' />
