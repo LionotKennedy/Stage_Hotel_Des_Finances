@@ -164,8 +164,22 @@ const TableResponsive = () => {
     }, [searchType, searchValue]);
 
     const displayData = () => {
-        if (!folders || !folders.data) return null;
-
+        // if (!folders || !folders.data) return null;
+        if (!folders || !Array.isArray(folders.data)) {
+            return (
+                <tr>
+                    <td colSpan="9">Aucune donnée disponible</td>
+                </tr>
+            );
+        }
+    
+        if (folders.data.length === 0) {
+            return (
+                <tr>
+                    <td colSpan="9">Aucune donnée disponible</td>
+                </tr>
+            );
+        }
         return folders.data.map((folder, index) => (
             <tr key={index}>
                 <td className="td">{folder.id_nature.nom_depose}</td>

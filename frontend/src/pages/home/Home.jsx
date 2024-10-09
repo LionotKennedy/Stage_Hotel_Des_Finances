@@ -288,53 +288,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import React, { useEffect, useState } from 'react';
-
-import "./home.scss"
-
-import { Link } from 'react-router-dom'
-
-import Chart from 'react-apexcharts'
-
-import { useSelector } from 'react-redux'
-
-import StatusCard from '../../components/status-card/StatusCard'
-
-import Table from '../../components/table/Table'
-
-import Badge from '../../components/badge/Badge'
-
-import { useGetFoldersByMonth } from '../../services/serviceFolder';
-
-import statusCards from '../../Data/status-card-data.json'
-import CalendarComponent from '../../components/calendar/Calendar'
-import CurrentTime from '../../components/Timer/CurrentTime';
-
 // const topCustomers = {
 //   head: [
 //     'user',
@@ -453,17 +406,174 @@ import CurrentTime from '../../components/Timer/CurrentTime';
 // )
 
 
-const Home = () => {
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React, { useEffect, useState } from 'react';
+
+import "./home.scss"
+
+import { Link } from 'react-router-dom'
+
+import Chart from 'react-apexcharts'
+
+import { useSelector } from 'react-redux'
+
+import StatusCard from '../../components/status-card/StatusCard'
+
+import Table from '../../components/table/Table'
+
+import Badge from '../../components/badge/Badge'
+
+import { useGetFoldersByMonth, useGetFolders } from '../../services/serviceFolder';
+
+import { getAllArchive } from '../../services/serviceArchive';
+import { useGetVisa } from '../../services/serviceVisa';
+import { useGetUser } from '../../services/serviceUser';
+
+import statusCards from '../../Data/status-card-data.json'
+import CalendarComponent from '../../components/calendar/Calendar'
+import CurrentTime from '../../components/Timer/CurrentTime';
+
+
+
+const Home = () => {
   const { data, isLoading, isError } = useGetFoldersByMonth();
   const [chartData, setChartData] = useState([]);
   const [chartCategories, setChartCategories] = useState([]);
   const themeReducer = useSelector(state => state.ThemeReducer.mode);
 
+  const [archiveCount, setArchiveCount] = useState(0);
+  const { data: archiveData, isLoading: isLoadingArchive, isError: isErrorArchive } = getAllArchive();
+
+  const [visaCount, setVisaCount] = useState(0);
+  const { data: visaData, isLoading: isLoadingVisa, isError: isErrorVisa } = useGetVisa();
+
+  const [userCount, setUserCount] = useState(0);
+  const { data: userData, isLoading: isLoadingUser, isError: isErrorUser } = useGetUser();
+
+  const [folderCount, setFolderCount] = useState(0);
+  const { data: folderData, isLoading: isLoadingFolder, isError: isErrorFolder } = useGetFolders();
+
+
+  useEffect(() => {
+    if (isLoadingFolder) {
+      console.log('Chargement des courrier...');
+      return;
+    }
+
+    if (isErrorFolder) {
+      console.error('Erreur lors de la récupération des courrier');
+      return;
+    }
+
+    // Vérifiez les données des archives
+    if (folderData && Array.isArray(folderData.data)) {
+      console.log('Données des courrier:', folderData.data);
+      console.log('Nombre des courrier:', folderData.data.length);
+      setFolderCount(folderData.data.length);
+    } else {
+      console.log("folder Data n'est pas un tableau :", folderData);
+      setFolderCount(0);
+    }
+  }, [folderData, isLoadingFolder, isErrorFolder]);
+
+
+  useEffect(() => {
+    if (isLoadingArchive) {
+      console.log('Chargement des archives...');
+      return;
+    }
+
+    if (isErrorArchive) {
+      console.error('Erreur lors de la récupération des archives');
+      return;
+    }
+
+    // Vérifiez les données des archives
+    if (archiveData && Array.isArray(archiveData.data)) {
+      console.log('Données des archives:', archiveData.data);
+      console.log('Nombre des archives:', archiveData.data.length);
+      setArchiveCount(archiveData.data.length);
+    } else {
+      console.log("archiveData n'est pas un tableau :", archiveData);
+      setArchiveCount(0);
+    }
+  }, [archiveData, isLoadingArchive, isErrorArchive]);
+
+
+  useEffect(() => {
+    if (isLoadingUser) {
+      console.log('Chargement des user...');
+      return;
+    }
+
+    if (isErrorUser) {
+      console.error('Erreur lors de la récupération des user');
+      return;
+    }
+
+    // Vérifiez les données des archives
+    if (userData && Array.isArray(userData.data)) {
+      console.log('Données des user:', userData.data);
+      console.log('Nombre des user:', userData.data.length);
+      setUserCount(userData.data.length);
+    } else {
+      console.log("userData n'est pas un tableau :", userData);
+      setUserCount(0);
+    }
+  }, [userData, isLoadingUser, isErrorUser]);
+
+
+  useEffect(() => {
+    if (isLoadingVisa) {
+      console.log('Chargement des visa...');
+      return;
+    }
+
+    if (isErrorVisa) {
+      console.error('Erreur lors de la récupération des visa');
+      return;
+    }
+
+    // Vérifiez les données des archives
+    if (visaData && Array.isArray(visaData.data)) {
+      console.log('Données des visa:', visaData.data);
+      console.log('Nombre des visa:', visaData.data.length);
+      setVisaCount(visaData.data.length);
+    } else {
+      console.log("visaData n'est pas un tableau :", visaData);
+      setVisaCount(0);
+    }
+  }, [visaData, isLoadingVisa, isErrorVisa]);
+
+
 
   useEffect(() => {
     if (data && data.success && Array.isArray(data.data.courrierByMonth)) {
       const folders = data.data.courrierByMonth;
+
+
       const sortedMonths = [...new Set(folders.map(folder => folder.month))].sort((a, b) => {
         const monthNames = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
         return monthNames.indexOf(a.toLowerCase()) - monthNames.indexOf(b.toLowerCase());
@@ -476,6 +586,7 @@ const Home = () => {
 
       setChartData(chartData);
       setChartCategories(sortedMonths);
+      console.log("Folders data format:", folders.length); // Affiche le nombre de dossiers.
     } else {
       console.log("No folders or incorrect data format:", data);
     }
@@ -591,3 +702,174 @@ const Home = () => {
 }
 
 export default Home
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useEffect, useState } from 'react';
+// import "./home.scss"
+// import { Link } from 'react-router-dom'
+// import Chart from 'react-apexcharts'
+// import { useSelector } from 'react-redux'
+// import StatusCard from '../../components/status-card/StatusCard'
+// import Table from '../../components/table/Table'
+// import Badge from '../../components/badge/Badge'
+// import { useGetFoldersByMonth, useGetFolders } from '../../services/serviceFolder';
+// import statusCards from '../../Data/status-card-data.json'
+// import CalendarComponent from '../../components/calendar/Calendar'
+// import CurrentTime from '../../components/Timer/CurrentTime';
+
+// const Home = () => {
+//   const { data: monthlyData, isLoading, isError } = useGetFoldersByMonth();
+//   const { data: foldersData, isLoading: loadingFolders, isError: errorFolders } = useGetFolders(); // Récupérer tous les dossiers
+
+//   const [chartData, setChartData] = useState([]);
+//   const [chartCategories, setChartCategories] = useState([]);
+//   const themeReducer = useSelector(state => state.ThemeReducer.mode);
+
+//   useEffect(() => {
+//     if (monthlyData && monthlyData.success && Array.isArray(monthlyData.data.courrierByMonth)) {
+//       const folders = monthlyData.data.courrierByMonth;
+
+//       const sortedMonths = [...new Set(folders.map(folder => folder.month))].sort((a, b) => {
+//         const monthNames = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+//         return monthNames.indexOf(a.toLowerCase()) - monthNames.indexOf(b.toLowerCase());
+//       });
+
+//       const chartData = sortedMonths.map(month => ({
+//         month,
+//         count: folders.filter(folder => folder.month === month).reduce((acc, curr) => acc + curr.count, 0)
+//       }));
+
+//       setChartData(chartData);
+//       setChartCategories(sortedMonths);
+//       console.log("Folders data format:", folders.length); // Affiche le nombre de dossiers.
+//     } else {
+//       console.log("No folders or incorrect data format:", monthlyData);
+//     }
+//   }, [monthlyData]);
+
+//   // Vérification des erreurs pour les dossiers
+//   useEffect(() => {
+//     if (errorFolders) {
+//       console.error("Erreur lors de la récupération des dossiers:", errorFolders);
+//     }
+//     console.error(" récupération des dossiers:", foldersData);
+
+//   }, [errorFolders]);
+
+//   const chartOptions = {
+//     series: [{
+//       name: 'Count',
+//       data: chartData.map(item => item.count),
+//     }],
+//     options: {
+//       color: ['#6ab04c', '#2980b9'],
+//       chart: {
+//         background: 'transparent'
+//       },
+//       dataLabels: {
+//         enabled: false
+//       },
+//       stroke: {
+//         curve: 'smooth'
+//       },
+//       xaxis: {
+//         categories: chartCategories
+//       },
+//       legend: {
+//         position: 'top'
+//       },
+//       grid: {
+//         show: false
+//       }
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <h2 className="page-header">Dashboard</h2>
+//       <div className="row card_row">
+//         <div className="col-6 card_col">
+//           <div className="row">
+//             {
+//               statusCards.map((item, index) => (
+//                 <div className="col-6" key={index}>
+//                   <StatusCard
+//                     icon={item.icon}
+//                     count={item.count}
+//                     title={item.title}
+//                   />
+//                 </div>
+//               ))
+//             }
+//           </div>
+//         </div>
+//         <div className="col-6">
+//           <div className="card full-height">
+//             <Chart
+//               options={themeReducer === 'theme-mode-dark' ? {
+//                 ...chartOptions.options,
+//                 theme: { mode: 'dark' }
+//               } : {
+//                 ...chartOptions.options,
+//                 theme: { mode: 'light' }
+//               }}
+//               series={chartOptions.series}
+//               type='line'
+//               height='100%'
+//             />
+//           </div>
+//         </div>
+//         <div className="col-4">
+//           <div className="card">
+//             <div className="card__header">
+//               <h3>top customers</h3>
+//             </div>
+//             <div className="card__body">
+//               {/* <Table
+//                 headData={topCustomers.head}
+//                 renderHead={(item, index) => renderCusomerHead(item, index)}
+//                 bodyData={topCustomers.body}
+//                 renderBody={(item, index) => renderCusomerBody(item, index)}
+//               /> */}
+//             </div>
+//             <div className="card__footer">
+//             </div>
+//             <Link to='/home'>view all</Link>
+//           </div>
+//         </div>
+//         <div className="col-8">
+//           <div className="card">
+//             <div className="card__body">
+//               <CalendarComponent />
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   )
+// }
+
+// export default Home;

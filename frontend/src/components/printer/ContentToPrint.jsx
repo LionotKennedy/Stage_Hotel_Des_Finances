@@ -1,9 +1,16 @@
 
-
 import React from 'react';
 
 const ContentToPrint = ({ folders }) => {
-    if (!folders || folders.length === 0) {
+    // if (!folders || folders.length === 0) {
+    //     return <div>No data available to print</div>;
+    // }
+
+    if (!Array.isArray(folders)) {
+        return <div>Folders is not an array</div>;
+    }
+
+    if (folders.length === 0) {
         return <div>No data available to print</div>;
     }
 
