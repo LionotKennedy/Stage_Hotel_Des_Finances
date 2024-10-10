@@ -55,102 +55,8 @@ const TableResponsive = () => {
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
 
-
-    // const exportPdf = async () => {
-    //     const doc = new jsPDF({ orientation: "landscape" });
-
-    //     // doc.addImage(imageData, 'JPEG', 10, 10, 50, 50); // x, y, largeur, hauteur
-    //     doc.addImage(imageData, 'JPEG', 10, 10, 30, 30); // x, y, largeur, hauteur (30, 30 pour une image plus petite)
-
-    //     doc.autoTable({
-    //         html: "#teste",
-    //         startY: 50, // Démarrer la table après l'image
-    //     });
-
-    //     doc.save("mypdf.pdf");
-    // };
-
-
-    // const exportPdf = async () => {
-    //     const doc = new jsPDF({ orientation: "landscape" });
-    
-    //     // Ajoutez l'image à gauche
-    //     doc.addImage(imageData, 'JPEG', 10, 10, 30, 30); // Image à gauche
-    
-    //     // Ajoutez une image centrée
-    //     const pageWidth = doc.internal.pageSize.getWidth();
-    //     const imageWidth = 30; // Largeur de l'image
-    //     const centeredX = (pageWidth - imageWidth) / 2; // Calculer le positionnement centré
-    //     const centeredY = 50; // Position Y après l'image de gauche
-    //     doc.addImage(imageData, 'JPEG', centeredX, centeredY, imageWidth, imageWidth); // Image centrée
-    
-    //     // Démarrer la table après les images, avec une séparation
-    //     doc.autoTable({
-    //         html: "#teste",
-    //         startY: centeredY + 40, // Démarrer la table après l'image centrée avec un décalage de 40
-    //     });
-    
-    //     doc.save("mypdf.pdf");
-    // };
-    
-
-    // const exportPdf = async () => {
-    //     const doc = new jsPDF({ orientation: "landscape" });
-    
-    //     // Ajoutez l'image à gauche
-    //     doc.addImage(imageData, 'JPEG', 10, 10, 30, 30); // Image à gauche
-    
-    //     // Ajoutez une image centrée
-    //     const pageWidth = doc.internal.pageSize.getWidth();
-    //     const imageWidth = 30; // Largeur de l'image
-    //     const centeredX = (pageWidth - imageWidth) / 2; // Calculer le positionnement centré
-    
-    //     // Position Y de l'image centrée, alignée avec l'image de gauche
-    //     const leftImageY = 10; // Position Y de l'image à gauche
-    //     const centeredY = leftImageY; // Aligné avec l'image à gauche
-    
-    //     doc.addImage(imageData, 'JPEG', centeredX, centeredY, imageWidth, imageWidth); // Image centrée
-    
-    //     // Démarrer la table après les images, avec une séparation
-    //     doc.autoTable({
-    //         html: "#teste",
-    //         startY: centeredY + 40, // Démarrer la table après l'image centrée avec un décalage de 40
-    //     });
-    
-    //     doc.save("mypdf.pdf");
-    // };
-
-
-    
-    // const exportPdf = async () => {
-    //     const doc = new jsPDF({ orientation: "landscape" });
-    
-    //     // Ajoutez l'image à gauche
-    //     doc.addImage(imageData, 'JPEG', 10, 10, 30, 30); // Image à gauche
-    
-    //     // Ajoutez une image centrée
-    //     const pageWidth = doc.internal.pageSize.getWidth();
-    //     const imageWidth = 30; // Largeur de l'image
-    //     const centeredX = (pageWidth - imageWidth) / 2; // Calculer le positionnement centré
-    
-    //     // Position Y de l'image centrée, décalée de 2 lignes par rapport à l'image à gauche
-    //     const leftImageY = 10; // Position Y de l'image à gauche
-    //     const centeredY = leftImageY + 40; // Ajoutez 40 pour un décalage de 2 lignes (ajustez si nécessaire)
-    
-    //     doc.addImage(imageData, 'JPEG', centeredX, centeredY, imageWidth, imageWidth); // Image centrée
-    
-    //     // Démarrer la table après les images, avec une séparation
-    //     doc.autoTable({
-    //         html: "#teste",
-    //         startY: centeredY + 40, // Démarrer la table après l'image centrée avec un décalage de 40
-    //     });
-    
-    //     doc.save("mypdf.pdf");
-    // };
-
-    
-
-
+    const [startDateValue, setStartDateValue] = useState('');
+    const [endDateValue, setEndDateValue] = useState('');
 
 
 
@@ -180,11 +86,6 @@ const TableResponsive = () => {
         doc.save("mypdf.pdf");
     };
     
-
-
-
-
-
 
 
     const exportExcel = () => {
@@ -277,10 +178,11 @@ const TableResponsive = () => {
                     table_data = row.querySelectorAll('td')[6].textContent.toLowerCase();
                 } else if (searchType === 'matricule') {
                     table_data = row.querySelectorAll('td')[2].textContent.toLowerCase();
-                } else if (searchType === 'date') {
-                    table_data = row.querySelectorAll('td')[7].textContent;
-                    search_data = new Date(search_data).toLocaleDateString(); // Convertir pour une comparaison de date
                 }
+                //  else if (searchType === 'date') {
+                //     table_data = row.querySelectorAll('td')[7].textContent;
+                //     search_data = new Date(search_data).toLocaleDateString(); // Convertir pour une comparaison de date
+                // }
 
                 row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
                 row.style.setProperty('--delay', i / 25 + 's');
@@ -420,9 +322,73 @@ const TableResponsive = () => {
         }
     };
 
-    const handleSearch = () => {
-        searchTable();
+    // const handleSearch = () => {
+    //     const startDateInput = startDateRef.current.value;
+    //     const endDateInput = endDateRef.current.value;
+    
+    //     console.log('Date de début:', startDateInput);
+    //     console.log('Date de fin:', endDateInput);
+    
+    //     // Votre logique de recherche ici
+    //     searchTables();
+    //   };
+
+    
+    const searchTables = () => {
+        const table = tableRef.current;
+        const tableRows = table.querySelectorAll('tbody tr');
+    
+        tableRows.forEach((row, i) => {
+            const folder = folders.data[i];
+            const date = new Date(folder.date_depart);
+    
+            row.classList.toggle('hide', 
+                (date < startDateInput || date > endDateInput)
+            );
+            row.style.setProperty('--delay', i / 25 + 's');
+        });
     };
+
+
+    const SearchByTowDate = () => {
+        const table = tableRef.current;
+        const tableRows = table.querySelectorAll('tbody tr');
+        const startDateInput = new Date(startDateRef.current.value);
+        const endDateInput = new Date(endDateRef.current.value);
+    
+        tableRows.forEach((row, i) => {
+            // On récupère la date à comparer dans la colonne spécifique (par exemple la 8ème colonne).
+            let tableDateText = row.querySelectorAll('td')[7].textContent; // Suppose que la date est dans la 8ème colonne (index 7)
+            let tableDate = new Date(tableDateText);
+    
+            // Vérifie si la date est entre les deux dates sélectionnées
+            let isInDateRange = tableDate >= startDateInput && tableDate <= endDateInput;
+    
+            // Masque ou affiche la ligne en fonction de la condition
+            row.classList.toggle('hide', !isInDateRange);
+            row.style.setProperty('--delay', i / 25 + 's');
+        });
+    
+        // Applique les animations aux lignes visibles
+        document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
+            visible_row.style.backgroundColor = (i % 2 === 0) ? '--second-bg' : '--second-bg';
+            visible_row.style.animationDelay = `${i * 0.1}s`;
+        });
+    };
+    
+    const handleSearch = () => {
+        const startDateInput = startDateRef.current.value;
+        const endDateInput = endDateRef.current.value;
+    
+        console.log('Date de début:', startDateInput);
+        console.log('Date de fin:', endDateInput);
+    
+        // Appel de la fonction de recherche entre deux dates
+        SearchByTowDate();
+    };
+    
+
+    
 
     const startDateRef = useRef(null);
     const endDateRef = useRef(null);
@@ -456,13 +422,15 @@ const TableResponsive = () => {
                             <input
                                 type="date"
                                 ref={startDateRef}
-                                onChange={(e) => setStartDate(e.target.value)}
+                                // onChange={(e) => setStartDate(e.target.value)}
+                                onChange={(e) => setStartDateValue(e.target.value)}
                                 placeholder="Start Date..."
                             />
                             <input
                                 type="date"
                                 ref={endDateRef}
-                                onChange={(e) => setEndDate(e.target.value)}
+                                // onChange={(e) => setEndDate(e.target.value)}
+                                onChange={(e) => setEndDateValue(e.target.value)}
                                 placeholder="End Date..."
                             />
                             <button onClick={handleSearch}>Rechercher</button>
@@ -547,4 +515,158 @@ const TableResponsive = () => {
 }
 
 export default TableResponsive;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // const handleSearch = () => {
+    //     const startDateInput = new Date(startDateRef.current.value);
+    //     const endDateInput = new Date(endDateRef.current.value);
+    
+    //     console.log('Date de début:', startDateInput.toISOString());
+    //     console.log('Date de fin:', endDateInput.toISOString());
+    
+    //     searchTables();
+    // };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // const exportPdf = async () => {
+    //     const doc = new jsPDF({ orientation: "landscape" });
+
+    //     // doc.addImage(imageData, 'JPEG', 10, 10, 50, 50); // x, y, largeur, hauteur
+    //     doc.addImage(imageData, 'JPEG', 10, 10, 30, 30); // x, y, largeur, hauteur (30, 30 pour une image plus petite)
+
+    //     doc.autoTable({
+    //         html: "#teste",
+    //         startY: 50, // Démarrer la table après l'image
+    //     });
+
+    //     doc.save("mypdf.pdf");
+    // };
+
+
+    // const exportPdf = async () => {
+    //     const doc = new jsPDF({ orientation: "landscape" });
+    
+    //     // Ajoutez l'image à gauche
+    //     doc.addImage(imageData, 'JPEG', 10, 10, 30, 30); // Image à gauche
+    
+    //     // Ajoutez une image centrée
+    //     const pageWidth = doc.internal.pageSize.getWidth();
+    //     const imageWidth = 30; // Largeur de l'image
+    //     const centeredX = (pageWidth - imageWidth) / 2; // Calculer le positionnement centré
+    //     const centeredY = 50; // Position Y après l'image de gauche
+    //     doc.addImage(imageData, 'JPEG', centeredX, centeredY, imageWidth, imageWidth); // Image centrée
+    
+    //     // Démarrer la table après les images, avec une séparation
+    //     doc.autoTable({
+    //         html: "#teste",
+    //         startY: centeredY + 40, // Démarrer la table après l'image centrée avec un décalage de 40
+    //     });
+    
+    //     doc.save("mypdf.pdf");
+    // };
+    
+
+    // const exportPdf = async () => {
+    //     const doc = new jsPDF({ orientation: "landscape" });
+    
+    //     // Ajoutez l'image à gauche
+    //     doc.addImage(imageData, 'JPEG', 10, 10, 30, 30); // Image à gauche
+    
+    //     // Ajoutez une image centrée
+    //     const pageWidth = doc.internal.pageSize.getWidth();
+    //     const imageWidth = 30; // Largeur de l'image
+    //     const centeredX = (pageWidth - imageWidth) / 2; // Calculer le positionnement centré
+    
+    //     // Position Y de l'image centrée, alignée avec l'image de gauche
+    //     const leftImageY = 10; // Position Y de l'image à gauche
+    //     const centeredY = leftImageY; // Aligné avec l'image à gauche
+    
+    //     doc.addImage(imageData, 'JPEG', centeredX, centeredY, imageWidth, imageWidth); // Image centrée
+    
+    //     // Démarrer la table après les images, avec une séparation
+    //     doc.autoTable({
+    //         html: "#teste",
+    //         startY: centeredY + 40, // Démarrer la table après l'image centrée avec un décalage de 40
+    //     });
+    
+    //     doc.save("mypdf.pdf");
+    // };
+
+
+    
+    // const exportPdf = async () => {
+    //     const doc = new jsPDF({ orientation: "landscape" });
+    
+    //     // Ajoutez l'image à gauche
+    //     doc.addImage(imageData, 'JPEG', 10, 10, 30, 30); // Image à gauche
+    
+    //     // Ajoutez une image centrée
+    //     const pageWidth = doc.internal.pageSize.getWidth();
+    //     const imageWidth = 30; // Largeur de l'image
+    //     const centeredX = (pageWidth - imageWidth) / 2; // Calculer le positionnement centré
+    
+    //     // Position Y de l'image centrée, décalée de 2 lignes par rapport à l'image à gauche
+    //     const leftImageY = 10; // Position Y de l'image à gauche
+    //     const centeredY = leftImageY + 40; // Ajoutez 40 pour un décalage de 2 lignes (ajustez si nécessaire)
+    
+    //     doc.addImage(imageData, 'JPEG', centeredX, centeredY, imageWidth, imageWidth); // Image centrée
+    
+    //     // Démarrer la table après les images, avec une séparation
+    //     doc.autoTable({
+    //         html: "#teste",
+    //         startY: centeredY + 40, // Démarrer la table après l'image centrée avec un décalage de 40
+    //     });
+    
+    //     doc.save("mypdf.pdf");
+    // };
+
+    
+
+
 
