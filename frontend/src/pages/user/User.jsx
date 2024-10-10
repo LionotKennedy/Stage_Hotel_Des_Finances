@@ -8,9 +8,9 @@ import UserScreenDialog from '../../components/MUI/UserModal';
 import CalendarComponent from '../../components/calendar/Calendar';
 import BasicDateCalendar from '../../components/calendar/BasicDateCalendar';
 import CurrentTime from '../../components/Timer/CurrentTime';
+import StyledTimeClock from '../../components/Timer/StyledTimeClock';
 // import CustomModal from '../../components/MUI/CustomModal';
 // import DateRangeCalendarComponent from '../../components/calendar/DateRangeCalendar';
-import StyledTimeClock from '../../components/Timer/StyledTimeClock';
 // import MuiCalendarComponent from '../../components/calendar/MuiCalendarComponent';
 
 
@@ -29,13 +29,6 @@ const User = () => {
     setModalOpen(false);
   };
 
-
-  // useEffect(() => {
-  //   // if (users && users.data) {
-  //   //   console.log('Données des archives par groupes:', users.data);
-  //   // }
-  //   users?.data?.forEach((users) => console.log('Folder data:', users));
-  // }, [users]);
 
   useEffect(() => {
     if (refetch) refetch(); // Assure-toi que refetch est bien défini
@@ -62,7 +55,8 @@ const User = () => {
       </div>
       {users?.data && users.data.length > 0 ? (
         <div className="card-container">
-          <UserCard users={users.data} refetch={refetch} />
+          {/* <UserCard users={users.data} refetch={refetch} /> */}
+          <UserCard users={users.data} onSuccess={refetch} refetch={refetch} />
         </div>
       ) : (
         <p>Aucune utilisateur trouvée.</p>

@@ -1,0 +1,116 @@
+Je comprends votre problème. Vous souhaitez que les données soient automatiquement mises à jour sans avoir besoin de rafraîchir manuellement la page, et vous voulez également passer cette fonction d'actualisation à votre composant UserCard et à la fenêtre modale. Voici comment nous pouvons résoudre ce problème :
+
+### Solution
+
+Nous allons modifier le composant User pour utiliser un hook de mise à jour automatique des données et passer la fonction refetch au composant UserCard et à la fenêtre modale.
+
+Voici les modifications à apporter :
+
+1. Dans le composant User :
+
+```jsx
+import React, { useState, useEffect } from 'react';
+// ... autres imports ...
+
+const User = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  // Utiliser un hook de mise à jour automatique
+  const { data: users, refetch, isLoading, isError } = useGetUser();
+
+  useEffect(() => {
+    if (refetch) {
+      refetch();
+    }
+  }, [refetch]);
+
+  // ... reste du code ...
+
+  return (
+    <div className='container__archive'>
+      {/* ... autres éléments ... */}
+      {users?.data && users.data.length > 0 ? (
+        <div className="card-container">
+          <UserCard users={users.data} refetch={refetch} />
+        </div>
+      ) : (
+        <p>Aucune utilisateur trouvé.</p>
+      )}
+      {/* ... autres éléments ... */}
+      <UserScreenDialog open={modalOpen} handleClose={handleCloseDialog} onSuccess={refetch} />
+    </div>
+  );
+};
+
+export default User;
+```
+
+2. Dans le composant UserCard :
+
+```jsx
+const UserCard = ({ users, refetch }) => {
+  // ... autres états et fonctions ...
+
+  useEffect(() => {
+    if (refetch) {
+      refetch();
+    }
+  }, [refetch]);
+
+  // ... reste du code ...
+};
+
+export default UserCard;
+```
+
+3. Dans le composant UserUpdateScreenDialog :
+
+```jsx
+const UserUpdateScreenDialog = ({ open, handleClose, userId, onSuccess }) => {
+  // ... autres états et fonctions ...
+
+  const handleSubmit = async () => {
+    // ... code existant ...
+    
+    try {
+      updateUser({ userId, data: formattedFields }, {
+        onSuccess: () => {
+          console.log('Utilisateur mis à jour avec succès');
+          setFields({ role: '', status: '' });
+          setImagePreview('');
+          onSuccess(); // Appelez refetch ici pour mettre à jour les données
+        },
+        onError: (error) => {
+          console.error('Erreur lors de la mise à jour de l\'utilisateur:', error.message);
+        }
+      });
+    } catch (error) {
+      console.error('Erreur lors de l\'envoi du formulaire:', error);
+    }
+  };
+
+  // ... reste du code ...
+};
+```
+
+### Explication
+
+1. Nous avons ajouté un effet dans le composant User qui appelle `refetch()` dès qu'il est monté ou lorsque `refetch` change. Cela garantit que les données sont toujours à jour.
+
+2. Nous avons ajouté un effet similaire dans le composant UserCard pour s'assurer que les données y sont mises à jour automatiquement.
+
+3. Dans le composant UserUpdateScreenDialog, nous appelons `onSuccess()` après une mise à jour réussie, ce qui déclenchera l'effet de mise à jour dans User et UserCard.
+
+### Bonnes pratiques
+
+1. Utilisez des hooks comme `useEffect` pour gérer les effets secondaires et les mises à jour automatiques.
+2. Assurez-vous que les composants consommateurs de données (comme UserCard et UserUpdateScreenDialog) sont configurés pour être mis à jour lorsque les données changent.
+3. Utilisez des fonctions callback comme `onSuccess` pour déclencher des actions après une mise à jour réussie.
+
+### Remarque
+
+Cette approche garantira que les données sont automatiquement mises à jour sans avoir besoin de rafraîchir manuellement la page. Les composants UserCard et UserUpdateScreenDialog seront également mis à jour lorsque des modifications sont effectuées dans le composant User.
+
+Assurez-vous que votre service `useGetUser` retourne bien la fonction `refetch`. Si ce n'est pas le cas, vous devrez peut-être ajuster la définition du hook dans votre fichier `serviceUser.js`.
+
+Citations:

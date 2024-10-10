@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect,  useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import List from '@mui/material/List';
@@ -11,12 +11,13 @@ import { DialogTitle, DialogContent, Grid, FormControl, FormLabel, RadioGroup, F
 import { FaTimes } from 'react-icons/fa';
 import Slide from '@mui/material/Slide';
 import { useUpdatePermissionUser, useGetUserById } from '../../services/serviceUser';
+import { useGetUser } from '../../services/serviceUser';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function UserUpdateScreenDialog({ open, handleClose, userId, onSuccess }) {
+export default function UserUpdateScreenDialog({ open, handleClose, userId, onSuccess, logUserData }) {
     const { mutate: updateUser } = useUpdatePermissionUser();
     const { data: userData } = useGetUserById(userId);
     const [imagePreview, setImagePreview] = useState('');
@@ -78,13 +79,42 @@ export default function UserUpdateScreenDialog({ open, handleClose, userId, onSu
                     console.log('Utilisateur mis à jour avec succès');
                     setFields({ role: '', status: '' });
                     setImagePreview('');
+
+                    // Rafraîchir les données utilisateur
+                    // const fetchUser = async () => {
+                    //     const { mutate } = useGetUser();
+                    //     await mutate();
+                    // };
+
+                    // fetchUser().then(() => {
+                    //     handleClose();
+                    // });
                 },
                 onError: (error) => {
                     console.error('Erreur lors de la mise à jour de l\'utilisateur:', error.message);
                 }
             });
-            onSuccess();
+        if (onSuccess) onSuccess();
             handleClose();
+            // onSuccess();
+            // Ajoutez ici la logique pour refetch
+
+            // const fetchUser = async () => {
+            //     const { mutate } = useGetUser();
+            //     await mutate();
+            // };
+
+            // fetchUser().then(() => {
+            //     handleClose();
+            // });
+
+
+            // if (logUserData && userData) {
+            //     logUserData([userData.data]); // Passer les données utilisateur à logUserData
+            // }
+
+            logUserData(userData); // Appellez la fonction ici après la fermeture de la modale
+
         } catch (error) {
             console.error('Erreur lors de l\'envoi du formulaire:', error);
         }
