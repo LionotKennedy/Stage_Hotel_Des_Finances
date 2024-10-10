@@ -1,4 +1,6 @@
-I'd be glad to help you integrate the `logUserData` function into the modal window closure in your React application. Here's the modified code incorporating the best aspects of both responses and addressing potential issues:
+I'd be glad to help you integrate the `logUserData` function into the modal window closure in 
+your React application. Here's the modified code incorporating the best aspects of both responses
+ and addressing potential issues:
 
 **UserCard.jsx:**
 

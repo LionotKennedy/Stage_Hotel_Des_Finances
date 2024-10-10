@@ -17,7 +17,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function UserUpdateScreenDialog({ open, handleClose, userId, onSuccess, logUserData }) {
+export default function UserUpdateScreenDialog({ open, handleClose, userId, onSuccess }) {
     const { mutate: updateUser } = useUpdatePermissionUser();
     const { data: userData } = useGetUserById(userId);
     const [imagePreview, setImagePreview] = useState('');
@@ -79,42 +79,16 @@ export default function UserUpdateScreenDialog({ open, handleClose, userId, onSu
                     console.log('Utilisateur mis à jour avec succès');
                     setFields({ role: '', status: '' });
                     setImagePreview('');
+                    onSuccess(); // Appelez refetch ici pour mettre à jour les données
 
-                    // Rafraîchir les données utilisateur
-                    // const fetchUser = async () => {
-                    //     const { mutate } = useGetUser();
-                    //     await mutate();
-                    // };
-
-                    // fetchUser().then(() => {
-                    //     handleClose();
-                    // });
                 },
                 onError: (error) => {
                     console.error('Erreur lors de la mise à jour de l\'utilisateur:', error.message);
                 }
             });
-        if (onSuccess) onSuccess();
+        // if (onSuccess) onSuccess();
+        onSuccess();
             handleClose();
-            // onSuccess();
-            // Ajoutez ici la logique pour refetch
-
-            // const fetchUser = async () => {
-            //     const { mutate } = useGetUser();
-            //     await mutate();
-            // };
-
-            // fetchUser().then(() => {
-            //     handleClose();
-            // });
-
-
-            // if (logUserData && userData) {
-            //     logUserData([userData.data]); // Passer les données utilisateur à logUserData
-            // }
-
-            logUserData(userData); // Appellez la fonction ici après la fermeture de la modale
-
         } catch (error) {
             console.error('Erreur lors de l\'envoi du formulaire:', error);
         }
@@ -201,3 +175,71 @@ export default function UserUpdateScreenDialog({ open, handleClose, userId, onSu
         </React.Fragment>
     );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    // Rafraîchir les données utilisateur
+                    // const fetchUser = async () => {
+                    //     const { mutate } = useGetUser();
+                    //     await mutate();
+                    // };
+
+                    // fetchUser().then(() => {
+                    //     handleClose();
+                    // });
+
+
+
+
+
+
+
+
+
+
+
+
+
+            // onSuccess();
+            // Ajoutez ici la logique pour refetch
+
+            // const fetchUser = async () => {
+            //     const { mutate } = useGetUser();
+            //     await mutate();
+            // };
+
+            // fetchUser().then(() => {
+            //     handleClose();
+            // });
+
+
+            // if (logUserData && userData) {
+            //     logUserData([userData.data]); // Passer les données utilisateur à logUserData
+            // }
+
+            // logUserData(userData); // Appellez la fonction ici après la fermeture de la modale

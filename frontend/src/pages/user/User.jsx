@@ -16,12 +16,21 @@ import StyledTimeClock from '../../components/Timer/StyledTimeClock';
 
 const User = () => {
   const [modalOpen, setModalOpen] = useState(false); // État pour gérer l'ouverture/fermeture de la modale
-  const { data: users, refetch, isLoading, isError } = useGetUser();
+  // const { data: users, refetch, isLoading, isError } = useGetUser();
+    // Utiliser un hook de mise à jour automatique
+    const { data: users, refetch, isLoading, isError } = useGetUser();
+
+
+  useEffect(() => {
+    if (refetch) {
+      refetch();
+    }
+  }, [refetch]);
 
   // Fonction pour ouvrir le dialogue
   const handleOpenDialog = () => {
     setModalOpen(true);
-    refetch(); // Rafraîchir les données
+    // refetch(); // Rafraîchir les données
   };
 
   // Fonction pour fermer le dialogue
@@ -30,9 +39,9 @@ const User = () => {
   };
 
 
-  useEffect(() => {
-    if (refetch) refetch(); // Assure-toi que refetch est bien défini
-  }, [refetch]);  // Vérifie aussi si c'est nécessaire, ou si tu peux déplacer ça dans `TableArchive`.
+  // useEffect(() => {
+  //   if (refetch) refetch(); // Assure-toi que refetch est bien défini
+  // }, [refetch]);  // Vérifie aussi si c'est nécessaire, ou si tu peux déplacer ça dans `TableArchive`.
 
 
   if (isLoading) {
@@ -56,7 +65,8 @@ const User = () => {
       {users?.data && users.data.length > 0 ? (
         <div className="card-container">
           {/* <UserCard users={users.data} refetch={refetch} /> */}
-          <UserCard users={users.data} onSuccess={refetch} refetch={refetch} />
+          {/* <UserCard users={users.data} onSuccess={refetch} refetch={refetch} /> */}
+          <UserCard users={users.data} refetch={refetch} />
         </div>
       ) : (
         <p>Aucune utilisateur trouvée.</p>

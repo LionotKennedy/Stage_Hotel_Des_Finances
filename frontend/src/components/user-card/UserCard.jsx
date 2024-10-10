@@ -4,12 +4,16 @@ import "./usercard.scss";
 import { MdEdit, MdVisibility } from 'react-icons/md';
 import UserUpdateScreenDialog from '../MUI/UserModalUpdate';
 import { useNavigate } from 'react-router-dom';
-const UserCard = ({ users, onSuccess, refetch }) => {
+import { useGetUser } from '../../services/serviceUser';
+
+
+// const UserCard = ({ users, onSuccess, refetch }) => {
+  const UserCard = ({ users, refetch }) => {
+  // const UserCard = ({ users }) => {
   const [selectedFolderId, setSelectedFolderId] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();  // Initialisation de useNavigate
-
-  // Si users est indéfini ou vide, afficher un message d'erreur
+  const { data: user, refetch: actualise, isLoading, isError } = useGetUser();
   if (!users || !Array.isArray(users) || users.length === 0) {
     return <p>Aucun utilisateur trouvé.</p>;
   }
@@ -35,36 +39,17 @@ const UserCard = ({ users, onSuccess, refetch }) => {
 
   const handleCloseModal = () => setModalOpen(false);
 
-  useEffect(() => {
-    if (onSuccess) onSuccess();
-  }, [onSuccess]);
 
-  const refreshData = () => {
+  useEffect(() => {
     if (refetch) {
       refetch();
     }
-  };
-
-   // Fonction pour afficher les données des utilisateurs dans la console
-  //  const logUserData = (usersData) => {
-  //   console.log("Données récupérées :", usersData);
-  // };
-  const logUserData = (usersData) => {
-    usersData.forEach(user => {
-        console.log(`Nom: ${user.name}, Email: ${user.email}, Rôle: ${user.role}, Statut: ${user.status}`);
-    });
-};
-
+  }, [refetch]);
 
   useEffect(() => {
-    logUserData(users); // Appelle la fonction pour afficher les données
-  }, [users]); // Le tableau de dépendances permet de s'assurer que cela ne s'exécute que lorsque users change
+  
+  }, [user]);
 
-
-  // // Afficher les données des utilisateurs dans la console
-  // useEffect(() => {
-  //   console.log("Données récupérées :", users);
-  // }, [users]); // Le tableau de dépendances permet de s'assurer que cela ne s'exécute que lorsque users change
 
   return (
   
@@ -105,10 +90,9 @@ const UserCard = ({ users, onSuccess, refetch }) => {
           open={modalOpen}
           handleClose={handleCloseModal}
           userId={selectedFolderId} // Passer l'ID du courrier à la modale
-          onSuccess={refreshData}
-          logUserData={logUserData} // Passer la fonction ici
-        />
-      )}
+          onSuccess={refetch} // On passe refetch ici            
+          />
+        )}
     </div>
   );
 }
@@ -125,6 +109,100 @@ export default UserCard;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // useEffect(() => {
+  //   if (onSuccess) onSuccess();
+  // }, [onSuccess]);
+
+  // const refreshData = () => {
+  //   if (refetch) {
+  //     refetch();
+  //   }
+  // };
+
+   // Fonction pour afficher les données des utilisateurs dans la console
+  //  const logUserData = (usersData) => {
+  //   console.log("Données récupérées :", usersData);
+  // };
+
+
+//   const logUserData = (usersData) => {
+//     usersData.forEach(user => {
+//         console.log(`Nom: ${user.name}, Email: ${user.email}, Rôle: ${user.role}, Statut: ${user.status}`);
+//     });
+// };
+
+
+//   useEffect(() => {
+//     logUserData(users); // Appelle la fonction pour afficher les données
+//   }, [users]); // Le tableau de dépendances permet de s'assurer que cela ne s'exécute que lorsque users change
+
+
+  // // Afficher les données des utilisateurs dans la console
+  // useEffect(() => {
+  //   console.log("Données récupérées :", users);
+  // }, [users]); // Le tableau de dépendances permet de s'assurer que cela ne s'exécute que lorsque users change
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// onSuccess={refreshData}
+// logUserData={logUserData} // Passer la fonction ici
 
 
   // <div className='container__cards'>

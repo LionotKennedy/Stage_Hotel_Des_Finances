@@ -14,6 +14,7 @@ import jsPDF from 'jspdf';
 import "jspdf-autotable";
 import * as XLSX from 'xlsx';
 import imageData from "../../assets/images/logo.png";
+import imageLogo from "../../assets/images/ministere.png";
 import pdf from "../../assets/image/pdf.png";
 import excel from "../../assets/image/excel.png";
 import word from "../../assets/image/json.png";

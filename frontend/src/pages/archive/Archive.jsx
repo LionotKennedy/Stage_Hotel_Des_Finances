@@ -95,19 +95,22 @@
 
 
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./archive.scss"
 import ArchiveCard from '../../components/archive-card/ArchiveCard'
 import { useGetGroupArchive } from '../../services/serviceArchive';
+import ReactPaginate from 'react-paginate';
+
 
 const Archive = () => {
-  const { data: groups, isLoading, isError } = useGetGroupArchive();
+  const { data: groups, refetch: refresh, isLoading, isError } = useGetGroupArchive();
 
   useEffect(() => {
     if (groups && groups.data) {
       console.log('Données des archives par groupes:', groups.data);
     }
   }, [groups]);
+
 
   if (isLoading) {
     return <p>Chargement des archives...</p>;
@@ -117,6 +120,21 @@ const Archive = () => {
     return <p>Erreur lors du chargement des archives.</p>;
   }
 
+    // // ************* PAGINATE ***************//
+    // const [currentPage, setCurrentPage] = useState(0);
+
+    // const itemsPerPage = 2; // Nombre d'éléments par page
+    // const indexOfLastItem = (currentPage + 1) * itemsPerPage;
+    // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    // const currentItems = groups.slice(indexOfFirstItem, indexOfLastItem);
+    // // ************* ENDING ***************//
+  
+    // // ************* PAGINATION ***************//
+    // useEffect(() => {
+    //   refresh();
+    // }, [currentPage]); // Rafraîchir lorsque la page change
+    // // ************* ENDING ***************//
+
   return (
     <div className='container__archive'> 
       <div className='title_archive'>
@@ -125,7 +143,7 @@ const Archive = () => {
       {groups?.data && groups.data.length > 0 ? (
         <div className="card-container">
           {/* Pass groups as a prop to ArchiveCard */}
-          <ArchiveCard groups={groups.data} />
+          <ArchiveCard groups={groups.data}  />
         </div>
       ) : (
         <p>Aucune archive trouvée.</p>

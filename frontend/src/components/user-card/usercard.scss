@@ -87,3 +87,14 @@
     border-radius: 50%;
   }
 
+
+
+  .icon__user {
+    margin-right: 10px; /* Espace entre les icônes */
+    cursor: pointer;
+    transition: all 0.2s ease-out;
+    &:hover {
+        transform: scale(1.5);
+        transition: all 0.2s ease-out;
+    }
+  }

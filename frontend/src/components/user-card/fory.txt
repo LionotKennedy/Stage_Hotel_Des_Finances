@@ -1,8 +1,11 @@
-Je comprends votre problème. Vous souhaitez que les données soient automatiquement mises à jour sans avoir besoin de rafraîchir manuellement la page, et vous voulez également passer cette fonction d'actualisation à votre composant UserCard et à la fenêtre modale. Voici comment nous pouvons résoudre ce problème :
+Je comprends votre problème. Vous souhaitez que les données soient automatiquement mises à jour sans 
+avoir besoin de rafraîchir manuellement la page, et vous voulez également passer cette fonction d'actualisation
+ à votre composant UserCard et à la fenêtre modale. Voici comment nous pouvons résoudre ce problème :
 
 ### Solution
 
-Nous allons modifier le composant User pour utiliser un hook de mise à jour automatique des données et passer la fonction refetch au composant UserCard et à la fenêtre modale.
+Nous allons modifier le composant User pour utiliser un hook de mise à jour automatique des données et
+ passer la fonction refetch au composant UserCard et à la fenêtre modale.
 
 Voici les modifications à apporter :
 
@@ -95,22 +98,29 @@ const UserUpdateScreenDialog = ({ open, handleClose, userId, onSuccess }) => {
 
 ### Explication
 
-1. Nous avons ajouté un effet dans le composant User qui appelle `refetch()` dès qu'il est monté ou lorsque `refetch` change. Cela garantit que les données sont toujours à jour.
+1. Nous avons ajouté un effet dans le composant User qui appelle `refetch()` dès qu'il est monté ou lorsque `refetch` change.
+ Cela garantit que les données sont toujours à jour.
 
-2. Nous avons ajouté un effet similaire dans le composant UserCard pour s'assurer que les données y sont mises à jour automatiquement.
+2. Nous avons ajouté un effet similaire dans le composant UserCard pour s'assurer que les données y sont mises à jour 
+automatiquement.
 
-3. Dans le composant UserUpdateScreenDialog, nous appelons `onSuccess()` après une mise à jour réussie, ce qui déclenchera l'effet de mise à jour dans User et UserCard.
+3. Dans le composant UserUpdateScreenDialog, nous appelons `onSuccess()` après une mise à jour réussie, ce qui 
+déclenchera l'effet de mise à jour dans User et UserCard.
 
 ### Bonnes pratiques
 
 1. Utilisez des hooks comme `useEffect` pour gérer les effets secondaires et les mises à jour automatiques.
-2. Assurez-vous que les composants consommateurs de données (comme UserCard et UserUpdateScreenDialog) sont configurés pour être mis à jour lorsque les données changent.
+2. Assurez-vous que les composants consommateurs de données (comme UserCard et UserUpdateScreenDialog) sont configurés
+ pour être mis à jour lorsque les données changent.
 3. Utilisez des fonctions callback comme `onSuccess` pour déclencher des actions après une mise à jour réussie.
 
 ### Remarque
 
-Cette approche garantira que les données sont automatiquement mises à jour sans avoir besoin de rafraîchir manuellement la page. Les composants UserCard et UserUpdateScreenDialog seront également mis à jour lorsque des modifications sont effectuées dans le composant User.
+Cette approche garantira que les données sont automatiquement mises à jour sans avoir besoin de rafraîchir manuellement la page.
+ Les composants UserCard et UserUpdateScreenDialog seront également mis à jour lorsque des modifications sont effectuées dans
+  le composant User.
 
-Assurez-vous que votre service `useGetUser` retourne bien la fonction `refetch`. Si ce n'est pas le cas, vous devrez peut-être ajuster la définition du hook dans votre fichier `serviceUser.js`.
+Assurez-vous que votre service `useGetUser` retourne bien la fonction `refetch`. Si ce n'est pas le cas, vous devrez 
+peut-être ajuster la définition du hook dans votre fichier `serviceUser.js`.
 
 Citations:
