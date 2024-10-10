@@ -17,6 +17,17 @@ const addArchive = async (req, res) => {
     const { numero_visa, nom_depose_visa, prenom_depose_visa, reference } =
       req.body;
 
+      
+    // Vérification de l'existence du numéro de visa
+    const existingVisa = await Visa.findOne({ numero_visa });
+
+    if (existingVisa) {
+      return res.status(409).json({
+        success: false,
+        message: "Le numéro de visa existe déjà",
+      });
+    }
+
     const newVisa = new Visa({
       numero_visa,
       nom_depose_visa,
@@ -122,6 +133,17 @@ const updateVisa = async (req, res) => {
     const { id } = req.params;
     const { numero_visa, nom_depose_visa, prenom_depose_visa, reference } =
       req.body;
+
+      
+    // Vérification de l'existence du numéro de visa
+    const existingVisa = await Visa.findOne({ numero_visa });
+
+    if (existingVisa && existingVisa._id.toString() !== id) {
+      return res.status(409).json({
+        success: false,
+        message: "Le numéro de visa existe déjà",
+      });
+    }
 
     const updatedFind = await Visa.findOne({ _id: id });
 

@@ -28,6 +28,18 @@ const addFolder = async (req, res) => {
       destination,
     } = req.body;
 
+
+     // Vérification de l'existence du numéro de bordereaux
+     const existingCourrier = await Courrier.findOne({ numero_bordereaux: numero_bordereaux });
+    
+     if (existingCourrier) {
+       // Si le numéro de bordereaux existe déjà, retourner une erreur
+       return res.status(409).json({
+         success: false,
+         message: "Le numéro de bordereaux existe déjà",
+       });
+     }
+
     // Vérification de l'année
     const currentYear = new Date().getFullYear();
     const yearOfDateDepart = new Date(date_depart).getFullYear();
@@ -191,6 +203,16 @@ const updateFolderById = async (req, res) => {
       destination,
     } = req.body;
 
+    // Vérification de l'existence du numéro de bordereaux
+    const existingCourrier = await Courrier.findOne({ numero_bordereaux: numero_bordereaux });
+    
+    if (existingCourrier && existingCourrier._id.toString() !== id) {
+      return res.status(409).json({
+        success: false,
+        message: "Le numéro de bordereaux existe déjà",
+      });
+    }
+    
     // Étape 1 : Rechercher le courrier par son ID
     const courrier = await Courrier.findById(id);
     if (!courrier) {
