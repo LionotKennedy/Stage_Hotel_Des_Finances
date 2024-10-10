@@ -5,11 +5,11 @@ import { MdEdit, MdDelete, MdVisibility, MdAdd } from 'react-icons/md';
 import { FaArrowDown } from 'react-icons/fa';
 import { AnimatePresence } from 'framer-motion';
 import { useGetFolders } from '../../services/serviceFolder';
-import AlertDialogSlide from '../MUI_alert/deleteFolder'; 
-import CustomizedDialogs from '../MUI_read/readFolder'; 
+import AlertDialogSlide from '../MUI_alert/deleteFolder';
+import CustomizedDialogs from '../MUI_read/readFolder';
 import "./tableResponsive.scss";
 import CustomModal from '../MUI/CustomModal';
-import ContentToPrint from '../printer/ContentToPrint'; 
+import ContentToPrint from '../printer/ContentToPrint';
 import jsPDF from 'jspdf';
 import "jspdf-autotable";
 import * as XLSX from 'xlsx';
@@ -18,6 +18,7 @@ import imageLogo from "../../assets/images/ministere.png";
 import pdf from "../../assets/image/pdf.png";
 import excel from "../../assets/image/excel.png";
 import word from "../../assets/image/json.png";
+import ReactPaginate from 'react-paginate';
 
 const TableResponsive = () => {
     const tableRef = useRef(null);
@@ -37,23 +38,153 @@ const TableResponsive = () => {
     const contentRef = useRef();
 
 
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const [foldersPerPage] = useState(15); // Nombre d'éléments par page
+
+    const totalPages = folders && Array.isArray(folders.data) ? Math.ceil(folders.data.length / foldersPerPage) : 1;
+
+    // Dossiers pour la page actuelle
+    const currentFolders = folders && Array.isArray(folders.data)
+        ? folders.data.slice((currentPage - 1) * foldersPerPage, currentPage * foldersPerPage)
+        : [];
+
+    // Changer de page
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
 
 
+    // const exportPdf = async () => {
+    //     const doc = new jsPDF({ orientation: "landscape" });
+
+    //     // doc.addImage(imageData, 'JPEG', 10, 10, 50, 50); // x, y, largeur, hauteur
+    //     doc.addImage(imageData, 'JPEG', 10, 10, 30, 30); // x, y, largeur, hauteur (30, 30 pour une image plus petite)
+
+    //     doc.autoTable({
+    //         html: "#teste",
+    //         startY: 50, // Démarrer la table après l'image
+    //     });
+
+    //     doc.save("mypdf.pdf");
+    // };
+
+
+    // const exportPdf = async () => {
+    //     const doc = new jsPDF({ orientation: "landscape" });
+    
+    //     // Ajoutez l'image à gauche
+    //     doc.addImage(imageData, 'JPEG', 10, 10, 30, 30); // Image à gauche
+    
+    //     // Ajoutez une image centrée
+    //     const pageWidth = doc.internal.pageSize.getWidth();
+    //     const imageWidth = 30; // Largeur de l'image
+    //     const centeredX = (pageWidth - imageWidth) / 2; // Calculer le positionnement centré
+    //     const centeredY = 50; // Position Y après l'image de gauche
+    //     doc.addImage(imageData, 'JPEG', centeredX, centeredY, imageWidth, imageWidth); // Image centrée
+    
+    //     // Démarrer la table après les images, avec une séparation
+    //     doc.autoTable({
+    //         html: "#teste",
+    //         startY: centeredY + 40, // Démarrer la table après l'image centrée avec un décalage de 40
+    //     });
+    
+    //     doc.save("mypdf.pdf");
+    // };
+    
+
+    // const exportPdf = async () => {
+    //     const doc = new jsPDF({ orientation: "landscape" });
+    
+    //     // Ajoutez l'image à gauche
+    //     doc.addImage(imageData, 'JPEG', 10, 10, 30, 30); // Image à gauche
+    
+    //     // Ajoutez une image centrée
+    //     const pageWidth = doc.internal.pageSize.getWidth();
+    //     const imageWidth = 30; // Largeur de l'image
+    //     const centeredX = (pageWidth - imageWidth) / 2; // Calculer le positionnement centré
+    
+    //     // Position Y de l'image centrée, alignée avec l'image de gauche
+    //     const leftImageY = 10; // Position Y de l'image à gauche
+    //     const centeredY = leftImageY; // Aligné avec l'image à gauche
+    
+    //     doc.addImage(imageData, 'JPEG', centeredX, centeredY, imageWidth, imageWidth); // Image centrée
+    
+    //     // Démarrer la table après les images, avec une séparation
+    //     doc.autoTable({
+    //         html: "#teste",
+    //         startY: centeredY + 40, // Démarrer la table après l'image centrée avec un décalage de 40
+    //     });
+    
+    //     doc.save("mypdf.pdf");
+    // };
+
+
+    
+    // const exportPdf = async () => {
+    //     const doc = new jsPDF({ orientation: "landscape" });
+    
+    //     // Ajoutez l'image à gauche
+    //     doc.addImage(imageData, 'JPEG', 10, 10, 30, 30); // Image à gauche
+    
+    //     // Ajoutez une image centrée
+    //     const pageWidth = doc.internal.pageSize.getWidth();
+    //     const imageWidth = 30; // Largeur de l'image
+    //     const centeredX = (pageWidth - imageWidth) / 2; // Calculer le positionnement centré
+    
+    //     // Position Y de l'image centrée, décalée de 2 lignes par rapport à l'image à gauche
+    //     const leftImageY = 10; // Position Y de l'image à gauche
+    //     const centeredY = leftImageY + 40; // Ajoutez 40 pour un décalage de 2 lignes (ajustez si nécessaire)
+    
+    //     doc.addImage(imageData, 'JPEG', centeredX, centeredY, imageWidth, imageWidth); // Image centrée
+    
+    //     // Démarrer la table après les images, avec une séparation
+    //     doc.autoTable({
+    //         html: "#teste",
+    //         startY: centeredY + 40, // Démarrer la table après l'image centrée avec un décalage de 40
+    //     });
+    
+    //     doc.save("mypdf.pdf");
+    // };
+
+    
+
+
+
+
+
+
     const exportPdf = async () => {
         const doc = new jsPDF({ orientation: "landscape" });
-
-        // doc.addImage(imageData, 'JPEG', 10, 10, 50, 50); // x, y, largeur, hauteur
-        doc.addImage(imageData, 'JPEG', 10, 10, 30, 30); // x, y, largeur, hauteur (30, 30 pour une image plus petite)
-
+    
+        // Ajoutez l'image à gauche
+        doc.addImage(imageData, 'JPEG', 10, 10, 30, 30); // Image à gauche
+    
+        // Ajoutez une image centrée en haut avec un décalage de 2 lignes
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+        const imageWidth = 30; // Largeur de l'image
+        const centeredX = (pageWidth - imageWidth) / 2; // Calculer le positionnement centré
+        const topMargin = 20; // Marges supérieures et inférieures pour le décalage
+        const centeredY = topMargin; // Position Y de l'image centrée
+    
+        doc.addImage(imageData, 'JPEG', centeredX, centeredY, imageWidth, imageWidth); // Image centrée en haut
+    
+        // Démarrer la table après les images, avec un espace suffisant
         doc.autoTable({
             html: "#teste",
-            startY: 50, // Démarrer la table après l'image
-        });    
-
+            startY: centeredY + imageWidth + topMargin * 2, // Démarrer la table après l'image centrée avec un décalage total de 4 lignes
+        });
+    
         doc.save("mypdf.pdf");
-    };    
+    };
+    
+
+
+
+
+
 
 
     const exportExcel = () => {
@@ -63,7 +194,7 @@ const TableResponsive = () => {
         const wb = XLSX.utils.table_to_book(table);
 
         XLSX.writeFile(wb, 'mydata.xlsx');
-    };    
+    };
 
 
     const exportWord = () => {
@@ -72,17 +203,17 @@ const TableResponsive = () => {
         doc.autoTable({
             html: "#teste",
             styles: { cellPadding: 6 }
-        });    
+        });
 
         doc.save('MesDossiers.docx');
-    };    
+    };
 
 
     const handleOpenModal = (folderId, mode) => {
         setSelectedFolderId(folderId);
         setMode(mode);
         setModalOpen(true);
-    };    
+    };
 
     const handleCloseModal = () => setModalOpen(false);
 
@@ -90,22 +221,22 @@ const TableResponsive = () => {
         setDeleteFolderId(folderId);
         setAlertOpen(true);
         console.log(folderId);
-    };    
+    };
 
     const handleReadClick = (folderId) => {
         setReadFolderId(folderId);
         setAlertOpenRead(true);
         console.log(folderId);
-    };    
+    };
 
     useEffect(() => {
         refetch();
-    }, [refetch]);    
+    }, [refetch]);
 
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
         console.log('Dropdown toggled!');
-    };    
+    };
 
     const handleOptionClick = async (option) => {
         setSelectedOption(option);
@@ -124,11 +255,11 @@ const TableResponsive = () => {
                 await exportExcel();
                 console.log("Fichier Word généré avec succès");
                 break;
-        }        
+        }
 
         setDropdownOpen(false);
-    };    
-    
+    };
+
 
     useEffect(() => {
         const searchInput = searchRef.current;
@@ -164,24 +295,72 @@ const TableResponsive = () => {
         searchTable();
     }, [searchType, searchValue]);
 
+    // const displayData = () => {
+    //     // if (!folders || !folders.data) return null;
+    //     if (!folders || !Array.isArray(folders.data)) {
+    //         return (
+    //             <tr>
+    //                 <td colSpan="9">Aucune donnée disponible</td>
+    //             </tr>
+    //         );
+    //     }
+
+    //     if (folders.data.length === 0) {
+    //         return (
+    //             <tr>
+    //                 <td colSpan="9">Aucune donnée disponible</td>
+    //             </tr>
+    //         );
+    //     }
+    //     return folders.data.map((folder, index) => (
+    //         <tr key={index}>
+    //             <td className="td">{folder.id_nature.nom_depose}</td>
+    //             <td className="td">{folder.id_nature.prenom_depose}</td>
+    //             <td className="td">{folder.id_nature.matricule}</td>
+    //             <td className="td">{folder.expiditeur}</td>
+    //             <td className="td">{folder.destination}</td>
+    //             <td className="td">{folder.id_nature.description}</td>
+    //             <td className="td">{folder.numero_bordereaux}</td>
+    //             <td className="td">{new Date(folder.date_depart).toLocaleDateString()}</td>
+    //             <td className="td">
+    //                 <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
+    //                 <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
+    //                 <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
+    //             </td>
+    //         </tr>
+    //     ));
+    // };
+
+
+
+
     const displayData = () => {
-        // if (!folders || !folders.data) return null;
-        if (!folders || !Array.isArray(folders.data)) {
+        if (isLoading) {
+            return (
+                <tr>
+                    <td colSpan="9">Chargement...</td>
+                </tr>
+            );
+        }
+
+        if (isError) {
+            return (
+                <tr>
+                    <td colSpan="9">Une erreur s'est produite.</td>
+                </tr>
+            );
+        }
+
+        // Si les dossiers ne sont pas un tableau ou s'ils sont vides
+        if (!folders || !Array.isArray(folders.data) || folders.data.length === 0) {
             return (
                 <tr>
                     <td colSpan="9">Aucune donnée disponible</td>
                 </tr>
             );
         }
-    
-        if (folders.data.length === 0) {
-            return (
-                <tr>
-                    <td colSpan="9">Aucune donnée disponible</td>
-                </tr>
-            );
-        }
-        return folders.data.map((folder, index) => (
+
+        return currentFolders.map((folder, index) => (
             <tr key={index}>
                 <td className="td">{folder.id_nature.nom_depose}</td>
                 <td className="td">{folder.id_nature.prenom_depose}</td>
@@ -199,7 +378,6 @@ const TableResponsive = () => {
             </tr>
         ));
     };
-
     const searchTable = () => {
         const searchInput = searchRef.current;
         const table = tableRef.current;
@@ -337,7 +515,18 @@ const TableResponsive = () => {
                             {displayData()}
                         </tbody>
                     </table>
+
+
                 </section>
+                {/* Pagination controls */}
+                    <ReactPaginate
+                        previousLabel={'Précédent'}
+                        nextLabel={'Suivant'}
+                        pageCount={totalPages}
+                        onPageChange={({ selected }) => paginate(selected + 1)}
+                        containerClassName={'pagination'}
+                        activeClassName={'active'}
+                    />
                 <AnimatePresence>
                     {modalOpen && (
                         <CustomModal

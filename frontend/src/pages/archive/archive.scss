@@ -10,3 +10,58 @@
     font-size: 1.2rem;
     font-weight: 900;
 }
+
+
+
+
+/* archive.scss */
+
+/* Container de la pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    list-style: none;
+    padding: 0;
+  }
+  
+  /* Style pour chaque bouton de page */
+  .pagination li {
+    margin: 0 5px;
+  }
+  
+  .pagination a {
+    display: block;
+    padding: 10px 15px;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    color: #333;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .pagination a:hover {
+    background-color: #007bff; /* Couleur lors du hover */
+    color: #fff;
+  }
+  
+  /* Style pour la page active */
+  .pagination .active a {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+  }
+  
+  /* Style pour le bouton précédent/suivant */
+  .pagination .previous a, .pagination .next a {
+    background-color: #e0e0e0;
+    color: #666;
+  }
+  
+  .pagination .previous a:hover, .pagination .next a:hover {
+    background-color: #007bff;
+    color: #fff;
+  }
+  

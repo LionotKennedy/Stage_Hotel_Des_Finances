@@ -16,6 +16,7 @@ import pdf from "../../assets/image/pdf.png";
 import excel from "../../assets/image/excel.png";
 import word from "../../assets/image/json.png";
 import ContentToPrintVisa from '../printer/ContentToPrintVisa';
+import ReactPaginate from 'react-paginate';  // Import ReactPaginate
 
 const TableVisa = () => {
     const tableRef = useRef(null);
@@ -34,6 +35,25 @@ const TableVisa = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
     const contentRef = useRef();
+
+    // // Pagination states
+    // const [currentPage, setCurrentPage] = useState(1);
+    // const rowsPerPage = 10;
+
+    // // Calculate the number of total pages
+    // const totalPages = folders ? Math.ceil(folders.data.length / rowsPerPage) : 1;
+
+        // Pagination states
+        const [currentPage, setCurrentPage] = useState(0);
+        const rowsPerPage = 10;
+    
+        // Calculate the number of total pages
+        const totalPages = folders ? Math.ceil(folders.data.length / rowsPerPage) : 1;
+    
+        // Handle page click for pagination
+        const paginate = (pageNumber) => {
+            setCurrentPage(pageNumber - 1);
+        };
 
 
     const exportPdf = async () => {
@@ -154,10 +174,69 @@ const TableVisa = () => {
         searchTable();
     }, [searchType, searchValue]);
 
+        // Pagination logic
+        const handlePageChange = (newPage) => {
+            if (newPage >= 1 && newPage <= totalPages) {
+                setCurrentPage(newPage);
+            }
+        };
+
+    // const displayData = () => {
+    //     if (!folders || !folders.data) return null;
+
+    //     return folders.data.map((folder, index) => (
+    //         <tr key={index}>
+    //             <td className="td">{folder.numero_visa}</td>
+    //             <td className="td">{folder.nom_depose_visa}</td>
+    //             <td className="td">{folder.prenom_depose_visa}</td>
+    //             <td className="td">{folder.reference}</td>
+    //             <td className="td">
+    //                 <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
+    //                 <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
+    //                 <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
+    //             </td>
+    //         </tr>
+    //     ));
+    // };
+
+
+
+
+
+
+
+
+    // const displayData = () => {
+    //     if (!folders || !folders.data) return null;
+
+    //     const startIndex = (currentPage - 1) * rowsPerPage;
+    //     const selectedFolders = folders.data.slice(startIndex, startIndex + rowsPerPage);
+
+    //     return selectedFolders.map((folder, index) => (
+    //         <tr key={index}>
+    //             <td className="td">{folder.numero_visa}</td>
+    //             <td className="td">{folder.nom_depose_visa}</td>
+    //             <td className="td">{folder.prenom_depose_visa}</td>
+    //             <td className="td">{folder.reference}</td>
+    //             <td className="td">
+    //                 <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
+    //                 <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
+    //                 <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
+    //             </td>
+    //         </tr>
+    //     ));
+    // };
+
+
+
+    // Display data according to the current page
     const displayData = () => {
         if (!folders || !folders.data) return null;
 
-        return folders.data.map((folder, index) => (
+        const startIndex = currentPage * rowsPerPage;
+        const selectedFolders = folders.data.slice(startIndex, startIndex + rowsPerPage);
+
+        return selectedFolders.map((folder, index) => (
             <tr key={index}>
                 <td className="td">{folder.numero_visa}</td>
                 <td className="td">{folder.nom_depose_visa}</td>
@@ -243,6 +322,22 @@ const TableVisa = () => {
                         </tbody>
                     </table>
                 </section>
+                {/* Pagination controls */}
+                {/* <div className="pagination">
+                    <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
+                    <span>Page {currentPage} of {totalPages}</span>
+                    <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>Next</button>
+                </div> */}
+
+                {/* Pagination controls */}
+                <ReactPaginate
+                    previousLabel={'Précédent'}
+                    nextLabel={'Suivant'}
+                    pageCount={totalPages}
+                    onPageChange={({ selected }) => paginate(selected + 1)}
+                    containerClassName={'pagination'}
+                    activeClassName={'active'}
+                />
                 <AnimatePresence>
                     {modalOpen && (
                         <VisaModal
