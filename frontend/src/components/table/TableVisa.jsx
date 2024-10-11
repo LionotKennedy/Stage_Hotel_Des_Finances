@@ -12,6 +12,7 @@ import "jspdf-autotable";
 import * as XLSX from 'xlsx';
 import { FaArrowDown } from 'react-icons/fa';
 import imageData from "../../assets/images/logo.png";
+import imageLogo from "../../assets/images/ministere.png";
 import pdf from "../../assets/image/pdf.png";
 import excel from "../../assets/image/excel.png";
 import word from "../../assets/image/json.png";
@@ -36,35 +37,42 @@ const TableVisa = () => {
     const [selectedOption, setSelectedOption] = useState(null);
     const contentRef = useRef();
 
-    // // Pagination states
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const rowsPerPage = 10;
+    const [currentPage, setCurrentPage] = useState(0);
+    const rowsPerPage = 10;
 
-    // // Calculate the number of total pages
-    // const totalPages = folders ? Math.ceil(folders.data.length / rowsPerPage) : 1;
+    // Calculate the number of total pages
+    const totalPages = folders ? Math.ceil(folders.data.length / rowsPerPage) : 1;
 
-        // Pagination states
-        const [currentPage, setCurrentPage] = useState(0);
-        const rowsPerPage = 10;
+    // Handle page click for pagination
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber - 1);
+    };
+
+
     
-        // Calculate the number of total pages
-        const totalPages = folders ? Math.ceil(folders.data.length / rowsPerPage) : 1;
-    
-        // Handle page click for pagination
-        const paginate = (pageNumber) => {
-            setCurrentPage(pageNumber - 1);
-        };
-
-
     const exportPdf = async () => {
         const doc = new jsPDF({ orientation: "landscape" });
-        // doc.addImage(imageData, 'JPEG', 10, 10, 50, 50); // x, y, largeur, hauteur
-        doc.addImage(imageData, 'JPEG', 10, 10, 30, 30); // x, y, largeur, hauteur (30, 30 pour une image plus petite)
+    
+        // Ajoutez une image centrée en haut avec un décalage de 2 lignes
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+        const imageWidth = 40; // Largeur de l'image
+        const centeredX = (pageWidth - imageWidth) / 2; // Calculer le positionnement centré
+        const topMargin = 20; // Marges supérieures et inférieures pour le décalage
+        const centeredY = topMargin; // Position Y de l'image centrée
+        
+        doc.addImage(imageLogo, 'JPEG', centeredX, centeredY, imageWidth, imageWidth); // Image centrée en haut
+        
+        // Ajoutez l'image à gauche
+        doc.addImage(imageData, 'JPEG', 10, 65, 23, 23); // Image à gauche
+    
+        // Démarrer la table après les images, avec un espace suffisant
         doc.autoTable({
             html: "#table_visa",
-            startY: 50, // Démarrer la table après l'image
+            startY: centeredY + imageWidth + topMargin * 2, // Démarrer la table après l'image centrée avec un décalage total de 4 lignes
         });
-        doc.save("mypdf.pdf");
+    
+        doc.save("visa.pdf");
     };
 
 
@@ -72,7 +80,7 @@ const TableVisa = () => {
         // const table = document.getElementById('my-table');
         const table = document.getElementById('table_visa');
         const wb = XLSX.utils.table_to_book(table);
-        XLSX.writeFile(wb, 'mydata.xlsx');
+        XLSX.writeFile(wb, 'visa.xlsx');
     };
 
 
@@ -82,7 +90,7 @@ const TableVisa = () => {
             html: "#table_visa",
             styles: { cellPadding: 6 }
         });
-        doc.save('MesDossiers.docx');
+        doc.save('visa.docx');
     };
 
     const toggleDropdown = () => {
@@ -174,60 +182,12 @@ const TableVisa = () => {
         searchTable();
     }, [searchType, searchValue]);
 
-        // Pagination logic
-        const handlePageChange = (newPage) => {
-            if (newPage >= 1 && newPage <= totalPages) {
-                setCurrentPage(newPage);
-            }
-        };
-
-    // const displayData = () => {
-    //     if (!folders || !folders.data) return null;
-
-    //     return folders.data.map((folder, index) => (
-    //         <tr key={index}>
-    //             <td className="td">{folder.numero_visa}</td>
-    //             <td className="td">{folder.nom_depose_visa}</td>
-    //             <td className="td">{folder.prenom_depose_visa}</td>
-    //             <td className="td">{folder.reference}</td>
-    //             <td className="td">
-    //                 <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
-    //                 <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
-    //                 <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
-    //             </td>
-    //         </tr>
-    //     ));
-    // };
-
-
-
-
-
-
-
-
-    // const displayData = () => {
-    //     if (!folders || !folders.data) return null;
-
-    //     const startIndex = (currentPage - 1) * rowsPerPage;
-    //     const selectedFolders = folders.data.slice(startIndex, startIndex + rowsPerPage);
-
-    //     return selectedFolders.map((folder, index) => (
-    //         <tr key={index}>
-    //             <td className="td">{folder.numero_visa}</td>
-    //             <td className="td">{folder.nom_depose_visa}</td>
-    //             <td className="td">{folder.prenom_depose_visa}</td>
-    //             <td className="td">{folder.reference}</td>
-    //             <td className="td">
-    //                 <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
-    //                 <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
-    //                 <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
-    //             </td>
-    //         </tr>
-    //     ));
-    // };
-
-
+    // Pagination logic
+    const handlePageChange = (newPage) => {
+        if (newPage >= 1 && newPage <= totalPages) {
+            setCurrentPage(newPage);
+        }
+    };
 
     // Display data according to the current page
     const displayData = () => {
@@ -322,12 +282,6 @@ const TableVisa = () => {
                         </tbody>
                     </table>
                 </section>
-                {/* Pagination controls */}
-                {/* <div className="pagination">
-                    <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
-                    <span>Page {currentPage} of {totalPages}</span>
-                    <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>Next</button>
-                </div> */}
 
                 {/* Pagination controls */}
                 <ReactPaginate
@@ -357,3 +311,134 @@ const TableVisa = () => {
 }
 
 export default TableVisa
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const exportPdf = async () => {
+//     const doc = new jsPDF({ orientation: "landscape" });
+//     // doc.addImage(imageData, 'JPEG', 10, 10, 50, 50); // x, y, largeur, hauteur
+//     doc.addImage(imageData, 'JPEG', 10, 10, 30, 30); // x, y, largeur, hauteur (30, 30 pour une image plus petite)
+//     doc.autoTable({
+//         html: "#table_visa",
+//         startY: 50, // Démarrer la table après l'image
+//     });
+//     doc.save("mypdf.pdf");
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const displayData = () => {
+//     if (!folders || !folders.data) return null;
+
+//     return folders.data.map((folder, index) => (
+//         <tr key={index}>
+//             <td className="td">{folder.numero_visa}</td>
+//             <td className="td">{folder.nom_depose_visa}</td>
+//             <td className="td">{folder.prenom_depose_visa}</td>
+//             <td className="td">{folder.reference}</td>
+//             <td className="td">
+//                 <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
+//                 <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
+//                 <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
+//             </td>
+//         </tr>
+//     ));
+// };
+
+
+
+
+
+
+
+
+// const displayData = () => {
+//     if (!folders || !folders.data) return null;
+
+//     const startIndex = (currentPage - 1) * rowsPerPage;
+//     const selectedFolders = folders.data.slice(startIndex, startIndex + rowsPerPage);
+
+//     return selectedFolders.map((folder, index) => (
+//         <tr key={index}>
+//             <td className="td">{folder.numero_visa}</td>
+//             <td className="td">{folder.nom_depose_visa}</td>
+//             <td className="td">{folder.prenom_depose_visa}</td>
+//             <td className="td">{folder.reference}</td>
+//             <td className="td">
+//                 <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
+//                 <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
+//                 <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
+//             </td>
+//         </tr>
+//     ));
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+{/* Pagination controls */ }
+{/* <div className="pagination">
+                    <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
+                    <span>Page {currentPage} of {totalPages}</span>
+                    <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>Next</button>
+                </div> */}

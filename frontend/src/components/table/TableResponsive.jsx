@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import search from "../../assets/image/search.png";
 import { MdEdit, MdDelete, MdVisibility, MdAdd } from 'react-icons/md';
-import { FaArrowDown } from 'react-icons/fa';
+import { FaArrowDown, FaSearch } from 'react-icons/fa';
 import { AnimatePresence } from 'framer-motion';
 import { useGetFolders } from '../../services/serviceFolder';
 import AlertDialogSlide from '../MUI_alert/deleteFolder';
@@ -36,11 +36,16 @@ const TableResponsive = () => {
     const [mode, setMode] = useState('add');
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const contentRef = useRef();
-
-
-    // Pagination state
+        // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const [foldersPerPage] = useState(15); // Nombre d'éléments par page
+        // Changer de page
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    const [startDateValue, setStartDateValue] = useState('');
+    const [endDateValue, setEndDateValue] = useState('');
+
+
+
 
     const totalPages = folders && Array.isArray(folders.data) ? Math.ceil(folders.data.length / foldersPerPage) : 1;
 
@@ -49,33 +54,22 @@ const TableResponsive = () => {
         ? folders.data.slice((currentPage - 1) * foldersPerPage, currentPage * foldersPerPage)
         : [];
 
-    // Changer de page
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
-
-    const [startDateValue, setStartDateValue] = useState('');
-    const [endDateValue, setEndDateValue] = useState('');
-
-
-
 
     const exportPdf = async () => {
         const doc = new jsPDF({ orientation: "landscape" });
     
-        // Ajoutez l'image à gauche
-        doc.addImage(imageData, 'JPEG', 10, 10, 30, 30); // Image à gauche
-    
         // Ajoutez une image centrée en haut avec un décalage de 2 lignes
         const pageWidth = doc.internal.pageSize.getWidth();
         const pageHeight = doc.internal.pageSize.getHeight();
-        const imageWidth = 30; // Largeur de l'image
+        const imageWidth = 40; // Largeur de l'image
         const centeredX = (pageWidth - imageWidth) / 2; // Calculer le positionnement centré
         const topMargin = 20; // Marges supérieures et inférieures pour le décalage
         const centeredY = topMargin; // Position Y de l'image centrée
-    
-        doc.addImage(imageData, 'JPEG', centeredX, centeredY, imageWidth, imageWidth); // Image centrée en haut
+        
+        doc.addImage(imageLogo, 'JPEG', centeredX, centeredY, imageWidth, imageWidth); // Image centrée en haut
+        
+        // Ajoutez l'image à gauche
+        doc.addImage(imageData, 'JPEG', 10, 65, 23, 23); // Image à gauche
     
         // Démarrer la table après les images, avec un espace suffisant
         doc.autoTable({
@@ -83,10 +77,9 @@ const TableResponsive = () => {
             startY: centeredY + imageWidth + topMargin * 2, // Démarrer la table après l'image centrée avec un décalage total de 4 lignes
         });
     
-        doc.save("mypdf.pdf");
+        doc.save("corrier.pdf");
     };
     
-
 
     const exportExcel = () => {
         // const table = document.getElementById('my-table');
@@ -94,7 +87,7 @@ const TableResponsive = () => {
 
         const wb = XLSX.utils.table_to_book(table);
 
-        XLSX.writeFile(wb, 'mydata.xlsx');
+        XLSX.writeFile(wb, 'courrier.xlsx');
     };
 
 
@@ -106,7 +99,7 @@ const TableResponsive = () => {
             styles: { cellPadding: 6 }
         });
 
-        doc.save('MesDossiers.docx');
+        doc.save('courrier.docx');
     };
 
 
@@ -197,44 +190,6 @@ const TableResponsive = () => {
         searchTable();
     }, [searchType, searchValue]);
 
-    // const displayData = () => {
-    //     // if (!folders || !folders.data) return null;
-    //     if (!folders || !Array.isArray(folders.data)) {
-    //         return (
-    //             <tr>
-    //                 <td colSpan="9">Aucune donnée disponible</td>
-    //             </tr>
-    //         );
-    //     }
-
-    //     if (folders.data.length === 0) {
-    //         return (
-    //             <tr>
-    //                 <td colSpan="9">Aucune donnée disponible</td>
-    //             </tr>
-    //         );
-    //     }
-    //     return folders.data.map((folder, index) => (
-    //         <tr key={index}>
-    //             <td className="td">{folder.id_nature.nom_depose}</td>
-    //             <td className="td">{folder.id_nature.prenom_depose}</td>
-    //             <td className="td">{folder.id_nature.matricule}</td>
-    //             <td className="td">{folder.expiditeur}</td>
-    //             <td className="td">{folder.destination}</td>
-    //             <td className="td">{folder.id_nature.description}</td>
-    //             <td className="td">{folder.numero_bordereaux}</td>
-    //             <td className="td">{new Date(folder.date_depart).toLocaleDateString()}</td>
-    //             <td className="td">
-    //                 <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
-    //                 <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
-    //                 <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
-    //             </td>
-    //         </tr>
-    //     ));
-    // };
-
-
-
 
     const displayData = () => {
         if (isLoading) {
@@ -280,74 +235,7 @@ const TableResponsive = () => {
             </tr>
         ));
     };
-    const searchTable = () => {
-        const searchInput = searchRef.current;
-        const table = tableRef.current;
-        const tableRows = table.querySelectorAll('tbody tr');
 
-        let search_data = '';
-        let startDateInput = '';
-        let endDateInput = '';
-
-        if (searchType === 'date') {
-            startDateInput = new Date(searchValue).getTime();
-            endDateInput = new Date(endDate).getTime();
-
-            tableRows.forEach((row, i) => {
-                const folder = folders.data[i];
-                const date = new Date(folder.date_depart);
-
-                row.classList.toggle('hide',
-                    (date.getTime() < startDateInput || date.getTime() > endDateInput)
-                );
-                row.style.setProperty('--delay', i / 25 + 's');
-            });
-        } else {
-            let table_data = '';
-
-            switch (searchType) {
-                case 'nom':
-                    table_data = row.querySelectorAll('td')[0].textContent.toLowerCase();
-                    break;
-                case 'numero':
-                    table_data = row.querySelectorAll('td')[6].textContent.toLowerCase();
-                    break;
-                case 'matricule':
-                    table_data = row.querySelectorAll('td')[2].textContent.toLowerCase();
-                    break;
-            }
-
-            row.classList.toggle('hide', table_data.indexOf(searchValue.toLowerCase()) < 0);
-            row.style.setProperty('--delay', i / 25 + 's');
-        }
-    };
-
-    // const handleSearch = () => {
-    //     const startDateInput = startDateRef.current.value;
-    //     const endDateInput = endDateRef.current.value;
-    
-    //     console.log('Date de début:', startDateInput);
-    //     console.log('Date de fin:', endDateInput);
-    
-    //     // Votre logique de recherche ici
-    //     searchTables();
-    //   };
-
-    
-    const searchTables = () => {
-        const table = tableRef.current;
-        const tableRows = table.querySelectorAll('tbody tr');
-    
-        tableRows.forEach((row, i) => {
-            const folder = folders.data[i];
-            const date = new Date(folder.date_depart);
-    
-            row.classList.toggle('hide', 
-                (date < startDateInput || date > endDateInput)
-            );
-            row.style.setProperty('--delay', i / 25 + 's');
-        });
-    };
 
 
     const SearchByTowDate = () => {
@@ -389,7 +277,6 @@ const TableResponsive = () => {
     
 
     
-
     const startDateRef = useRef(null);
     const endDateRef = useRef(null);
 
@@ -412,29 +299,29 @@ const TableResponsive = () => {
                         <option value="date">Search by Date</option>
                     </select>
                     {searchType === 'date' ? (
-                        // <input
-                        //     type="date"
-                        //     ref={searchRef}
-                        //     onChange={(e) => setSearchValue(e.target.value)}
-                        //     placeholder="Select Date..."
-                        // />
-                        <>
+
+                    <div className='container__search'>
+                         <div className='contents__search'>
                             <input
                                 type="date"
                                 ref={startDateRef}
-                                // onChange={(e) => setStartDate(e.target.value)}
                                 onChange={(e) => setStartDateValue(e.target.value)}
                                 placeholder="Start Date..."
                             />
+                         </div>
+                         <div className='contents__search'>
                             <input
                                 type="date"
                                 ref={endDateRef}
-                                // onChange={(e) => setEndDate(e.target.value)}
                                 onChange={(e) => setEndDateValue(e.target.value)}
                                 placeholder="End Date..."
-                            />
-                            <button onClick={handleSearch}>Rechercher</button>
-                        </>
+                                />
+                         </div>
+                          <div className='search__btn'>
+                                {/* <button onClick={handleSearch}></button> */}
+                                <FaSearch className='search__icon' onClick={handleSearch} />
+                          </div>
+                    </div>
                     ) : (
                         <div className="input-group">
                             <input
@@ -483,8 +370,6 @@ const TableResponsive = () => {
                             {displayData()}
                         </tbody>
                     </table>
-
-
                 </section>
                 {/* Pagination controls */}
                     <ReactPaginate
@@ -518,6 +403,149 @@ export default TableResponsive;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+// const searchTable = () => {
+//     const searchInput = searchRef.current;
+//     const table = tableRef.current;
+//     const tableRows = table.querySelectorAll('tbody tr');
+
+//     let search_data = '';
+//     let startDateInput = '';
+//     let endDateInput = '';
+
+//     if (searchType === 'date') {
+//         startDateInput = new Date(searchValue).getTime();
+//         endDateInput = new Date(endDate).getTime();
+
+//         tableRows.forEach((row, i) => {
+//             const folder = folders.data[i];
+//             const date = new Date(folder.date_depart);
+
+//             row.classList.toggle('hide',
+//                 (date.getTime() < startDateInput || date.getTime() > endDateInput)
+//             );
+//             row.style.setProperty('--delay', i / 25 + 's');
+//         });
+//     } else {
+//         let table_data = '';
+
+//         switch (searchType) {
+//             case 'nom':
+//                 table_data = row.querySelectorAll('td')[0].textContent.toLowerCase();
+//                 break;
+//             case 'numero':
+//                 table_data = row.querySelectorAll('td')[6].textContent.toLowerCase();
+//                 break;
+//             case 'matricule':
+//                 table_data = row.querySelectorAll('td')[2].textContent.toLowerCase();
+//                 break;
+//         }
+
+//         row.classList.toggle('hide', table_data.indexOf(searchValue.toLowerCase()) < 0);
+//         row.style.setProperty('--delay', i / 25 + 's');
+//     }
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // const displayData = () => {
+    //     // if (!folders || !folders.data) return null;
+    //     if (!folders || !Array.isArray(folders.data)) {
+    //         return (
+    //             <tr>
+    //                 <td colSpan="9">Aucune donnée disponible</td>
+    //             </tr>
+    //         );
+    //     }
+
+    //     if (folders.data.length === 0) {
+    //         return (
+    //             <tr>
+    //                 <td colSpan="9">Aucune donnée disponible</td>
+    //             </tr>
+    //         );
+    //     }
+    //     return folders.data.map((folder, index) => (
+    //         <tr key={index}>
+    //             <td className="td">{folder.id_nature.nom_depose}</td>
+    //             <td className="td">{folder.id_nature.prenom_depose}</td>
+    //             <td className="td">{folder.id_nature.matricule}</td>
+    //             <td className="td">{folder.expiditeur}</td>
+    //             <td className="td">{folder.destination}</td>
+    //             <td className="td">{folder.id_nature.description}</td>
+    //             <td className="td">{folder.numero_bordereaux}</td>
+    //             <td className="td">{new Date(folder.date_depart).toLocaleDateString()}</td>
+    //             <td className="td">
+    //                 <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
+    //                 <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
+    //                 <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
+    //             </td>
+    //         </tr>
+    //     ));
+    // };
 
 
 

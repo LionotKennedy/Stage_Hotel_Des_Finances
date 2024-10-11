@@ -11,8 +11,9 @@ import ArchiveModal from '../MUI/ArchiveModal';
 import jsPDF from 'jspdf';
 import "jspdf-autotable";
 import * as XLSX from 'xlsx';
-import { FaArrowDown } from 'react-icons/fa';
+import { FaArrowDown, FaSearch } from 'react-icons/fa';
 import imageData from "../../assets/images/logo.png";
+import imageLogo from "../../assets/images/ministere.png";
 import pdf from "../../assets/image/pdf.png";
 import excel from "../../assets/image/excel.png";
 import word from "../../assets/image/json.png";
@@ -35,17 +36,33 @@ const TableArchive = ({ archives, refetch, year }) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
     const contentRef = useRef();
+    const [startDateValue, setStartDateValue] = useState('');
+    const [endDateValue, setEndDateValue] = useState('');
 
 
     const exportPdf = async () => {
         const doc = new jsPDF({ orientation: "landscape" });
-        // doc.addImage(imageData, 'JPEG', 10, 10, 50, 50); // x, y, largeur, hauteur
-        doc.addImage(imageData, 'JPEG', 10, 10, 30, 30); // x, y, largeur, hauteur (30, 30 pour une image plus petite)
+    
+        // Ajoutez une image centrée en haut avec un décalage de 2 lignes
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+        const imageWidth = 40; // Largeur de l'image
+        const centeredX = (pageWidth - imageWidth) / 2; // Calculer le positionnement centré
+        const topMargin = 20; // Marges supérieures et inférieures pour le décalage
+        const centeredY = topMargin; // Position Y de l'image centrée
+        
+        doc.addImage(imageLogo, 'JPEG', centeredX, centeredY, imageWidth, imageWidth); // Image centrée en haut
+        
+        // Ajoutez l'image à gauche
+        doc.addImage(imageData, 'JPEG', 10, 65, 23, 23); // Image à gauche
+    
+        // Démarrer la table après les images, avec un espace suffisant
         doc.autoTable({
             html: "#table__archive",
-            startY: 50, // Démarrer la table après l'image
+            startY: centeredY + imageWidth + topMargin * 2, // Démarrer la table après l'image centrée avec un décalage total de 4 lignes
         });
-        doc.save("mypdf.pdf");
+    
+        doc.save("archive.pdf");
     };
 
 
@@ -53,7 +70,7 @@ const TableArchive = ({ archives, refetch, year }) => {
         // const table = document.getElementById('my-table');
         const table = document.getElementById('table__archive');
         const wb = XLSX.utils.table_to_book(table);
-        XLSX.writeFile(wb, 'mydata.xlsx');
+        XLSX.writeFile(wb, 'archive.xlsx');
     };
 
 
@@ -63,7 +80,7 @@ const TableArchive = ({ archives, refetch, year }) => {
             html: "#table__archive",
             styles: { cellPadding: 6 }
         });
-        doc.save('MesDossiers.docx');
+        doc.save('archive.docx');
     };
 
     const toggleDropdown = () => {
@@ -115,6 +132,47 @@ const TableArchive = ({ archives, refetch, year }) => {
     };
 
 
+    const SearchByTowDate = () => {
+        const table = tableRef.current;
+        const tableRows = table.querySelectorAll('tbody tr');
+        const startDateInput = new Date(startDateRef.current.value);
+        const endDateInput = new Date(endDateRef.current.value);
+
+        tableRows.forEach((row, i) => {
+            // On récupère la date à comparer dans la colonne spécifique (par exemple la 8ème colonne).
+            let tableDateText = row.querySelectorAll('td')[5].textContent; // Suppose que la date est dans la 8ème colonne (index 7)
+            let tableDate = new Date(tableDateText);
+
+            // Vérifie si la date est entre les deux dates sélectionnées
+            let isInDateRange = tableDate >= startDateInput && tableDate <= endDateInput;
+
+            // Masque ou affiche la ligne en fonction de la condition
+            row.classList.toggle('hide', !isInDateRange);
+            row.style.setProperty('--delay', i / 25 + 's');
+        });
+
+        // Applique les animations aux lignes visibles
+        document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
+            visible_row.style.backgroundColor = (i % 2 === 0) ? '--second-bg' : '--second-bg';
+            visible_row.style.animationDelay = `${i * 0.1}s`;
+        });
+    };
+
+    const handleSearch = () => {
+        const startDateInput = startDateRef.current.value;
+        const endDateInput = endDateRef.current.value;
+
+        console.log('Date de début:', startDateInput);
+        console.log('Date de fin:', endDateInput);
+
+        // Appel de la fonction de recherche entre deux dates
+        SearchByTowDate();
+    };
+
+    const startDateRef = useRef(null);
+    const endDateRef = useRef(null);
+
+
     useEffect(() => {
         // if (folders && folders.data) {
         //     folders.data.forEach((folder) => console.log('Folder data:', folder));
@@ -122,7 +180,7 @@ const TableArchive = ({ archives, refetch, year }) => {
         // folders?.data?.forEach((folder) => console.log('Folder data:', folder));
     }, [folders])
 
-    
+
     useEffect(() => {
         console.log("Valeur de recherche :", searchValue);
     }, [searchValue]);
@@ -161,12 +219,13 @@ const TableArchive = ({ archives, refetch, year }) => {
                     table_data = row.querySelectorAll('td')[4]?.textContent.toLowerCase();
                 } else if (searchType === 'matricule') {
                     table_data = row.querySelectorAll('td')[3]?.textContent.toLowerCase();
-                } else if (searchType === 'date') {
-                    table_data = row.querySelectorAll('td')[5]?.textContent;
-                    if (search_data) {
-                        table_data = new Date(table_data).toLocaleDateString();
-                    }
-                }
+                } 
+                // else if (searchType === 'date') {
+                //     table_data = row.querySelectorAll('td')[5]?.textContent;
+                //     if (search_data) {
+                //         table_data = new Date(table_data).toLocaleDateString();
+                //     }
+                // } 
 
                 // Masquer la ligne si elle ne correspond pas à la recherche
                 if (table_data && search_data) {
@@ -203,12 +262,27 @@ const TableArchive = ({ archives, refetch, year }) => {
                         <option value="date">Search by Date</option>
                     </select>
                     {searchType === 'date' ? (
-                        <input
-                            type="date"
-                            ref={searchRef}
-                            onChange={(e) => setSearchValue(e.target.value)}
-                            placeholder="Select Date..."
-                        />
+                        <div className='container__search'>
+                            <div className='contents__search'>
+                                <input
+                                    type="date"
+                                    ref={startDateRef}
+                                    onChange={(e) => setStartDateValue(e.target.value)}
+                                    placeholder="Start Date..."
+                                />
+                            </div>
+                            <div className='contents__search'>
+                                <input
+                                    type="date"
+                                    ref={endDateRef}
+                                    onChange={(e) => setEndDateValue(e.target.value)}
+                                    placeholder="End Date..."
+                                />
+                            </div>
+                            <div className='search__btn'>
+                                <FaSearch className='search__icon' onClick={handleSearch} />
+                            </div>
+                        </div>
                     ) : (
                         <div className="input-group">
                             <input
