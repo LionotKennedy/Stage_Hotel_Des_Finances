@@ -236,6 +236,7 @@ import ProtectedRoute from './ProtectedRoute';
 import { getProfile } from './services/authServices'; 
 import UserPage from "./pages/userpage/UserPage";
 import ShowUser from "./pages/showuser/ShowUser";
+import { SnackbarProvider } from 'notistack';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -297,6 +298,7 @@ function App() {
   }, []);
 
   return (
+        <SnackbarProvider maxSnack={3}>
     <Router>
       <Routes>
         <Route
@@ -321,6 +323,7 @@ function App() {
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
+  </SnackbarProvider>
   );
 }
 

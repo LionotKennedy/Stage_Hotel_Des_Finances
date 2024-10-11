@@ -4,6 +4,17 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Slide, TextF
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAddFolder, useGetFolderById, useUpdateFolder } from '../../services/serviceFolder';
 // import { CheckCircle, Clear } from "@mui/icons-material"
+import { Autocomplete } from '@mui/material';
+import { useGetLastFolderNumber } from '../../services/serviceFolder'; // Import du service
+import { useSnackbar } from 'notistack';
+
+// Suggestions (exemple)
+const suggestions = [
+  { label: '1001' },
+  { label: '1002' },
+  { label: '1003' },
+];
+
 
 const modalVariants = {
   hidden: { opacity: 0, scale: 0.1 },
@@ -27,10 +38,27 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
     matricule: '',
   });
 
+  const { data: lastFolderNumber } = useGetLastFolderNumber(); // Récupérer le dernier numero_bordereaux
+
+
   const [error, setError] = useState('');
   const addFolderMutation = useAddFolder();
+  const [fieldErrors, setFieldErrors] = useState({}); // Gérer les erreurs spécifiques des champs
   const { data: folderData } = useGetFolderById(folderId);
   const updateFolderMutation = useUpdateFolder(); // Hook pour mettre à jour un dossier
+  const { enqueueSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    // Incrémenter le dernier numéro de bordereaux s'il existe
+    if (lastFolderNumber) {
+      setFields(prevFields => ({
+        ...prevFields,
+        numero_bordereaux: (parseInt(lastFolderNumber) + 1).toString() // Incrémenter de 1
+      }));
+    }
+  }, [lastFolderNumber]);
+
+
 
   useEffect(() => {
     // Vérifiez si folderData et folderData.data existent
@@ -59,32 +87,121 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
   };
 
   const handleSubmit = async () => {
-    if (!fields.numero_bordereaux || !fields.date_depart || !fields.expiditeur) {
+
+    // if (!fields.numero_bordereaux || !fields.date_depart || !fields.expiditeur) {
+    //   setError('Veuillez remplir tous les champs requis.');
+    //   return;
+    // }
+
+    // // Vous pouvez formater à nouveau la date ici si nécessaire
+    // const formattedFields = {
+    //   ...fields,
+    //   date_depart: new Date(fields.date_depart).toISOString(), // Par exemple, si le backend attend un format ISO
+    // };
+
+
+    let hasError = false;
+    let errors = {};
+
+
+    // Validation des champs requis
+    if (!fields.numero_bordereaux) {
+      errors.numero_bordereaux = true;
+      hasError = true;
+      enqueueSnackbar(error, { variant: 'error' });
+    }
+    if (!fields.date_depart) {
+      errors.date_depart = true;
+      hasError = true;
+    }
+    if (!fields.expiditeur) {
+      errors.expiditeur = true;
+      hasError = true;
+    }
+
+    if (hasError) {
+      setFieldErrors(errors); // Définir les erreurs dans l'état
       setError('Veuillez remplir tous les champs requis.');
       return;
     }
 
-    // Vous pouvez formater à nouveau la date ici si nécessaire
+    // Formater les champs avant l'envoi
     const formattedFields = {
       ...fields,
-      date_depart: new Date(fields.date_depart).toISOString(), // Par exemple, si le backend attend un format ISO
+      date_depart: new Date(fields.date_depart).toISOString(),
     };
 
-    try {
-      if (mode === 'edit') {
-        await updateFolderMutation.mutateAsync({ folderId, data: formattedFields }); // Utiliser la mutation pour mettre à jour
-        console.log('Dossier mis à jour avec succès');
-        console.log('Modification d\'un dossier');
-      } else {
-        await addFolderMutation.mutateAsync(formattedFields);
-      }
-      onSuccess()
-      // console.log(onSuccess);
-      handleClose();
+    // try {
+    //   if (mode === 'edit') {
+    //     await updateFolderMutation.mutateAsync({ folderId, data: formattedFields }); // Utiliser la mutation pour mettre à jour
+    //     console.log('Dossier mis à jour avec succès');
+    //     console.log('Modification d\'un dossier');
+    //   } else {
+    //     await addFolderMutation.mutateAsync(formattedFields);
+    //   }
+    //   onSuccess()
+    //   // console.log(onSuccess);
+    //   handleClose();
 
-    } catch (error) {
-      console.error('Erreur lors de l\'envoi du formulaire:', error);
-      setError('Une erreur est survenue lors de l\'ajout/modification du dossier.');
+    // } catch (error) {
+    //   console.error('Erreur lors de l\'envoi du formulaire:', error);
+    //   setError('Une erreur est survenue lors de l\'ajout/modification du dossier.');
+    // }
+
+
+
+    try {
+      if (mode === 'add') {
+        const response = await addFolderMutation.mutateAsync(fields);
+
+        // Vérifiez la réponse du backend et gérez les erreurs
+        if (!response.success) {
+          if (response.errors) {
+            // Gérer les erreurs spécifiques aux champs
+            let fieldErrors = {};
+            response.errors.forEach(error => {
+              fieldErrors[error.param] = error.msg;
+            });
+            setFieldErrors(fieldErrors);
+          } else {
+            // Afficher l'erreur générale
+            setError(response.message || "Une erreur est survenue");
+          }
+        } else {
+          enqueueSnackbar('Le dossier a été ajouté avec succès', { variant: 'success' });
+          // enqueueSnackbar('Le dossier a été ajouté avec succès', {
+          //   variant: 'success',
+          //   anchorOrigin: {
+          //     vertical: 'bottom',
+          //     horizontal: 'center',
+          //   },
+          //   autoHideDuration: 5000,
+          //   action: (
+          //     <IconButton size="small" onClick={() => {}}>
+          //       <CloseIcon fontSize="small" />
+          //     </IconButton>
+          //   ),
+          //   style: {
+          //     backgroundColor: '#4caf50',
+          //     color: '#ffffff',
+          //   },
+          // });
+          onSuccess(); // Appeler la fonction de succès pour fermer la modal ou rafraîchir la page
+          handleClose();
+        }
+      } else if (mode === 'edit') {
+        const response = await updateFolderMutation.mutateAsync({ folderId, data: fields });
+
+        // Même gestion des erreurs que pour l'ajout
+        if (!response.success) {
+          setError(response.message || "Une erreur est survenue lors de la mise à jour");
+        } else {
+          onSuccess();
+        }
+      }
+    } catch (err) {
+      // Gérer toute autre erreur
+      setError("Erreur de serveur: " + err.message);
     }
 
 
@@ -111,14 +228,21 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
           >
             {/* <DialogTitle>Formulaire Ajout Dossier</DialogTitle> */}
             <DialogTitle>
-              <Typography variant="h5" color="primary.main" className="colorTitle" >
+              <Typography variant="h5" component="div" color="primary.main">
                 {mode === 'add' ? 'Formulaire Ajout Dossier' : 'Modifier Dossier'}
               </Typography>
             </DialogTitle>
             <DialogContent>
               <form>
-                {error && <div style={{ color: 'red' }}>{error}</div>}
+                {/* {error && <div style={{ color: 'red' }}>{error}</div>} */}
+                {error && (
+                  <Typography color="error" variant="body2" gutterBottom>
+                    {error}
+                  </Typography>
+                )}
                 <Grid container spacing={2}>
+
+
                   <Grid item xs={12} sm={12} mt={1}>
                     <TextField
                       name="numero_bordereaux"
@@ -128,8 +252,22 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                       value={fields.numero_bordereaux}
                       onChange={handleChange}
                       type="number"
+                      // error={!!fieldErrors.numero_bordereaux}
+                      // helperText={fieldErrors.numero_bordereaux ? 'Ce champ est requis' : ''}
+                      // InputProps={{
+                      //   style: fieldErrors.numero_bordereaux ? { borderColor: 'red' } : {},
+                      // }}
+
+                      error={!!fieldErrors.numero_bordereaux || !!error}
+                      helperText={fieldErrors.numero_bordereaux ? 'Ce champ est requis' : error ? 'Le numéro de bordereaux existe déjà' : ''}
+                      InputProps={{
+                        style: fieldErrors.numero_bordereaux ? { borderColor: 'red' } : error ? { borderColor: 'red' } : {},
+                      }}
                     />
                   </Grid>
+
+
+
                   <Grid item xs={12} sm={12} mt={1}>
                     <TextField
                       type="date"
@@ -139,7 +277,11 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                       fullWidth
                       value={fields.date_depart}
                       onChange={handleChange}
-                    // style={{ border: '2px solid purple' }}
+                      error={!!fieldErrors.date_depart}
+                      helperText={fieldErrors.date_depart ? 'Ce champ est requis' : ''}
+                      InputProps={{
+                        style: fieldErrors.date_depart ? { borderColor: 'red' } : {},
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12} sm={12} mt={1}>
@@ -150,6 +292,11 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                       fullWidth
                       value={fields.expiditeur}
                       onChange={handleChange}
+                      error={!!fieldErrors.expiditeur}
+                      helperText={fieldErrors.expiditeur ? 'Ce champ est requis' : ''}
+                      InputProps={{
+                        style: fieldErrors.expiditeur ? { borderColor: 'red' } : {},
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12} sm={12} mt={1}>
@@ -233,3 +380,70 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
     </Dialog>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  {/* <Grid item xs={12} sm={12} mt={1}>
+                    <Autocomplete
+                      freeSolo
+                      options={suggestions.map((option) => option.label)}
+                      value={fields.numero_bordereaux}
+                      onChange={(event, newValue) => {
+                        setFields((prevFields) => ({ ...prevFields, numero_bordereaux: newValue }));
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          name="numero_bordereaux"
+                          label="Numéro Bordereaux"
+                          variant="standard"
+                          fullWidth
+                          error={!!fieldErrors.numero_bordereaux}
+                          helperText={fieldErrors.numero_bordereaux ? 'Ce champ est requis' : ''}
+                          type="number"
+                        />
+                      )}
+                    />
+                  </Grid> */}
+
+
+                  {/* <Grid item xs={12} sm={12} mt={1}>
+                    <Autocomplete
+                      freeSolo
+                      options={suggestions.map(option => option.label)} // Suggestions statiques
+                      value={fields.numero_bordereaux} // Liaison avec l'état
+                      onChange={(event, newValue) => {
+                        setFields((prevFields) => ({ ...prevFields, numero_bordereaux: newValue }));
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          name="numero_bordereaux"
+                          label="Numéro Bordereaux"
+                          variant="standard"
+                          fullWidth
+                          error={!!fieldErrors.numero_bordereaux}
+                          helperText={fieldErrors.numero_bordereaux ? 'Ce champ est requis' : ''}
+                          type="number"
+                        />
+                      )}
+                    />
+                  </Grid> */}

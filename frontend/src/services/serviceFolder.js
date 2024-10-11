@@ -167,3 +167,34 @@ export const useCountFolders = () => {
     return { success: true, count: data.count }; // Retournez uniquement le nombre de dossiers
   });
 };
+
+
+
+export const useGetLastFolderNumber = () => {
+  return useQuery('lastFolderNumber', async () => {
+    const token = localStorage.getItem('token');
+    console.log('Token:', token); // Debugging token
+
+    const response = await fetch(`${API_URL}/get_folder`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    // Vérifiez si la réponse est OK
+    if (!response.ok) {
+      console.error('Erreur lors de la récupération des dossiers:', response.status, response.statusText);
+      throw new Error('Erreur lors de la récupération des dossiers');
+    }
+
+    const folders = await response.json();
+
+    // Trouver le plus grand numero_bordereaux (par exemple en triant les dossiers par numero_bordereaux)
+    const lastFolder = folders.reduce((prev, current) => {
+      return (prev.numero_bordereaux > current.numero_bordereaux) ? prev : current;
+    });
+
+    // Retourner le dernier numero_bordereaux
+    return lastFolder.numero_bordereaux;
+  });
+};
