@@ -7,6 +7,10 @@ import { useAddFolder, useGetFolderById, useUpdateFolder } from '../../services/
 import { Autocomplete } from '@mui/material';
 import { useGetLastFolderNumber } from '../../services/serviceFolder'; // Import du service
 import { useSnackbar } from 'notistack';
+import { AiOutlineClose } from 'react-icons/ai';
+import IconButton from '@mui/material/IconButton'; // Assure-toi d'importer IconButton
+
+
 
 // Suggestions (exemple)
 const suggestions = [
@@ -88,17 +92,6 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
 
   const handleSubmit = async () => {
 
-    // if (!fields.numero_bordereaux || !fields.date_depart || !fields.expiditeur) {
-    //   setError('Veuillez remplir tous les champs requis.');
-    //   return;
-    // }
-
-    // // Vous pouvez formater à nouveau la date ici si nécessaire
-    // const formattedFields = {
-    //   ...fields,
-    //   date_depart: new Date(fields.date_depart).toISOString(), // Par exemple, si le backend attend un format ISO
-    // };
-
 
     let hasError = false;
     let errors = {};
@@ -131,23 +124,6 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
       date_depart: new Date(fields.date_depart).toISOString(),
     };
 
-    // try {
-    //   if (mode === 'edit') {
-    //     await updateFolderMutation.mutateAsync({ folderId, data: formattedFields }); // Utiliser la mutation pour mettre à jour
-    //     console.log('Dossier mis à jour avec succès');
-    //     console.log('Modification d\'un dossier');
-    //   } else {
-    //     await addFolderMutation.mutateAsync(formattedFields);
-    //   }
-    //   onSuccess()
-    //   // console.log(onSuccess);
-    //   handleClose();
-
-    // } catch (error) {
-    //   console.error('Erreur lors de l\'envoi du formulaire:', error);
-    //   setError('Une erreur est survenue lors de l\'ajout/modification du dossier.');
-    // }
-
 
 
     try {
@@ -168,24 +144,24 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
             setError(response.message || "Une erreur est survenue");
           }
         } else {
-          enqueueSnackbar('Le dossier a été ajouté avec succès', { variant: 'success' });
-          // enqueueSnackbar('Le dossier a été ajouté avec succès', {
-          //   variant: 'success',
-          //   anchorOrigin: {
-          //     vertical: 'bottom',
-          //     horizontal: 'center',
-          //   },
-          //   autoHideDuration: 5000,
-          //   action: (
-          //     <IconButton size="small" onClick={() => {}}>
-          //       <CloseIcon fontSize="small" />
-          //     </IconButton>
-          //   ),
-          //   style: {
-          //     backgroundColor: '#4caf50',
-          //     color: '#ffffff',
-          //   },
-          // });
+          // enqueueSnackbar('Le dossier a été ajouté avec succès', { variant: 'success' });
+          enqueueSnackbar('Le dossier a été ajouté avec succès', {
+            variant: 'success',
+            anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'center',
+            },
+            autoHideDuration: 5000,
+            action: (
+              <IconButton size="small" onClick={() => { }}>
+                <AiOutlineClose fontSize="small" />  {/* Utilisation de AiOutlineClose ici */}
+              </IconButton>
+            ),
+            style: {
+              backgroundColor: '#4caf50',
+              color: '#ffffff',
+            },
+          });
           onSuccess(); // Appeler la fonction de succès pour fermer la modal ou rafraîchir la page
           handleClose();
         }
@@ -203,8 +179,6 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
       // Gérer toute autre erreur
       setError("Erreur de serveur: " + err.message);
     }
-
-
   };
 
   return (
@@ -241,8 +215,6 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                   </Typography>
                 )}
                 <Grid container spacing={2}>
-
-
                   <Grid item xs={12} sm={12} mt={1}>
                     <TextField
                       name="numero_bordereaux"
@@ -252,11 +224,6 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                       value={fields.numero_bordereaux}
                       onChange={handleChange}
                       type="number"
-                      // error={!!fieldErrors.numero_bordereaux}
-                      // helperText={fieldErrors.numero_bordereaux ? 'Ce champ est requis' : ''}
-                      // InputProps={{
-                      //   style: fieldErrors.numero_bordereaux ? { borderColor: 'red' } : {},
-                      // }}
 
                       error={!!fieldErrors.numero_bordereaux || !!error}
                       helperText={fieldErrors.numero_bordereaux ? 'Ce champ est requis' : error ? 'Le numéro de bordereaux existe déjà' : ''}
@@ -265,9 +232,6 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                       }}
                     />
                   </Grid>
-
-
-
                   <Grid item xs={12} sm={12} mt={1}>
                     <TextField
                       type="date"
@@ -359,9 +323,6 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                 fullWidth
                 style={{ backgroundColor: 'grey', color: 'white' }}
               >Fermer</Button>
-              {/* <Button onClick={handleSubmit} variant="contained" color="primary">
-                Confirmer
-              </Button> */}
 
               <Button
                 onClick={handleSubmit}
@@ -401,7 +362,20 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
 
 
 
-                  {/* <Grid item xs={12} sm={12} mt={1}>
+
+
+
+
+
+
+
+
+
+
+
+
+
+{/* <Grid item xs={12} sm={12} mt={1}>
                     <Autocomplete
                       freeSolo
                       options={suggestions.map((option) => option.label)}
@@ -425,7 +399,7 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                   </Grid> */}
 
 
-                  {/* <Grid item xs={12} sm={12} mt={1}>
+{/* <Grid item xs={12} sm={12} mt={1}>
                     <Autocomplete
                       freeSolo
                       options={suggestions.map(option => option.label)} // Suggestions statiques
@@ -447,3 +421,149 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                       )}
                     />
                   </Grid> */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// try {
+//   if (mode === 'edit') {
+//     await updateFolderMutation.mutateAsync({ folderId, data: formattedFields }); // Utiliser la mutation pour mettre à jour
+//     console.log('Dossier mis à jour avec succès');
+//     console.log('Modification d\'un dossier');
+//   } else {
+//     await addFolderMutation.mutateAsync(formattedFields);
+//   }
+//   onSuccess()
+//   // console.log(onSuccess);
+//   handleClose();
+
+// } catch (error) {
+//   console.error('Erreur lors de l\'envoi du formulaire:', error);
+//   setError('Une erreur est survenue lors de l\'ajout/modification du dossier.');
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{/* <Button onClick={handleSubmit} variant="contained" color="primary">
+                Confirmer
+              </Button> */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// error={!!fieldErrors.numero_bordereaux}
+// helperText={fieldErrors.numero_bordereaux ? 'Ce champ est requis' : ''}
+// InputProps={{
+//   style: fieldErrors.numero_bordereaux ? { borderColor: 'red' } : {},
+// }}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// if (!fields.numero_bordereaux || !fields.date_depart || !fields.expiditeur) {
+//   setError('Veuillez remplir tous les champs requis.');
+//   return;
+// }
+
+// // Vous pouvez formater à nouveau la date ici si nécessaire
+// const formattedFields = {
+//   ...fields,
+//   date_depart: new Date(fields.date_depart).toISOString(), // Par exemple, si le backend attend un format ISO
+// };
+

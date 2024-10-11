@@ -1,0 +1,205 @@
+Oui, il est tout à fait possible d'utiliser Socket.IO pour actualiser dynamiquement les données affichées dans votre tableau. Voici comment vous pouvez implémenter cela :
+
+### 1. Installation de Socket.IO
+
+Tout d'abord, installez Socket.IO dans votre projet :
+
+```bash
+npm install socket.io-client
+```
+
+### 2. Modification du composant Journal
+
+Modifiez votre composant `Journal` pour inclure la logique Socket.IO :
+
+```jsx
+import React, { useEffect, useState } from 'react';
+import "./journal.scss";
+import Table from '../../components/table/Table';
+import { MdDelete, MdVisibility } from 'react-icons/md';
+import { useGetJournals } from '../../services/serviceJournal';
+import JournalDialogs from '../../components/MUI_read/readJournal';
+import AlertJournalDialogSlide from '../../components/MUI_alert/deleteJournal';
+import io from 'socket.io-client';
+
+const socket = io('http://127.0.0.1:9876'); // Remplacez par l'URL de votre serveur Socket.IO
+
+const getUserImageSrc = (image) => {
+  let imageUrl;
+
+  if (image.startsWith('/uploads_default/')) {
+    imageUrl = `http://127.0.0.1:9876/uploads/${image}`;
+  } else if (image.startsWith('/')) {
+    imageUrl = `http://127.0.0.1:9876${image}`;
+  } else {
+    imageUrl = `http://127.0.0.1:9876/uploads_default/${image}`;
+  }
+
+  console.log('Generated Image URL:', imageUrl); // Affiche l'URL générée dans la console
+  return imageUrl;
+};
+
+const Journal = () => {
+  const { data: journals, refetch, isLoading, isError } = useGetJournals();
+  const [alertOpenRead, setAlertOpenRead] = useState(false);
+  const [readFolderId, setReadFolderId] = useState(null);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [deleteJournalId, setDeleteJournalId] = useState(null);
+  const customerTableHead = [
+    'Nom d’utilisateur',
+    'Email',
+    'Action',
+    'Détails',
+    'Date',
+    'Actions', // Colonne pour les actions (modifier, supprimer, lire)
+  ];
+
+  const deleteJournalMutation = useDeleteJournal();
+
+  useEffect(() => {
+    if (refetch) refetch(); // Assure-toi que refetch est bien défini
+  }, [refetch]);
+
+  useEffect(() => {
+    const handleNewJournal = (newJournal) => {
+      // Met à jour le tableau avec les nouvelles données
+      const updatedJournals = [...journals.data, newJournal];
+      // Met à jour l'état local avec les nouvelles données
+      setJournals({ ...journals, data: updatedJournals });
+    };
+
+    socket.on('new_journal', handleNewJournal);
+
+    return () => {
+      socket.off('new_journal');
+    };
+  }, [journals]);
+
+  // ... reste du code inchangé ...
+
+  return (
+    <div>
+      {/* ... autres éléments ... */}
+      <Table
+        limit='10'
+        headData={customerTableHead}
+        renderHead={(item, index) => renderHead(item, index)}
+        bodyData={journals ? journals.data : []}
+        renderBody={(item, index) => renderBody(item, index)}
+      />
+      {/* ... autres éléments ... */}
+    </div>
+  );
+};
+
+export default Journal;
+```
+
+### 3. Modification du serviceJournal.js
+
+Modifiez votre hook `useGetJournals` pour inclure la logique Socket.IO :
+
+```javascript
+import { useQuery, useQueryClient } from 'react-query';
+import io from 'socket.io-client';
+
+const socket = io('http://127.0.0.1:9876');
+
+export const useGetJournals = () => {
+  const queryClient = useQueryClient();
+
+  return useQuery({
+    queryKey: ['journal'],
+    queryFn: async () => {
+      const token = localStorage.getItem('token');
+      console.log('Token:', token);
+      
+      const response = await fetch(`${API_URL}/get_journals`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        console.error('Erreur lors du chargement des journaux:', response.status, response.statusText);
+        throw new Error('Erreur lors du chargement des journaux');
+      }
+
+      const data = await response.json();
+      return data;
+    },
+    onSuccess: (data) => {
+      // Envoi des données au client WebSocket
+      socket.emit('new_journals', data.journals);
+    }
+  });
+};
+```
+
+### 4. Modification du composant AlertJournalDialogSlide
+
+Dans votre composant `AlertJournalDialogSlide`, ajoutez une fonction pour envoyer un événement WebSocket après la suppression réussie :
+
+```jsx
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+import { useDeleteJournal } from '../../services/serviceJournal';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
+
+export default function AlertJournalDialogSlide({ open, setOpen, id, onSuccess }) {
+    const deleteJournalMutation = useDeleteJournal();
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleConfirmDelete = async () => {
+        console.log(id);
+
+        try {
+            await deleteJournalMutation.mutateAsync({id});
+            console.log("Supprimer le dossier avec ID:", id);
+            setOpen(false);
+            onSuccess();
+            // Envoi d'un événement WebSocket pour informer les clients connectés
+            socket.emit('journal_deleted', { id });
+        } catch (error) {
+            console.error('Erreur lors de l\'envoi du formulaire:', error);
+        }
+    };
+
+    return (
+        <Dialog
+            open={open}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={handleClose}
+            aria-describedby="alert-dialog-slide-description"
+        >
+            {/* ... reste du code inchangé ... */}
+        </Dialog>
+    );
+}
+```
+
+Ces modifications permettront une mise à jour en temps réel des données affichées dans votre tableau. Lorsqu'un nouveau journal est ajouté ou supprimé, Socket.IO enverra un événement au client, qui mettra à jour dynamiquement les données affichées dans la table.
+
+Citations:
+[1] https://github.com/tannerlinsley/react-query/issues/1535
+[2] https://tkdodo.eu/blog/using-web-sockets-with-react-query
+[3] https://tanstack.com/query/v5/docs/framework/react/overview
+[4] https://www.reddit.com/r/reactjs/comments/14ayhhi/is_react_query_really_necessary/
+[5] https://stackoverflow.com/questions/67040687/react-query-doesnt-seem-to-be-caching
+[6] https://www.reddit.com/r/reactjs/comments/14pyb7l/how_do_i_update_data_only_if_new_data_has_been/?tl=fr
+[7] https://www.youtube.com/watch?v=NOvx4LB6Hfk
+[8] https://tanstack.com/query/v4/docs/framework/react/reference/useQuery

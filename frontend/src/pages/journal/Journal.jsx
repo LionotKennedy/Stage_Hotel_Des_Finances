@@ -414,6 +414,50 @@
 
 
 
+  // useEffect(() => {
+  //   // if (journals && journals.data) {
+  //   //   console.log('Journal data:', journals.data); // S'assurer que les journaux sont bien récupérés
+  //   //   // console.log('Journal data image:', journals.imageJournale); // S'assurer que les journaux sont bien récupérés
+  //   // }
+  //   journals?.data?.forEach((journals) => console.log('Folder data:', journals));
+  // }, [journals]);
+
+  // Définir les colonnes du tableau
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   // Gérer l'état de chargement et d'erreur
+  
+  // useEffect(() => {
+  //   if (deleteJournalId) {
+  //     deleteJournalMutation.mutate({ id: deleteJournalId });
+  //     setDeleteJournalId(null);
+  //   }
+  // }, [deleteJournalMutation, deleteJournalId]);
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -431,6 +475,7 @@ import { MdDelete, MdVisibility } from 'react-icons/md';
 import { useGetJournals } from '../../services/serviceJournal';
 import JournalDialogs from '../../components/MUI_read/readJournal';
 import AlertJournalDialogSlide from '../../components/MUI_alert/deleteJournal'; // Importer l'alert modal
+import { useDeleteJournal } from '../../services/serviceJournal';
 
 
 
@@ -457,16 +502,6 @@ const Journal = () => {
   const [readFolderId, setReadFolderId] = useState(null);
   const [alertOpen, setAlertOpen] = useState(false); // État pour l'alert modal
   const [deleteJournalId, setDeleteJournalId] = useState(null); // ID pour suppression
-
-  // useEffect(() => {
-  //   // if (journals && journals.data) {
-  //   //   console.log('Journal data:', journals.data); // S'assurer que les journaux sont bien récupérés
-  //   //   // console.log('Journal data image:', journals.imageJournale); // S'assurer que les journaux sont bien récupérés
-  //   // }
-  //   journals?.data?.forEach((journals) => console.log('Folder data:', journals));
-  // }, [journals]);
-
-  // Définir les colonnes du tableau
   const customerTableHead = [
     'Nom d’utilisateur',
     'Email',
@@ -475,6 +510,8 @@ const Journal = () => {
     'Date',
     'Actions', // Colonne pour les actions (modifier, supprimer, lire)
   ];
+
+  const deleteJournalMutation = useDeleteJournal();
 
   // Fonction pour rendre l'en-tête
   const renderHead = (item, index) => <th key={index}>{item}</th>;
@@ -521,7 +558,8 @@ const Journal = () => {
     if (refetch) refetch(); // Assure-toi que refetch est bien défini
   }, [refetch]);  // Vérifie aussi si c'est nécessaire, ou si tu peux déplacer ça dans `TableArchive`.
 
-  // Gérer l'état de chargement et d'erreur
+ 
+
   if (isLoading) {
     return <div>Chargement des journaux...</div>;
   }
@@ -555,7 +593,8 @@ const Journal = () => {
         </div>
       </div>
       <JournalDialogs open={alertOpenRead} setOpen={setAlertOpenRead} id={readFolderId} />
-      <AlertJournalDialogSlide open={alertOpen} setOpen={setAlertOpen} id={deleteJournalId} onSuccess={refetch} />
+      {/* <AlertJournalDialogSlide open={alertOpen} setOpen={setAlertOpen} id={deleteJournalId} onSuccess={() => window.location.reload()} /> */}
+      <AlertJournalDialogSlide open={alertOpen} setOpen={setAlertOpen} id={deleteJournalId} onSuccess={() => refetch()} />
     </div>
   );
 };

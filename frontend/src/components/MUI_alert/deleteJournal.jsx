@@ -8,6 +8,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { useDeleteJournal } from '../../services/serviceJournal';
+import { useGetJournals } from '../../services/serviceJournal';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -16,6 +17,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function AlertJournalDialogSlide({ open, setOpen, id, onSuccess }) {
 
     const deleteJournalMutation = useDeleteJournal();
+    const { data: journals, refetch, isLoading } = useGetJournals();
 
     const handleClose = () => {
         setOpen(false);
@@ -28,6 +30,7 @@ export default function AlertJournalDialogSlide({ open, setOpen, id, onSuccess }
         try {
             await deleteJournalMutation.mutateAsync({id});
             console.log("Supprimer le dossier avec ID:", id);
+            refetch();
             setOpen(false);
             onSuccess();
         } catch (error) {

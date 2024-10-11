@@ -1,8 +1,11 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
+import { useGetJournals } from '../../services/serviceJournal';
 
 import './table.scss'
 
 const Table = props => {
+
+    const { data: journals, refetch, isLoading } = useGetJournals();
 
     const initDataShow = props.limit && props.bodyData ? props.bodyData.slice(0, Number(props.limit)) : props.bodyData
 
@@ -29,6 +32,11 @@ const Table = props => {
         setCurrPage(page)
     }
 
+    useEffect(() => {
+        if (refetch) refetch(); // Assure-toi que refetch est bien défini
+      }, [refetch]);  // Vérifie aussi si c'est nécessaire, ou si tu peux déplacer ça dans `TableArchive`.
+
+      
     return (
         <div>
             <div className="table-wrapper">
