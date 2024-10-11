@@ -663,9 +663,9 @@ const Home = () => {
 
   const statusCards = [
     { title: "Total archive", field: "archiveCount" },
-    { title: "Daily visits", field: "visaCount" },
+    { title: "Total visa", field: "visaCount" },
     { title: "Total utilisateur", field: "userCount" },
-    { title: "Total orders", field: "folderCount" }
+    { title: "Total courrier", field: "folderCount" }
   ];
 
   useEffect(() => {
@@ -833,11 +833,11 @@ const Home = () => {
                 bodyData={topCustomers.body}
                 renderBody={(item, index) => renderCusomerBody(item, index)}
               /> */}
+            <CurrentTime />
             </div>
-            {/* <CurrentTime /> */}
             <div className="card__footer">
-            </div>
             <Link to='/home'>view all</Link>
+            </div>
           </div>
         </div>
         <div className="col-8">
@@ -866,11 +866,11 @@ const Home = () => {
     switch (title) {
       case "Total archive":
         return "bx bx-shopping-bag";
-      case "Daily visits":
+      case "Total visa":
         return "bx bx-cart";
       case "Total utilisateur":
         return "bx bx-dollar-circle";
-      case "Total orders":
+      case "Total courrier":
         return "bx bx-receipt";
       default:
         return "";

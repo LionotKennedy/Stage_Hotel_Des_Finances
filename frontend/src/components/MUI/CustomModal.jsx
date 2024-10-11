@@ -1,8 +1,9 @@
 
 import React, { useState, useEffect } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Slide, TextField, Grid } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Slide, TextField, Grid, Typography } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAddFolder, useGetFolderById, useUpdateFolder } from '../../services/serviceFolder';
+// import { CheckCircle, Clear } from "@mui/icons-material"
 
 const modalVariants = {
   hidden: { opacity: 0, scale: 0.1 },
@@ -109,12 +110,16 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
             transition={{ duration: 0.5 }}
           >
             {/* <DialogTitle>Formulaire Ajout Dossier</DialogTitle> */}
-            <DialogTitle>{mode === 'add' ? 'Formulaire Ajout Dossier' : 'Modifier Dossier'}</DialogTitle>
+            <DialogTitle>
+              <Typography variant="h5" color="primary.main" className="colorTitle" >
+                {mode === 'add' ? 'Formulaire Ajout Dossier' : 'Modifier Dossier'}
+              </Typography>
+            </DialogTitle>
             <DialogContent>
               <form>
                 {error && <div style={{ color: 'red' }}>{error}</div>}
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={12} mt={1}>
                     <TextField
                       name="numero_bordereaux"
                       label="Numéro Bordereaux"
@@ -122,9 +127,10 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                       fullWidth
                       value={fields.numero_bordereaux}
                       onChange={handleChange}
+                      type="number"
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={12} mt={1}>
                     <TextField
                       type="date"
                       name="date_depart"
@@ -133,9 +139,10 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                       fullWidth
                       value={fields.date_depart}
                       onChange={handleChange}
+                    // style={{ border: '2px solid purple' }}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={12} mt={1}>
                     <TextField
                       name="expiditeur"
                       label="Expediteur"
@@ -145,7 +152,7 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                       onChange={handleChange}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={12} mt={1}>
                     <TextField
                       name="destination"
                       label="Destination"
@@ -155,7 +162,7 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                       onChange={handleChange}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={12} mt={1}>
                     <TextField
                       name="description"
                       label="Description"
@@ -165,7 +172,7 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                       onChange={handleChange}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={12} mt={1}>
                     <TextField
                       name="nom_depose"
                       label="Nom Déposé"
@@ -175,7 +182,7 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                       onChange={handleChange}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={12} mt={1}>
                     <TextField
                       name="prenom_depose"
                       label="Prénom Déposé"
@@ -185,7 +192,7 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                       onChange={handleChange}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={12} mt={1}>
                     <TextField
                       name="matricule"
                       label="Matricule"
@@ -199,12 +206,24 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
               </form>
             </DialogContent>
             <DialogActions>
-              <Button onClick={handleClose}>Fermer</Button>
+              <Button
+                onClick={handleClose}
+                size="medium"
+                fullWidth
+                style={{ backgroundColor: 'grey', color: 'white' }}
+              >Fermer</Button>
               {/* <Button onClick={handleSubmit} variant="contained" color="primary">
                 Confirmer
               </Button> */}
 
-              <Button onClick={handleSubmit} variant="contained" color="primary">
+              <Button
+                onClick={handleSubmit}
+                variant="contained"
+                color="primary"
+                // style={{ backgroundColor: 'purple' }}
+                size="medium"
+                fullWidth
+              >
                 {mode === 'add' ? 'Confirmer' : 'Modifier'}
               </Button>
             </DialogActions>
