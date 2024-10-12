@@ -270,6 +270,19 @@ const TableArchive = ({ archives, refetch, year }) => {
     }, [searchType, searchValue]);
 
 
+        // Count total items
+        const totalItems = archives.length;
+
+
+    const displayTotalItems = () => {
+        if (totalItems > 0) {
+            return (
+                <p>Total des items : {totalItems}</p>
+            );
+        }
+        return null;
+    };
+
 
     return (
         <div className='container__table'>
@@ -395,6 +408,7 @@ const TableArchive = ({ archives, refetch, year }) => {
                         Next &#8250;
                     </button>
                 </div>
+                {displayTotalItems()}
                 <AnimatePresence>
                     {modalOpen && (
                         <ArchiveModal

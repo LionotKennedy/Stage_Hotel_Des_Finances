@@ -280,6 +280,18 @@ const TableResponsive = () => {
     const startDateRef = useRef(null);
     const endDateRef = useRef(null);
 
+    const totalItems = folders && Array.isArray(folders.data) ? folders.data.length : 0;
+
+    const displayTotalItems = () => {
+        if (totalItems > 0) {
+          return (
+            <p>Total des items : {totalItems}</p>
+          );
+        }
+        return null;
+      };
+      
+
 
     return (
         <div className='container__table'>
@@ -380,6 +392,7 @@ const TableResponsive = () => {
                         containerClassName={'pagination'}
                         activeClassName={'active'}
                     />
+                    {displayTotalItems()}
                 <AnimatePresence>
                     {modalOpen && (
                         <CustomModal

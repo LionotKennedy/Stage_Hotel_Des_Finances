@@ -51,6 +51,18 @@ const User = () => {
     return <p>Erreur lors du chargement des utilisateurs.</p>;
   }
 
+    // Count total items
+    const totalItems = users?.data ? users.data.length : 0;
+
+    const displayTotalItems = () => {
+      if (totalItems > 0) {
+        return (
+          <p>Total des items : {totalItems}</p>
+        );
+      }
+      return null;
+    };
+
   return (
     <div className='container__archive'>
       <div className='content__users'>
@@ -78,6 +90,7 @@ const User = () => {
             containerClassName={'pagination'}
             activeClassName={'active'}
           />
+          {displayTotalItems()}
         </>
       ) : (
         <p>Aucun utilisateur trouvé.</p>

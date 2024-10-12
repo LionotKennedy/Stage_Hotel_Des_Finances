@@ -414,17 +414,15 @@
 
 
 
-  // useEffect(() => {
-  //   // if (journals && journals.data) {
-  //   //   console.log('Journal data:', journals.data); // S'assurer que les journaux sont bien récupérés
-  //   //   // console.log('Journal data image:', journals.imageJournale); // S'assurer que les journaux sont bien récupérés
-  //   // }
-  //   journals?.data?.forEach((journals) => console.log('Folder data:', journals));
-  // }, [journals]);
+// useEffect(() => {
+//   // if (journals && journals.data) {
+//   //   console.log('Journal data:', journals.data); // S'assurer que les journaux sont bien récupérés
+//   //   // console.log('Journal data image:', journals.imageJournale); // S'assurer que les journaux sont bien récupérés
+//   // }
+//   journals?.data?.forEach((journals) => console.log('Folder data:', journals));
+// }, [journals]);
 
-  // Définir les colonnes du tableau
-
-
+// Définir les colonnes du tableau
 
 
 
@@ -440,14 +438,16 @@
 
 
 
-   // Gérer l'état de chargement et d'erreur
-  
-  // useEffect(() => {
-  //   if (deleteJournalId) {
-  //     deleteJournalMutation.mutate({ id: deleteJournalId });
-  //     setDeleteJournalId(null);
-  //   }
-  // }, [deleteJournalMutation, deleteJournalId]);
+
+
+// Gérer l'état de chargement et d'erreur
+
+// useEffect(() => {
+//   if (deleteJournalId) {
+//     deleteJournalMutation.mutate({ id: deleteJournalId });
+//     setDeleteJournalId(null);
+//   }
+// }, [deleteJournalMutation, deleteJournalId]);
 
 
 
@@ -558,7 +558,7 @@ const Journal = () => {
     if (refetch) refetch(); // Assure-toi que refetch est bien défini
   }, [refetch]);  // Vérifie aussi si c'est nécessaire, ou si tu peux déplacer ça dans `TableArchive`.
 
- 
+
 
   if (isLoading) {
     return <div>Chargement des journaux...</div>;
@@ -567,6 +567,18 @@ const Journal = () => {
   if (isError) {
     return <div>Erreur lors du chargement des journaux.</div>;
   }
+
+  // Count total items
+  const totalItems = journals.data ? journals.data.length : 0;
+
+  const displayTotalItems = () => {
+    if (totalItems > 0) {
+      return (
+        <p>Total des items : {totalItems}</p>
+      );
+    }
+    return null;
+  };
 
   return (
     <div>
@@ -590,6 +602,7 @@ const Journal = () => {
               />
             </div>
           </div>
+          {displayTotalItems()}
         </div>
       </div>
       <JournalDialogs open={alertOpenRead} setOpen={setAlertOpenRead} id={readFolderId} />

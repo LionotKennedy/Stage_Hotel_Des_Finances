@@ -855,24 +855,47 @@ const Home = () => {
       </div>
     </div>
   )
+  // function getIcon(title) {
+  //   switch (title) {
+  //     case "Total archive":
+  //       return "bx bx-shopping-bag";
+  //     case "Total visa":
+  //       return "bx bx-cart";
+  //     case "Total utilisateur":
+  //       return "bx bx-dollar-circle";
+  //     case "Total courrier":
+  //       return "bx bx-receipt";
+  //     default:
+  //       return "";
+  //   }
+  // }
+  
+  // function getItemValue(field) {
+  //   return statusCardsData[field];
+  // }
+
   function getIcon(title) {
-    switch (title) {
-      case "Total archive":
-        return "bx bx-shopping-bag";
-      case "Total visa":
-        return "bx bx-cart";
-      case "Total utilisateur":
-        return "bx bx-dollar-circle";
-      case "Total courrier":
-        return "bx bx-receipt";
-      default:
-        return "";
+    const icons = {
+      "Total archive": "bx bx-shopping-bag",
+      "Total visa": "bx bx-cart",
+      "Total utilisateur": "bx bx-user",
+      "Total courrier": "bx bx-receipt"
+    };
+  
+    if (!icons[title]) {
+      console.warn(`Aucune icône trouvée pour le titre "${title}"`);
+      return "";
     }
+  
+    return icons[title];
   }
+
   
   function getItemValue(field) {
-    return statusCardsData[field];
+    const value = statusCardsData[field];
+    return value < 10 ? `0${value}` : value;
   }
+  
 }
 
 

@@ -189,6 +189,21 @@ const TableVisa = () => {
         }
     };
 
+
+        // Count total items
+        const totalItems = folders && Array.isArray(folders.data) ? folders.data.length : 0;
+
+        const displayTotalItems = () => {
+            if (totalItems > 0) {
+                return (
+                    <p>Total des items : {totalItems}</p>
+                );
+            }
+            return null;
+        };
+
+        
+
     // Display data according to the current page
     const displayData = () => {
         if (!folders || !folders.data) return null;
@@ -210,8 +225,6 @@ const TableVisa = () => {
             </tr>
         ));
     };
-
-
 
     return (
         <div className='container__table'>
@@ -292,6 +305,8 @@ const TableVisa = () => {
                     containerClassName={'pagination'}
                     activeClassName={'active'}
                 />
+                {/* Affichage du nombre total d'items */}
+                {displayTotalItems()}
                 <AnimatePresence>
                     {modalOpen && (
                         <VisaModal
