@@ -5,6 +5,11 @@ import { useGetUser } from '../../services/serviceUser';
 import { MdAdd } from 'react-icons/md';
 import UserScreenDialog from '../../components/MUI/UserModal';
 import ReactPaginate from 'react-paginate';
+import Calendars from '../../components/calendars/Calendars';
+import CalendarComponent from '../../components/calendars/CalendarComponent';
+import Clock from '../../components/hours/Clock';
+import CurrentTime from '../../components/Timer/CurrentTime';
+import AnalogClock from '../../components/Timer/AnalogClock';
 
 const User = () => {
   const [modalOpen, setModalOpen] = useState(false); // État pour gérer l'ouverture/fermeture de la modale
@@ -78,6 +83,13 @@ const User = () => {
         <p>Aucun utilisateur trouvé.</p>
       )}
       <UserScreenDialog open={modalOpen} handleClose={handleCloseDialog} onSuccess={refetch} />
+      {/* <Calendars /> */}
+      {/* <CalendarComponent /> */}
+      <div>
+        <CurrentTime />
+        <AnalogClock />
+      </div>
+      <Clock />
     </div>
   );
 };
@@ -207,9 +219,9 @@ export default User;
 
 
 
-{/* <DateRangeCalendarComponent /> */}
-{/* <MuiCalendarComponent /> */}
-{/* <CalendarComponent /> */}
-{/* <BasicDateCalendar /> */}
-{/* <CurrentTime /> */}
-{/* <StyledTimeClock /> */}
+{/* <DateRangeCalendarComponent /> */ }
+{/* <MuiCalendarComponent /> */ }
+{/* <CalendarComponent /> */ }
+{/* <BasicDateCalendar /> */ }
+{/* <CurrentTime /> */ }
+{/* <StyledTimeClock /> */ }

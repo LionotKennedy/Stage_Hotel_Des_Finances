@@ -1,0 +1,83 @@
+.clock-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    border: 2px solid #333;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .clock-face {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-image: radial-gradient(circle at center, #fff, transparent);
+    animation: spin 3600s linear infinite;
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  .hour-hand {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2px;
+    height: 60%;
+    background-color: #333;
+    transform-origin: bottom center;
+  }
+  
+  .minute-hand {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1px;
+    height: 80%;
+    background-color: #999;
+    transform-origin: bottom center;
+  }
+  
+  .second-hand {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1px;
+    height: 90%;
+    background-color: #f00;
+    transform-origin: bottom center;
+    animation: second-spin 60s linear infinite;
+  }
+  
+  @keyframes second-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  .clock-info {
+    text-align: center;
+    margin-top: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+  
+  @media (max-width: 600px) {
+    .clock-container {
+      width: 200px;
+      height: 200px;
+    }
+  
+    .hour-hand,
+    .minute-hand,
+    .second-hand {
+      height: 40% !important;
+    }
+  }
+  

@@ -484,8 +484,10 @@ import { useGetVisa } from '../../services/serviceVisa';
 import { useGetUser } from '../../services/serviceUser';
 
 import statusCards from '../../Data/status-card-data.json'
-import CalendarComponent from '../../components/calendar/Calendar'
+// import CalendarComponent from '../../components/calendar/Calendar'
+import CalendarComponent from '../../components/calendars/CalendarComponent'
 import CurrentTime from '../../components/Timer/CurrentTime';
+import Calendars from '../../components/calendars/Calendars';
 
 
 
@@ -773,7 +775,7 @@ const Home = () => {
     }
   }, [folderData, isLoadingFolder, isErrorFolder]);
 
-
+  
   return (
     <div>
       <h2 className="page-header">Dashboard</h2>
@@ -783,14 +785,14 @@ const Home = () => {
             {/* {
               statusCards.map((item, index) => (
                 <div className="col-6" key={index}>
-                  <StatusCard
-                    icon={item.icon}
-                    count={item.count}
-                    title={item.title}
-                  />
+                <StatusCard
+                icon={item.icon}
+                count={item.count}
+                title={item.title}
+                />
                 </div>
               ))
-            } */}
+              } */}
             {
               statusCards.map((item, index) => (
                 <div className="col-6" key={index}>
@@ -808,17 +810,18 @@ const Home = () => {
           <div className="card full-height">
             {/* chart */}
             <Chart
-              options={themeReducer === 'theme-mode-dark' ? {
-                ...chartOptions.options,
-                theme: { mode: 'dark' }
-              } : {
-                ...chartOptions.options,
-                theme: { mode: 'light' }
-              }}
-              series={chartOptions.series}
-              type='line'
-              height='100%'
-            />
+            options={themeReducer === 'theme-mode-dark' ? {
+              ...chartOptions.options,
+              theme: { mode: 'dark' }
+            } : {
+              ...chartOptions.options,
+              theme: { mode: 'light' }
+            }}
+            series={chartOptions.series}
+            type='line'
+            height='100%'
+          />
+            
           </div>
         </div>
         <div className="col-4">
@@ -827,13 +830,8 @@ const Home = () => {
               <h3>top customers</h3>
             </div>
             <div className="card__body">
-              {/* <Table
-                headData={topCustomers.head}
-                renderHead={(item, index) => renderCusomerHead(item, index)}
-                bodyData={topCustomers.body}
-                renderBody={(item, index) => renderCusomerBody(item, index)}
-              /> */}
             <CurrentTime />
+          {/* <Calendars /> */}
             </div>
             <div className="card__footer">
             <Link to='/home'>view all</Link>
@@ -844,14 +842,9 @@ const Home = () => {
           <div className="card">
             {/* <div className="card__header">
               <h3>latest orders</h3>
-            </div> */}
+              </div> */}
+              {/* <CalendarComponent /> */}
             <div className="card__body">
-              {/* <Table
-                headData={latestOrders.header}
-                renderHead={(item, index) => renderOrderHead(item, index)}
-                bodyData={latestOrders.body}
-                renderBody={(item, index) => renderOrderBody(item, index)}
-              /> */}
               <CalendarComponent />
             </div>
             {/* <div className="card__footer">

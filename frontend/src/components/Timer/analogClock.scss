@@ -1,0 +1,163 @@
+
+.container_clock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // min-height: 100vh; /* Optionnel, à décommenter si nécessaire */
+    // background-color: #212121;
+    // transform: rotate(90deg); /* Peut être ajusté ou supprimé */
+}
+
+.container_hours {
+    position: relative;
+}
+
+.clock {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: rotate(360deg); /* Ajout d'une rotation pour repositionner le "12h" */
+}
+
+.clock span {
+    position: absolute;
+    transform: rotate(calc(30deg * var(--i)));
+    inset: 12px;
+    text-align: center;
+}
+
+.clock span b {
+    display: inline-block;
+    font-size: 20px;
+    color: #ffffff; /* Pour rendre le texte des heures visible */
+}
+
+.clock::before {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #fff;
+    z-index: 2;
+}
+
+.hand {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.hand i {
+    position: absolute;
+    background-color: var(--clr);
+    width: 4px;
+    height: var(--h);
+    border-radius: 8px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// .container_clock {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     background-color: #212121;
+//     width: 100%; /* Ajouté pour occuper toute la largeur disponible */
+// }
+
+// .container_hours {
+//     position: relative;
+//     width: 100%;
+//     max-width: 400px; /* Limite maximale de la largeur pour l'horloge */
+//     height: auto; /* Permet d'adapter la hauteur */
+// }
+
+// .clock {
+//     width: 100%; /* Prend la largeur du conteneur */
+//     height: 100%;
+//     aspect-ratio: 1; /* Assure que l'horloge est toujours un cercle */
+//     border-radius: 50%;
+//     background-color: rgba(255, 255, 255, 0.1);
+//     border: 2px solid rgba(255, 255, 255, 0.25);
+//     box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.9);
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+// }
+
+// .clock span {
+//     position: absolute;
+//     transform: rotate(calc(30deg * var(--i)));
+//     inset: 12px;
+//     text-align: center;
+// }
+
+// .clock span b {
+//     display: inline-block;
+//     font-size: 20px;
+//     color: #ffffff; /* Pour rendre le texte des heures visible */
+// }
+
+// .clock::before {
+//     content: '';
+//     position: absolute;
+//     width: 8px;
+//     height: 8px;
+//     border-radius: 50%;
+//     background-color: #fff;
+//     z-index: 2;
+// }
+
+// .hand {
+//     position: absolute;
+//     display: flex;
+//     justify-content: center;
+//     align-items: flex-end;
+// }
+
+// .hand i {
+//     position: absolute;
+//     background-color: var(--clr);
+//     width: 4px;
+//     height: var(--h);
+//     border-radius: 8px;
+// }
+
+// /* Media Query pour petits écrans */
+// @media (max-width: 600px) {
+//     .clock {
+//         width: 200px; /* Réduit la taille de l'horloge pour les petits écrans */
+//         height: 200px; /* Réduit la taille de l'horloge pour les petits écrans */
+//     }
+// }
