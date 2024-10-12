@@ -35,11 +35,6 @@ export default function UserScreenDialog({ open, handleClose, onSuccess }) {
     };
 
     const handleSubmit = async () => {
-        // if (!fields.name || !fields.email) {
-        //     setError('Veuillez remplir tous les champs requis.');
-        //     return;
-        // }
-
 
         let hasError = false;
         let errors = {};
@@ -65,32 +60,34 @@ export default function UserScreenDialog({ open, handleClose, onSuccess }) {
             ...fields,
         };
 
+
         try {
-            await addUserMutation.mutateAsync(formattedFields);
-            console.log(formattedFields);
-            enqueueSnackbar('Le utilisateur a été ajouté avec succès.', {
-                variant: 'success',
-                anchorOrigin: {
-                    vertical: 'top',
-                    horizontal: 'center',
-                },
-                autoHideDuration: 5000,
-                action: (
-                    <IconButton size="small" onClick={() => { }}>
-                        <AiOutlineClose fontSize="small" />  {/* Utilisation de AiOutlineClose ici */}
-                    </IconButton>
-                ),
-                style: {
-                    backgroundColor: '#4caf50',
-                    color: '#ffffff',
-                },
-            });
-            onSuccess()
-            handleClose();
+            const response = await addUserMutation.mutateAsync(formattedFields);
+            if (response.success) {
+                enqueueSnackbar('Le utilisateur a été ajouté avec succès.', {
+                    variant: 'success',
+                    anchorOrigin: { vertical: 'top', horizontal: 'center' },
+                    autoHideDuration: 5000,
+                    action: (
+                        <IconButton size="small" onClick={() => { }}>
+                            <AiOutlineClose fontSize="small" />
+                        </IconButton>
+                    ),
+                    style: { backgroundColor: '#4caf50', color: '#ffffff' },
+                });
+                onSuccess();
+                handleClose();
+            } else {
+                // Si l'email existe déjà ou une autre erreur est survenue
+                enqueueSnackbar(`Erreur: ${response.message}`, { variant: 'warning' });
+            }
         } catch (error) {
-            console.error('Erreur lors de l\'envoi du formulaire:', error);
-            setError('Une erreur est survenue lors de l\'ajout/modification du dossier.');
-            enqueueSnackbar(`Erreur: ${error.message}`, { variant: 'error' });
+            if (error.message.includes("Failed to fetch")) {
+                // Erreur de connexion internet
+                enqueueSnackbar("Erreur : Pas de connexion Internet. Veuillez réessayer.", { variant: 'error' });
+            } else {
+                enqueueSnackbar(`Erreur: ${error.message}`, { variant: 'error' });
+            }
         }
     }
 
@@ -133,7 +130,6 @@ export default function UserScreenDialog({ open, handleClose, onSuccess }) {
                                         label="Nom du utilisateur"
                                         variant="standard"
                                         fullWidth
-                                        //   value={fields.numero_bordereaux}
                                         onChange={handleChange}
                                         error={!!fieldErrors.name}
                                         helperText={fieldErrors.name ? 'Ce champ est requis' : ''}
@@ -149,7 +145,6 @@ export default function UserScreenDialog({ open, handleClose, onSuccess }) {
                                         label="Adresse email"
                                         variant="standard"
                                         fullWidth
-                                        //   value={fields.date_depart}
                                         onChange={handleChange}
                                         error={!!fieldErrors.email}
                                         helperText={fieldErrors.email ? 'Ce champ est requis' : ''}
