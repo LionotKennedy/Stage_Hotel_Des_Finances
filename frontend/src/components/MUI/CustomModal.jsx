@@ -9,7 +9,7 @@ import { useGetLastFolderNumber } from '../../services/serviceFolder'; // Import
 import { useSnackbar } from 'notistack';
 import { AiOutlineClose } from 'react-icons/ai';
 import IconButton from '@mui/material/IconButton'; // Assure-toi d'importer IconButton
-
+import './style/custom.scss'
 
 
 // Suggestions (exemple)
@@ -111,6 +111,26 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
       errors.expiditeur = true;
       hasError = true;
     }
+    if (!fields.destination) {
+      errors.destination = true;
+      hasError = true;
+    }
+    if (!fields.description) {
+      errors.description = true;
+      hasError = true;
+    }
+    if (!fields.nom_depose) {
+      errors.nom_depose = true;
+      hasError = true;
+    }
+    if (!fields.prenom_depose) {
+      errors.prenom_depose = true;
+      hasError = true;
+    }
+    if (!fields.matricule) {
+      errors.matricule = true;
+      hasError = true;
+    }
 
     if (hasError) {
       setFieldErrors(errors); // Définir les erreurs dans l'état
@@ -172,7 +192,25 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
         if (!response.success) {
           setError(response.message || "Une erreur est survenue lors de la mise à jour");
         } else {
+          enqueueSnackbar('Le dossier a été modifié avec succès', {
+            variant: 'success',
+            anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'center',
+            },
+            autoHideDuration: 5000,
+            action: (
+              <IconButton size="small" onClick={() => { }}>
+                <AiOutlineClose fontSize="small" />  {/* Utilisation de AiOutlineClose ici */}
+              </IconButton>
+            ),
+            style: {
+              backgroundColor: '#4caf50',
+              color: '#ffffff',
+            },
+          });
           onSuccess();
+          handleClose();
         }
       }
     } catch (err) {
@@ -202,11 +240,13 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
           >
             {/* <DialogTitle>Formulaire Ajout Dossier</DialogTitle> */}
             <DialogTitle>
-              <Typography variant="h5" component="div" color="primary.main">
+              <Typography variant="p" component="div" color="primary.main">
                 {mode === 'add' ? 'Formulaire Ajout Dossier' : 'Modifier Dossier'}
               </Typography>
             </DialogTitle>
-            <DialogContent>
+            <DialogContent
+            // className='color-modal'
+            >
               <form>
                 {/* {error && <div style={{ color: 'red' }}>{error}</div>} */}
                 {error && (
@@ -215,7 +255,7 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                   </Typography>
                 )}
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12} mt={1}>
+                  <Grid item xs={12} sm={12}>
                     <TextField
                       name="numero_bordereaux"
                       label="Numéro Bordereaux"
@@ -224,7 +264,6 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                       value={fields.numero_bordereaux}
                       onChange={handleChange}
                       type="number"
-
                       error={!!fieldErrors.numero_bordereaux || !!error}
                       helperText={fieldErrors.numero_bordereaux ? 'Ce champ est requis' : error ? 'Le numéro de bordereaux existe déjà' : ''}
                       InputProps={{
@@ -232,7 +271,7 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                       }}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={12} mt={1}>
+                  <Grid item xs={12} sm={12}>
                     <TextField
                       type="date"
                       name="date_depart"
@@ -248,7 +287,7 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                       }}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={12} mt={1}>
+                  <Grid item xs={12} sm={12}>
                     <TextField
                       name="expiditeur"
                       label="Expediteur"
@@ -263,7 +302,7 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                       }}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={12} mt={1}>
+                  <Grid item xs={12} sm={12}>
                     <TextField
                       name="destination"
                       label="Destination"
@@ -271,9 +310,14 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                       fullWidth
                       value={fields.destination}
                       onChange={handleChange}
+                      error={!!fieldErrors.destination}
+                      helperText={fieldErrors.destination ? 'Ce champ est requis' : ''}
+                      InputProps={{
+                        style: fieldErrors.destination ? { borderColor: 'red' } : {},
+                      }}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={12} mt={1}>
+                  <Grid item xs={12} sm={12}>
                     <TextField
                       name="description"
                       label="Description"
@@ -281,9 +325,14 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                       fullWidth
                       value={fields.description}
                       onChange={handleChange}
+                      error={!!fieldErrors.description}
+                      helperText={fieldErrors.description ? 'Ce champ est requis' : ''}
+                      InputProps={{
+                        style: fieldErrors.description ? { borderColor: 'red' } : {},
+                      }}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={12} mt={1}>
+                  <Grid item xs={12} sm={12}>
                     <TextField
                       name="nom_depose"
                       label="Nom Déposé"
@@ -291,9 +340,14 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                       fullWidth
                       value={fields.nom_depose}
                       onChange={handleChange}
+                      error={!!fieldErrors.nom_depose}
+                      helperText={fieldErrors.nom_depose ? 'Ce champ est requis' : ''}
+                      InputProps={{
+                        style: fieldErrors.nom_depose ? { borderColor: 'red' } : {},
+                      }}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={12} mt={1}>
+                  <Grid item xs={12} sm={12}>
                     <TextField
                       name="prenom_depose"
                       label="Prénom Déposé"
@@ -301,9 +355,14 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                       fullWidth
                       value={fields.prenom_depose}
                       onChange={handleChange}
+                      error={!!fieldErrors.prenom_depose}
+                      helperText={fieldErrors.prenom_depose ? 'Ce champ est requis' : ''}
+                      InputProps={{
+                        style: fieldErrors.prenom_depose ? { borderColor: 'red' } : {},
+                      }}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={12} mt={1}>
+                  <Grid item xs={12} sm={12}>
                     <TextField
                       name="matricule"
                       label="Matricule"
@@ -311,6 +370,11 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                       fullWidth
                       value={fields.matricule}
                       onChange={handleChange}
+                      error={!!fieldErrors.matricule}
+                      helperText={fieldErrors.matricule ? 'Ce champ est requis' : ''}
+                      InputProps={{
+                        style: fieldErrors.matricule ? { borderColor: 'red' } : {},
+                      }}
                     />
                   </Grid>
                 </Grid>

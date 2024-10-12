@@ -1,9 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Slide, TextField, Grid } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Slide, TextField, Grid, Typography } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAddFolder, useGetFolderById, useUpdateFolder } from '../../services/serviceFolder';
 import { useAddArchive, useGetArchiveById, useUpdateArchive } from '../../services/serviceArchive';
+import { useSnackbar } from 'notistack';
+import { AiOutlineClose } from 'react-icons/ai';
+import IconButton from '@mui/material/IconButton'; // Assure-toi d'importer IconButton
 
 const modalVariants = {
   hidden: { opacity: 0, scale: 0.1 },
@@ -29,8 +32,10 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
 
   const [error, setError] = useState('');
   const addArchiveMutation = useAddArchive();
+  const [fieldErrors, setFieldErrors] = useState({}); // Gérer les erreurs spécifiques des champs
   const { data: folderData } = useGetArchiveById(folderId);
   const updateArchiveMutation = useUpdateArchive(); // Hook pour mettre à jour un dossier
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
 
@@ -60,8 +65,56 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
   };
 
   const handleSubmit = async () => {
-    if (!fields.numero_bordereaux || !fields.date_depart || !fields.expiditeur) {
+
+
+    // if (!fields.numero_bordereaux || !fields.date_depart || !fields.expiditeur) {
+    //   setError('Veuillez remplir tous les champs requis.');
+    //   return;
+    // }
+
+
+    let hasError = false;
+    let errors = {};
+
+    // Validation des champs requis
+    if (!fields.numero_bordereaux) {
+      errors.numero_bordereaux = true;
+      hasError = true;
+      // enqueueSnackbar(error, { variant: 'error' });
+    }
+    if (!fields.date_depart) {
+      errors.date_depart = true;
+      hasError = true;
+    }
+    if (!fields.expiditeur) {
+      errors.expiditeur = true;
+      hasError = true;
+    }
+    if (!fields.destination) {
+      errors.destination = true;
+      hasError = true;
+    }
+    if (!fields.description) {
+      errors.description = true;
+      hasError = true;
+    }
+    if (!fields.nom_depose) {
+      errors.nom_depose = true;
+      hasError = true;
+    }
+    if (!fields.prenom_depose) {
+      errors.prenom_depose = true;
+      hasError = true;
+    }
+    if (!fields.matricule) {
+      errors.matricule = true;
+      hasError = true;
+    }
+
+    if (hasError) {
+      setFieldErrors(errors); // Définir les erreurs dans l'état
       setError('Veuillez remplir tous les champs requis.');
+      enqueueSnackbar('Veuillez remplir tous les champs requis.', { variant: 'error' });
       return;
     }
 
@@ -76,8 +129,42 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
         await updateArchiveMutation.mutateAsync({ folderId, data: formattedFields }); // Utiliser la mutation pour mettre à jour
         console.log('Archive mis à jour avec succès');
         console.log('Modification d\'un archive');
+        enqueueSnackbar(' Le archive a été modifié avec succès', {
+          variant: 'success',
+          anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'center',
+          },
+          autoHideDuration: 5000,
+          action: (
+            <IconButton size="small" onClick={() => { }}>
+              <AiOutlineClose fontSize="small" />  {/* Utilisation de AiOutlineClose ici */}
+            </IconButton>
+          ),
+          style: {
+            backgroundColor: '#4caf50',
+            color: '#ffffff',
+          },
+        });
       } else {
         await addArchiveMutation.mutateAsync(formattedFields);
+        enqueueSnackbar('Le archive a été ajouté avec succès', {
+          variant: 'success',
+          anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'center',
+          },
+          autoHideDuration: 5000,
+          action: (
+            <IconButton size="small" onClick={() => { }}>
+              <AiOutlineClose fontSize="small" />  {/* Utilisation de AiOutlineClose ici */}
+            </IconButton>
+          ),
+          style: {
+            backgroundColor: '#4caf50',
+            color: '#ffffff',
+          },
+        });
       }
       // onSuccess();
       onSuccess();
@@ -110,12 +197,20 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
             exit="exit"
             transition={{ duration: 0.5 }}
           >
-            <DialogTitle>{mode === 'add' ? 'Formulaire Ajout Archive' : 'Modifier archive'}</DialogTitle>
+            <DialogTitle>
+              <Typography variant="p" component="div" color="primary.main">
+                {mode === 'add' ? 'Formulaire Ajout Archive' : 'Modifier archive'}
+              </Typography>
+            </DialogTitle>
             <DialogContent>
               <form>
-                {error && <div style={{ color: 'red' }}>{error}</div>}
+                {error && (
+                  <Typography color="error" variant="body2" gutterBottom>
+                    {error}
+                  </Typography>
+                )}
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={12}>
                     <TextField
                       name="numero_bordereaux"
                       label="Numéro Bordereaux"
@@ -123,9 +218,14 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
                       fullWidth
                       value={fields.numero_bordereaux}
                       onChange={handleChange}
+                      error={!!fieldErrors.numero_bordereaux || !!error}
+                      helperText={fieldErrors.numero_bordereaux ? 'Ce champ est requis' : error ? 'Le numéro de bordereaux existe déjà' : ''}
+                      InputProps={{
+                        style: fieldErrors.numero_bordereaux ? { borderColor: 'red' } : error ? { borderColor: 'red' } : {},
+                      }}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={12}>
                     <TextField
                       type="date"
                       name="date_depart"
@@ -134,9 +234,14 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
                       fullWidth
                       value={fields.date_depart}
                       onChange={handleChange}
+                      error={!!fieldErrors.date_depart}
+                      helperText={fieldErrors.date_depart ? 'Ce champ est requis' : ''}
+                      InputProps={{
+                        style: fieldErrors.date_depart ? { borderColor: 'red' } : {},
+                      }}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={12}>
                     <TextField
                       name="expiditeur"
                       label="Expediteur"
@@ -144,9 +249,14 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
                       fullWidth
                       value={fields.expiditeur}
                       onChange={handleChange}
+                      error={!!fieldErrors.expiditeur}
+                      helperText={fieldErrors.expiditeur ? 'Ce champ est requis' : ''}
+                      InputProps={{
+                        style: fieldErrors.expiditeur ? { borderColor: 'red' } : {},
+                      }}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={12}>
                     <TextField
                       name="destination"
                       label="Destination"
@@ -154,9 +264,14 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
                       fullWidth
                       value={fields.destination}
                       onChange={handleChange}
+                      error={!!fieldErrors.destination}
+                      helperText={fieldErrors.destination ? 'Ce champ est requis' : ''}
+                      InputProps={{
+                        style: fieldErrors.destination ? { borderColor: 'red' } : {},
+                      }}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={12}>
                     <TextField
                       name="description"
                       label="Description"
@@ -164,9 +279,14 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
                       fullWidth
                       value={fields.description}
                       onChange={handleChange}
+                      error={!!fieldErrors.description}
+                      helperText={fieldErrors.description ? 'Ce champ est requis' : ''}
+                      InputProps={{
+                        style: fieldErrors.description ? { borderColor: 'red' } : {},
+                      }}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={12}>
                     <TextField
                       name="nom_depose"
                       label="Nom Déposé"
@@ -174,9 +294,14 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
                       fullWidth
                       value={fields.nom_depose}
                       onChange={handleChange}
+                      error={!!fieldErrors.nom_depose}
+                      helperText={fieldErrors.nom_depose ? 'Ce champ est requis' : ''}
+                      InputProps={{
+                        style: fieldErrors.nom_depose ? { borderColor: 'red' } : {},
+                      }}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={12}>
                     <TextField
                       name="prenom_depose"
                       label="Prénom Déposé"
@@ -184,9 +309,14 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
                       fullWidth
                       value={fields.prenom_depose}
                       onChange={handleChange}
+                      error={!!fieldErrors.prenom_depose}
+                      helperText={fieldErrors.prenom_depose ? 'Ce champ est requis' : ''}
+                      InputProps={{
+                        style: fieldErrors.prenom_depose ? { borderColor: 'red' } : {},
+                      }}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={12}>
                     <TextField
                       name="matricule"
                       label="Matricule"
@@ -194,14 +324,29 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
                       fullWidth
                       value={fields.matricule}
                       onChange={handleChange}
+                      error={!!fieldErrors.matricule}
+                      helperText={fieldErrors.matricule ? 'Ce champ est requis' : ''}
+                      InputProps={{
+                        style: fieldErrors.matricule ? { borderColor: 'red' } : {},
+                      }}
                     />
                   </Grid>
                 </Grid>
               </form>
             </DialogContent>
             <DialogActions>
-              <Button onClick={handleClose}>Fermer</Button>
-              <Button onClick={handleSubmit} variant="contained" color="primary">
+              <Button
+                onClick={handleClose}
+                fullWidth
+                style={{ backgroundColor: 'grey', color: 'white' }}
+              >Fermer</Button>
+              <Button
+                onClick={handleSubmit}
+                variant="contained"
+                color="primary"
+                size="medium"
+                fullWidth
+              >
                 {mode === 'add' ? 'Confirmer' : 'Modifier'}
               </Button>
             </DialogActions>
