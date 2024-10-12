@@ -40,9 +40,34 @@ const TableArchive = ({ archives, refetch, year }) => {
     const [endDateValue, setEndDateValue] = useState('');
 
 
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const [rowsPerPage] = useState(1); // Customize number of rows per page
+
+    // Calculate total pages
+    const totalPages = Math.ceil(archives.length / rowsPerPage);
+
+    // Paginate the archive data
+    const paginateData = (data) => {
+        const start = (currentPage - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        return data.slice(start, end);
+    };
+
+    // Navigate to the previous page
+    const handlePrevPage = () => {
+        if (currentPage > 1) setCurrentPage(currentPage - 1);
+    };
+
+    // Navigate to the next page
+    const handleNextPage = () => {
+        if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+    };
+
+
     const exportPdf = async () => {
         const doc = new jsPDF({ orientation: "landscape" });
-    
+
         // Ajoutez une image centrée en haut avec un décalage de 2 lignes
         const pageWidth = doc.internal.pageSize.getWidth();
         const pageHeight = doc.internal.pageSize.getHeight();
@@ -50,18 +75,18 @@ const TableArchive = ({ archives, refetch, year }) => {
         const centeredX = (pageWidth - imageWidth) / 2; // Calculer le positionnement centré
         const topMargin = 20; // Marges supérieures et inférieures pour le décalage
         const centeredY = topMargin; // Position Y de l'image centrée
-        
+
         doc.addImage(imageLogo, 'JPEG', centeredX, centeredY, imageWidth, imageWidth); // Image centrée en haut
-        
+
         // Ajoutez l'image à gauche
         doc.addImage(imageData, 'JPEG', 10, 65, 23, 23); // Image à gauche
-    
+
         // Démarrer la table après les images, avec un espace suffisant
         doc.autoTable({
             html: "#table__archive",
             startY: centeredY + imageWidth + topMargin * 2, // Démarrer la table après l'image centrée avec un décalage total de 4 lignes
         });
-    
+
         doc.save("archive.pdf");
     };
 
@@ -219,7 +244,7 @@ const TableArchive = ({ archives, refetch, year }) => {
                     table_data = row.querySelectorAll('td')[4]?.textContent.toLowerCase();
                 } else if (searchType === 'matricule') {
                     table_data = row.querySelectorAll('td')[3]?.textContent.toLowerCase();
-                } 
+                }
                 // else if (searchType === 'date') {
                 //     table_data = row.querySelectorAll('td')[5]?.textContent;
                 //     if (search_data) {
@@ -331,8 +356,10 @@ const TableArchive = ({ archives, refetch, year }) => {
                         </thead>
                         <tbody className='tbody'>
                             {/* {displayData()} */}
-                            {archives && archives.length > 0 ? (
-                                archives.map((archive) => (
+                            {/* {archives && archives.length > 0 ? ( */}
+                            {/*  archives.map((archive) => ( */}
+                            {archives.length > 0 ? (
+                                paginateData(archives).map((archive, index) => (
                                     <tr key={archive._id}>
                                         <td className="td">{archive.description}</td>
                                         <td className="td">{archive.nom_depose}</td>
@@ -354,9 +381,20 @@ const TableArchive = ({ archives, refetch, year }) => {
                                     <td colSpan="10">Aucune archive trouvée pour cette année.</td>
                                 </tr>
                             )}
+
                         </tbody>
                     </table>
                 </section>
+                {/* Pagination Controls */}
+                <div className="pagination">
+                    <button className="pagination-button" onClick={handlePrevPage} disabled={currentPage === 1}>
+                        &#8249; Previous
+                    </button>
+                    <span className="pagination-info">Page {currentPage} sur {totalPages}</span>
+                    <button className="pagination-button" onClick={handleNextPage} disabled={currentPage === totalPages}>
+                        Next &#8250;
+                    </button>
+                </div>
                 <AnimatePresence>
                     {modalOpen && (
                         <ArchiveModal
