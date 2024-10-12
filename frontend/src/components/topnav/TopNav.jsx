@@ -198,6 +198,234 @@
 
 
 
+// import React, { useEffect, useState } from 'react';
+// import "./topnav.scss";
+// import { Link, useNavigate } from 'react-router-dom';
+// import Dropdown from '../dropdown/Dropdown';
+// import user_image from '../../assets/images/photo.jpg';
+// import notifications from '../../Data/notification.json';
+// import user_menu from '../../Data/user_menus.json';
+// import Theme from '../theme/Theme';
+// import { logout, getProfile } from '../../services/authServices';
+// import {
+//   Dialog,
+//   DialogActions,
+//   DialogContent,
+//   DialogContentText,
+//   DialogTitle,
+//   Button
+// } from '@mui/material';
+
+// // CONFIGURATION
+// const curr_user = {
+//   display_name: 'Lionot',
+//   image: user_image
+// }
+
+// const renderNotificationItem = (item, index) => (
+//   <div className="notification-item" key={index}>
+//     <i className={item.icon}></i>
+//     <span>{item.content}</span>
+//   </div>
+// )
+
+// const TopNav = ({ onLogout }) => {
+//   const [userData, setUserData] = useState(null);
+//   const [error, setError] = useState('');
+//   const [openDialog, setOpenDialog] = useState(false); // État pour contrôler l'ouverture du dialog
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     const token = localStorage.getItem('token');
+//     const userId = localStorage.getItem('userId');
+
+//     if (token && userId) {
+//       fetchProfileData(userId, token);
+//     } else {
+//       setError("Utilisateur non trouvé. Veuillez vous reconnecter.");
+//     }
+//   }, []);
+
+//   const fetchProfileData = async (userId, token) => {
+//     try {
+//       const profileData = await getProfile(userId, token);
+//       setUserData(profileData.data); // Mettre à jour les états avec les données du profil
+//     } catch (error) {
+//       setError(error.message);
+//     }
+//   };
+
+//   // Ouvrir le dialog de confirmation
+//   const handleOpenDialog = () => {
+//     setOpenDialog(true);
+//   };
+
+//   // Fermer le dialog
+//   const handleCloseDialog = () => {
+//     setOpenDialog(false);
+//   };
+
+//   // Confirmer la déconnexion
+//   const handleConfirmLogout = async () => {
+//     const token = localStorage.getItem('token');
+//     if (token) {
+//       const result = await logout(token);
+//       if (result.success) {
+//         onLogout();
+//         navigate('/', { replace: true });
+//       } else {
+//         console.error('Erreur de déconnexion:', result.message);
+//       }
+//     }
+//     handleCloseDialog(); // Fermer le dialog après la confirmation
+//   };
+
+//   const renderUserToggle = (user) => (
+//     <div className="topnav__right-user">
+//       <div className="topnav__right-user__image">
+//         <img src={user.image} alt="User" />
+//       </div>
+//       <div className="topnav__right-user__name">
+//         {user.display_name}
+//       </div>
+//     </div>
+//   );
+
+//   const getUserImageSrc = (image) => {
+//     if (image.startsWith('uploads_default')) {
+//       return `http://127.0.0.1:9876/uploads/${image}`;
+//     } else {
+//       return `http://127.0.0.1:9876${image}`;
+//     }
+//   };
+  
+//   const userToggleContent = userData
+//     ? { display_name: userData.name, image: getUserImageSrc(userData.image) }
+//     : { display_name: 'Chargement...', image: user_image };
+
+//   const renderUserMenu = (item, index) => {
+//     if (item.content === "Logout") {
+//       return (
+//         <div className="notification-item" key={index} onClick={handleOpenDialog}>
+//           <i className={item.icon}></i>
+//           <span>{item.content}</span>
+//         </div>
+//       );
+//     }
+
+//     return (
+//       <Link to={item.route || '#'} key={index}>
+//         <div className="notification-item">
+//           <i className={item.icon}></i>
+//           <span>{item.content}</span>
+//         </div>
+//       </Link>
+//     );
+//   };
+
+//   const [sidebarActive, setSidebarActive] = useState(false);
+
+//   const toggleSidebar = () => {
+//     setSidebarActive(!sidebarActive);
+//     document.querySelector('.sidebar').classList.toggle('actif');
+//     document.querySelector('.topnav').classList.toggle('actif');
+//     document.querySelector('.layout__content').classList.toggle('actif');
+//   };
+
+//   return (
+//     <div className='topnav'>
+//       <div className="topnav__search">
+//         <input type="text" placeholder='Search here...' />
+//         <i className='bx bx-search'></i>
+//       </div>
+//       <div className="topnav__right">
+//         <div className="topnav__right-item">
+//           <Dropdown
+//             customToggle={() => renderUserToggle(userToggleContent)} // Utilisation de userToggleContent
+//             contentData={user_menu}
+//             renderItems={(item, index) => renderUserMenu(item, index)}
+//           />
+//         </div>
+//         <div className="topnav__right-item">
+//           <Dropdown
+//             icon='bx bx-bell'
+//             badge='13'
+//             contentData={notifications}
+//             renderItems={(item, index) => renderNotificationItem(item, index)}
+//             renderFooter={() => <Link to='/'>View All</Link>}
+//           />
+//         </div>
+//         <div className="topnav__right-item">
+//           <Theme />
+//         </div>
+//         <div className="topnav__right-item mobile-hamburger" onClick={toggleSidebar}>
+//           <i className={sidebarActive ? 'bx bx-x' : 'bx bx-menu'}></i>
+//         </div>
+//       </div>
+
+//       {/* Dialog de confirmation */}
+//       <Dialog
+//         open={openDialog}
+//         onClose={handleCloseDialog}
+//       >
+//         <DialogTitle>Confirmation</DialogTitle>
+//         <DialogContent>
+//           <DialogContentText>
+//             Êtes-vous sûr de vouloir vous déconnecter ?
+//           </DialogContentText>
+//         </DialogContent>
+//         <DialogActions>
+//           <Button onClick={handleCloseDialog} color="primary">
+//             Annuler
+//           </Button>
+//           <Button onClick={handleConfirmLogout} color="primary">
+//             Déconnexion
+//           </Button>
+//         </DialogActions>
+//       </Dialog>
+//     </div>
+//   );
+// }
+
+// export default TopNav;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useEffect, useState } from 'react';
 import "./topnav.scss";
 import { Link, useNavigate } from 'react-router-dom';
@@ -207,6 +435,7 @@ import notifications from '../../Data/notification.json';
 import user_menu from '../../Data/user_menus.json';
 import Theme from '../theme/Theme';
 import { logout, getProfile } from '../../services/authServices';
+import AboutDialogs from '../MUI/AboutModal'; // Importer le composant CustomizedDialogs
 import {
   Dialog,
   DialogActions,
@@ -232,7 +461,8 @@ const renderNotificationItem = (item, index) => (
 const TopNav = ({ onLogout }) => {
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState('');
-  const [openDialog, setOpenDialog] = useState(false); // État pour contrôler l'ouverture du dialog
+  const [openDialog, setOpenDialog] = useState(false); 
+  const [openAboutDialog, setOpenAboutDialog] = useState(false); // État pour le dialogue About
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -249,23 +479,20 @@ const TopNav = ({ onLogout }) => {
   const fetchProfileData = async (userId, token) => {
     try {
       const profileData = await getProfile(userId, token);
-      setUserData(profileData.data); // Mettre à jour les états avec les données du profil
+      setUserData(profileData.data);
     } catch (error) {
       setError(error.message);
     }
   };
 
-  // Ouvrir le dialog de confirmation
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
 
-  // Fermer le dialog
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
 
-  // Confirmer la déconnexion
   const handleConfirmLogout = async () => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -277,7 +504,11 @@ const TopNav = ({ onLogout }) => {
         console.error('Erreur de déconnexion:', result.message);
       }
     }
-    handleCloseDialog(); // Fermer le dialog après la confirmation
+    handleCloseDialog(); 
+  };
+
+  const handleAboutClick = () => {
+    setOpenAboutDialog(true); // Ouvre le dialogue About
   };
 
   const renderUserToggle = (user) => (
@@ -298,7 +529,7 @@ const TopNav = ({ onLogout }) => {
       return `http://127.0.0.1:9876${image}`;
     }
   };
-  
+
   const userToggleContent = userData
     ? { display_name: userData.name, image: getUserImageSrc(userData.image) }
     : { display_name: 'Chargement...', image: user_image };
@@ -307,6 +538,14 @@ const TopNav = ({ onLogout }) => {
     if (item.content === "Logout") {
       return (
         <div className="notification-item" key={index} onClick={handleOpenDialog}>
+          <i className={item.icon}></i>
+          <span>{item.content}</span>
+        </div>
+      );
+    }
+    if (item.content === "About") {
+      return (
+        <div className="notification-item" key={index} onClick={handleAboutClick}>
           <i className={item.icon}></i>
           <span>{item.content}</span>
         </div>
@@ -341,7 +580,7 @@ const TopNav = ({ onLogout }) => {
       <div className="topnav__right">
         <div className="topnav__right-item">
           <Dropdown
-            customToggle={() => renderUserToggle(userToggleContent)} // Utilisation de userToggleContent
+            customToggle={() => renderUserToggle(userToggleContent)} 
             contentData={user_menu}
             renderItems={(item, index) => renderUserMenu(item, index)}
           />
@@ -383,6 +622,9 @@ const TopNav = ({ onLogout }) => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      {/* Dialog About */}
+      <AboutDialogs open={openAboutDialog} onClose={() => setOpenAboutDialog(false)} />
     </div>
   );
 }

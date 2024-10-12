@@ -1,0 +1,7 @@
+.teste_scale {
+    transition: transform 0.3s ease; /* Ajoutez une transition pour un effet plus fluide */
+}
+
+.teste_scale:hover {
+    transform: scale(1.5) !important; /* Appliquer le zoom */
+}
