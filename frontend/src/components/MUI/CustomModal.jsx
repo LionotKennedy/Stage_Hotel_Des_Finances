@@ -101,7 +101,7 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
     if (!fields.numero_bordereaux) {
       errors.numero_bordereaux = true;
       hasError = true;
-      enqueueSnackbar(error, { variant: 'error' });
+      // enqueueSnackbar(error, { variant: 'error' });
     }
     if (!fields.date_depart) {
       errors.date_depart = true;
@@ -135,6 +135,7 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
     if (hasError) {
       setFieldErrors(errors); // Définir les erreurs dans l'état
       setError('Veuillez remplir tous les champs requis.');
+      enqueueSnackbar('Veuillez remplir tous les champs requis.', { variant: 'error' });
       return;
     }
 

@@ -176,6 +176,9 @@ import { DialogTitle, DialogContent, DialogActions, TextField, Grid } from '@mui
 import { useUpdateUserPassword, useGetUserById } from '../../services/serviceUser'; // Ajouter ce service
 import { FaTimes } from 'react-icons/fa';
 import Slide from '@mui/material/Slide';
+import { useSnackbar } from 'notistack';
+import { AiOutlineClose } from 'react-icons/ai';
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -184,6 +187,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function FullScreenDialog({ open, handleClose, userId }) {
   const { data: userData, error, isLoading } = useGetUserById(userId);
   const [imagePreview, setImagePreview] = useState('');
+  const [fieldErrors, setFieldErrors] = useState({}); // Gérer les erreurs spécifiques des champs
+  const { enqueueSnackbar } = useSnackbar();
   const [fields, setFields] = useState({
     passwordOld: '',
     password: ''
@@ -204,14 +209,52 @@ export default function FullScreenDialog({ open, handleClose, userId }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    let hasError = false;
+    let errors = {};
+
+    if (!fields.passwordOld) {
+      errors.passwordOld = true;
+      hasError = true;
+    }
+    if (!fields.password) {
+      errors.password = true;
+      hasError = true;
+    }
     
+
+    if (hasError) {
+      setFieldErrors(errors); // Définir les erreurs dans l'état
+      setError('Veuillez remplir tous les champs requis.');
+      enqueueSnackbar('Veuillez remplir tous les champs requis.', { variant: 'error' });
+      return;
+    }
+
     // Appel de la mutation pour mettre à jour le mot de passe
     try {
       await updatePasswordMutation.mutateAsync({ userId, oldPassword: fields.passwordOld, newPassword: fields.password });
-      alert("Mot de passe mis à jour avec succès."); // Affiche un message de succès
+      // alert("Mot de passe mis à jour avec succès."); // Affiche un message de succès
+      enqueueSnackbar('Mot de passe mis à jour avec succès.', {
+        variant: 'success',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'center',
+        },
+        autoHideDuration: 5000,
+        action: (
+          <IconButton size="small" onClick={() => { }}>
+            <AiOutlineClose fontSize="small" />  {/* Utilisation de AiOutlineClose ici */}
+          </IconButton>
+        ),
+        style: {
+          backgroundColor: '#4caf50',
+          color: '#ffffff',
+        },
+      });
       handleClose(); // Ferme le dialogue après la mise à jour
     } catch (error) {
-      alert(`Erreur: ${error.message}`); // Affiche un message d'erreur
+      // alert(`Erreur: ${error.message}`); // Affiche un message d'erreur
+      enqueueSnackbar(`Erreur: ${error.message}`, { variant: 'error' });
     }
   };
 
@@ -256,6 +299,11 @@ export default function FullScreenDialog({ open, handleClose, userId }) {
                     fullWidth
                     onChange={handleChange}
                     required // Champ requis
+                    error={!!fieldErrors.passwordOld}
+                      helperText={fieldErrors.passwordOld ? 'Ce champ est requis' : ''}
+                      InputProps={{
+                        style: fieldErrors.passwordOld ? { borderColor: 'red' } : {},
+                      }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={12}>
@@ -267,6 +315,11 @@ export default function FullScreenDialog({ open, handleClose, userId }) {
                     fullWidth
                     onChange={handleChange}
                     required // Champ requis
+                    error={!!fieldErrors.password}
+                      helperText={fieldErrors.password ? 'Ce champ est requis' : ''}
+                      InputProps={{
+                        style: fieldErrors.password ? { borderColor: 'red' } : {},
+                      }}
                   />
                 </Grid>
               </Grid>

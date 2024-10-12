@@ -67,11 +67,6 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
   const handleSubmit = async () => {
 
 
-    // if (!fields.numero_bordereaux || !fields.date_depart || !fields.expiditeur) {
-    //   setError('Veuillez remplir tous les champs requis.');
-    //   return;
-    // }
-
 
     let hasError = false;
     let errors = {};

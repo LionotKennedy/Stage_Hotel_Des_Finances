@@ -11,6 +11,8 @@ import { DialogTitle, DialogContent, DialogActions, TextField, Grid } from '@mui
 import { FaTimes } from 'react-icons/fa';
 import Slide from '@mui/material/Slide';
 import { useAddUser } from '../../services/serviceUser';
+import { useSnackbar } from 'notistack';
+import { AiOutlineClose } from 'react-icons/ai'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -24,6 +26,8 @@ export default function UserScreenDialog({ open, handleClose, onSuccess }) {
     });
 
     const addUserMutation = useAddUser();
+    const [fieldErrors, setFieldErrors] = useState({}); // Gérer les erreurs spécifiques des champs
+    const { enqueueSnackbar } = useSnackbar();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -31,8 +35,29 @@ export default function UserScreenDialog({ open, handleClose, onSuccess }) {
     };
 
     const handleSubmit = async () => {
-        if (!fields.name || !fields.email) {
+        // if (!fields.name || !fields.email) {
+        //     setError('Veuillez remplir tous les champs requis.');
+        //     return;
+        // }
+
+
+        let hasError = false;
+        let errors = {};
+
+        if (!fields.name) {
+            errors.name = true;
+            hasError = true;
+        }
+        if (!fields.email) {
+            errors.email = true;
+            hasError = true;
+        }
+
+
+        if (hasError) {
+            setFieldErrors(errors); // Définir les erreurs dans l'état
             setError('Veuillez remplir tous les champs requis.');
+            enqueueSnackbar('Veuillez remplir tous les champs requis.', { variant: 'error' });
             return;
         }
 
@@ -43,11 +68,29 @@ export default function UserScreenDialog({ open, handleClose, onSuccess }) {
         try {
             await addUserMutation.mutateAsync(formattedFields);
             console.log(formattedFields);
-            handleClose();
+            enqueueSnackbar('Le utilisateur a été ajouté avec succès.', {
+                variant: 'success',
+                anchorOrigin: {
+                    vertical: 'top',
+                    horizontal: 'center',
+                },
+                autoHideDuration: 5000,
+                action: (
+                    <IconButton size="small" onClick={() => { }}>
+                        <AiOutlineClose fontSize="small" />  {/* Utilisation de AiOutlineClose ici */}
+                    </IconButton>
+                ),
+                style: {
+                    backgroundColor: '#4caf50',
+                    color: '#ffffff',
+                },
+            });
             onSuccess()
+            handleClose();
         } catch (error) {
             console.error('Erreur lors de l\'envoi du formulaire:', error);
-            setError('Une erreur est survenue lors de l\'ajout/modification du dossier.');      
+            setError('Une erreur est survenue lors de l\'ajout/modification du dossier.');
+            enqueueSnackbar(`Erreur: ${error.message}`, { variant: 'error' });
         }
     }
 
@@ -92,6 +135,11 @@ export default function UserScreenDialog({ open, handleClose, onSuccess }) {
                                         fullWidth
                                         //   value={fields.numero_bordereaux}
                                         onChange={handleChange}
+                                        error={!!fieldErrors.name}
+                                        helperText={fieldErrors.name ? 'Ce champ est requis' : ''}
+                                        InputProps={{
+                                            style: fieldErrors.name ? { borderColor: 'red' } : {},
+                                        }}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={12}>
@@ -103,6 +151,11 @@ export default function UserScreenDialog({ open, handleClose, onSuccess }) {
                                         fullWidth
                                         //   value={fields.date_depart}
                                         onChange={handleChange}
+                                        error={!!fieldErrors.email}
+                                        helperText={fieldErrors.email ? 'Ce champ est requis' : ''}
+                                        InputProps={{
+                                            style: fieldErrors.email ? { borderColor: 'red' } : {},
+                                        }}
                                     />
                                 </Grid>
                             </Grid>
