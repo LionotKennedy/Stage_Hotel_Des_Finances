@@ -75,6 +75,15 @@ const TableResponsive = () => {
         doc.autoTable({
             html: "#teste",
             startY: centeredY + imageWidth + topMargin * 2, // Démarrer la table après l'image centrée avec un décalage total de 4 lignes
+            headStyles: {
+                fillColor: [255, 0, 0], // Couleur de fond de l'en-tête (rouge dans cet exemple)
+                textColor: [255, 255, 255] // Couleur du texte de l'en-tête (blanc dans cet exemple)
+            },
+            styles: {
+                cellPadding: 4,
+                fontSize: 10,
+                // Ajoutez d'autres styles globaux si nécessaire
+            }
         });
     
         doc.save("corrier.pdf");
