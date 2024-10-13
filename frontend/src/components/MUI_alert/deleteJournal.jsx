@@ -9,6 +9,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { useDeleteJournal } from '../../services/serviceJournal';
 import { useGetJournals } from '../../services/serviceJournal';
+import { FaExclamationTriangle } from 'react-icons/fa';
+import './styleglobale.scss'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -28,7 +30,7 @@ export default function AlertJournalDialogSlide({ open, setOpen, id, onSuccess }
         console.log(id);
 
         try {
-            await deleteJournalMutation.mutateAsync({id});
+            await deleteJournalMutation.mutateAsync({ id });
             console.log("Supprimer le dossier avec ID:", id);
             refetch();
             setOpen(false);
@@ -47,14 +49,17 @@ export default function AlertJournalDialogSlide({ open, setOpen, id, onSuccess }
             onClose={handleClose}
             aria-describedby="alert-dialog-slide-description"
         >
-            <DialogTitle>{"Confirmation de suppression"}</DialogTitle>
+            <DialogTitle style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <FaExclamationTriangle style={{ color: 'orange', marginRight: '10px' }} />
+                {"Confirmation de suppression"}
+            </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-slide-description">
-                    Êtes-vous sûr de vouloir supprimer le journal avec l'ID: {id} ?
+                    Êtes-vous sûr de vouloir supprimer le journal ?
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose}>Annuler</Button>
+                <Button onClick={handleClose} className='annuler__folder'>Annuler</Button>
                 <Button onClick={handleConfirmDelete}>Confirmer</Button>
             </DialogActions>
         </Dialog>

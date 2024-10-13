@@ -577,6 +577,8 @@ const TopNav = ({ onLogout }) => {
         <input type="text" placeholder='Search here...' />
         <i className='bx bx-search'></i>
       </div>
+      {/* Dialog About */}
+      <AboutDialogs open={openAboutDialog} onClose={() => setOpenAboutDialog(false)} />
       <div className="topnav__right">
         <div className="topnav__right-item">
           <Dropdown
@@ -585,7 +587,7 @@ const TopNav = ({ onLogout }) => {
             renderItems={(item, index) => renderUserMenu(item, index)}
           />
         </div>
-        <div className="topnav__right-item">
+        {/* <div className="topnav__right-item">
           <Dropdown
             icon='bx bx-bell'
             badge='13'
@@ -593,7 +595,7 @@ const TopNav = ({ onLogout }) => {
             renderItems={(item, index) => renderNotificationItem(item, index)}
             renderFooter={() => <Link to='/'>View All</Link>}
           />
-        </div>
+        </div> */}
         <div className="topnav__right-item">
           <Theme />
         </div>
@@ -623,8 +625,6 @@ const TopNav = ({ onLogout }) => {
         </DialogActions>
       </Dialog>
 
-      {/* Dialog About */}
-      <AboutDialogs open={openAboutDialog} onClose={() => setOpenAboutDialog(false)} />
     </div>
   );
 }

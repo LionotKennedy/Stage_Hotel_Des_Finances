@@ -8,12 +8,14 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { useDeleteFolder } from '../../services/serviceFolder';
+import { FaExclamationTriangle } from 'react-icons/fa';
+import './styleglobale.scss'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function AlertDialogSlide({ open, setOpen, folderId,  onSuccess }) {
+export default function AlertDialogSlide({ open, setOpen, folderId, onSuccess }) {
 
     const deleteFolderMutation = useDeleteFolder();
 
@@ -26,7 +28,7 @@ export default function AlertDialogSlide({ open, setOpen, folderId,  onSuccess }
         console.log(folderId);
 
         try {
-            await deleteFolderMutation.mutateAsync({folderId});
+            await deleteFolderMutation.mutateAsync({ folderId });
             console.log("Supprimer le dossier avec ID:", folderId);
             setOpen(false);
             onSuccess();
@@ -44,14 +46,18 @@ export default function AlertDialogSlide({ open, setOpen, folderId,  onSuccess }
             onClose={handleClose}
             aria-describedby="alert-dialog-slide-description"
         >
-            <DialogTitle>{"Confirmation de suppression"}</DialogTitle>
+            <DialogTitle style={{display: 'flex', justifyContent:'center', alignItems: 'center'}}>
+                <FaExclamationTriangle style={{ color: 'orange', marginRight: '10px' }} />
+                {"Confirmation de suppression"}
+            </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-slide-description">
-                    Êtes-vous sûr de vouloir supprimer le dossier avec l'ID: {folderId} ?
+                    Êtes-vous sûr de vouloir supprimer le dossier
+                    {/* avec l'ID: {folderId} ? */}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose}>Annuler</Button>
+                <Button onClick={handleClose} className='annuler__folder'>Annuler</Button>
                 <Button onClick={handleConfirmDelete}>Confirmer</Button>
             </DialogActions>
         </Dialog>
