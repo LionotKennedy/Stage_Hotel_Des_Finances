@@ -40,3 +40,27 @@
         }
     }
 }
+
+
+
+
+
+
+
+
+$linear-gradient: linear-gradient(90deg, #97776f, #6dfa08);
+
+
+.tsr{
+    background: $linear-gradient;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--box-shadow);
+}
+.tsrs {
+    background: $linear-gradient; // Appliquez le dégradé comme fond
+    -webkit-background-clip: text; // Pour Safari
+    -webkit-text-fill-color: transparent; // Remplissage transparent
+    font-size: 2rem; // Ajustez la taille de la police si nécessaire
+}

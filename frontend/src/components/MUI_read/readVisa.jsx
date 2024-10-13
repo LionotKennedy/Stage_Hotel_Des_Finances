@@ -8,8 +8,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { FaTimes } from 'react-icons/fa'; 
+import { FaTimes } from 'react-icons/fa';
 import { useGetVisaById } from '../../services/serviceVisa';
+import { motion, AnimatePresence } from 'framer-motion'; // Import AnimatePresence
+import { Fade } from 'react-reveal';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -23,6 +25,12 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     minHeight: '400px', // Hauteur minimale du modal
   },
 }));
+
+const modalVariants = {
+  hidden: { opacity: 0, y: "-100vh" },
+  visible: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: "100vh" },
+};
 
 export default function CustomizedVisaDialogs({ open, setOpen, folderId }) {
   const handleClose = () => {
@@ -45,48 +53,63 @@ export default function CustomizedVisaDialogs({ open, setOpen, folderId }) {
   const folder = folderData?.data;
 
   return (
-    <React.Fragment>
-      <BootstrapDialog
-        onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
-        open={open}
-      >
-        <DialogTitle sx={{ m: 0, p: 3 }} id="customized-dialog-title">
-          Informations du dossier
-        </DialogTitle>
-        <IconButton
-          aria-label="close"
-          onClick={handleClose}
-          sx={(theme) => ({
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: theme.palette.grey[500],
-          })}
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          className="modal-overlay"
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          variants={modalVariants}
+          transition={{ duration: 0.5 }}
         >
-          <FaTimes />
-        </IconButton>
-        <DialogContent dividers>
-          {/* Affichage des données du dossier */}
-          <Typography gutterBottom>
-            <strong>Numéro de visa:</strong> {folder?.numero_visa}
-          </Typography>
-          <Typography gutterBottom>
-            <strong>Nom:</strong> {folder?.nom_depose_visa}
-          </Typography>
-          <Typography gutterBottom>
-            <strong>Prenom:</strong> {folder?.prenom_depose_visa}
-          </Typography>
-          <Typography gutterBottom>
-            <strong>Reference:</strong> {folder?.reference}
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Fermer
-          </Button>
-        </DialogActions>
-      </BootstrapDialog>
-    </React.Fragment>
+          <React.Fragment>
+            <BootstrapDialog
+              onClose={handleClose}
+              aria-labelledby="customized-dialog-title"
+              open={open}
+            >
+              <DialogTitle sx={{ m: 0, p: 3 }} id="customized-dialog-title">
+                Informations du dossier
+              </DialogTitle>
+              <IconButton
+                aria-label="close"
+                onClick={handleClose}
+                sx={(theme) => ({
+                  position: 'absolute',
+                  right: 8,
+                  top: 8,
+                  color: theme.palette.grey[500],
+                })}
+              >
+                <FaTimes />
+              </IconButton>
+              <DialogContent dividers>
+                {/* Affichage des données du dossier */}
+                <Fade bottom>
+                <Typography gutterBottom>
+                  <strong>Numéro de visa:</strong> {folder?.numero_visa || 'N/A'}
+                </Typography>
+                <Typography gutterBottom>
+                  <strong>Nom:</strong> {folder?.nom_depose_visa || 'N/A'}
+                </Typography>
+                <Typography gutterBottom>
+                  <strong>Prenom:</strong> {folder?.prenom_depose_visa || 'N/A'}
+                </Typography>
+                <Typography gutterBottom>
+                  <strong>Reference:</strong> {folder?.reference || 'N/A'}
+                </Typography>
+                </Fade>
+              </DialogContent>
+              <DialogActions>
+                <Button autoFocus onClick={handleClose}>
+                  Fermer
+                </Button>
+              </DialogActions>
+            </BootstrapDialog>
+          </React.Fragment>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

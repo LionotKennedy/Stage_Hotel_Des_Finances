@@ -103,6 +103,8 @@ const User = () => {
         <AnalogClock />
       </div>
       <Clock />
+      <button className='tsr'>Fory ee</button>
+      <h1 className='tsrs'>Fory eee</h1>
     </div>
   );
 };
