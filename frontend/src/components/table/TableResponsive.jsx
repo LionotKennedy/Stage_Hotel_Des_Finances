@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react'; 
 import search from "../../assets/image/search.png";
 import { MdEdit, MdDelete, MdVisibility, MdAdd } from 'react-icons/md';
 import { FaArrowDown, FaSearch } from 'react-icons/fa';
@@ -17,7 +17,7 @@ import imageData from "../../assets/images/logo.png";
 import imageLogo from "../../assets/images/ministere.png";
 import pdf from "../../assets/image/pdf.png";
 import excel from "../../assets/image/excel.png";
-import word from "../../assets/image/json.png";
+import word from "../../assets/image/docx2.png";
 import ReactPaginate from 'react-paginate';
 
 const TableResponsive = () => {
@@ -53,7 +53,6 @@ const TableResponsive = () => {
     const currentFolders = folders && Array.isArray(folders.data)
         ? folders.data.slice((currentPage - 1) * foldersPerPage, currentPage * foldersPerPage)
         : [];
-
 
     const exportPdf = async () => {
         const doc = new jsPDF({ orientation: "landscape" });
@@ -111,7 +110,6 @@ const TableResponsive = () => {
         doc.save('courrier.docx');
     };
 
-
     const handleOpenModal = (folderId, mode) => {
         setSelectedFolderId(folderId);
         setMode(mode);
@@ -162,7 +160,6 @@ const TableResponsive = () => {
 
         setDropdownOpen(false);
     };
-
 
     useEffect(() => {
         const searchInput = searchRef.current;
@@ -245,8 +242,6 @@ const TableResponsive = () => {
         ));
     };
 
-
-
     const SearchByTowDate = () => {
         const table = tableRef.current;
         const tableRows = table.querySelectorAll('tbody tr');
@@ -285,7 +280,6 @@ const TableResponsive = () => {
     };
     
 
-    
     const startDateRef = useRef(null);
     const endDateRef = useRef(null);
 
@@ -294,7 +288,9 @@ const TableResponsive = () => {
     const displayTotalItems = () => {
         if (totalItems > 0) {
           return (
-            <p>Total des items : {totalItems}</p>
+            <div className='total__courrier'>
+                <span>Total des courriers : {totalItems}</span>
+            </div>
           );
         }
         return null;

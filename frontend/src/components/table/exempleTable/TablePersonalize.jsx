@@ -4,7 +4,7 @@ import "./tablepersonalize.scss";
 import search from "../../assets/image/search.png";
 import { MdAdd } from 'react-icons/md';
 import { AnimatePresence } from 'framer-motion';
-import ModalAdd from '../modal/ModalAdd';
+import ModalAdd from '../../modal/ModalAdd';
 
 const TablePersonalize = props => {
     const tableRef = useRef(null);

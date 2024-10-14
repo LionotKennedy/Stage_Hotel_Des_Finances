@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react'; 
 import "./tableResponsive.scss";
 import search from "../../assets/image/search.png"
 import { MdEdit, MdDelete, MdVisibility, MdAdd } from 'react-icons/md';
@@ -16,7 +16,7 @@ import imageData from "../../assets/images/logo.png";
 import imageLogo from "../../assets/images/ministere.png";
 import pdf from "../../assets/image/pdf.png";
 import excel from "../../assets/image/excel.png";
-import word from "../../assets/image/json.png";
+import word from "../../assets/image/docx2.png";
 import ContentToPrintArchive from '../printer/ContentToPrintArchive';
 
 
@@ -42,7 +42,7 @@ const TableArchive = ({ archives, refetch, year }) => {
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
-    const [rowsPerPage] = useState(1); // Customize number of rows per page
+    const [rowsPerPage] = useState(10); // Customize number of rows per page
 
     // Calculate total pages
     const totalPages = Math.ceil(archives.length / rowsPerPage);
@@ -277,7 +277,7 @@ const TableArchive = ({ archives, refetch, year }) => {
     const displayTotalItems = () => {
         if (totalItems > 0) {
             return (
-                <p>Total des items : {totalItems}</p>
+                <p>Total des archives : {totalItems}</p>
             );
         }
         return null;

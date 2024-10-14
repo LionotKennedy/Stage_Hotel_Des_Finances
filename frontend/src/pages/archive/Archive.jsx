@@ -177,7 +177,7 @@ import ReactPaginate from 'react-paginate';
 const Archive = () => {
   const { data: groups, refetch: refresh, isLoading, isError } = useGetGroupArchive();
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 2; // Nombre d'éléments par page
+  const itemsPerPage = 5; // Nombre d'éléments par page
 
   // Calcule les éléments à afficher sur la page actuelle
   const indexOfLastItem = (currentPage + 1) * itemsPerPage;

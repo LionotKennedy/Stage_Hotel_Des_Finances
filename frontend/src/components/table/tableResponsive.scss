@@ -542,8 +542,6 @@ main.table {
 
 
 
-
-
 // REACH BY TWO DATES
 .container__search {
     display: flex;
@@ -604,11 +602,12 @@ main.table {
         background-color: var(--main-bg);
         box-shadow: var(--box-shadow);
         cursor: pointer;
+
         &:hover {
             transform: rotateZ(360deg);
             transition: all 0.5s ease-in-out;
         }
-        
+
         .search__icon {
             color: #fffafb;
             display: flex;
@@ -622,25 +621,6 @@ main.table {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -676,4 +656,12 @@ main.table {
     margin: 0 15px;
     font-size: 16px;
     color: #333;
+    color: var(--txt-color);
+    
 }
+
+// .total__courrier{
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+// }

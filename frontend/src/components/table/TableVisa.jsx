@@ -15,7 +15,7 @@ import imageData from "../../assets/images/logo.png";
 import imageLogo from "../../assets/images/ministere.png";
 import pdf from "../../assets/image/pdf.png";
 import excel from "../../assets/image/excel.png";
-import word from "../../assets/image/json.png";
+import word from "../../assets/image/docx2.png";
 import ContentToPrintVisa from '../printer/ContentToPrintVisa';
 import ReactPaginate from 'react-paginate';  // Import ReactPaginate
 
@@ -183,11 +183,11 @@ const TableVisa = () => {
     }, [searchType, searchValue]);
 
     // Pagination logic
-    const handlePageChange = (newPage) => {
-        if (newPage >= 1 && newPage <= totalPages) {
-            setCurrentPage(newPage);
-        }
-    };
+    // const handlePageChange = (newPage) => {
+    //     if (newPage >= 1 && newPage <= totalPages) {
+    //         setCurrentPage(newPage);
+    //     }
+    // };
 
 
         // Count total items
@@ -196,7 +196,7 @@ const TableVisa = () => {
         const displayTotalItems = () => {
             if (totalItems > 0) {
                 return (
-                    <p>Total des items : {totalItems}</p>
+                    <p>Total des visa : {totalItems}</p>
                 );
             }
             return null;
@@ -278,19 +278,6 @@ const TableVisa = () => {
                             </tr>
                         </thead>
                         <tbody className='tbody'>
-                            {/* {folders && folders.data && folders.data.map((folder, index) => (
-                                <tr key={index}>
-                                    <td className="td">{folder.numero_visa}</td>
-                                    <td className="td">{folder.nom_depose_visa}</td>
-                                    <td className="td">{folder.prenom_depose_visa}</td>
-                                    <td className="td">{folder.reference}</td>
-                                    <td className="td">
-                                        <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
-                                        <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
-                                        <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
-                                    </td>
-                                </tr>
-                            ))} */}
                             {displayData()}
                         </tbody>
                     </table>
