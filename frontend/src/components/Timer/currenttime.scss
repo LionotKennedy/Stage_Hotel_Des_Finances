@@ -504,14 +504,14 @@
 
 
 .time-paper {
-  background-color: #ffffff; // Couleur de fond blanche pour la carte
+  background-color: var(--second-bg) !important; // Couleur de fond blanche pour la carte
   padding: 20px;
   border-radius: 15px;
   max-width: 400px;
   margin: 0 auto;
   text-align: center;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); // Ombre subtile
-
+  
   @media (max-width: 600px) {
     max-width: 90%;
   }
@@ -523,19 +523,20 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
-
+  
   .current-time {
-    color: #333;
+    color: var(--txt-color) !important;
     font-weight: bold;
     font-size: 2.5rem;
-
+    
     @media (max-width: 600px) {
       font-size: 2rem;
     }
   }
-
+  
   .current-date {
-    color: #666;
+    // color: #666;
+    color: var(--txt-color) !important;
     font-size: 1.2rem;
 
     @media (max-width: 600px) {
@@ -544,56 +545,56 @@
   }
 
   // Horloge à aiguilles
-  .analog-clock {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    border: 5px solid #333;
-    border-radius: 50%;
-    margin-top: 20px;
-    background-color: #f4f4f4;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  // .analog-clock {
+  //   position: relative;
+  //   width: 200px;
+  //   height: 200px;
+  //   border: 5px solid #333;
+  //   border-radius: 50%;
+  //   margin-top: 20px;
+  //   background-color: #f4f4f4;
+  //   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+  //   display: flex;
+  //   justify-content: center;
+  //   align-items: center;
   
-    .center-dot {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background-color: #333;
-      border-radius: 50%;
-      z-index: 10; // Pour que le point central soit au-dessus des aiguilles
-    }
+  //   .center-dot {
+  //     position: absolute;
+  //     width: 10px;
+  //     height: 10px;
+  //     background-color: #333;
+  //     border-radius: 50%;
+  //     z-index: 10; // Pour que le point central soit au-dessus des aiguilles
+  //   }
 
-    .hand {
-      position: absolute;
-      width: 50%;
-      height: 2px;
-      background-color: #333;
-      top: 50%;
-      left: 50%;
-      transform-origin: 0 0; // L'origine est déplacée au centre de l'horloge
-      transform: translateX(-50%) rotate(0deg);
-      transition: transform 0.05s ease-in-out;
+  //   .hand {
+  //     position: absolute;
+  //     width: 50%;
+  //     height: 2px;
+  //     background-color: #333;
+  //     top: 50%;
+  //     left: 50%;
+  //     transform-origin: 0 0; // L'origine est déplacée au centre de l'horloge
+  //     transform: translateX(-50%) rotate(0deg);
+  //     transition: transform 0.05s ease-in-out;
 
-      &.hour-hand {
-        height: 4px;
-        width: 30%; // Longueur ajustée pour les heures
-      }
+  //     &.hour-hand {
+  //       height: 4px;
+  //       width: 30%; // Longueur ajustée pour les heures
+  //     }
 
-      &.minute-hand {
-        background-color: #444;
-        width: 45%; // Longueur ajustée pour les minutes
-      }
+  //     &.minute-hand {
+  //       background-color: #444;
+  //       width: 45%; // Longueur ajustée pour les minutes
+  //     }
 
-      &.second-hand {
-        background-color: red;
-        height: 1px;
-        width: 50%; // Longueur ajustée pour les secondes
-      }
-    }
-  }
+  //     &.second-hand {
+  //       background-color: red;
+  //       height: 1px;
+  //       width: 50%; // Longueur ajustée pour les secondes
+  //     }
+  //   }
+  // }
 }
 
 

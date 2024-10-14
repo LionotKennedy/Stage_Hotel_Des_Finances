@@ -18,7 +18,8 @@
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.1);
     border: 2px solid rgba(255, 255, 255, 0.25);
-    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.9);
+    // box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.9);
+    box-shadow: var(--box-shadow);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -35,7 +36,7 @@
 .clock span b {
     display: inline-block;
     font-size: 20px;
-    color: #ffffff; /* Pour rendre le texte des heures visible */
+    color: var(--txt-color); /* Pour rendre le texte des heures visible */
 }
 
 .clock::before {

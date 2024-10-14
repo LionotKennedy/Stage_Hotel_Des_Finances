@@ -307,7 +307,7 @@ function CalendarComponent() {
         events={events}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: 450 }}
+        style={{ height: 400 }}
         onSelectSlot={handleSelectSlot}
         onSelectEvent={handleSelectEvent}
       />

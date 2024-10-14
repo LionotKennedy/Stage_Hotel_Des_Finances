@@ -148,7 +148,7 @@ const AnalogClock = () => {
                         <i></i>
                     </div>
                     <div
-                        style={{ '--clr': '#ffffff', '--h': '94px' }}
+                        style={{ '--clr': 'var(--txt-color)', '--h': '94px' }}
                         ref={secRef}
                         className="hand"
                     >
