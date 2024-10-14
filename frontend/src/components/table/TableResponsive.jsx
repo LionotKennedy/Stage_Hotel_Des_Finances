@@ -20,7 +20,7 @@ import excel from "../../assets/image/excel.png";
 import word from "../../assets/image/docx2.png";
 import ReactPaginate from 'react-paginate';
 import { useSnackbar } from 'notistack';
-import { AiOutlineClose } from 'react-icons/ai';
+// import { AiOutlineClose } from 'react-icons/ai';
 
 const TableResponsive = () => {
     const tableRef = useRef(null);

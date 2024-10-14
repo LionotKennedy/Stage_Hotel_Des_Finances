@@ -10,6 +10,9 @@ import Slide from '@mui/material/Slide';
 import { useDeleteVisa } from '../../services/serviceVisa';
 import { FaExclamationTriangle } from 'react-icons/fa';
 import './styleglobale.scss'
+import { useSnackbar } from 'notistack';
+import { AiOutlineClose } from 'react-icons/ai';
+import IconButton from '@mui/material/IconButton'; 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -18,6 +21,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function AlertDialogSlideVisa({ open, setOpen, folderId, onSuccess }) {
 
     const deleteVisaMutation = useDeleteVisa();
+    const { enqueueSnackbar } = useSnackbar();
 
     const handleClose = () => {
         setOpen(false);
@@ -29,7 +33,24 @@ export default function AlertDialogSlideVisa({ open, setOpen, folderId, onSucces
 
         try {
             await deleteVisaMutation.mutateAsync({ folderId });
-            console.log("Supprimer le dossier avec ID:", folderId);
+            // console.log("Supprimer le dossier avec ID:", folderId)
+            enqueueSnackbar('Le visa a été supprimé avec succès', {
+                variant: 'success',
+                anchorOrigin: {
+                    vertical: 'top',
+                    horizontal: 'center',
+                },
+                autoHideDuration: 5000,
+                action: (
+                    <IconButton size="small" onClick={() => { }}>
+                        <AiOutlineClose fontSize="small" />  {/* Utilisation de AiOutlineClose ici */}
+                    </IconButton>
+                ),
+                style: {
+                    backgroundColor: '#4caf50',
+                    color: '#ffffff',
+                },
+            });;
             setOpen(false);
             onSuccess();
         } catch (error) {

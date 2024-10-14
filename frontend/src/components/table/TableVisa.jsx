@@ -17,7 +17,8 @@ import pdf from "../../assets/image/pdf.png";
 import excel from "../../assets/image/excel.png";
 import word from "../../assets/image/docx2.png";
 import ContentToPrintVisa from '../printer/ContentToPrintVisa';
-import ReactPaginate from 'react-paginate';  // Import ReactPaginate
+import ReactPaginate from 'react-paginate';
+import { useSnackbar } from 'notistack';
 
 const TableVisa = () => {
     const tableRef = useRef(null);
@@ -36,6 +37,7 @@ const TableVisa = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
     const contentRef = useRef();
+    const { enqueueSnackbar } = useSnackbar();
 
     const [currentPage, setCurrentPage] = useState(0);
     const rowsPerPage = 10;
@@ -49,10 +51,10 @@ const TableVisa = () => {
     };
 
 
-    
+
     const exportPdf = async () => {
         const doc = new jsPDF({ orientation: "landscape" });
-    
+
         // Ajoutez une image centrée en haut avec un décalage de 2 lignes
         const pageWidth = doc.internal.pageSize.getWidth();
         const pageHeight = doc.internal.pageSize.getHeight();
@@ -60,18 +62,29 @@ const TableVisa = () => {
         const centeredX = (pageWidth - imageWidth) / 2; // Calculer le positionnement centré
         const topMargin = 20; // Marges supérieures et inférieures pour le décalage
         const centeredY = topMargin; // Position Y de l'image centrée
-        
+
         doc.addImage(imageLogo, 'JPEG', centeredX, centeredY, imageWidth, imageWidth); // Image centrée en haut
-        
+
         // Ajoutez l'image à gauche
         doc.addImage(imageData, 'JPEG', 10, 65, 23, 23); // Image à gauche
-    
+
         // Démarrer la table après les images, avec un espace suffisant
         doc.autoTable({
             html: "#table_visa",
-            startY: centeredY + imageWidth + topMargin * 2, // Démarrer la table après l'image centrée avec un décalage total de 4 lignes
+            startY: centeredY + imageWidth + topMargin * 2,
+            headStyles: {
+                // fillColor: [255, 0, 0], 
+                fillColor: [109, 109, 109],
+                textColor: [255, 255, 255],
+
+            },
+            styles: {
+                cellPadding: 4,
+                fontSize: 10,
+                // Ajoutez d'autres styles globaux si nécessaire
+            }
         });
-    
+
         doc.save("visa.pdf");
     };
 
@@ -95,24 +108,27 @@ const TableVisa = () => {
 
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
-        console.log('Dropdown toggled!');
+        // console.log('Dropdown toggled!');
     };
 
     const handleOptionClick = async (option) => {
         setSelectedOption(option);
-        console.log(`Option selected: ${option}`);
+        // console.log(`Option selected: ${option}`);
         switch (option) {
             case 'option1':
                 await exportPdf();
-                console.log("PDF généré avec succès");
+                // console.log("PDF généré avec succès");
+                enqueueSnackbar('PDF généré avec succès.', { variant: 'success' });
                 break;
             case 'option2':
                 await exportWord();
-                console.log("Fichier Word généré avec succès");
+                // console.log("Fichier Word généré avec succès");
+                enqueueSnackbar('Fichier Word généré avec succès.', { variant: 'success' });
                 break;
             case 'option3':
                 await exportExcel();
-                console.log("Fichier Word généré avec succès");
+                // console.log("Fichier Word généré avec succès");
+                enqueueSnackbar('Fichier excel généré avec succès.', { variant: 'success' });
                 break;
         }
         setDropdownOpen(false);
@@ -130,18 +146,19 @@ const TableVisa = () => {
     const handleDeleteClick = (folderId) => {
         setDeleteFolderId(folderId);
         setAlertOpen(true);
-        console.log(folderId)
+        // console.log(folderId)
     };
 
     const handleReadClick = (folderId) => {
         setReadFolderId(folderId);
         setAlertOpenRead(true);
-        console.log(folderId)
+        // console.log(folderId)
     };
 
     useEffect(() => {
         if (folders && folders.data) {
-            folders.data.forEach((folder) => console.log('Folder data:', folder));
+            // folders.data.forEach((folder) => console.log('Folder data:', folder));
+            folders.data.forEach((folder) => ('Folder data:', folder));
         }
     }, [folders])
 
@@ -182,27 +199,19 @@ const TableVisa = () => {
         searchTable();
     }, [searchType, searchValue]);
 
-    // Pagination logic
-    // const handlePageChange = (newPage) => {
-    //     if (newPage >= 1 && newPage <= totalPages) {
-    //         setCurrentPage(newPage);
-    //     }
-    // };
+
+    const totalItems = folders && Array.isArray(folders.data) ? folders.data.length : 0;
+
+    const displayTotalItems = () => {
+        if (totalItems > 0) {
+            return (
+                <p>Total des visa : {totalItems}</p>
+            );
+        }
+        return null;
+    };
 
 
-        // Count total items
-        const totalItems = folders && Array.isArray(folders.data) ? folders.data.length : 0;
-
-        const displayTotalItems = () => {
-            if (totalItems > 0) {
-                return (
-                    <p>Total des visa : {totalItems}</p>
-                );
-            }
-            return null;
-        };
-
-        
 
     // Display data according to the current page
     const displayData = () => {
@@ -236,14 +245,14 @@ const TableVisa = () => {
                 </div>
                 <section className="table__header">
                     <select className='searchByeverything' value={searchType} onChange={(e) => setSearchType(e.target.value)}>
-                        <option value="nom">Search by Nom</option>
-                        <option value="prenom">Search by prenom</option>
-                        <option value="numero">Search by Numero</option>
-                        <option value="reference">Search by reference</option>
+                        <option value="nom">Recherche par Nom</option>
+                        <option value="prenom">Recherche par prenom</option>
+                        <option value="numero">Recherche par Numero</option>
+                        <option value="reference">Recherche par reference</option>
                     </select>
                     <div className="input-group">
                         <input type="search"
-                            placeholder="Search Data..."
+                            placeholder="Recherche donnée..."
                             ref={searchRef}
                             onChange={(e) => setSearchValue(e.target.value)} />
                         <img src={search} alt="Search Icon" />
