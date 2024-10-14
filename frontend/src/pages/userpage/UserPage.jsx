@@ -35,9 +35,6 @@ const UserPage = () => {
             });
 
             setImagePreview(userData.data.image);
-            // console.log('Données du formulairelll:', userData.data.image);
-            // console.log('Données du formulaireccc:', imagePreview);
-            // console.log('Données du formulaireccc:', imagePath);
         }
     }, [userData]);
 
@@ -51,8 +48,28 @@ const UserPage = () => {
         }
     };
 
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        const formData = new FormData();
+
+        if (formData.image) {
+            formData.append('image', formData.image);
+        } else {
+            formData.append('image', userData.data.image);
+        }
+    
+        formData.append('name', formData.name);
+        formData.append('email', formData.email);
+    
+        console.log('FormData:', {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            image: formData.get('image')
+        });
+
 
         updateUser({ userId, data: formData }, {
             onSuccess: () => {
@@ -84,6 +101,8 @@ const UserPage = () => {
         });
 
     };
+
+
 
     const handleBackClick = () => {
         navigate('/profile');
@@ -168,3 +187,241 @@ const UserPage = () => {
 }
 
 export default UserPage;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // const handleSubmits = (e) => {
+    //     e.preventDefault();
+    
+    //     // Créer un objet FormData pour gérer le téléchargement de fichiers
+    //     const updatedFormData = new FormData();
+    
+    //     // Ajouter les champs 'name' et 'email'
+    //     // updatedFormData.append('name', formData.name);
+    //     // updatedFormData.append('email', formData.email);
+    
+    //     // Ajouter la nouvelle image uniquement si elle est sélectionnée, sinon garder l'ancienne
+    //     if (formData.image) {
+    //         updatedFormData.append('image', formData.image); // Nouvelle image
+    //     } else {
+    //         updatedFormData.append('image', userData.data.image); // Garder l'ancienne image
+    //     }
+    
+    //     // Envoyer les données à l'API pour la mise à jour
+    //     updateUser({ userId, data: updatedFormData }, {
+    //         onSuccess: () => {
+    //             setFormData({ name: '', email: '', image: null });
+    //             setImagePreview('');
+    //             navigate('/profile');
+    //             enqueueSnackbar('Utilisateur mis à jour avec succès', {
+    //                 variant: 'success',
+    //                 anchorOrigin: {
+    //                     vertical: 'top',
+    //                     horizontal: 'center',
+    //                 },
+    //                 autoHideDuration: 5000,
+    //                 action: (
+    //                     <IconButton size="small" onClick={() => { }}>
+    //                         <AiOutlineClose fontSize="small" />
+    //                     </IconButton>
+    //                 ),
+    //                 style: {
+    //                     backgroundColor: '#4caf50',
+    //                     color: '#ffffff',
+    //                 },
+    //             });
+    //         },
+    //         onError: (error) => {
+    //             console.error('Erreur lors de la mise à jour de l\'utilisateur:', error.message);
+    //         }
+    //     });
+    // };
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const UserPage = () => {
+//     const location = useLocation();
+//     const navigate = useNavigate();
+//     const userId = location.state?.userId;
+//     const { mutate: updateUser } = useUpdateUser();
+//     const { enqueueSnackbar } = useSnackbar();
+
+//     const { data: userData, error, isLoading } = useGetUserById(userId);
+//     const [formData, setFormData] = useState({
+//         name: '',
+//         email: '',
+//         image: null
+//     });
+//     const [imagePreview, setImagePreview] = useState('');
+//     const [hasImageChanged, setHasImageChanged] = useState(false);
+
+//     useEffect(() => {
+//         if (userData && userData.data) {
+//             setFormData({
+//                 name: userData.data.name || '',
+//                 email: userData.data.email || '',
+//                 image: userData.data.image ? userData.data.image : null
+//             });
+
+//             setImagePreview(userData.data.image || '');
+//             setHasImageChanged(false);
+//         }
+//     }, [userData]);
+
+//     const handleChange = (e) => {
+//         const { name, value, files } = e.target;
+//         if (name === 'image') {
+//             setFormData({ ...formData, [name]: files[0] });
+//             setImagePreview(URL.createObjectURL(files[0]));
+//             setHasImageChanged(true);
+//         } else {
+//             setFormData({ ...formData, [name]: value });
+//         }
+//     };
+
+//     const handleSubmit = (e) => {
+//         e.preventDefault();
+
+//         updateUser({ userId, data: formData }, {
+//             onSuccess: () => {
+//                 setFormData({ name: '', email: '', image: null });
+//                 setImagePreview('');
+//                 setHasImageChanged(false);
+//                 navigate('/profile');
+//                 enqueueSnackbar('Utilisateur mis à jour avec succès', {
+//                     variant: 'success',
+//                     anchorOrigin: {
+//                         vertical: 'top',
+//                         horizontal: 'center',
+//                     },
+//                     autoHideDuration: 5000,
+//                     action: (
+//                         <IconButton size="small" onClick={() => { }}>
+//                             <AiOutlineClose fontSize="small" />  
+//                         </IconButton>
+//                     ),
+//                     style: {
+//                         backgroundColor: '#4caf50',
+//                         color: '#ffffff',
+//                     },
+//                 });
+//             },
+//             onError: (error) => {
+//                 console.error('Erreur lors de la mise à jour de l\'utilisateur:', error.message);
+//             }
+//         });
+//     };
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
