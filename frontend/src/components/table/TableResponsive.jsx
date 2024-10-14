@@ -62,7 +62,6 @@ const TableResponsive = () => {
     
         // Ajoutez une image centrée en haut avec un décalage de 2 lignes
         const pageWidth = doc.internal.pageSize.getWidth();
-        const pageHeight = doc.internal.pageSize.getHeight();
         const imageWidth = 40; // Largeur de l'image
         const centeredX = (pageWidth - imageWidth) / 2; // Calculer le positionnement centré
         const topMargin = 20; // Marges supérieures et inférieures pour le décalage

@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef, useState } from 'react'; 
+import React, { useEffect, useRef, useState } from 'react';
 import "./tableResponsive.scss";
 import search from "../../assets/image/search.png"
 import { MdEdit, MdDelete, MdVisibility, MdAdd } from 'react-icons/md';
@@ -18,12 +18,13 @@ import pdf from "../../assets/image/pdf.png";
 import excel from "../../assets/image/excel.png";
 import word from "../../assets/image/docx2.png";
 import ContentToPrintArchive from '../printer/ContentToPrintArchive';
+import { useSnackbar } from 'notistack';
 
 
 const TableArchive = ({ archives, refetch, year }) => {
     const tableRef = useRef(null);
     const searchRef = useRef(null);
-    const [searchType, setSearchType] = useState('nom');
+    const [searchType, setSearchType] = useState('numero');
     const [searchValue, setSearchValue] = useState('');
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedFolderId, setSelectedFolderId] = useState(null);
@@ -38,27 +39,22 @@ const TableArchive = ({ archives, refetch, year }) => {
     const contentRef = useRef();
     const [startDateValue, setStartDateValue] = useState('');
     const [endDateValue, setEndDateValue] = useState('');
-
-
+    const { enqueueSnackbar } = useSnackbar();
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const [rowsPerPage] = useState(10); // Customize number of rows per page
-
     // Calculate total pages
     const totalPages = Math.ceil(archives.length / rowsPerPage);
-
     // Paginate the archive data
     const paginateData = (data) => {
         const start = (currentPage - 1) * rowsPerPage;
         const end = start + rowsPerPage;
         return data.slice(start, end);
     };
-
     // Navigate to the previous page
     const handlePrevPage = () => {
         if (currentPage > 1) setCurrentPage(currentPage - 1);
     };
-
     // Navigate to the next page
     const handleNextPage = () => {
         if (currentPage < totalPages) setCurrentPage(currentPage + 1);
@@ -70,7 +66,6 @@ const TableArchive = ({ archives, refetch, year }) => {
 
         // Ajoutez une image centrée en haut avec un décalage de 2 lignes
         const pageWidth = doc.internal.pageSize.getWidth();
-        const pageHeight = doc.internal.pageSize.getHeight();
         const imageWidth = 40; // Largeur de l'image
         const centeredX = (pageWidth - imageWidth) / 2; // Calculer le positionnement centré
         const topMargin = 20; // Marges supérieures et inférieures pour le décalage
@@ -84,7 +79,15 @@ const TableArchive = ({ archives, refetch, year }) => {
         // Démarrer la table après les images, avec un espace suffisant
         doc.autoTable({
             html: "#table__archive",
-            startY: centeredY + imageWidth + topMargin * 2, // Démarrer la table après l'image centrée avec un décalage total de 4 lignes
+            startY: centeredY + imageWidth + topMargin * 2,
+            headStyles: {
+                fillColor: [109, 109, 109], // Couleur de fond de l'en-tête (rouge dans cet exemple)
+                textColor: [255, 255, 255],
+            },
+            styles: {
+                cellPadding: 4,
+                fontSize: 10,
+            }
         });
 
         doc.save("archive.pdf");
@@ -110,24 +113,27 @@ const TableArchive = ({ archives, refetch, year }) => {
 
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
-        console.log('Dropdown toggled!');
+        // console.log('Dropdown toggled!');
     };
 
     const handleOptionClick = async (option) => {
         setSelectedOption(option);
-        console.log(`Option selected: ${option}`);
+        // console.log(`Option selected: ${option}`);
         switch (option) {
             case 'option1':
                 await exportPdf();
-                console.log("PDF généré avec succès");
+                // console.log("PDF généré avec succès");
+                enqueueSnackbar('PDF généré avec succès.', { variant: 'success' });
                 break;
             case 'option2':
                 await exportWord();
-                console.log("Fichier Word généré avec succès");
+                // console.log("Fichier Word généré avec succès");
+                enqueueSnackbar('Fichier Word généré avec succès.', { variant: 'success' });
                 break;
             case 'option3':
                 await exportExcel();
-                console.log("Fichier Word généré avec succès");
+                // console.log("Fichier Word généré avec succès");
+                enqueueSnackbar('Fichier excel généré avec succès.', { variant: 'success' });
                 break;
         }
         setDropdownOpen(false);
@@ -146,14 +152,14 @@ const TableArchive = ({ archives, refetch, year }) => {
     const handleDeleteClick = (folderId) => {
         setDeleteFolderId(folderId);
         setAlertOpen(true); // Ouvre l'alert modal
-        console.log(folderId)
+        // console.log(folderId)
     };
 
     // Ouvre le modal d'alerte avec l'ID du courrier à supprimer
     const handleReadClick = (folderId) => {
         setReadFolderId(folderId);
         setAlertOpenRead(true); // Ouvre l'alert modal
-        console.log(folderId)
+        // console.log(folderId)
     };
 
 
@@ -165,7 +171,7 @@ const TableArchive = ({ archives, refetch, year }) => {
 
         tableRows.forEach((row, i) => {
             // On récupère la date à comparer dans la colonne spécifique (par exemple la 8ème colonne).
-            let tableDateText = row.querySelectorAll('td')[5].textContent; // Suppose que la date est dans la 8ème colonne (index 7)
+            let tableDateText = row.querySelectorAll('td')[1].textContent; // Suppose que la date est dans la 8ème colonne (index 7)
             let tableDate = new Date(tableDateText);
 
             // Vérifie si la date est entre les deux dates sélectionnées
@@ -207,7 +213,7 @@ const TableArchive = ({ archives, refetch, year }) => {
 
 
     useEffect(() => {
-        console.log("Valeur de recherche :", searchValue);
+        // console.log("Valeur de recherche :", searchValue);
     }, [searchValue]);
 
 
@@ -217,7 +223,7 @@ const TableArchive = ({ archives, refetch, year }) => {
         const table = tableRef.current;
 
         if (!table) {
-            console.error('Table reference is null.');
+            // console.error('Table reference is null.');
             return;
         }
 
@@ -239,19 +245,12 @@ const TableArchive = ({ archives, refetch, year }) => {
                 let table_data = '';
 
                 if (searchType === 'nom') {
-                    table_data = row.querySelectorAll('td')[1]?.textContent.toLowerCase();
-                } else if (searchType === 'numero') {
                     table_data = row.querySelectorAll('td')[4]?.textContent.toLowerCase();
+                } else if (searchType === 'numero') {
+                    table_data = row.querySelectorAll('td')[0]?.textContent.toLowerCase();
                 } else if (searchType === 'matricule') {
-                    table_data = row.querySelectorAll('td')[3]?.textContent.toLowerCase();
+                    table_data = row.querySelectorAll('td')[6]?.textContent.toLowerCase();
                 }
-                // else if (searchType === 'date') {
-                //     table_data = row.querySelectorAll('td')[5]?.textContent;
-                //     if (search_data) {
-                //         table_data = new Date(table_data).toLocaleDateString();
-                //     }
-                // } 
-
                 // Masquer la ligne si elle ne correspond pas à la recherche
                 if (table_data && search_data) {
                     row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
@@ -270,8 +269,8 @@ const TableArchive = ({ archives, refetch, year }) => {
     }, [searchType, searchValue]);
 
 
-        // Count total items
-        const totalItems = archives.length;
+    // Count total items
+    const totalItems = archives.length;
 
 
     const displayTotalItems = () => {
@@ -294,10 +293,10 @@ const TableArchive = ({ archives, refetch, year }) => {
                 </div>
                 <section className="table__header">
                     <select className='searchByeverything' value={searchType} onChange={(e) => setSearchType(e.target.value)}>
-                        <option value="nom">Search by Nom</option>
-                        <option value="numero">Search by Numero</option>
-                        <option value="matricule">Search by Matricule</option>
-                        <option value="date">Search by Date</option>
+                        <option value="numero">Recherche par Numero</option>
+                        <option value="nom">Recherche par Nom</option>
+                        <option value="matricule">Recherche par Matricule</option>
+                        <option value="date">Recherche par Date</option>
                     </select>
                     {searchType === 'date' ? (
                         <div className='container__search'>
@@ -325,7 +324,7 @@ const TableArchive = ({ archives, refetch, year }) => {
                         <div className="input-group">
                             <input
                                 type="search"
-                                placeholder="Search Data..."
+                                placeholder="Recherche donnée..."
                                 ref={searchRef}
                                 onChange={(e) => setSearchValue(e.target.value)}
                             />
@@ -356,14 +355,14 @@ const TableArchive = ({ archives, refetch, year }) => {
                         <thead className='thead'>
                             <tr>
                                 {/* <th className='th'>ID</th> */}
-                                <th className='th'>Description</th>
-                                <th className='th'>Nom</th>
-                                <th className='th'>Prénom</th>
-                                <th className='th'>Matricule</th>
                                 <th className='th'>Numéro Bordereaux</th>
                                 <th className='th'>Date Départ</th>
                                 <th className='th'>Expéditeur</th>
                                 <th className='th'>Destination</th>
+                                <th className='th'>Nom</th>
+                                <th className='th'>Prénom</th>
+                                <th className='th'>Matricule</th>
+                                <th className='th'>Description</th>
                                 <th className='th'>Actions</th>
                             </tr>
                         </thead>
@@ -374,14 +373,14 @@ const TableArchive = ({ archives, refetch, year }) => {
                             {archives.length > 0 ? (
                                 paginateData(archives).map((archive, index) => (
                                     <tr key={archive._id}>
-                                        <td className="td">{archive.description}</td>
-                                        <td className="td">{archive.nom_depose}</td>
-                                        <td className="td">{archive.prenom_depose}</td>
-                                        <td className="td">{archive.matricule}</td>
                                         <td className="td">{archive.numero_bordereaux}</td>
                                         <td className="td">{new Date(archive.date_depart).toLocaleDateString()}</td>
                                         <td className="td">{archive.expiditeur}</td>
                                         <td className="td">{archive.destination}</td>
+                                        <td className="td">{archive.nom_depose}</td>
+                                        <td className="td">{archive.prenom_depose}</td>
+                                        <td className="td">{archive.matricule}</td>
+                                        <td className="td">{archive.description}</td>
                                         <td className="td">
                                             <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(archive._id, 'edit')} />
                                             <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(archive._id)} />

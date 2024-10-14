@@ -11,27 +11,27 @@ const ContentToPrintArchive = ({ archives }) => {
             <table id='table__archive' style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
                 <thead>
                     <tr>
+                        <th style={styles.th}>Numero Bordereaux</th>
+                        <th style={styles.th}>Date Départ</th>
+                        <th style={styles.th}>Expéditeur</th>
+                        <th style={styles.th}>Destination</th>
                         <th style={styles.th}>Nom</th>
                         <th style={styles.th}>Prénom</th>
                         <th style={styles.th}>Matricule</th>
-                        <th style={styles.th}>Expéditeur</th>
-                        <th style={styles.th}>Destination</th>
                         <th style={styles.th}>Description</th>
-                        <th style={styles.th}>Numero Bordereaux</th>
-                        <th style={styles.th}>Date Départ</th>
                     </tr>
                 </thead>
                 <tbody>
                     {archives.map((archive, index) => (
                         <tr key={index}>
+                            <td style={styles.td}>{archive.numero_bordereaux}</td>
+                            <td style={styles.td}>{new Date(archive.date_depart).toLocaleDateString()}</td>
+                            <td style={styles.td}>{archive.expiditeur}</td>
+                            <td style={styles.td}>{archive.destination}</td>
                             <td style={styles.td}>{archive.nom_depose}</td>
                             <td style={styles.td}>{archive.prenom_depose}</td>
                             <td style={styles.td}>{archive.matricule}</td>
-                            <td style={styles.td}>{archive.expiditeur}</td>
-                            <td style={styles.td}>{archive.destination}</td>
                             <td style={styles.td}>{archive.description}</td>
-                            <td style={styles.td}>{archive.numero_bordereaux}</td>
-                            <td style={styles.td}>{new Date(archive.date_depart).toLocaleDateString()}</td>
                         </tr>
                     ))}
                 </tbody>
