@@ -19,11 +19,13 @@ import pdf from "../../assets/image/pdf.png";
 import excel from "../../assets/image/excel.png";
 import word from "../../assets/image/docx2.png";
 import ReactPaginate from 'react-paginate';
+import { useSnackbar } from 'notistack';
+import { AiOutlineClose } from 'react-icons/ai';
 
 const TableResponsive = () => {
     const tableRef = useRef(null);
     const searchRef = useRef(null);
-    const [searchType, setSearchType] = useState('nom');
+    const [searchType, setSearchType] = useState('numero');
     const [searchValue, setSearchValue] = useState('');
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedFolderId, setSelectedFolderId] = useState(null);
@@ -43,6 +45,7 @@ const TableResponsive = () => {
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
     const [startDateValue, setStartDateValue] = useState('');
     const [endDateValue, setEndDateValue] = useState('');
+    const { enqueueSnackbar } = useSnackbar();
 
 
 
@@ -75,8 +78,10 @@ const TableResponsive = () => {
             html: "#teste",
             startY: centeredY + imageWidth + topMargin * 2, // Démarrer la table après l'image centrée avec un décalage total de 4 lignes
             headStyles: {
-                fillColor: [255, 0, 0], // Couleur de fond de l'en-tête (rouge dans cet exemple)
-                textColor: [255, 255, 255] // Couleur du texte de l'en-tête (blanc dans cet exemple)
+                // fillColor: [255, 0, 0], // Couleur de fond de l'en-tête (rouge dans cet exemple)
+                fillColor: [109, 109, 109], // Couleur de fond de l'en-tête (rouge dans cet exemple)
+                textColor: [255, 255, 255],
+
             },
             styles: {
                 cellPadding: 4,
@@ -121,13 +126,13 @@ const TableResponsive = () => {
     const handleDeleteClick = (folderId) => {
         setDeleteFolderId(folderId);
         setAlertOpen(true);
-        console.log(folderId);
+        // console.log(folderId);
     };
 
     const handleReadClick = (folderId) => {
         setReadFolderId(folderId);
         setAlertOpenRead(true);
-        console.log(folderId);
+        // console.log(folderId);
     };
 
     useEffect(() => {
@@ -136,25 +141,28 @@ const TableResponsive = () => {
 
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
-        console.log('Dropdown toggled!');
+        // console.log('Dropdown toggled!');
     };
 
     const handleOptionClick = async (option) => {
         setSelectedOption(option);
-        console.log(`Option selected: ${option}`);
+        // console.log(`Option selected: ${option}`);
 
         switch (option) {
             case 'option1':
                 await exportPdf();
-                console.log("PDF généré avec succès");
+                // console.log("PDF généré avec succès");
+                enqueueSnackbar('PDF généré avec succès.', { variant: 'success' });
                 break;
-            case 'option2':
-                await exportWord();
-                console.log("Fichier Word généré avec succès");
-                break;
-            case 'option3':
-                await exportExcel();
-                console.log("Fichier Word généré avec succès");
+                case 'option2':
+                    await exportWord();
+                    // console.log("Fichier Word généré avec succès");
+                    enqueueSnackbar('Fichier Word généré avec succès.', { variant: 'success' });
+                    break;
+                    case 'option3':
+                        await exportExcel();
+                        // console.log("Fichier Word généré avec succès");
+                        enqueueSnackbar('Fichier excel généré avec succès.', { variant: 'success' });
                 break;
         }
 
@@ -170,18 +178,14 @@ const TableResponsive = () => {
             tableRows.forEach((row, i) => {
                 let search_data = searchValue.toLowerCase();
                 let table_data = '';
-
-                if (searchType === 'nom') {
+                
+                if (searchType === 'numero') {
                     table_data = row.querySelectorAll('td')[0].textContent.toLowerCase();
-                } else if (searchType === 'numero') {
-                    table_data = row.querySelectorAll('td')[6].textContent.toLowerCase();
+                } else if (searchType === 'nom') {
+                    table_data = row.querySelectorAll('td')[4].textContent.toLowerCase();
                 } else if (searchType === 'matricule') {
-                    table_data = row.querySelectorAll('td')[2].textContent.toLowerCase();
+                    table_data = row.querySelectorAll('td')[6].textContent.toLowerCase();
                 }
-                //  else if (searchType === 'date') {
-                //     table_data = row.querySelectorAll('td')[7].textContent;
-                //     search_data = new Date(search_data).toLocaleDateString(); // Convertir pour une comparaison de date
-                // }
 
                 row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
                 row.style.setProperty('--delay', i / 25 + 's');
@@ -225,14 +229,14 @@ const TableResponsive = () => {
 
         return currentFolders.map((folder, index) => (
             <tr key={index}>
+                <td className="td">{folder.numero_bordereaux}</td>
+                <td className="td">{new Date(folder.date_depart).toLocaleDateString()}</td>
+                <td className="td">{folder.expiditeur}</td>
+                <td className="td">{folder.destination}</td>
                 <td className="td">{folder.id_nature.nom_depose}</td>
                 <td className="td">{folder.id_nature.prenom_depose}</td>
                 <td className="td">{folder.id_nature.matricule}</td>
-                <td className="td">{folder.expiditeur}</td>
-                <td className="td">{folder.destination}</td>
                 <td className="td">{folder.id_nature.description}</td>
-                <td className="td">{folder.numero_bordereaux}</td>
-                <td className="td">{new Date(folder.date_depart).toLocaleDateString()}</td>
                 <td className="td">
                     <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
                     <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
@@ -250,7 +254,7 @@ const TableResponsive = () => {
     
         tableRows.forEach((row, i) => {
             // On récupère la date à comparer dans la colonne spécifique (par exemple la 8ème colonne).
-            let tableDateText = row.querySelectorAll('td')[7].textContent; // Suppose que la date est dans la 8ème colonne (index 7)
+            let tableDateText = row.querySelectorAll('td')[1].textContent; // Suppose que la date est dans la 8ème colonne (index 7)
             let tableDate = new Date(tableDateText);
     
             // Vérifie si la date est entre les deux dates sélectionnées
@@ -310,10 +314,10 @@ const TableResponsive = () => {
 
                 <section className="table__header">
                     <select className='searchByeverything' value={searchType} onChange={(e) => setSearchType(e.target.value)}>
-                        <option value="nom">Search by Nom</option>
-                        <option value="numero">Search by Numero</option>
-                        <option value="matricule">Search by Matricule</option>
-                        <option value="date">Search by Date</option>
+                        <option value="numero">Recherche par Numero</option>
+                        <option value="nom">Recherche par Nom</option>
+                        <option value="matricule">Recherche par Matricule</option>
+                        <option value="date">Recherche par Date</option>
                     </select>
                     {searchType === 'date' ? (
 
@@ -343,7 +347,7 @@ const TableResponsive = () => {
                         <div className="input-group">
                             <input
                                 type="search"
-                                placeholder="Search Data..."
+                                placeholder="Recherche donnée..."
                                 ref={searchRef}
                                 onChange={(e) => setSearchValue(e.target.value)}
                             />
@@ -372,14 +376,14 @@ const TableResponsive = () => {
                     <table className='table' id="my-table">
                         <thead className='thead'>
                             <tr>
+                                <th className='th'>Numero Bordereaux </th>
+                                <th className='th'>Date Départ </th>
+                                <th className='th'>Expediteur </th>
+                                <th className='th'>Destination </th>
                                 <th className='th'>Nom </th>
                                 <th className='th'>Prénom </th>
                                 <th className='th'>Matricule </th>
-                                <th className='th'>Expediteur </th>
-                                <th className='th'>Destination </th>
                                 <th className='th'>Description </th>
-                                <th className='th'>Numero Bordereaux </th>
-                                <th className='th'>Date Départ </th>
                                 <th className='th'>Actions </th>
                             </tr>
                         </thead>
@@ -463,6 +467,14 @@ export default TableResponsive;
 
 
 
+
+
+
+
+                //  else if (searchType === 'date') {
+                //     table_data = row.querySelectorAll('td')[7].textContent;
+                //     search_data = new Date(search_data).toLocaleDateString(); // Convertir pour une comparaison de date
+                // }
 
 
 

@@ -4,7 +4,7 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Slide, TextF
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAddFolder, useGetFolderById, useUpdateFolder } from '../../services/serviceFolder';
 // import { CheckCircle, Clear } from "@mui/icons-material"
-import { Autocomplete } from '@mui/material';
+// import { Autocomplete } from '@mui/material';
 import { useGetLastFolderNumber } from '../../services/serviceFolder'; // Import du service
 import { useSnackbar } from 'notistack';
 import { AiOutlineClose } from 'react-icons/ai';
