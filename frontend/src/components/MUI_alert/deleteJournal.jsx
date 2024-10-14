@@ -11,6 +11,9 @@ import { useDeleteJournal } from '../../services/serviceJournal';
 import { useGetJournals } from '../../services/serviceJournal';
 import { FaExclamationTriangle } from 'react-icons/fa';
 import './styleglobale.scss'
+import { useSnackbar } from 'notistack';
+import { AiOutlineClose } from 'react-icons/ai';
+import IconButton from '@mui/material/IconButton';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -20,6 +23,7 @@ export default function AlertJournalDialogSlide({ open, setOpen, id, onSuccess }
 
     const deleteJournalMutation = useDeleteJournal();
     const { data: journals, refetch, isLoading } = useGetJournals();
+    const { enqueueSnackbar } = useSnackbar();
 
     const handleClose = () => {
         setOpen(false);
@@ -27,11 +31,28 @@ export default function AlertJournalDialogSlide({ open, setOpen, id, onSuccess }
 
     const handleConfirmDelete = async () => {
         // Ajoutez votre logique de suppression ici avec folderId
-        console.log(id);
+        // console.log(id);
 
         try {
             await deleteJournalMutation.mutateAsync({ id });
-            console.log("Supprimer le dossier avec ID:", id);
+            // console.log("Supprimer le dossier avec ID:", id);
+            enqueueSnackbar('Le journal a été supprimé avec succès', {
+                variant: 'success',
+                anchorOrigin: {
+                    vertical: 'top',
+                    horizontal: 'center',
+                },
+                autoHideDuration: 5000,
+                action: (
+                    <IconButton size="small" onClick={() => { }}>
+                        <AiOutlineClose fontSize="small" />  {/* Utilisation de AiOutlineClose ici */}
+                    </IconButton>
+                ),
+                style: {
+                    backgroundColor: '#4caf50',
+                    color: '#ffffff',
+                },
+            });
             refetch();
             setOpen(false);
             onSuccess();

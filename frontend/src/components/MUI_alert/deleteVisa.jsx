@@ -29,7 +29,7 @@ export default function AlertDialogSlideVisa({ open, setOpen, folderId, onSucces
 
     const handleConfirmDelete = async () => {
         // Ajoutez votre logique de suppression ici avec folderId
-        console.log(folderId);
+        // console.log(folderId);
 
         try {
             await deleteVisaMutation.mutateAsync({ folderId });

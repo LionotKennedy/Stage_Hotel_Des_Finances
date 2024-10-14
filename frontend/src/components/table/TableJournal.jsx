@@ -19,7 +19,7 @@ const TableJournal = () => {
     const [startDateValue, setStartDateValue] = useState('');
     const [endDateValue, setEndDateValue] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [foldersPerPage] = useState(15); // Nombre d'éléments par page
+    const [foldersPerPage] = useState(10); // Nombre d'éléments par page
 
     const totalPages = journals && Array.isArray(journals.data) ? Math.ceil(journals.data.length / foldersPerPage) : 1;
     // Dossiers pour la page actuelle
@@ -34,13 +34,13 @@ const TableJournal = () => {
     const handleDeleteClick = (folderId) => {
         setDeleteFolderId(folderId);
         setAlertOpen(true);
-        console.log(folderId);
+        // console.log(folderId);
     };
 
     const handleReadClick = (folderId) => {
         setReadFolderId(folderId);
         setAlertOpenRead(true);
-        console.log(folderId);
+        // console.log(folderId);
     };
 
     const displayData = () => {

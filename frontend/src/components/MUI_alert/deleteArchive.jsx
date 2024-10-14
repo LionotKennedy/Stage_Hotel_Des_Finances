@@ -29,8 +29,8 @@ export default function AlertDialogArchiveSlide({ open, setOpen, folderId, onSuc
 
     const handleConfirmDelete = async () => {
         // Ajoutez votre logique de suppression ici avec folderId
-        console.log(folderId);
-        console.log(onSuccess);
+        // console.log(folderId);
+        // console.log(onSuccess);
 
 
         try {
