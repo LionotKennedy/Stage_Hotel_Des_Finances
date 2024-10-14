@@ -6,6 +6,9 @@ import { useGetUserById } from '../../services/serviceUser'; // Ajuste le chemin
 import { useUpdateUser } from '../../services/serviceUser'; // Ajuste le chemin si nécessaire
 import { FaArrowLeft } from 'react-icons/fa';
 import { FaFileImage, FaImages, FaImage, FaRegFileImage } from 'react-icons/fa';
+import { useSnackbar } from 'notistack';
+import { AiOutlineClose } from 'react-icons/ai';
+import IconButton from '@mui/material/IconButton';
 
 
 const UserPage = () => {
@@ -13,6 +16,7 @@ const UserPage = () => {
     const navigate = useNavigate();
     const userId = location.state?.userId;
     const { mutate: updateUser } = useUpdateUser();
+    const { enqueueSnackbar } = useSnackbar();
 
     const { data: userData, error, isLoading } = useGetUserById(userId);
     const [formData, setFormData] = useState({
@@ -31,7 +35,7 @@ const UserPage = () => {
             });
 
             setImagePreview(userData.data.image);
-            console.log('Données du formulairelll:', userData.data.image);
+            // console.log('Données du formulairelll:', userData.data.image);
             // console.log('Données du formulaireccc:', imagePreview);
             // console.log('Données du formulaireccc:', imagePath);
         }
@@ -52,15 +56,33 @@ const UserPage = () => {
 
         updateUser({ userId, data: formData }, {
             onSuccess: () => {
-                console.log('Utilisateur mis à jour avec succès');
+                // console.log('Utilisateur mis à jour avec succès');
                 setFormData({ name: '', email: '', image: null });
                 setImagePreview('');
                 navigate('/profile');
+                enqueueSnackbar('Utilisateur mis à jour avec succès', {
+                    variant: 'success',
+                    anchorOrigin: {
+                        vertical: 'top',
+                        horizontal: 'center',
+                    },
+                    autoHideDuration: 5000,
+                    action: (
+                        <IconButton size="small" onClick={() => { }}>
+                            <AiOutlineClose fontSize="small" />  {/* Utilisation de AiOutlineClose ici */}
+                        </IconButton>
+                    ),
+                    style: {
+                        backgroundColor: '#4caf50',
+                        color: '#ffffff',
+                    },
+                });
             },
             onError: (error) => {
                 console.error('Erreur lors de la mise à jour de l\'utilisateur:', error.message);
             }
         });
+
     };
 
     const handleBackClick = () => {

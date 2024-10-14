@@ -5,17 +5,17 @@ import { useGetUser } from '../../services/serviceUser';
 import { MdAdd } from 'react-icons/md';
 import UserScreenDialog from '../../components/MUI/UserModal';
 import ReactPaginate from 'react-paginate';
-import Calendars from '../../components/calendars/Calendars';
-import CalendarComponent from '../../components/calendars/CalendarComponent';
-import Clock from '../../components/hours/Clock';
-import CurrentTime from '../../components/Timer/CurrentTime';
-import AnalogClock from '../../components/Timer/AnalogClock';
+// import Calendars from '../../components/calendars/Calendars';
+// import CalendarComponent from '../../components/calendars/CalendarComponent';
+// import Clock from '../../components/hours/Clock';
+// import CurrentTime from '../../components/Timer/CurrentTime';
+// import AnalogClock from '../../components/Timer/AnalogClock';
 
 const User = () => {
   const [modalOpen, setModalOpen] = useState(false); // État pour gérer l'ouverture/fermeture de la modale
   const { data: users, refetch, isLoading, isError } = useGetUser();
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 2; // Nombre d'éléments par page
+  const itemsPerPage = 5; // Nombre d'éléments par page
 
   // Calcule les éléments à afficher sur la page actuelle
   const indexOfLastItem = (currentPage + 1) * itemsPerPage;
@@ -57,7 +57,7 @@ const User = () => {
     const displayTotalItems = () => {
       if (totalItems > 0) {
         return (
-          <p>Total des items : {totalItems}</p>
+          <p>Total des utilisateurs : {totalItems}</p>
         );
       }
       return null;
@@ -99,12 +99,12 @@ const User = () => {
       {/* <Calendars /> */}
       {/* <CalendarComponent /> */}
       <div>
-        <CurrentTime />
-        <AnalogClock />
+        {/* <CurrentTime /> */}
+        {/* <AnalogClock /> */}
       </div>
-      <Clock />
-      <button className='tsr'>Fory ee</button>
-      <h1 className='tsrs'>Fory eee</h1>
+      {/* <Clock /> */}
+      {/* <button className='tsr'>Fory ee</button> */}
+      {/* <h1 className='tsrs'>Fory eee</h1> */}
     </div>
   );
 };
