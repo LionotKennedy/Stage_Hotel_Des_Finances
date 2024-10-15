@@ -15,6 +15,7 @@ import "jspdf-autotable";
 import * as XLSX from 'xlsx';
 import imageData from "../../assets/images/logo.png";
 import imageLogo from "../../assets/images/ministere.png";
+import imageLogo2 from "../../assets/images/image3.png";
 import pdf from "../../assets/image/pdf.png";
 import excel from "../../assets/image/excel.png";
 import word from "../../assets/image/docx2.png";
@@ -48,8 +49,6 @@ const TableResponsive = () => {
     const { enqueueSnackbar } = useSnackbar();
 
 
-
-
     const totalPages = folders && Array.isArray(folders.data) ? Math.ceil(folders.data.length / foldersPerPage) : 1;
 
     // Dossiers pour la page actuelle
@@ -57,41 +56,54 @@ const TableResponsive = () => {
         ? folders.data.slice((currentPage - 1) * foldersPerPage, currentPage * foldersPerPage)
         : [];
 
+    
     const exportPdf = async () => {
         const doc = new jsPDF({ orientation: "landscape" });
     
-        // Ajoutez une image centrée en haut avec un décalage de 2 lignes
+        // Variables pour centrer et ajuster la position des images
         const pageWidth = doc.internal.pageSize.getWidth();
-        const imageWidth = 40; // Largeur de l'image
-        const centeredX = (pageWidth - imageWidth) / 2; // Calculer le positionnement centré
-        const topMargin = 20; // Marges supérieures et inférieures pour le décalage
-        const centeredY = topMargin; // Position Y de l'image centrée
-        
-        doc.addImage(imageLogo, 'JPEG', centeredX, centeredY, imageWidth, imageWidth); // Image centrée en haut
-        
-        // Ajoutez l'image à gauche
-        doc.addImage(imageData, 'JPEG', 10, 65, 23, 23); // Image à gauche
+        const imageWidth = 30; // Largeur de l'image principale (imageLogo)
+        const imageWidth2 = 45; // Largeur de la deuxième image (imageLogo2)
+        const imageDataWidth = 18; // Largeur de l'imageData
+        const topMargin = 5; // Marges supérieures pour le décalage (réduite pour remonter l'imageLogo)
+  
+    
+        // Centrer uniquement imageLogo
+        const centeredX1 = (pageWidth - imageWidth) / 2; // Centrer imageLogo
+        const centeredY1 = topMargin; // Réduire topMargin pour placer imageLogo plus haut
+    
+        // Ajout de l'image centrée (imageLogo)
+        doc.addImage(imageLogo, 'JPEG', centeredX1, centeredY1, imageWidth, imageWidth);
+    
+        // Positionner imageLogo2 à gauche (X = 10)
+        const leftX = 10; // Positionnement à gauche pour imageLogo2
+        const imageLogo2Y = centeredY1 + imageWidth + 25; // Position Y pour imageLogo2, sous imageLogo
+        doc.addImage(imageLogo2, 'JPEG', leftX, imageLogo2Y, imageWidth2, imageWidth2); // Image à gauche (imageLogo2)
+    
+        // Centrer imageData par rapport à imageLogo2
+        const centeredXImageData = leftX + (imageWidth2 - imageDataWidth) / 2; // Centrer imageData par rapport à imageLogo2
+        const imageDataY = imageLogo2Y - imageDataWidth - 2; // Positionner imageData juste au-dessus de imageLogo2
+    
+        doc.addImage(imageData, 'JPEG', centeredXImageData, imageDataY, imageDataWidth, imageDataWidth); // Image centrée par rapport à imageLogo2
     
         // Démarrer la table après les images, avec un espace suffisant
         doc.autoTable({
             html: "#teste",
-            startY: centeredY + imageWidth + topMargin * 2, // Démarrer la table après l'image centrée avec un décalage total de 4 lignes
+            startY: imageLogo2Y + imageWidth2 + 20, // Démarrer la table après imageLogo2 avec un décalage
             headStyles: {
-                // fillColor: [255, 0, 0], // Couleur de fond de l'en-tête (rouge dans cet exemple)
-                fillColor: [109, 109, 109], // Couleur de fond de l'en-tête (rouge dans cet exemple)
+                fillColor: [109, 109, 109],
                 textColor: [255, 255, 255],
-
             },
             styles: {
                 cellPadding: 4,
                 fontSize: 10,
-                // Ajoutez d'autres styles globaux si nécessaire
             }
         });
     
+        // Sauvegarder le fichier PDF
         doc.save("corrier.pdf");
     };
-    
+
 
     const exportExcel = () => {
         // const table = document.getElementById('my-table');
@@ -263,7 +275,6 @@ const TableResponsive = () => {
             return;
         }
 
-    
         tableRows.forEach((row, i) => {
             // On récupère la date à comparer dans la colonne spécifique (par exemple la 8ème colonne).
             let tableDateText = row.querySelectorAll('td')[1].textContent; // Suppose que la date est dans la 8ème colonne (index 7)
@@ -295,7 +306,6 @@ const TableResponsive = () => {
         SearchByTowDate();
     };
     
-
     const startDateRef = useRef(null);
     const endDateRef = useRef(null);
 
@@ -448,6 +458,469 @@ export default TableResponsive;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const exportPdff = async () => {
+//     const doc = new jsPDF({ orientation: "landscape" });
+
+//     // Ajoutez une image centrée en haut avec un décalage de 2 lignes
+//     const pageWidth = doc.internal.pageSize.getWidth();
+//     const imageWidth = 40; // Largeur de l'image
+//     const centeredX = (pageWidth - imageWidth) / 2; // Calculer le positionnement centré
+//     const topMargin = 20; // Marges supérieures et inférieures pour le décalage
+//     const centeredY = topMargin; // Position Y de l'image centrée
+    
+//     doc.addImage(imageLogo, 'JPEG', centeredX, centeredY, imageWidth, imageWidth); // Image centrée en haut
+    
+//     // Ajoutez l'image à gauche
+//     doc.addImage(imageData, 'JPEG', 10, 65, 23, 23); // Image à gauche
+
+//     // Démarrer la table après les images, avec un espace suffisant
+//     doc.autoTable({
+//         html: "#teste",
+//         startY: centeredY + imageWidth + topMargin * 2, // Démarrer la table après l'image centrée avec un décalage total de 4 lignes
+//         headStyles: {
+//             // fillColor: [255, 0, 0], // Couleur de fond de l'en-tête (rouge dans cet exemple)
+//             fillColor: [109, 109, 109], // Couleur de fond de l'en-tête (rouge dans cet exemple)
+//             textColor: [255, 255, 255],
+
+//         },
+//         styles: {
+//             cellPadding: 4,
+//             fontSize: 10,
+//             // Ajoutez d'autres styles globaux si nécessaire
+//         }
+//     });
+
+//     doc.save("corrier.pdf");
+// };
+
+
+
+
+
+// const exportPdfs = async () => {
+//     const doc = new jsPDF({ orientation: "landscape" });
+
+//     // Variables pour les dimensions des images
+//     const pageWidth = doc.internal.pageSize.getWidth();
+//     const imageWidthLogo = 40; // Largeur de imageLogo
+//     const imageWidthLogo2 = 60; // Largeur de imageLogo2
+//     const topMargin = 20; // Marge en haut pour les images
+//     const spaceBetweenImages = 10; // Espace entre les deux images
+
+//     // Calcul de la position centrée pour imageLogo2
+//     const centeredXLogo2 = (pageWidth - imageWidthLogo2) / 2;
+//     const centeredYLogo2 = topMargin;
+
+//     // Ajout de l'image imageLogo2 centrée
+//     doc.addImage(imageLogo2, 'JPEG', centeredXLogo2, centeredYLogo2, imageWidthLogo2, imageWidthLogo2);
+
+//     // Calcul de la position centrée pour imageLogo par rapport à imageLogo2
+//     const centeredXLogo = (centeredXLogo2 + (imageWidthLogo2 - imageWidthLogo) / 2);
+//     const centeredYLogo = centeredYLogo2 + imageWidthLogo2 + spaceBetweenImages;
+
+//     // Ajout de l'image imageLogo (centrée par rapport à imageLogo2)
+//     doc.addImage(imageLogo, 'JPEG', centeredXLogo, centeredYLogo, imageWidthLogo, imageWidthLogo);
+
+//     // Ajoutez l'image sur la gauche (imageData) si nécessaire
+//     doc.addImage(imageData, 'JPEG', 10, centeredYLogo + imageWidthLogo + 10, 23, 23); // Image à gauche
+
+//     // Ajoutez la table après les images, avec un espace suffisant
+//     doc.autoTable({
+//         html: "#teste",
+//         startY: centeredYLogo + imageWidthLogo + topMargin, // Démarrer la table après imageLogo
+//         headStyles: {
+//             fillColor: [109, 109, 109],
+//             textColor: [255, 255, 255],
+//         },
+//         styles: {
+//             cellPadding: 4,
+//             fontSize: 10,
+//         }
+//     });
+
+//     doc.save("corrier.pdf");
+// };
+
+
+
+// const exportPdfx = async () => {
+//     const doc = new jsPDF({ orientation: "landscape" });
+
+//     // Ajoutez une image centrée en haut avec un décalage de 2 lignes
+//     const pageWidth = doc.internal.pageSize.getWidth();
+//     const imageWidth = 40; // Largeur de l'image principale
+//     const imageWidth2 = 50; // Largeur de la deuxième image
+//     const topMargin = 20; // Marges supérieures et inférieures pour le décalage
+
+//     // Positionnement centré pour la première image (imageLogo)
+//     const centeredX1 = (pageWidth - imageWidth) / 2; // Calculer le positionnement centré pour imageLogo
+//     const centeredY1 = topMargin; // Position Y de imageLogo
+
+//     // Ajout de la première image (imageLogo)
+//     doc.addImage(imageLogo, 'JPEG', centeredX1, centeredY1, imageWidth, imageWidth); // Image centrée en haut
+
+//     // Positionnement centré pour la deuxième image (imageLogo2) juste en dessous de imageLogo
+//     const centeredX2 = (pageWidth - imageWidth2) / 2; // Calculer le positionnement centré pour imageLogo2
+//     const centeredY2 = centeredY1 + imageWidth + 10; // Position Y de imageLogo2, avec un décalage de 10px sous imageLogo
+
+//     // Ajoutez l'image à gauche (imageData) centrée par rapport à imageLogo2
+//     const centeredXImageData = (pageWidth - 23) / 2; // Calculer le positionnement centré pour imageData
+//     const centeredYImageData = centeredY2 + imageWidth2 + 10; // Position Y de imageData, sous imageLogo2
+    
+//     doc.addImage(imageData, 'JPEG', centeredXImageData, centeredYImageData, 23, 23); // Image centrée sous imageLogo2
+    
+//     // Ajout de la deuxième image (imageLogo2)
+//     doc.addImage(imageLogo2, 'JPEG', centeredX2, centeredY2, imageWidth2, imageWidth2); // Image sous la première image
+
+//     // Démarrer la table après les images, avec un espace suffisant
+//     doc.autoTable({
+//         html: "#teste",
+//         startY: centeredYImageData + 23 + 20, // Démarrer la table après imageData avec un décalage
+//         headStyles: {
+//             fillColor: [109, 109, 109], // Couleur de fond de l'en-tête
+//             textColor: [255, 255, 255],
+//         },
+//         styles: {
+//             cellPadding: 4,
+//             fontSize: 10,
+//         }
+//     });
+
+//     doc.save("corrier.pdf");
+// };
+
+
+
+// const exportPdfa = async () => {
+//     const doc = new jsPDF({ orientation: "landscape" });
+
+//     // Ajoutez l'image à gauche
+//     doc.addImage(imageData, 'JPEG', 10, 65, 23, 23);
+
+//     // Ajoutez l'image Logo2 au-dessus de l'image Data
+//     const logo2Height = 50;
+//     const dataHeight = 23;
+//     const totalHeight = logo2Height + dataHeight;
+//     const yPosition = 65 + totalHeight;
+
+//     doc.addImage(imageLogo2, 'JPEG', 10, yPosition, 23, logo2Height);
+//     doc.addImage(imageData, 'JPEG', 10, yPosition + logo2Height, 23, dataHeight);
+
+//     // Démarrer la table après les images, avec un espace suffisant
+//     doc.autoTable({
+//         html: "#teste",
+//         startY: yPosition + logo2Height + dataHeight + 10, // Démarrer la table après les images avec un décalage total de 8 lignes
+//         headStyles: {
+//             fillColor: [109, 109, 109],
+//             textColor: [255, 255, 255],
+//         },
+//         styles: {
+//             cellPadding: 4,
+//             fontSize: 10,
+//         }
+//     });
+
+//     doc.save("corrier.pdf");
+// };
+
+
+
+// const exportPdfq = async () => {
+//     const doc = new jsPDF({ orientation: "landscape" });
+
+//     // Variables pour centrer et ajuster la position des images
+//     const pageWidth = doc.internal.pageSize.getWidth();
+//     const imageWidth = 40; // Largeur de l'image principale
+//     const imageWidth2 = 50; // Largeur de la deuxième image
+//     const topMargin = 20; // Marges supérieures pour le décalage
+
+//     // Centrer uniquement imageLogo
+//     const centeredX1 = (pageWidth - imageWidth) / 2; // Centrer imageLogo
+//     const centeredY1 = topMargin; // Position Y pour imageLogo
+
+//     // Ajout de l'image centrée (imageLogo)
+//     doc.addImage(imageLogo, 'JPEG', centeredX1, centeredY1, imageWidth, imageWidth);
+
+//     // Positionner imageData à gauche (par exemple, X = 10) et au-dessus de imageLogo2
+//     const leftX = 10; // Positionnement à gauche pour imageData et imageLogo2
+//     const imageDataY = centeredY1 + imageWidth + 10; // ImageData au-dessus de imageLogo2
+//     doc.addImage(imageData, 'JPEG', leftX, imageDataY, 23, 23); // Image à gauche au-dessus
+
+//     // Positionner imageLogo2 en dessous de imageData
+//     const imageLogo2Y = imageDataY + 23 + 10; // Position Y pour imageLogo2 en dessous de imageData
+//     doc.addImage(imageLogo2, 'JPEG', leftX, imageLogo2Y, imageWidth2, imageWidth2); // Image en dessous de imageData
+
+//     // Démarrer la table après les images, avec un espace suffisant
+//     doc.autoTable({
+//         html: "#teste",
+//         startY: imageLogo2Y + imageWidth2 + 20, // Démarrer la table après imageLogo2 avec un décalage
+//         headStyles: {
+//             fillColor: [109, 109, 109],
+//             textColor: [255, 255, 255],
+//         },
+//         styles: {
+//             cellPadding: 4,
+//             fontSize: 10,
+//         }
+//     });
+
+//     // Sauvegarder le fichier PDF
+//     doc.save("corrier.pdf");
+// };
+
+
+
+// const exportPdfe = async () => {
+//     const doc = new jsPDF({ orientation: "landscape" });
+
+//     // Variables pour centrer et ajuster la position des images
+//     const pageWidth = doc.internal.pageSize.getWidth();
+//     const imageWidth = 40; // Largeur de l'image principale (imageLogo)
+//     const imageWidth2 = 50; // Largeur de la deuxième image (imageLogo2)
+//     const imageDataWidth = 23; // Largeur de l'imageData
+//     const topMargin = 20; // Marges supérieures pour le décalage
+
+//     // Centrer uniquement imageLogo
+//     const centeredX1 = (pageWidth - imageWidth) / 2; // Centrer imageLogo
+//     const centeredY1 = topMargin; // Position Y pour imageLogo
+
+//     // Ajout de l'image centrée (imageLogo)
+//     doc.addImage(imageLogo, 'JPEG', centeredX1, centeredY1, imageWidth, imageWidth);
+
+//     // Positionner imageLogo2 à gauche (X = 10)
+//     const leftX = 10; // Positionnement à gauche pour imageLogo2
+//     const imageLogo2Y = centeredY1 + imageWidth + 10; // Position Y pour imageLogo2, sous imageLogo
+//     doc.addImage(imageLogo2, 'JPEG', leftX, imageLogo2Y, imageWidth2, imageWidth2); // Image à gauche (imageLogo2)
+
+//     // Centrer imageData par rapport à imageLogo2
+//     const centeredXImageData = leftX + (imageWidth2 - imageDataWidth) / 2; // Centrer imageData par rapport à imageLogo2
+//     const imageDataY = imageLogo2Y - imageDataWidth - 10; // Positionner imageData juste au-dessus de imageLogo2
+
+//     doc.addImage(imageData, 'JPEG', centeredXImageData, imageDataY, imageDataWidth, imageDataWidth); // Image centrée par rapport à imageLogo2
+
+//     // Démarrer la table après les images, avec un espace suffisant
+//     doc.autoTable({
+//         html: "#teste",
+//         startY: imageLogo2Y + imageWidth2 + 20, // Démarrer la table après imageLogo2 avec un décalage
+//         headStyles: {
+//             fillColor: [109, 109, 109],
+//             textColor: [255, 255, 255],
+//         },
+//         styles: {
+//             cellPadding: 4,
+//             fontSize: 10,
+//         }
+//     });
+
+//     // Sauvegarder le fichier PDF
+//     doc.save("corrier.pdf");
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const exportPdfsd = async () => {
+//     const doc = new jsPDF({ orientation: "landscape" });
+
+//     // Variables pour centrer et ajuster la position des images
+//     const pageWidth = doc.internal.pageSize.getWidth();
+//     const imageWidth = 40; // Largeur de l'image principale (imageLogo)
+//     const imageWidth2 = 50; // Largeur de la deuxième image (imageLogo2)
+//     const imageDataWidth = 23; // Largeur de l'imageData
+//     const topMargin = 5; // Marges supérieures pour le décalage (réduite pour remonter l'imageLogo)
+//     const bottomMargin = 15; // Marges inférieures pour espacer les images à gauche
+
+//     // Centrer uniquement imageLogo
+//     const centeredX1 = (pageWidth - imageWidth) / 2; // Centrer imageLogo
+//     const centeredY1 = topMargin; // Réduire topMargin pour placer imageLogo plus haut
+
+//     // Ajout de l'image centrée (imageLogo)
+//     doc.addImage(imageLogo, 'JPEG', centeredX1, centeredY1, imageWidth, imageWidth);
+
+//     // Positionner imageLogo2 à gauche (X = 10)
+//     const leftX = 10; // Positionnement à gauche pour imageLogo2
+//     const imageLogo2Y = centeredY1 + imageWidth + bottomMargin; // Position Y pour imageLogo2, sous imageLogo avec un margin-bottom
+//     doc.addImage(imageLogo2, 'JPEG', leftX, imageLogo2Y, imageWidth2, imageWidth2); // Image à gauche (imageLogo2)
+
+//     // Centrer imageData par rapport à imageLogo2
+//     const centeredXImageData = leftX + (imageWidth2 - imageDataWidth) / 2; // Centrer imageData par rapport à imageLogo2
+//     const imageDataY = imageLogo2Y + imageWidth2 + bottomMargin; // Positionner imageData sous imageLogo2 avec un margin-bottom
+
+//     doc.addImage(imageData, 'JPEG', centeredXImageData, imageDataY, imageDataWidth, imageDataWidth); // Image centrée par rapport à imageLogo2
+
+//     // Démarrer la table après les images, avec un espace suffisant
+//     doc.autoTable({
+//         html: "#teste",
+//         startY: imageDataY + imageDataWidth + 20, // Démarrer la table après imageData avec un décalage
+//         headStyles: {
+//             fillColor: [109, 109, 109],
+//             textColor: [255, 255, 255],
+//         },
+//         styles: {
+//             cellPadding: 4,
+//             fontSize: 10,
+//         }
+//     });
+
+//     // Sauvegarder le fichier PDF
+//     doc.save("corrier.pdf");
+// };
+
+
+
+// const exportPdsf = async () => {
+//     const doc = new jsPDF({ orientation: "landscape" });
+
+//     // Variables pour centrer et ajuster la position des images
+//     const pageWidth = doc.internal.pageSize.getWidth();
+//     const imageWidth = 40; // Largeur de l'image principale (imageLogo)
+//     const imageWidth2 = 30; // Largeur réduite de la deuxième image (imageLogo2)
+//     const imageHeight2 = 30; // Hauteur réduite de imageLogo2
+//     const imageDataWidth = 23; // Largeur de l'imageData
+//     const topMargin = 10; // Marges supérieures pour le décalage
+
+//     // Centrer uniquement imageLogo
+//     const centeredX1 = (pageWidth - imageWidth) / 2; // Centrer imageLogo
+//     const centeredY1 = topMargin; // Réduire topMargin pour placer imageLogo plus haut
+
+//     // Ajout de l'image centrée (imageLogo)
+//     doc.addImage(imageLogo, 'JPEG', centeredX1, centeredY1, imageWidth, imageWidth);
+
+//     // Positionner imageLogo2 à gauche (X = 10) avec une taille réduite
+//     const leftX = 10; // Positionnement à gauche pour imageLogo2
+//     const imageLogo2Y = centeredY1 + imageWidth + 10; // Position Y pour imageLogo2, sous imageLogo
+//     doc.addImage(imageLogo2, 'JPEG', leftX, imageLogo2Y, imageWidth2, imageHeight2); // Image à gauche (imageLogo2)
+
+//     // Centrer imageData par rapport à imageLogo2
+//     const centeredXImageData = leftX + (imageWidth2 - imageDataWidth) / 2; // Centrer imageData par rapport à imageLogo2
+//     const imageDataY = imageLogo2Y + imageHeight2 + 10; // Positionner imageData juste en dessous de imageLogo2
+
+//     doc.addImage(imageData, 'JPEG', centeredXImageData, imageDataY, imageDataWidth, imageDataWidth); // Image centrée par rapport à imageLogo2
+
+//     // Démarrer la table après les images, avec un espace suffisant
+//     doc.autoTable({
+//         html: "#teste",
+//         startY: imageDataY + imageDataWidth + 20, // Démarrer la table après imageData avec un décalage
+//         headStyles: {
+//             fillColor: [109, 109, 109],
+//             textColor: [255, 255, 255],
+//         },
+//         styles: {
+//             cellPadding: 4,
+//             fontSize: 10,
+//         }
+//     });
+
+//     // Sauvegarder le fichier PDF
+//     doc.save("corrier.pdf");
+// };
 
 
 

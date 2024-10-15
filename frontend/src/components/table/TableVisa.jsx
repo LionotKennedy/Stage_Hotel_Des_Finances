@@ -13,6 +13,7 @@ import * as XLSX from 'xlsx';
 import { FaArrowDown } from 'react-icons/fa';
 import imageData from "../../assets/images/logo.png";
 import imageLogo from "../../assets/images/ministere.png";
+import imageLogo2 from "../../assets/images/image3.png";
 import pdf from "../../assets/image/pdf.png";
 import excel from "../../assets/image/excel.png";
 import word from "../../assets/image/docx2.png";
@@ -51,41 +52,51 @@ const TableVisa = () => {
     };
 
 
-
     const exportPdf = async () => {
         const doc = new jsPDF({ orientation: "landscape" });
-
-        // Ajoutez une image centrée en haut avec un décalage de 2 lignes
+    
+        // Variables pour centrer et ajuster la position des images
         const pageWidth = doc.internal.pageSize.getWidth();
-        const pageHeight = doc.internal.pageSize.getHeight();
-        const imageWidth = 40; // Largeur de l'image
-        const centeredX = (pageWidth - imageWidth) / 2; // Calculer le positionnement centré
-        const topMargin = 20; // Marges supérieures et inférieures pour le décalage
-        const centeredY = topMargin; // Position Y de l'image centrée
-
-        doc.addImage(imageLogo, 'JPEG', centeredX, centeredY, imageWidth, imageWidth); // Image centrée en haut
-
-        // Ajoutez l'image à gauche
-        doc.addImage(imageData, 'JPEG', 10, 65, 23, 23); // Image à gauche
-
+        const imageWidth = 30; // Largeur de l'image principale (imageLogo)
+        const imageWidth2 = 45; // Largeur de la deuxième image (imageLogo2)
+        const imageDataWidth = 18; // Largeur de l'imageData
+        const topMargin = 5; // Marges supérieures pour le décalage (réduite pour remonter l'imageLogo)
+  
+    
+        // Centrer uniquement imageLogo
+        const centeredX1 = (pageWidth - imageWidth) / 2; // Centrer imageLogo
+        const centeredY1 = topMargin; // Réduire topMargin pour placer imageLogo plus haut
+    
+        // Ajout de l'image centrée (imageLogo)
+        doc.addImage(imageLogo, 'JPEG', centeredX1, centeredY1, imageWidth, imageWidth);
+    
+        // Positionner imageLogo2 à gauche (X = 10)
+        const leftX = 10; // Positionnement à gauche pour imageLogo2
+        const imageLogo2Y = centeredY1 + imageWidth + 25; // Position Y pour imageLogo2, sous imageLogo
+        doc.addImage(imageLogo2, 'JPEG', leftX, imageLogo2Y, imageWidth2, imageWidth2); // Image à gauche (imageLogo2)
+    
+        // Centrer imageData par rapport à imageLogo2
+        const centeredXImageData = leftX + (imageWidth2 - imageDataWidth) / 2; // Centrer imageData par rapport à imageLogo2
+        const imageDataY = imageLogo2Y - imageDataWidth - 2; // Positionner imageData juste au-dessus de imageLogo2
+    
+        doc.addImage(imageData, 'JPEG', centeredXImageData, imageDataY, imageDataWidth, imageDataWidth); // Image centrée par rapport à imageLogo2
+    
         // Démarrer la table après les images, avec un espace suffisant
         doc.autoTable({
             html: "#table_visa",
-            startY: centeredY + imageWidth + topMargin * 2,
+            startY: imageLogo2Y + imageWidth2 + 20, // Démarrer la table après imageLogo2 avec un décalage
             headStyles: {
-                // fillColor: [255, 0, 0], 
                 fillColor: [109, 109, 109],
                 textColor: [255, 255, 255],
-
             },
             styles: {
                 cellPadding: 4,
                 fontSize: 10,
-                // Ajoutez d'autres styles globaux si nécessaire
             }
         });
-
-        doc.save("visa.pdf");
+    
+        // Sauvegarder le fichier PDF
+        doc.save("corrier.pdf");
     };
 
 
@@ -338,6 +349,64 @@ export default TableVisa
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const exportPdfs = async () => {
+//     const doc = new jsPDF({ orientation: "landscape" });
+
+//     // Ajoutez une image centrée en haut avec un décalage de 2 lignes
+//     const pageWidth = doc.internal.pageSize.getWidth();
+//     const pageHeight = doc.internal.pageSize.getHeight();
+//     const imageWidth = 40; // Largeur de l'image
+//     const centeredX = (pageWidth - imageWidth) / 2; // Calculer le positionnement centré
+//     const topMargin = 20; // Marges supérieures et inférieures pour le décalage
+//     const centeredY = topMargin; // Position Y de l'image centrée
+
+//     doc.addImage(imageLogo, 'JPEG', centeredX, centeredY, imageWidth, imageWidth); // Image centrée en haut
+
+//     // Ajoutez l'image à gauche
+//     doc.addImage(imageData, 'JPEG', 10, 65, 23, 23); // Image à gauche
+
+//     // Démarrer la table après les images, avec un espace suffisant
+//     doc.autoTable({
+//         html: "#table_visa",
+//         startY: centeredY + imageWidth + topMargin * 2,
+//         headStyles: {
+//             // fillColor: [255, 0, 0], 
+//             fillColor: [109, 109, 109],
+//             textColor: [255, 255, 255],
+
+//         },
+//         styles: {
+//             cellPadding: 4,
+//             fontSize: 10,
+//             // Ajoutez d'autres styles globaux si nécessaire
+//         }
+//     });
+
+//     doc.save("visa.pdf");
+// };
 
 
 
