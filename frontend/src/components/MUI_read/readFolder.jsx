@@ -53,11 +53,11 @@ export default function CustomizedDialogs({ open, setOpen, folderId }) {
 
   // Gestion des états de chargement et des erreurs
   if (isLoading) {
-    return <div>Chargement...</div>;
+    return <div className='visibleNo'>Chargement...</div>;
   }
 
   if (error) {
-    return <div>Erreur lors de la récupération des données.</div>;
+    return <div className='visibleNo'>Erreur lors de la récupération des données.</div>;
   }
 
   // Récupération des données du dossier

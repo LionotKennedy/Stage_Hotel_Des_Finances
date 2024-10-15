@@ -250,6 +250,19 @@ const TableResponsive = () => {
         const tableRows = table.querySelectorAll('tbody tr');
         const startDateInput = new Date(startDateRef.current.value);
         const endDateInput = new Date(endDateRef.current.value);
+
+        // Vérification des dates
+        if (isNaN(startDateInput.getTime()) || isNaN(endDateInput.getTime())) {
+            enqueueSnackbar('Les dates entrées sont invalides.', { variant: 'error' });
+            return;
+        }
+
+        // Vérification que la date de début n'est pas après la date de fin
+        if (startDateInput > endDateInput) {
+            enqueueSnackbar('La date de début ne peut pas être postérieure à la date de fin.', { variant: 'error' });
+            return;
+        }
+
     
         tableRows.forEach((row, i) => {
             // On récupère la date à comparer dans la colonne spécifique (par exemple la 8ème colonne).
@@ -406,9 +419,9 @@ const TableResponsive = () => {
                         <CustomModal
                             open={modalOpen}
                             handleClose={handleCloseModal}
-                            folderId={selectedFolderId} // Passer l'ID du courrier à la modale
-                            mode={mode} // Passer le mode à la modale
-                            onSuccess={refetch} // Re-fetch folders when the modal closes successfully
+                            folderId={selectedFolderId} 
+                            mode={mode} 
+                            onSuccess={refetch} 
                         />
                     )}
                 </AnimatePresence>

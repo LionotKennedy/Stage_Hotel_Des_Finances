@@ -49,7 +49,7 @@
 //   //     if (storedToken) {
 //   //       try {
 //   //         const profileData = getProfile(null, storedToken); // Utilisez null pour userId car nous n'avons pas besoin de vérifier les données
-          
+
 //   //         // Si la requête réussit, le token est toujours valide
 //   //         return;
 //   //       } catch (error) {
@@ -71,7 +71,7 @@
 //   //       try {
 //   //         const userId = localStorage.getItem('userId');
 //   //         const profileData = await getProfile(userId, storedToken);
-          
+
 //   //         // Si la requête réussit, le token est toujours valide
 //   //         return;
 //   //       } catch (error) {
@@ -81,7 +81,7 @@
 //   //       }
 //   //     }
 //   //   }, 60000); // Vérifiez toutes les minutes
-  
+
 //   //   return () => clearInterval(intervalId);
 //   // }, [])
 
@@ -99,7 +99,7 @@
 // //           await getProfile(userId, storedToken);
 // //           console.log("message simba APP 1");
 // //           handleTokenExpiration();
-          
+
 // //           // Si la requête réussit, le token est toujours valide
 // //           return;
 // //         } catch (error) {
@@ -115,7 +115,7 @@
 // // }, 60000); // Vérifier toutes les 1 minute (60000 millisecondes)
 // //   return () => clearInterval(intervalId);
 // // }, []);
-  
+
 // useEffect(() => {
 //   const intervalId = setInterval(async () => {
 //     const storedToken = localStorage.getItem('token');
@@ -180,14 +180,14 @@
 
 
 
- // const handleLogin = (userData, role) => {
-  //   setIsAuthenticated(true);
-  //   setUserRole(role); // Store the role
-  // };
-  // const handleLogin = (userData, role) => {
-  //   setIsAuthenticated(true);
-  //   setUserRole(role); // Store the role
-  // };
+// const handleLogin = (userData, role) => {
+//   setIsAuthenticated(true);
+//   setUserRole(role); // Store the role
+// };
+// const handleLogin = (userData, role) => {
+//   setIsAuthenticated(true);
+//   setUserRole(role); // Store the role
+// };
 
 
 
@@ -249,8 +249,8 @@ import Journal from './pages/journal/Journal';
 import User from './pages/user/User';
 import Profile from './pages/profile/Profile';
 import ArchiveMore from "./pages/archivemore/ArchiveMore";
-import ProtectedRoute from './ProtectedRoute'; 
-import { getProfile } from './services/authServices'; 
+import ProtectedRoute from './ProtectedRoute';
+import { getProfile } from './services/authServices';
 import UserPage from "./pages/userpage/UserPage";
 import ShowUser from "./pages/showuser/ShowUser";
 import { SnackbarProvider } from 'notistack';
@@ -260,7 +260,7 @@ function App() {
   const [token, setToken] = useState(null);
   const [userRole, setUserRole] = useState(null); // Add state for user role
 
- 
+
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
@@ -308,32 +308,32 @@ function App() {
   }, []);
 
   return (
-        <SnackbarProvider maxSnack={3}>
-    <Router>
-      <Routes>
-        <Route
-          path="/"
-          element={isAuthenticated ? <Navigate to="/accueil" /> : <Login onLogin={() => setIsAuthenticated(true)} />}
+    <SnackbarProvider maxSnack={3}>
+      <Router>
+        <Routes>
+          <Route
+            path="/"
+            element={isAuthenticated ? <Navigate to="/accueil" /> : <Login onLogin={() => setIsAuthenticated(true)} />}
           // element={isAuthenticated ? <Navigate to="/accueil" /> : <Login onLogin={handleLogin} />}
-        />
-        {isAuthenticated && (
-          <Route element={<Layout onLogout={handleLogout} />}>
-            <Route path="/accueil" element={<Home />} />
-            <Route path="/courrier" element={<Dossier />} />
-            <Route path="/visa" element={<Visa />} />
-            <Route path="/archive" element={<Archive />} />
-            <Route path="/journal" element={<Journal />} />
-            <Route path="/utilisateur" element={<User />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/archive/details" element={<ArchiveMore />} />
-            <Route path="/profile/profile_page" element={<UserPage />} />
-            <Route path="/utilisateur/show_user" element={<ShowUser />} />
-          </Route>
-        )}
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-    </Router>
-  </SnackbarProvider>
+          />
+          {isAuthenticated && (
+            <Route element={<Layout onLogout={handleLogout} />}>
+              <Route path="/accueil" element={<Home />} />
+              <Route path="/courrier" element={<Dossier />} />
+              <Route path="/visa" element={<Visa />} />
+              <Route path="/archive" element={<Archive />} />
+              <Route path="/journal" element={<Journal />} />
+              <Route path="/utilisateur" element={<User />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/archive/details" element={<ArchiveMore />} />
+              <Route path="/profile/profile_page" element={<UserPage />} />
+              <Route path="/utilisateur/show_user" element={<ShowUser />} />
+            </Route>
+          )}
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </Router>
+    </SnackbarProvider>
   );
 }
 

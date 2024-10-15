@@ -169,6 +169,18 @@ const TableArchive = ({ archives, refetch, year }) => {
         const startDateInput = new Date(startDateRef.current.value);
         const endDateInput = new Date(endDateRef.current.value);
 
+        // Vérification des dates
+        if (isNaN(startDateInput.getTime()) || isNaN(endDateInput.getTime())) {
+            enqueueSnackbar('Les dates entrées sont invalides.', { variant: 'error' });
+            return;
+        }
+
+        // Vérification que la date de début n'est pas après la date de fin
+        if (startDateInput > endDateInput) {
+            enqueueSnackbar('La date de début ne peut pas être postérieure à la date de fin.', { variant: 'error' });
+            return;
+        }
+
         tableRows.forEach((row, i) => {
             // On récupère la date à comparer dans la colonne spécifique (par exemple la 8ème colonne).
             let tableDateText = row.querySelectorAll('td')[1].textContent; // Suppose que la date est dans la 8ème colonne (index 7)

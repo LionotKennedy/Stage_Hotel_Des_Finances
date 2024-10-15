@@ -78,7 +78,7 @@ const Token = require("../models/Token");
 async function cleanupExpiredTokens() {
   try {
     const oneDayAgo = new Date();
-    oneDayAgo.setDate(oneDayAgo.getDate() - 2); // Date actuelle - 1 jour
+    oneDayAgo.setDate(oneDayAgo.getDate() - 3); // Date actuelle - 1 jour
 
     // Suppression des tokens dont la date de création est plus ancienne que 24h
     const result = await Token.deleteMany({

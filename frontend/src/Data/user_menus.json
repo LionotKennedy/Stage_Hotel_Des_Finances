@@ -6,10 +6,10 @@
     },
     {
         "icon": "bx bx-cog",
-        "content": "About"
+        "content": "À propos"
     },
     {
         "icon": "bx bx-log-out-circle bx-rotate-180",
-        "content": "Logout"
+        "content": "Sortie"
     }
 ]
