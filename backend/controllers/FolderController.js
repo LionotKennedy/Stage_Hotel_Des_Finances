@@ -12,7 +12,7 @@ const addFolder = async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(400).json({
         success: false,
-        message: "Validation errors",
+        message: "Erreurs de validation",
         errors: errors.array(),
       });
     }
@@ -28,17 +28,18 @@ const addFolder = async (req, res) => {
       destination,
     } = req.body;
 
+    // Vérification de l'existence du numéro de bordereaux
+    const existingCourrier = await Courrier.findOne({
+      numero_bordereaux: numero_bordereaux,
+    });
 
-     // Vérification de l'existence du numéro de bordereaux
-     const existingCourrier = await Courrier.findOne({ numero_bordereaux: numero_bordereaux });
-    
-     if (existingCourrier) {
-       // Si le numéro de bordereaux existe déjà, retourner une erreur
-       return res.status(409).json({
-         success: false,
-         message: "Le numéro de bordereaux existe déjà",
-       });
-     }
+    if (existingCourrier) {
+      // Si le numéro de bordereaux existe déjà, retourner une erreur
+      return res.status(409).json({
+        success: false,
+        message: "Le numéro de bordereaux existe déjà",
+      });
+    }
 
     // Vérification de l'année
     const currentYear = new Date().getFullYear();
@@ -62,7 +63,7 @@ const addFolder = async (req, res) => {
       if (!req.user || !req.user.name) {
         return res.status(500).json({
           success: false,
-          message: "User information is missing",
+          message: "Les informations de l'utilisateur sont manquantes.",
         });
       }
 
@@ -141,13 +142,13 @@ const getFolder = async (req, res) => {
     if (!courriers || courriers.length === 0) {
       return res.status(404).json({
         success: false,
-        message: "No folders found",
+        message: "Aucun dossier trouvé.",
       });
     }
 
     return res.status(200).json({
       success: true,
-      message: "Folders retrieved successfully",
+      message: "Dossiers récupérés avec succès.",
       data: courriers,
     });
   } catch (error) {
@@ -170,13 +171,13 @@ const editFolderById = async (req, res) => {
     if (!courrier) {
       return res.status(404).json({
         success: false,
-        message: "Folder not found",
+        message: "Dossier non trouvé.",
       });
     }
 
     return res.status(200).json({
       success: true,
-      message: "Folder retrieved successfully",
+      message: "Dossier récupéré avec succès.",
       data: courrier,
     });
   } catch (error) {
@@ -204,21 +205,23 @@ const updateFolderById = async (req, res) => {
     } = req.body;
 
     // Vérification de l'existence du numéro de bordereaux
-    const existingCourrier = await Courrier.findOne({ numero_bordereaux: numero_bordereaux });
-    
+    const existingCourrier = await Courrier.findOne({
+      numero_bordereaux: numero_bordereaux,
+    });
+
     if (existingCourrier && existingCourrier._id.toString() !== id) {
       return res.status(409).json({
         success: false,
         message: "Le numéro de bordereaux existe déjà",
       });
     }
-    
+
     // Étape 1 : Rechercher le courrier par son ID
     const courrier = await Courrier.findById(id);
     if (!courrier) {
       return res.status(404).json({
         success: false,
-        message: "Folder not found",
+        message: "Dossier non trouvé.",
       });
     }
 
@@ -227,7 +230,7 @@ const updateFolderById = async (req, res) => {
     if (!nature) {
       return res.status(404).json({
         success: false,
-        message: "Nature not found",
+        message: "Nature non trouvée.",
       });
     }
 
@@ -254,11 +257,11 @@ const updateFolderById = async (req, res) => {
       await Courrier.findByIdAndDelete(courrier._id);
       await Nature.findByIdAndDelete(nature._id);
 
-       // Vérification de l'utilisateur
-       if (!req.user || !req.user.name) {
+      // Vérification de l'utilisateur
+      if (!req.user || !req.user.name) {
         return res.status(500).json({
           success: false,
-          message: "User information is missing",
+          message: "Les informations de l'utilisateur sont manquantes.",
         });
       }
 
@@ -274,7 +277,7 @@ const updateFolderById = async (req, res) => {
 
       return res.status(200).json({
         success: true,
-        message: "Data archived successfully",
+        message: "Données archivées avec succès.",
         data: newArchive,
       });
     } else {
@@ -305,7 +308,7 @@ const updateFolderById = async (req, res) => {
 
       return res.status(200).json({
         success: true,
-        message: "Folder updated successfully",
+        message: "Dossier mis à jour avec succès.",
         data: {
           nature,
           courrier,
@@ -332,22 +335,22 @@ const deleteFolderById = async (req, res) => {
     if (!courrier) {
       return res.status(404).json({
         success: false,
-        message: "Folder not found",
+        message: "Dossier non trouvé.",
       });
     }
-    
+
     // Étape 2 : Supprimer la nature associée
     const nature = await Nature.findByIdAndDelete(courrier.id_nature);
     if (!nature) {
       return res.status(404).json({
         success: false,
-        message: "Nature associated with this folder not found",
+        message: "Nature associée à ce dossier non trouvée.",
       });
     }
-    
+
     // Étape 3 : Supprimer le courrier
     await Courrier.findByIdAndDelete(id);
-    
+
     const newJournal = new Journal({
       action: "Suppression de dossier",
       details: `Dossier supprimé avec le numéro bordereaux: ${courrier.numero_bordereaux}`,
@@ -360,7 +363,7 @@ const deleteFolderById = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Folder and associated Nature deleted successfully",
+      message: "Dossier et Nature associés supprimés avec succès.",
     });
   } catch (error) {
     return res.status(500).json({
@@ -388,8 +391,8 @@ const CountLettersByMonth = async (req, res) => {
         // Filtrer les courriers de l'année en cours
         $match: {
           date_depart: {
-            $gte: startDate,  // Date de début de l'année
-            $lt: endDate      // Date de fin de l'année
+            $gte: startDate, // Date de début de l'année
+            $lt: endDate, // Date de fin de l'année
           },
         },
       },
@@ -414,12 +417,25 @@ const CountLettersByMonth = async (req, res) => {
 
     // Tableau pour convertir les numéros de mois en noms de mois
     const monthNames = [
-      "", "January", "February", "March", "April", "May", "June", 
-      "July", "August", "September", "October", "November", "December"
+      // "", "January", "February", "March", "April", "May", "June",
+      // "July", "August", "September", "October", "November", "December"
+      "",
+      "Janvier",
+      "Février",
+      "Mars",
+      "Avril",
+      "Mai",
+      "Juin",
+      "Juillet",
+      "Août",
+      "Septembre",
+      "Octobre",
+      "Novembre",
+      "Décembre",
     ];
 
     // Remplacer les ID des mois par leurs noms dans la réponse
-    const courrierByMonthWithNames = courrierByMonth.map(item => ({
+    const courrierByMonthWithNames = courrierByMonth.map((item) => ({
       month: monthNames[item._id],
       count: item.count,
     }));
@@ -428,13 +444,13 @@ const CountLettersByMonth = async (req, res) => {
     if (courrierByMonth.length === 0) {
       return res.status(404).json({
         success: false,
-        message: `No courriers found for the year ${currentYear}`,
+        message: `Aucun courrier trouvé pour l'année ${currentYear}`,
       });
     }
 
     return res.status(200).json({
       success: true,
-      message: "Count retrieved successfully",
+      message: "Nombre récupéré avec succès.",
       data: {
         year: currentYear,
         courrierByMonth: courrierByMonthWithNames, // Le nombre de courriers pour chaque mois avec noms
@@ -459,7 +475,7 @@ const countLetters = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Number of letters counted successfully",
+      message: "Nombre de lettres comptées avec succès.",
       count: count,
     });
   } catch (error) {

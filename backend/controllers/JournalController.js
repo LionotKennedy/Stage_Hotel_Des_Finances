@@ -6,7 +6,7 @@ const getJournal = async (req, res) => {
     const JournalData = await Journal.find();
     return res.status(200).json({
       success: true,
-      message: "Archive retrieved successfully",
+      message: "Archive récupérée avec succès.",
       data: JournalData,
     });
   } catch (error) {
@@ -29,7 +29,7 @@ const editJournalById = async (req, res) => {
     if (!journal) {
       return res.status(404).json({
         success: false,
-        message: "Folder not found",
+        message: "Dossier non trouvé.",
       });
     }
 
@@ -47,7 +47,7 @@ const editJournalById = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Archive retrieved successfully",
+      message: "Archive récupérée avec succès.",
       data: journalData,
     });
   } catch (error) {
@@ -67,7 +67,7 @@ const deleteJournalById = async (req, res) => {
     await journal.deleteOne({ $set: req.body });
     res.status(200).json({
       status: 200,
-      message: "Journal deleted successfully",
+      message: "Journal supprimé avec succès.",
     });
   } catch (error) {
     res.status(400).json({

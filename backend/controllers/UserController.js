@@ -14,7 +14,7 @@ const checkInternetConnection = () => {
   return new Promise((resolve, reject) => {
     dns.lookup("google.com", (err) => {
       if (err && err.code === "ENOTFOUND") {
-        reject(new Error("No internet connection"));
+        reject(new Error("Aucune connexion Internet."));
       } else {
         resolve(true);
       }
@@ -25,7 +25,7 @@ const checkInternetConnection = () => {
 
 // ############### CREATE USER #################//
 const createUsers = async (req, res) => {
-  console.log("coucou li user");
+  // console.log("coucou li user");
   try {
     // Vérifier la connexion Internet
     await checkInternetConnection();
@@ -45,7 +45,7 @@ const createUsers = async (req, res) => {
     if (isExists) {
       return res.status(400).json({
         success: false,
-        message: "Email already exists",
+        message: "L'e-mail existe déjà.",
       });
     }
 
@@ -68,7 +68,7 @@ const createUsers = async (req, res) => {
     if (req.body.role && req.body.role == 1) {
       return res.status(400).json({
         success: false,
-        message: "You can't create an admin",
+        message: "Vous ne pouvez pas créer un administrateur.",
       });
     } else if (req.body.role) {
       obj.role = req.body.role;
@@ -78,36 +78,36 @@ const createUsers = async (req, res) => {
     const userData = await user.save();
 
     const content = `
-      <p>Hi <b>${userData.name}</b>, Your account has been created. Below are your details.</p>
+      <p>Bonjour <b>${userData.name}</b>, Votre compte a été créé. Voici vos détails.</p>
       <table style="border-style:none;">
         <tr>
-          <th>Name: -</th>
+          <th>Nom: -</th>
           <td>${userData.name}</td>
         </tr>
         <tr>
-          <th>Email: -</th>
+          <th>E-mail: -</th>
           <td>${userData.email}</td>
         </tr>
         <tr>
-          <th>Password: -</th>
+          <th>Mot de passe: -</th>
           <td>${password}</td>
         </tr>
       </table>
-      <p>You can now log in to your account. Thanks...</p>
+      <p>Vous pouvez maintenant vous connecter à votre compte. Merci...</p>
     `;
-    sendMail(userData.email, "Account Created", content);
+    sendMail(userData.email, "Compte créé", content);
 
     return res.status(200).json({
       success: true,
-      message: "User created successfully",
+      message: "Utilisateur créé avec succès.",
       data: userData,
     });
   } catch (error) {
     // Vérifie si l'erreur est liée à l'absence de connexion
-    if (error.message === "No internet connection") {
+    if (error.message === "Aucune connexion Internet.") {
       return res.status(400).json({
         success: false,
-        message: "No internet connection. Please try again later.",
+        message: "Aucune connexion Internet. Veuillez réessayer plus tard.",
       });
     }
     return res.status(404).json({
@@ -124,7 +124,7 @@ const getUsers = async (req, res) => {
     const userData = await User.find();
     return res.status(200).json({
       success: true,
-      message: "User fetched successfully",
+      message: "Utilisateur récupéré avec succès.",
       data: userData,
     });
   } catch (error) {
@@ -147,7 +147,7 @@ const editUsers = async (req, res) => {
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: "User not found...",
+        message: "Utilisateur non trouvé...",
       });
     }
 
@@ -174,8 +174,8 @@ const editUsers = async (req, res) => {
       message = "par default";
     }
 
-    console.log(`Message pour l'image : ${message}`);
-    console.log("URL générée pour l'image :", imageUrl);
+    // console.log(`Message pour l'image : ${message}`);
+    // console.log("URL générée pour l'image :", imageUrl);
 
     const userData = {
       name: user.name,
@@ -189,7 +189,7 @@ const editUsers = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "User fetched successfully",
+      message: "Utilisateur récupéré avec succès.",
       data: userData,
     });
   } catch (error) {
@@ -221,7 +221,7 @@ const updateUsers = async (req, res) => {
     if (!userExists) {
       return res.status(400).json({
         success: false,
-        message: "User does not exist",
+        message: "L'utilisateur n'existe pas.",
       });
     }
 
@@ -243,7 +243,7 @@ const updateUsers = async (req, res) => {
         );
         fs.unlink(oldImagePath, (err) => {
           if (err) {
-            console.error("Failed to delete old image:", err);
+            console.error("Échec de la suppression de l'ancienne image:", err);
           }
         });
       }
@@ -266,12 +266,12 @@ const updateUsers = async (req, res) => {
     if (updatedUser.modifiedCount === 1) {
       return res.status(200).json({
         success: true,
-        message: "User updated successfully",
+        message: "Utilisateur mis à jour avec succès.",
       });
     } else {
       return res.status(400).json({
         success: false,
-        message: "Failed to update user",
+        message: "Échec de la mise à jour de l'utilisateur.",
       });
     }
   } catch (error) {
@@ -302,7 +302,7 @@ const deleteUsers = async (req, res) => {
     if (!userToDelete) {
       return res.status(400).json({
         success: false,
-        message: "User not found",
+        message: "Utilisateur non trouvé.",
       });
     }
 
@@ -328,12 +328,13 @@ const deleteUsers = async (req, res) => {
     if (deletedUser) {
       return res.status(200).json({
         success: true,
-        message: "User deleted successfully",
+        message:
+          "Suppression réussie : L'utilisateur a été supprimé avec succès",
       });
     } else {
       return res.status(400).json({
         success: false,
-        message: "Failed to delete user",
+        message: "Échec de la suppression de l'utilisateur",
       });
     }
   } catch (error) {
@@ -461,8 +462,6 @@ const UpdatePassword = async (req, res) => {
 
 // ############### ENDING #################//
 
-
-
 // ############### UPDATE USERS #################//
 const updateUsersEmailName = async (req, res) => {
   try {
@@ -482,24 +481,23 @@ const updateUsersEmailName = async (req, res) => {
     if (!userExists) {
       return res.status(400).json({
         success: false,
-        message: "User does not exist",
+        message: "L'utilisateur n'existe pas",
       });
     }
 
     const updateObj = { name, email };
-
 
     const updatedUser = await User.updateOne({ _id: id }, { $set: updateObj });
 
     if (updatedUser.modifiedCount === 1) {
       return res.status(200).json({
         success: true,
-        message: "User updated successfully",
+        message: "L'utilisateur a été mis à jour avec succès",
       });
     } else {
       return res.status(400).json({
         success: false,
-        message: "Failed to update user",
+        message: "Échec de la mise à jour de l'utilisateur",
       });
     }
   } catch (error) {
@@ -510,8 +508,6 @@ const updateUsersEmailName = async (req, res) => {
   }
 };
 // ############### ENDING #################//
-
-
 
 module.exports = {
   getUsers,

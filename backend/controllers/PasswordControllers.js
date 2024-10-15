@@ -11,7 +11,7 @@ const checkInternetConnection = () => {
   return new Promise((resolve, reject) => {
     dns.lookup("google.com", (err) => {
       if (err) {
-        reject(new Error("No internet connection"));
+        reject(new Error("Aucune connexion Internet."));
       } else {
         resolve(true);
       }
@@ -33,7 +33,7 @@ const requestPasswordReset = async (req, res) => {
     if (!user) {
       return res.status(400).json({
         success: false,
-        message: "User with this email does not exist",
+        message: "Un utilisateur avec cet e-mail n'existe pas.",
       });
     }
 
@@ -48,31 +48,31 @@ const requestPasswordReset = async (req, res) => {
     await token.save();
 
     const content = `
-    <p>Hi ${user.name},</p>
-    <p>You requested to reset your password. Use the following code to reset your password:</p>
+    <p>Bonjour ${user.name},</p>
+    <p>Vous avez demandé à réinitialiser votre mot de passe. Utilisez le code suivant pour le réinitialiser :</p>
     <h3>${resetToken}</h3>
-    <p>If you did not request this, please ignore this email.</p>
+    <p>Si vous n'avez pas fait cette demande, veuillez ignorer cet e-mail.</p>
     `;
 
-    await sendMail(user.email, "Password Reset", content);
+    await sendMail(user.email, "Réinitialisation du Mot de Passe", content);
 
     return res.status(200).json({
       success: true,
-      message: "Verification code sent to your email",
+      message: "Code de vérification envoyé à votre e-mail.",
     });
   } catch (error) {
     // Si la connexion Internet échoue
-    if (error.message === "No internet connection") {
+    if (error.message === "Aucune connexion Internet.") {
       return res.status(503).json({
         success: false,
-        message: "No internet connection. Please try again later.",
+        message: "Aucune connexion Internet. Veuillez réessayer plus tard.",
       });
     }
 
     return res.status(500).json({
       success: false,
       message: error.message,
-    }); 
+    });
   }
 };
 // ############### ENDING #################//
@@ -91,7 +91,7 @@ const resetPassword = async (req, res) => {
     if (!passwordResetToken) {
       return res.status(400).json({
         success: false,
-        message: "Invalid or expired token",
+        message: "Token invalide ou expiré.",
       });
     }
 
@@ -99,7 +99,7 @@ const resetPassword = async (req, res) => {
     if (isExpired) {
       return res.status(400).json({
         success: false,
-        message: "Token has expired",
+        message: "Le token a expiré.",
       });
     }
 
@@ -112,14 +112,14 @@ const resetPassword = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Password reset successfully",
+      message: "Mot de passe réinitialisé avec succès.",
     });
   } catch (error) {
     // Si la connexion Internet échoue
-    if (error.message === "No internet connection") {
+    if (error.message === "Aucune connexion Internet.") {
       return res.status(503).json({
         success: false,
-        message: "No internet connection. Please try again later.",
+        message: "Aucune connexion Internet. Veuillez réessayer plus tard.",
       });
     }
 

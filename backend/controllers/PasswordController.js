@@ -85,60 +85,21 @@
 
 // module.exports = { requestPasswordReset, resetPassword };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // PasswordController.js
-const crypto = require('crypto');
+const crypto = require("crypto");
 const User = require("../models/User");
-const { sendSms } = require('../services/smsService');
-const bcrypt = require('bcrypt');
-const dotenv = require('dotenv');
+const { sendSms } = require("../services/smsService");
+const bcrypt = require("bcrypt");
+const dotenv = require("dotenv");
 dotenv.config();
 
 // Fonction pour normaliser les numéros de téléphone
 const normalizePhoneNumber = (phone) => {
   // Retirer les espaces, tirets, et autres caractères indésirables
-  phone = phone.replace(/\s+/g, '').replace(/-/g, '');
+  phone = phone.replace(/\s+/g, "").replace(/-/g, "");
 
   // Si le numéro commence par '0', remplacez-le par +261 (indicatif pour Madagascar)
-  if (phone.startsWith('0')) {
+  if (phone.startsWith("0")) {
     phone = `+261${phone.substring(1)}`;
   }
 
@@ -160,25 +121,26 @@ const requestPasswordReset = async (req, res) => {
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: "No user found with that phone number",
+        message: "Aucun utilisateur trouvé avec ce numéro de téléphone.",
       });
     }
 
     // Générer un token de réinitialisation et définir une expiration
-    const token = crypto.randomBytes(20).toString('hex');
+    const token = crypto.randomBytes(20).toString("hex");
     user.resetPasswordToken = token;
     user.resetPasswordExpires = Date.now() + 3600000; // 1 heure
     await user.save();
 
     // Envoyer un SMS avec les instructions pour réinitialiser le mot de passe
     const resetUrl = `${process.env.BASE_URL}/reset/${token}`;
-    const message = `You are receiving this message because you (or someone else) has requested the reset of the password. Please make a PUT request to the following link within the next hour to reset your password: ${resetUrl}`;
+    const message = `Vous recevez ce message parce que vous (ou quelqu'un d'autre) avez demandé la réinitialisation du mot de passe. Veuillez effectuer une requête PUT à l'adresse suivante dans l'heure qui suit pour réinitialiser votre mot de passe: ${resetUrl}`;
 
     await sendSms(phone, message);
 
     return res.status(200).json({
       success: true,
-      message: 'Password reset instructions sent via SMS',
+      message:
+        "Instructions de réinitialisation du mot de passe envoyées par SMS.",
     });
   } catch (error) {
     return res.status(500).json({
@@ -195,13 +157,14 @@ const resetPassword = async (req, res) => {
 
     const user = await User.findOne({
       resetPasswordToken: token,
-      resetPasswordExpires: { $gt: Date.now() }
+      resetPasswordExpires: { $gt: Date.now() },
     });
 
     if (!user) {
       return res.status(400).json({
         success: false,
-        message: 'Password reset token is invalid or has expired.',
+        message:
+          "Le token de réinitialisation du mot de passe est invalide ou a expiré.",
       });
     }
 
@@ -213,7 +176,7 @@ const resetPassword = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: 'Password has been updated successfully.',
+      message: "Le mot de passe a été mis à jour avec succès.",
     });
   } catch (error) {
     return res.status(500).json({

@@ -1,4 +1,3 @@
-
 const User = require("../models/User");
 const Token = require("../models/Token");
 const dotenv = require("dotenv");
@@ -28,7 +27,7 @@ const registerUser = async (req, res) => {
     if (isExistUser) {
       return res.status(200).json({
         success: false,
-        message: "Email already exists",
+        message: "L'e-mail existe déjà.",
       });
     }
 
@@ -44,7 +43,7 @@ const registerUser = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Successfully added user",
+      message: "Utilisateur ajouté avec succès.",
       data: userData,
     });
   } catch (error) {
@@ -78,14 +77,36 @@ const registerUser = async (req, res) => {
 //   return token;
 // };
 
+// const generateAccessToken = async (user) => {
+//   const payload = {
+//     userId: user._id,
+//     email: user.email,
+//     // exp: Math.floor(Date.now() / 1000) + 7200 // 2 heures en secondes
+//     // exp: Math.floor(Date.now() / 1000) + 60 // 1 minute en secondes
+//     exp: Math.floor(Date.now() / 1000) + 10800 // 3 heures en secondes
+//   };
+
+//   const token = jwt.sign(payload, process.env.ACCESS_SECRET_TOKEN);
+
+//   // Sauvegarde le token avec son expiration dans la base de données
+//   const createdToken = await Token.create({
+//     userId: user._id,
+//     token,
+//     expiresAt: payload.exp
+//   });
+
+//   console.log('Token créé:', createdToken);
+
+//   return token;
+// };
 
 const generateAccessToken = async (user) => {
   const payload = {
     userId: user._id,
     email: user.email,
-    // exp: Math.floor(Date.now() / 1000) + 7200 // 2 heures en secondes
-    // exp: Math.floor(Date.now() / 1000) + 60 // 1 minute en secondes
-    exp: Math.floor(Date.now() / 1000) + 10800 // 3 heures en secondes
+    exp: Math.floor(Date.now() / 1000) + 259200, // 3 jours en secondes
+    // exp: Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60 // 7 jours en secondes
+    // exp: Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60 // 30 jours en secondes
   };
 
   const token = jwt.sign(payload, process.env.ACCESS_SECRET_TOKEN);
@@ -94,10 +115,12 @@ const generateAccessToken = async (user) => {
   const createdToken = await Token.create({
     userId: user._id,
     token,
-    expiresAt: payload.exp
+    expiresAt: new Date(Date.now() + 259200000), // 3 jours à partir de maintenant
+    // expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 jours à partir de maintenant
+    // expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 jours à partir de maintenant
   });
 
-  console.log('Token créé:', createdToken);
+  console.log("Token créé:", createdToken);
 
   return token;
 };
@@ -123,7 +146,7 @@ const loginUser = async (req, res) => {
     if (!userData) {
       return res.status(400).json({
         success: false,
-        message: "Email is incorrect",
+        message: "L'e-mail est incorrect",
       });
     }
 
@@ -132,10 +155,10 @@ const loginUser = async (req, res) => {
     if (!isPasswordMatch) {
       return res.status(400).json({
         success: false,
-        message: "Password is incorrect",
+        message: "Le mot de passe est incorrect.",
       });
     }
-    if(userData.status != "active") {
+    if (userData.status != "active") {
       return res.status(400).json({
         success: false,
         message: "Votre compte est désactivé. Veuillez contacter le support.",
@@ -146,7 +169,7 @@ const loginUser = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Login successfully",
+      message: "Connexion réussie.",
       accessToken: accessToken,
       tokenType: "Bearer",
       data: userData,
@@ -167,7 +190,7 @@ const getProfile = async (req, res) => {
     const userData = await User.findOne({ _id: id });
     return res.status(200).json({
       success: true,
-      data: userData
+      data: userData,
     });
   } catch (error) {
     return res.status(404).json({
@@ -182,11 +205,11 @@ const getProfile = async (req, res) => {
 const logoutUser = async (req, res) => {
   try {
     const token = req.headers["authorization"]?.split(" ")[1];
-    
+
     if (!token) {
       return res.status(400).json({
         success: false,
-        message: "No token provided",
+        message: "Aucun token fourni",
       });
     }
 
@@ -195,7 +218,7 @@ const logoutUser = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Logged out successfully",
+      message: "Déconnexion réussie.",
     });
   } catch (error) {
     return res.status(500).json({

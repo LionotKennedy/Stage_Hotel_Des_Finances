@@ -17,7 +17,6 @@ const addArchive = async (req, res) => {
     const { numero_visa, nom_depose_visa, prenom_depose_visa, reference } =
       req.body;
 
-      
     // Vérification de l'existence du numéro de visa
     const existingVisa = await Visa.findOne({ numero_visa });
 
@@ -39,7 +38,7 @@ const addArchive = async (req, res) => {
     // Enregistrer l'action dans Journales
     const newJournal = new Journal({
       action: "Ajout d'un dossier visa",
-      details: `Nouveau dossier visa ajouté avec le numéro bordereaux: ${numero_visa}`,
+      details: `Nouveau dossier visa ajouté avec le numéro : ${numero_visa}`,
       user: req.user._id,
       userName: req.user.name,
       adressEmail: req.user.email,
@@ -49,7 +48,7 @@ const addArchive = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Courrier and Nature saved successfully",
+      message: "Courrier et nature sauvegardés avec succès.",
       data: savedVisa,
     });
   } catch (error) {
@@ -67,7 +66,7 @@ const getVisa = async (req, res) => {
     const VisaData = await Visa.find();
     return res.status(200).json({
       success: true,
-      message: "Visa retrieved successfully",
+      message: "Visa récupéré avec succès.",
       data: VisaData,
     });
   } catch (error) {
@@ -90,7 +89,7 @@ const editVisaById = async (req, res) => {
     if (!visa) {
       return res.status(404).json({
         success: false,
-        message: "Folder not found",
+        message: "Dossier non trouvé",
       });
     }
 
@@ -106,7 +105,7 @@ const editVisaById = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Archive retrieved successfully",
+      message: "Récupération réussie : Archive récupérée avec succès",
       data: visaData,
     });
   } catch (error) {
@@ -134,7 +133,6 @@ const updateVisa = async (req, res) => {
     const { numero_visa, nom_depose_visa, prenom_depose_visa, reference } =
       req.body;
 
-      
     // Vérification de l'existence du numéro de visa
     const existingVisa = await Visa.findOne({ numero_visa });
 
@@ -150,7 +148,7 @@ const updateVisa = async (req, res) => {
     if (!updatedFind) {
       return res.status(400).json({
         success: false,
-        message: "Visa ID doesn't exists",
+        message: "Numéro de visa introuvable",
       });
     }
 
@@ -170,7 +168,7 @@ const updateVisa = async (req, res) => {
     );
     const newJournal = new Journal({
       action: "Mise à jour de dossier visa",
-      details: `Dossier visa mis à jour avec le numéro bordereaux: ${numero_visa}`,
+      details: `Dossier visa mis à jour avec le numéro : ${numero_visa}`,
       user: req.user._id,
       userName: req.user.name,
       adressEmail: req.user.email,
@@ -180,7 +178,7 @@ const updateVisa = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Visa updated successfully",
+      message: "Visa mis à jour avec succès",
       data: visaData,
     });
   } catch (error) {
@@ -209,13 +207,13 @@ const deleteVisa = async (req, res) => {
     if (!isExists) {
       return res.status(400).json({
         success: false,
-        message: "Visa ID doesn't exists",
+        message: "L'identifiant de visa n'existe pas.",
       });
     }
     const VisaData = await Visa.findByIdAndDelete({ _id: id });
     const newJournal = new Journal({
       action: "Suppression de dossier visa",
-      details: `Dossier visa supprimé avec le numéro bordereaux: ${VisaData.numero_visa}`,
+      details: `Dossier visa supprimé avec le numéro : ${VisaData.numero_visa}`,
       user: req.user._id,
       userName: req.user.name,
       adressEmail: req.user.email,
@@ -225,7 +223,7 @@ const deleteVisa = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Visa deleted successfully",
+      message: "Visa supprimé avec succès.",
       data: VisaData,
     });
   } catch (error) {

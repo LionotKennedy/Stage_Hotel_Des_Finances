@@ -3,7 +3,7 @@ const Nature = require("../models/Nature");
 const Archive = require("../models/Archive");
 const Journal = require("../models/Journal");
 // Import moment-timezone
-const moment = require('moment-timezone');
+const moment = require("moment-timezone");
 
 const { validationResult } = require("express-validator");
 
@@ -46,13 +46,13 @@ const addArchive = async (req, res) => {
       if (!req.user || !req.user.name) {
         return res.status(500).json({
           success: false,
-          message: "User information is missing",
+          message: "Les informations de l'utilisateur sont manquantes.",
         });
       }
 
       // Enregistrer l'action dans Journales
       const newJournal = new Journal({
-        action: "Ajout d'un dossier archivé",
+        action: "Ajout d'un dossier archivé.",
         details: `Dossier archivé avec le numéro bordereaux: ${numero_bordereaux}`,
         user: req.user._id,
         userName: req.user.name,
@@ -64,7 +64,7 @@ const addArchive = async (req, res) => {
 
       return res.status(200).json({
         success: true,
-        message: "Data archived successfully",
+        message: "Données archivées avec succès.",
         data: newArchive,
       });
     } else {
@@ -102,7 +102,7 @@ const addArchive = async (req, res) => {
 
       return res.status(200).json({
         success: true,
-        message: "Courrier and Nature saved successfully",
+        message: "Courrier et Nature enregistrés avec succès.",
         data: {
           nature: savedNature,
           courrier: savedCourrier,
@@ -124,7 +124,7 @@ const getArchive = async (req, res) => {
     const ArchiveData = await Archive.find();
     return res.status(200).json({
       success: true,
-      message: "Archive retrieved successfully",
+      message: "Archive récupérée avec succès.",
       data: ArchiveData,
     });
   } catch (error) {
@@ -147,7 +147,7 @@ const editArchiveById = async (req, res) => {
     if (!archive) {
       return res.status(404).json({
         success: false,
-        message: "Folder not found",
+        message: "Dossier non trouvé",
       });
     }
 
@@ -165,7 +165,7 @@ const editArchiveById = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Archive retrieved successfully",
+      message: "Archive récupérée avec succès.",
       data: ArchiveData,
     });
   } catch (error) {
@@ -215,7 +215,7 @@ const updateArchiveById = async (req, res) => {
       if (!archive) {
         return res.status(404).json({
           success: false,
-          message: "Archive not found",
+          message: "Archive non trouvée",
         });
       }
 
@@ -231,7 +231,7 @@ const updateArchiveById = async (req, res) => {
 
       return res.status(200).json({
         success: true,
-        message: "Data archived successfully",
+        message: "Données archivées avec succès.",
         data: archive,
       });
     } else {
@@ -273,7 +273,7 @@ const updateArchiveById = async (req, res) => {
 
       return res.status(200).json({
         success: true,
-        message: "Folder updated successfully",
+        message: "Dossier mis à jour avec succès.",
         data: {
           nature,
           courrier,
@@ -306,7 +306,7 @@ const deleteArhiveById = async (req, res) => {
     await newJournal.save();
     res.status(200).json({
       status: 200,
-      message: "Arhive deleted successfully",
+      message: "Archive supprimée avec succès.",
     });
   } catch (error) {
     res.status(400).json({
@@ -315,7 +315,6 @@ const deleteArhiveById = async (req, res) => {
   }
 };
 // ################# ENDING ####################//
-
 
 // ################# GET DATA BY YEAR ####################//
 const getArchiveByYear = async (req, res) => {
@@ -326,7 +325,7 @@ const getArchiveByYear = async (req, res) => {
     if (!year || isNaN(year)) {
       return res.status(400).json({
         success: false,
-        message: "Invalid year parameter",
+        message: "Paramètre d'année invalide.",
       });
     }
 
@@ -341,13 +340,13 @@ const getArchiveByYear = async (req, res) => {
     if (archives.length === 0) {
       return res.status(404).json({
         success: false,
-        message: `No archives found for the year ${year}`,
+        message: `Aucune archive trouvée pour l'année ${year}`,
       });
     }
 
     return res.status(200).json({
       success: true,
-      message: `Archives retrieved for the year ${year}`,
+      message: `Archives récupérées pour l'année ${year}`,
       data: archives,
     });
   } catch (error) {
@@ -370,13 +369,13 @@ const getArchiveGroupedByYear = async (req, res) => {
         },
       },
       {
-        $sort: { "_id": 1 }, // Trier par année croissante
+        $sort: { _id: 1 }, // Trier par année croissante
       },
     ]);
 
     return res.status(200).json({
       success: true,
-      message: "Archives grouped by year",
+      message: "Archives regroupées par année.",
       data: archives,
     });
   } catch (error) {
