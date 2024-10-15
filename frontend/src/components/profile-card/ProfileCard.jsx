@@ -113,15 +113,15 @@ const ProfileCard = () => {
                 <div className="analytics">
                     <div className="data">
                         <i className="bx bx-heart"></i>
-                        <span className="number">60k</span>
+                        <span className="number"></span>
                     </div>
                     <div className="data">
                         <i className="bx bx-message-rounded"></i>
-                        <span className="number">20k</span>
+                        <span className="number"></span>
                     </div>
                     <div className="data">
                         <i className="bx bx-share"></i>
-                        <span className="number">12k</span>
+                        <span className="number"></span>
                     </div>
                 </div>
             </div>

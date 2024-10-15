@@ -7,6 +7,7 @@ import JournalDialogs from '../../components/MUI_read/readJournal';
 import AlertJournalDialogSlide from '../../components/MUI_alert/deleteJournal';
 import ReactPaginate from 'react-paginate';
 import { FaSearch } from 'react-icons/fa';
+import { useSnackbar } from 'notistack';
 
 
 const TableJournal = () => {
@@ -20,6 +21,7 @@ const TableJournal = () => {
     const [endDateValue, setEndDateValue] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [foldersPerPage] = useState(10); // Nombre d'éléments par page
+    const { enqueueSnackbar } = useSnackbar();
 
     const totalPages = journals && Array.isArray(journals.data) ? Math.ceil(journals.data.length / foldersPerPage) : 1;
     // Dossiers pour la page actuelle
@@ -71,11 +73,11 @@ const TableJournal = () => {
 
         return currentFolders.map((folder, index) => (
             <tr key={index}>
+                <td className="td">{new Date(folder.date).toLocaleDateString()}</td>
                 <td className="td">{folder.userName}</td>
                 <td className="td">{folder.adressEmail}</td>
                 <td className="td">{folder.action}</td>
                 <td className="td">{folder.details}</td>
-                <td className="td">{new Date(folder.date).toLocaleDateString()}</td>
                 <td className="td">
                     <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
                     <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
@@ -84,15 +86,38 @@ const TableJournal = () => {
         ));
     };
 
+    const formatDate = (date) => {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Les mois sont indexés à partir de 0
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
+
     const SearchByTowDate = () => {
         const table = tableRef.current;
         const tableRows = table.querySelectorAll('tbody tr');
+
         const startDateInput = new Date(startDateRef.current.value);
         const endDateInput = new Date(endDateRef.current.value);
 
+        // const startDateInput = formatDate(new Date(startDateRef.current.value));
+        // const endDateInput = formatDate(new Date(endDateRef.current.value));
+
+        // Vérification des dates
+        if (isNaN(startDateInput.getTime()) || isNaN(endDateInput.getTime())) {
+            enqueueSnackbar('Les dates entrées sont invalides.', { variant: 'error' });
+            return;
+        }
+
+        // Vérification que la date de début n'est pas après la date de fin
+        if (startDateInput > endDateInput) {
+            enqueueSnackbar('La date de début ne peut pas être postérieure à la date de fin.', { variant: 'error' });
+            return;
+        }
+
         tableRows.forEach((row, i) => {
             // On récupère la date à comparer dans la colonne spécifique (par exemple la 8ème colonne).
-            let tableDateText = row.querySelectorAll('td')[4].textContent; // Suppose que la date est dans la 8ème colonne (index 7)
+            let tableDateText = row.querySelectorAll('td')[0].textContent; // Suppose que la date est dans la 8ème colonne (index 7)
             let tableDate = new Date(tableDateText);
 
             // Vérifie si la date est entre les deux dates sélectionnées
@@ -120,6 +145,7 @@ const TableJournal = () => {
         // Appel de la fonction de recherche entre deux dates
         SearchByTowDate();
     };
+
 
 
     const startDateRef = useRef(null);

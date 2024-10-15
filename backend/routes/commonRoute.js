@@ -25,6 +25,7 @@ const {
   createUsers,
   UpdateRoleStatus,
   UpdatePassword,
+  updateUsersEmailName,
 } = require("../controllers/UserController");
 
 const {
@@ -62,6 +63,7 @@ router.route("/update_user/:id").put(upload.single("image"), verifyToken, update
 router.post("/add_user", upload.single("image"), verifyToken, isAdmin, createUsers);
 router.put("/update_role_status/:id", verifyToken, UpdateRoleStatus);
 router.put("/update_password/:id", verifyToken, UpdatePassword);
+router.put("/update_email__name/:id", verifyToken, updateUsersEmailName);
 
 
 module.exports = router;

@@ -461,6 +461,58 @@ const UpdatePassword = async (req, res) => {
 
 // ############### ENDING #################//
 
+
+
+// ############### UPDATE USERS #################//
+const updateUsersEmailName = async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(200).json({
+        success: true,
+        message: "Errors",
+        errors: errors.array(),
+      });
+    }
+
+    const { id } = req.params;
+    const { name, email } = req.body;
+
+    const userExists = await User.findById(id);
+    if (!userExists) {
+      return res.status(400).json({
+        success: false,
+        message: "User does not exist",
+      });
+    }
+
+    const updateObj = { name, email };
+
+
+    const updatedUser = await User.updateOne({ _id: id }, { $set: updateObj });
+
+    if (updatedUser.modifiedCount === 1) {
+      return res.status(200).json({
+        success: true,
+        message: "User updated successfully",
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Failed to update user",
+      });
+    }
+  } catch (error) {
+    return res.status(404).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+// ############### ENDING #################//
+
+
+
 module.exports = {
   getUsers,
   editUsers,
@@ -469,4 +521,5 @@ module.exports = {
   createUsers,
   UpdateRoleStatus,
   UpdatePassword,
+  updateUsersEmailName,
 };

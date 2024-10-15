@@ -139,3 +139,27 @@ export const useAddUser = () => {
       return response.json();
     });
   };
+
+  
+  export const useUpdateUserEmailName = () => {
+    return useMutation(['updateEmailName'], async ({ userId, name, email }) => {
+    const response = await fetch(`${API_URL}/update_email__name/${userId}`, {
+      method: 'PUT', // Utilisez PATCH ou PUT selon votre API
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify({
+        name,
+        email
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Erreur lors de la mise à jour du mot de passe");
+    }
+
+    return response.json();
+    });
+  };
