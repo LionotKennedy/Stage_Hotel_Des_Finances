@@ -17,6 +17,7 @@ import Slide from '@mui/material/Slide';
 import { useUpdatePermissionUser, useGetUserById } from '../../services/serviceUser';
 import { useSnackbar } from 'notistack';
 import { AiOutlineClose } from 'react-icons/ai'
+import './style/userUpdate.scss';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -122,7 +123,7 @@ export default function UserUpdateScreenDialog({ open, handleClose, userId, onSu
                 fullWidth
                 maxWidth="sm"
             >
-                <AppBar sx={{ position: 'relative' }}>
+                <AppBar sx={{ position: 'relative' }} className='appBar'>
                     <Toolbar>
                         <IconButton
                             edge="start"
@@ -177,7 +178,7 @@ export default function UserUpdateScreenDialog({ open, handleClose, userId, onSu
                                         <FormControlLabel
                                             value="active"
                                             control={<Radio />}
-                                            label="Actif"
+                                            label="Activé"
                                         />
                                         <FormControlLabel
                                             value="desactive"
