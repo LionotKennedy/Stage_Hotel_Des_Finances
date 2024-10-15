@@ -180,6 +180,23 @@
 
 
 
+ // const handleLogin = (userData, role) => {
+  //   setIsAuthenticated(true);
+  //   setUserRole(role); // Store the role
+  // };
+  // const handleLogin = (userData, role) => {
+  //   setIsAuthenticated(true);
+  //   setUserRole(role); // Store the role
+  // };
+
+
+
+
+
+
+
+
+
 
 
 
@@ -243,14 +260,7 @@ function App() {
   const [token, setToken] = useState(null);
   const [userRole, setUserRole] = useState(null); // Add state for user role
 
-  // const handleLogin = (userData, role) => {
-  //   setIsAuthenticated(true);
-  //   setUserRole(role); // Store the role
-  // };
-  // const handleLogin = (userData, role) => {
-  //   setIsAuthenticated(true);
-  //   setUserRole(role); // Store the role
-  // };
+ 
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
