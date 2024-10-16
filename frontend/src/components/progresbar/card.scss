@@ -1,0 +1,104 @@
+/* Card.css */
+// .card__proges {
+//     width: 200px;
+//     padding: 20px;
+//     border-radius: 10px;
+//     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+//     background-color: #4CAF50; /* Couleur de fond de la carte */
+//     color: white;
+//     text-align: center;
+//     transition: transform 0.2s;
+    
+// }
+
+// .card__proges:hover {
+//     transform: scale(1.05);
+// }
+
+// .card-title__proges {
+//     font-size: 1.5em;
+//     margin-bottom: 10px;
+// }
+
+// .progress-container__proges {
+//     // width: 80px;
+//     width: 100%;
+//     margin: 0 auto;
+
+// }
+
+// .card-description__proges {
+//     margin-top: 10px;
+//     font-size: 0.9em;
+// }
+
+
+.card__proges {
+    max-width: 300px; /* Taille maximum de la carte */
+    width: 100%; /* Prendre 100% de la largeur de son conteneur */
+    margin: 0 auto; /* Centrer la carte */
+    padding: 20px; /* Un peu de padding pour le contenu */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre pour un effet de profondeur */
+    transition: transform 0.3s; /* Transition pour l'effet de survol */
+    height: 390px;
+    background-color: var(--second-bg);
+    box-shadow: var(--box-shadow);
+}
+
+.card__proges:hover {
+    transform: scale(1.05);
+}
+
+.card-title__proges {
+    margin-bottom: 10px;
+    text-align: center; /* Centrer le texte du titre */
+    font-size: 1.5em;
+}
+
+.progress-container__proges {
+    width: 100%;
+    max-width: 200px; /* Limiter la largeur de la barre de progression */
+    margin: 0 auto; /* Centrer la barre de progression */
+}
+
+.card-description__proges {
+    color: var(--txt-color);
+    margin-top: 10px;
+    font-size: 0.9em;
+    text-align: center; /* Centrer le texte de la description */
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .card__proges {
+        max-width: 90%; /* Adapter la taille maximum sur petits écrans */
+    }
+
+    .card-title__proges {
+        font-size: 1.2em; /* Réduire la taille du titre sur petits écrans */
+    }
+
+    .card-description__proges {
+        font-size: 0.8em; /* Réduire la taille de la description sur petits écrans */
+    }
+}
+
+
+
+ // Personnaliser le texte et le chemin du CircularProgressbar
+ .CircularProgressbar {
+    .CircularProgressbar-path {
+        // stroke: rgba(62, 152, 199, 1); // Couleur du chemin
+        stroke: rgb(67, 199, 62); // Couleur du chemin
+        stroke-linecap: round; // Arrondi des coins
+    }
+
+    .CircularProgressbar-text {
+        // fill: #ff5722; // Couleur du texte
+        fill: var(--txt-color); // Couleur du texte
+        font-size: 16px; // Taille du texte
+    }
+}
+
+

@@ -1,0 +1,47 @@
+// Card.js
+import React from 'react';
+import { CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+import './card.scss'; // Importer le fichier CSS
+
+const Card = ({ title, percentage }) => {
+    return (
+        <div className="card__proges">
+            <h3 className="card-title__proges">{title}</h3>
+            <div className="progress-container__proges">
+                <CircularProgressbar 
+                    value={percentage} 
+                    text={`${percentage}%`} 
+                    />
+            </div>
+            <p className="card-description__proges">
+                Voici votre pourcentage d'accomplissement.
+            </p>
+        </div>
+    );
+};
+
+export default Card;
+
+
+
+
+
+
+
+
+
+
+//     path: { 
+//         stroke: `rgba(62, 152, 199, ${percentage / 100})`,
+//         strokeLinecap: 'round',
+//     },
+//     text: {
+//         fill: '#fff',
+//         fontSize: '16px',
+//     },
+//     trail: {
+    //         stroke: '#d6d6d6',
+//     },
+// }} 
+    // styles={{

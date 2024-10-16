@@ -17,60 +17,8 @@ import { useGetUser } from '../../services/serviceUser';
 // import CalendarComponent from '../../components/calendar/Calendar'
 import CalendarComponent from '../../components/calendars/CalendarComponent'
 import CurrentTime from '../../components/Timer/CurrentTime';
+import Card from '../../components/progresbar/Card';
 // import Calendars from '../../components/calendars/Calendars';
-
-
-
-
-// const topCustomers = {
-//   head: [
-//     'user',
-//     'total orders',
-//     'total spending'
-//   ],  
-//   body: [
-//     {
-//       "username": "john doe",
-//       "order": "490",
-//       "price": "$15,870"
-//     },  
-//     {
-//       "username": "frank iva",
-//       "order": "250",
-//       "price": "$12,251"
-//     },  
-//     {
-//       "username": "anthony baker",
-//       "order": "120",
-//       "price": "$10,840"
-//     },  
-//     {
-//       "username": "frank iva",
-//       "order": "110",
-//       "price": "$9,251"
-//     },  
-//     {
-//       "username": "anthony baker",
-//       "order": "80",
-//       "price": "$8,840"
-//     }  
-//   ]  
-// }  
-
-// const renderCusomerHead = (item, index) => (
-//   <th key={index}>{item}</th>
-// )
-
-
-
-// const renderCusomerBody = (item, index) => (
-//   <tr key={index}>
-//     <td>{item.username}</td>
-//     <td>{item.order}</td>
-//     <td>{item.price}</td>
-//   </tr>    
-// )
-
 
 const Home = () => {
   const { data: monthData, isLoading, isError } = useGetFoldersByMonth();
@@ -398,7 +346,9 @@ const Home = () => {
               <h3>top horaire</h3>
             </div>
             <div className="card__body">
-              <CurrentTime />
+              {/* <CurrentTime /> */}
+              {/* <Card title="Progrès" percentage={75} /> */}
+              <Card title="Progrès" percentage={folderCount} />
               {/* <Table
                 headData={topCustomers.head}
                 renderHead={(item, index) => renderCusomerHead(item, index)}

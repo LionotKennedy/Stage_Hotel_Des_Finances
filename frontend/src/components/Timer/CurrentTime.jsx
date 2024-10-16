@@ -447,9 +447,9 @@ const CurrentTime = () => {
           })}
         </Typography>
 
-        <div>
+        {/* <div>
         <AnalogClock />
-        </div>
+        </div> */}
       </Box>
     </Paper>
   );
