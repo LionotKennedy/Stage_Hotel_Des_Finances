@@ -107,6 +107,41 @@
 
 
 
+// const mongoose = require("mongoose");
+
+// const TokenSchema = new mongoose.Schema({
+//   userId: {
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref: 'Users',
+//     required: true
+//   },
+//   token: {
+//     type: String,
+//     required: true
+//   },
+//   expiresAt: {
+//     type: Date,
+//     default: () => new Date(Date.now() + 3 * 24 * 60 * 1000), // 3 jours par défaut
+//     // default: () => new Date(Date.now() + 30 * 24 * 60 * 1000), // 30 jours par défaut pour les tokens de connexion
+//     // default: () => new Date(Date.now() + 7 * 24 * 60 * 1000), // 30 jours par défaut pour les tokens de connexion
+//     index: { expireAfterSeconds: 0 } // Crée un index de TTL pour MongoDB
+//   },
+//   createdAt: {
+//     type: Date,
+//     default: Date.now
+//   }
+// });
+
+// const Token = mongoose.model("Token", TokenSchema);
+// module.exports = Token;
+
+
+
+
+
+
+
+
 const mongoose = require("mongoose");
 
 const TokenSchema = new mongoose.Schema({
@@ -121,9 +156,7 @@ const TokenSchema = new mongoose.Schema({
   },
   expiresAt: {
     type: Date,
-    default: () => new Date(Date.now() + 3 * 24 * 60 * 1000), // 3 jours par défaut
-    // default: () => new Date(Date.now() + 30 * 24 * 60 * 1000), // 30 jours par défaut pour les tokens de connexion
-    // default: () => new Date(Date.now() + 7 * 24 * 60 * 1000), // 30 jours par défaut pour les tokens de connexion
+    default: Date.now,
     index: { expireAfterSeconds: 0 } // Crée un index de TTL pour MongoDB
   },
   createdAt: {

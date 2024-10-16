@@ -138,12 +138,13 @@
 
 .sidebar__item-inner.active {
     border-radius: var(--border-radius);
-    background-image: linear-gradient(to right,
+    background-image: linear-gradient(to bottom right,
             var(--main-color),
-            var(--second-color));
+            var(--second-color),
+            var(--primary-color),
+            );
+
     color: var(--txt-white);
-    // background-color: red;
-    // color: black;
 }
 
 .active {

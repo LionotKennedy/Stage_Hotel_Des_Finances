@@ -77,6 +77,7 @@ const registerUser = async (req, res) => {
 //   return token;
 // };
 
+
 // const generateAccessToken = async (user) => {
 //   const payload = {
 //     userId: user._id,
@@ -100,11 +101,44 @@ const registerUser = async (req, res) => {
 //   return token;
 // };
 
+
+
+
+// const generateAccessToken = async (user) => {
+//   const payload = {
+//     userId: user._id,
+//     email: user.email,
+//     exp: Math.floor(Date.now() / 1000) + 259200, // 3 jours en secondes
+//     // exp: Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60 // 7 jours en secondes
+//     // exp: Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60 // 30 jours en secondes
+//   };
+
+//   const token = jwt.sign(payload, process.env.ACCESS_SECRET_TOKEN);
+
+//   // Sauvegarde le token avec son expiration dans la base de données
+//   const createdToken = await Token.create({
+//     userId: user._id,
+//     token,
+//     expiresAt: new Date(Date.now() + 259200000), // 3 jours à partir de maintenant
+//     // expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 jours à partir de maintenant
+//     // expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 jours à partir de maintenant
+//   });
+
+//   console.log("Token créé:", createdToken);
+
+//   return token;
+// };
+
+
+
+
 const generateAccessToken = async (user) => {
   const payload = {
     userId: user._id,
     email: user.email,
-    exp: Math.floor(Date.now() / 1000) + 259200, // 3 jours en secondes
+    exp: Math.floor(Date.now() / 1000) + 3 * 24 * 60 * 60, // 3 jours en secondes
+    // exp: Math.floor(Date.now() / 1000) + 3 * 24 * 60 * 60, // 3 jours en secondes
+    // exp: Math.floor(Date.now() / 1000) + 259200, // 3 jours en secondes
     // exp: Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60 // 7 jours en secondes
     // exp: Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60 // 30 jours en secondes
   };
@@ -115,16 +149,14 @@ const generateAccessToken = async (user) => {
   const createdToken = await Token.create({
     userId: user._id,
     token,
-    expiresAt: new Date(Date.now() + 259200000), // 3 jours à partir de maintenant
-    // expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 jours à partir de maintenant
-    // expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 jours à partir de maintenant
+    // expiresAt: payload.exp,
+    expiresAt: new Date(Date.now() + 259200000),
   });
 
   console.log("Token créé:", createdToken);
 
   return token;
 };
-
 // ############### ENDING #################//
 
 // ############### LOGIN #################//

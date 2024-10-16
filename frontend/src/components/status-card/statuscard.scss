@@ -42,7 +42,8 @@
     background-image: linear-gradient(
         to top right,
         var(--main-color),
-        var(--second-color)
+        var(--second-color),
+        var(--primary-color),
     );
     position: absolute;
     left: -50%;
