@@ -154,11 +154,16 @@ const TokenSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  expiresAt: {
-    type: Date,
-    default: Date.now,
-    index: { expireAfterSeconds: 0 } // Crée un index de TTL pour MongoDB
-  },
+  // expiresAt: {
+  //   type: Date,
+  //   default: Date.now,
+  //   // index: { expireAfterSeconds: 0 } // Crée un index de TTL pour MongoDB
+  // },
+  // expiresIn: {
+  //   type: Date,
+  //   default: Date.now,
+  //   // index: { expireAfterSeconds: 0 } // Crée un index de TTL pour MongoDB
+  // },
   createdAt: {
     type: Date,
     default: Date.now

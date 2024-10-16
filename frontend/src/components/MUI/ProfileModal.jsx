@@ -267,7 +267,7 @@ export default function FullScreenDialog({ open, handleClose, userId }) {
         fullWidth
         maxWidth="sm"
       >
-        <AppBar sx={{ position: 'relative' }}>
+        <AppBar sx={{ position: 'relative' }} className='appBar'>
           <Toolbar>
             <IconButton
               edge="start"

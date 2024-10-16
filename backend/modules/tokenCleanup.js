@@ -93,7 +93,9 @@ async function cleanupExpiredTokens() {
 
     // Suppression des tokens dont la date d'expiration est plus ancienne que 3 jours
     const result = await Token.deleteMany({
-      expiresAt: { $lt: threeDaysAgo },
+      // expiresAt: { $lt: threeDaysAgo },
+      // expiresIn: { $lt: threeDaysAgo },
+      createdAt: { $lt: threeDaysAgo },
     });
 
     if (result.deletedCount > 0) {

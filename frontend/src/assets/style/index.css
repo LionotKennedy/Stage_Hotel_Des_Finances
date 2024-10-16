@@ -50,31 +50,34 @@
   /* --main-color-cyan: #10d4d2;
   --second-color-cyan: #2ae9e6; */
 
-  --main-color-blue: #89379c;
-  --primary-color-blue: #4a2b4f;
-  /* --primary-color-blue: #ffb199; */
-  --second-color-blue: #fa538d;
+  /* --main-color-blue: #89379c; */
+  /* --primary-color-blue: #4a2b4f; */
+  /* --primary-color-blue: #3dbeff; */
   
-  --main-color-red:  rgb(201, 21, 1);
-  --primary-color-red: rgb(196, 83, 70);
-  --second-color-red: rgb(132, 27, 11);
+  --main-color-blue: #ee00ff;
+  --second-color-blue: #fa538d;
+  --primary-color-blue: #ffb199;
+  
+  --main-color-red:  rgb(235, 23, 0);
+  --second-color-red: rgb(225, 33, 55);
+  --primary-color-red: rgb(223, 113, 100);
   
   /* --main-color-cyan: #FF3CAC;
   --primary-color-cyan: #562B7C;
   --second-color-cyan: #2B86C5; */
 
   --main-color-cyan: #10d4d2;
-  --primary-color-cyan: #005bea;
   --second-color-cyan: #3e88ff;
+  --primary-color-cyan: #005bea;
   
   --main-color-green: #019707;
-  --primary-color-green: #2d844e;
   --second-color-green: #4caf50;
+  --primary-color-green: #2d844e;
   
   --main-color-orange: rgba(255,128,0,1);
-  --primary-color-orange: rgba(232,211,59,1);
   --second-color-orange: rgba(219,112,54,1);
-
+  --primary-color-orange: rgba(232,211,59,1);
+  
   /* --second-color-orange: rgba(232,211,59,1); */
   
 

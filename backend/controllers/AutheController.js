@@ -56,6 +56,27 @@ const registerUser = async (req, res) => {
 // ############### ENDING #################//
 
 // ############### TOKEN #################//
+const generateAccessToken = async (user) => {
+  const payload = {
+    userId: user._id,
+    email: user.email,
+  };
+
+  const token = jwt.sign(payload, process.env.ACCESS_SECRET_TOKEN, {
+    expiresIn: "48h",
+  });
+
+  // Save token to the database
+  const createdToken = await Token.create({
+    userId: user._id,
+    token,
+  });
+
+  console.log('Token created:', createdToken); // Ajoutez ce log pour le débogage
+
+  return token;
+};
+
 // const generateAccessToken = async (user) => {
 //   const payload = {
 //     userId: user._id,
@@ -132,31 +153,35 @@ const registerUser = async (req, res) => {
 
 
 
-const generateAccessToken = async (user) => {
-  const payload = {
-    userId: user._id,
-    email: user.email,
-    exp: Math.floor(Date.now() / 1000) + 3 * 24 * 60 * 60, // 3 jours en secondes
-    // exp: Math.floor(Date.now() / 1000) + 3 * 24 * 60 * 60, // 3 jours en secondes
-    // exp: Math.floor(Date.now() / 1000) + 259200, // 3 jours en secondes
-    // exp: Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60 // 7 jours en secondes
-    // exp: Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60 // 30 jours en secondes
-  };
 
-  const token = jwt.sign(payload, process.env.ACCESS_SECRET_TOKEN);
 
-  // Sauvegarde le token avec son expiration dans la base de données
-  const createdToken = await Token.create({
-    userId: user._id,
-    token,
-    // expiresAt: payload.exp,
-    expiresAt: new Date(Date.now() + 259200000),
-  });
+// const generateAccessToken = async (user) => {
+//   const payload = {
+//     userId: user._id,
+//     email: user.email,
+//     // exp: Math.floor(Date.now() / 1000) + 3 * 24 * 60 * 60, // 3 jours en secondes
+//     // exp: Math.floor(Date.now() / 1000) + 3 * 24 * 60 * 60, // 3 jours en secondes
+//     // exp: Math.floor(Date.now() / 1000) + 259200, // 3 jours en secondes
+//     // exp: Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60 // 7 jours en secondes
+//     // exp: Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60 // 30 jours en secondes
+//   };
 
-  console.log("Token créé:", createdToken);
+//   const token = jwt.sign(payload, process.env.ACCESS_SECRET_TOKEN);
 
-  return token;
-};
+//   // Sauvegarde le token avec son expiration dans la base de données
+//   const createdToken = await Token.create({
+//     userId: user._id,
+//     token,
+//     expiresAt: payload.exp,
+//     // expiresAt: new Date(Date.now() + 3 * 24 * 60 * 60),
+//     // expiresAt: new Date(Date.now()),
+//   });
+
+//   console.log("Token créé:", createdToken);
+
+//   return token;
+// };
+
 // ############### ENDING #################//
 
 // ############### LOGIN #################//

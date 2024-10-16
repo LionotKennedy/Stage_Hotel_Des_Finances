@@ -1,3 +1,10 @@
+$linear-gradient1: linear-gradient(90deg, #97776f, #6dfa08);
+$linear-gradient: linear-gradient(to bottom right,
+        var(--main-color),
+        var(--second-color),
+        var(--primary-color),
+    );
+
 .container__users {
     padding: 20px;
     font-family: Arial, sans-serif;
@@ -82,8 +89,9 @@
                 .btn__update__profile {
 
                     .submit-button {
+                        background: $linear-gradient;
                         padding: 10px;
-                        background-color: var(--second-color);
+                        // background-color: var(--second-color);
                         color: white;
                         border: none;
                         border-radius: 4px;
