@@ -10,6 +10,8 @@ import "./login.scss";
 import Loading from '../../components/Loading/Loading';
 import { useLogin, usePasswordReset, useNewPasswordVerification } from '../../services/authServices'; // Importer la fonction de login
 import { getProfile } from '../../services/authServices'; // Importez le service
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const Login = ({ onLogin }) => {
     const [email, setEmail] = useState(''); // Changed setUsername to setEmail
@@ -35,6 +37,13 @@ const Login = ({ onLogin }) => {
         }, 2000);
 
         return () => clearTimeout(timer);
+    }, []);
+
+    useEffect(() => {
+        AOS.init({
+            duration: 1000, // Durée des animations en millisecondes
+            //   once: true,    // Pour que l'animation se joue une seule fois
+        });
     }, []);
 
 
@@ -165,7 +174,7 @@ const Login = ({ onLogin }) => {
 
     return (
         <div className='pages__login'>
-            <div className="container animate">
+            <div className="container animatex" data-aos="flip-right">
                 <div className="design">
                     <div className="pill-1 rotate-45"></div>
                     <div className="pill-2 rotate-45"></div>
@@ -202,6 +211,7 @@ const Login = ({ onLogin }) => {
                         </>
                     ) : forgotPassword ? (
                         <>
+
                             <AiOutlineMail size={90} className='react__icons' />
                             <h3 className="title">Forgot Password</h3>
                             <div className="text-input">
@@ -217,6 +227,7 @@ const Login = ({ onLogin }) => {
                             {/* <button className="login-btn" onClick={() => setForgotPassword('verify')}>Send Reset Link</button> */}
                             <button className="login-btn" onClick={handleSendResetCode}>Send Reset Link</button>
                             <a className="forgot text_login" onClick={() => setForgotPassword(false)}>Back to Login</a>
+
                         </>
                     ) : (
                         <>
