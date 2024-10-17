@@ -105,7 +105,7 @@ const TableArchive = ({ archives, refetch, year }) => {
         });
     
         // Sauvegarder le fichier PDF
-        doc.save("corrier.pdf");
+        doc.save("archive.pdf");
     };
 
     const exportExcel = () => {
@@ -219,8 +219,8 @@ const TableArchive = ({ archives, refetch, year }) => {
         const startDateInput = startDateRef.current.value;
         const endDateInput = endDateRef.current.value;
 
-        console.log('Date de début:', startDateInput);
-        console.log('Date de fin:', endDateInput);
+        // console.log('Date de début:', startDateInput);
+        // console.log('Date de fin:', endDateInput);
 
         // Appel de la fonction de recherche entre deux dates
         SearchByTowDate();
@@ -302,7 +302,7 @@ const TableArchive = ({ archives, refetch, year }) => {
     const displayTotalItems = () => {
         if (totalItems > 0) {
             return (
-                <p>Total des archives : {totalItems}</p>
+                <p>Total des archive(s) : {totalItems}</p>
             );
         }
         return null;
@@ -319,10 +319,10 @@ const TableArchive = ({ archives, refetch, year }) => {
                 </div>
                 <section className="table__header">
                     <select className='searchByeverything' value={searchType} onChange={(e) => setSearchType(e.target.value)}>
-                        <option value="numero">Recherche par Numero</option>
-                        <option value="nom">Recherche par Nom</option>
-                        <option value="matricule">Recherche par Matricule</option>
-                        <option value="date">Recherche par Date</option>
+                        <option value="numero">Recherche par numéro</option>
+                        <option value="nom">Recherche par nom</option>
+                        <option value="matricule">Recherche par matricule</option>
+                        <option value="date">Recherche par date</option>
                     </select>
                     {searchType === 'date' ? (
                         <div className='container__search'>
@@ -381,7 +381,7 @@ const TableArchive = ({ archives, refetch, year }) => {
                         <thead className='thead'>
                             <tr>
                                 {/* <th className='th'>ID</th> */}
-                                <th className='th'>Numéro Bordereaux</th>
+                                <th className='th'>Numéro</th>
                                 <th className='th'>Date Départ</th>
                                 <th className='th'>Expéditeur</th>
                                 <th className='th'>Destination</th>
@@ -426,11 +426,11 @@ const TableArchive = ({ archives, refetch, year }) => {
                 {/* Pagination Controls */}
                 <div className="pagination">
                     <button className="pagination-button" onClick={handlePrevPage} disabled={currentPage === 1}>
-                        &#8249; Previous
+                        &#8249; Précédent
                     </button>
                     <span className="pagination-info">Page {currentPage} sur {totalPages}</span>
                     <button className="pagination-button" onClick={handleNextPage} disabled={currentPage === totalPages}>
-                        Next &#8250;
+                        Suivant &#8250;
                     </button>
                 </div>
                 {displayTotalItems()}

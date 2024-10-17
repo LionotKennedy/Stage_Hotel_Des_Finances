@@ -1,157 +1,5 @@
 
 
-// import * as React from 'react';
-// import Button from '@mui/material/Button';
-// import { styled } from '@mui/material/styles';
-// import Dialog from '@mui/material/Dialog';
-// import DialogTitle from '@mui/material/DialogTitle';
-// import DialogContent from '@mui/material/DialogContent';
-// import DialogActions from '@mui/material/DialogActions';
-// import IconButton from '@mui/material/IconButton';
-// import { FaTimes, FaFacebook, FaGithub, FaInstagram, FaEnvelope } from 'react-icons/fa';
-// import Typography from '@mui/material/Typography';
-// import Box from '@mui/material/Box';
-// import Divider from '@mui/material/Divider';
-// import "./style/about.scss";
-
-// const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-//     '& .MuiDialogContent-root': {
-//         padding: theme.spacing(2),
-//     },
-//     '& .MuiDialogActions-root': {
-//         padding: theme.spacing(1),
-//     },
-// }));
-
-// export default function AboutDialogs({ open, onClose }) {
-//     const handleClickOpen = () => {
-//         onClose(false); // Ajoutez cette ligne si vous utilisez un parent pour contrôler l'ouverture
-//     };
-
-//     const handleClose = () => {
-//         onClose(true); // Ferme le dialog
-//     };
-
-//     return (
-//         <React.Fragment>
-//             <BootstrapDialog
-//                 onClose={handleClose}
-//                 aria-labelledby="customized-dialog-title"
-//                 open={open}
-//             >
-//                 <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-//                     À propos de l'application
-//                 </DialogTitle>
-//                 <IconButton
-//                     aria-label="close"
-//                     onClick={handleClose}
-//                     sx={(theme) => ({
-//                         position: 'absolute',
-//                         right: 8,
-//                         top: 8,
-//                         color: theme.palette.grey[500],
-//                     })}
-//                 >
-//                     <FaTimes />
-//                 </IconButton>
-//                 <DialogContent dividers>
-//                     <Typography gutterBottom>
-//                         Cette application est un système de gestion des départs de courriers et des archives, spécifiquement conçu pour le ministère de l'Économie et des Finances.
-//                     </Typography>
-//                     <Typography gutterBottom>
-//                         Elle permet de suivre efficacement l'acheminement des courriers, garantissant que chaque document est traité de manière rapide et transparente. Les utilisateurs peuvent enregistrer, classer et archiver les courriers afin d'assurer un accès facile aux informations historiques.
-//                     </Typography>
-//                     <Typography gutterBottom>
-//                         L'application vise à optimiser les processus de gestion des courriers, réduisant ainsi le temps de traitement et augmentant la productivité. Grâce à une interface conviviale, les employés peuvent naviguer facilement dans les différentes fonctionnalités, qu'il s'agisse de créer de nouveaux enregistrements ou de rechercher des archives existantes.
-//                     </Typography>
-//                     <Typography gutterBottom>
-//                         En intégrant des fonctionnalités avancées de recherche et de filtrage, cette application aide les utilisateurs à retrouver rapidement les informations dont ils ont besoin, ce qui est essentiel dans un environnement gouvernemental où la précision et l'efficacité sont primordiales.
-//                     </Typography>
-
-//                     {/* Ligne de séparation colorée en bleu */}
-//                     <Divider sx={{ my: 2, bgcolor: 'blue' }} />
-//                     <Box textAlign="center" sx={{ my: 2 }}>
-//                         <Typography variant="h6" gutterBottom>
-//                             Contact
-//                         </Typography>
-
-//                     </Box>
-
-//                     <Box display="flex" justifyContent="space-around" sx={{ my: 2 }}>
-//                         <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className='teste_scale'>
-//                             <FaFacebook size={24} />
-//                         </a>
-//                         <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-//                             <FaGithub size={24} />
-//                         </a>
-//                         <a href="mailto:example@example.com" target="_blank" rel="noopener noreferrer">
-//                             <FaEnvelope size={24} />
-//                         </a>
-//                         <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
-//                             <FaInstagram size={24} />
-//                         </a>
-//                     </Box>
-
-//                     <Divider sx={{ my: 2 }} />
-
-//                     <Box textAlign="center" sx={{ my: 2 }}>
-//                         <Typography variant="h6" gutterBottom>
-//                             Développé par : [Nom et Prénom du Développeur]
-//                         </Typography>
-//                         <Typography variant="body1" gutterBottom>
-//                             Année de création : 2024
-//                         </Typography>
-//                     </Box>
-//                 </DialogContent>
-//                 <DialogActions>
-//                     <Button autoFocus onClick={handleClose}>
-//                         Fermer
-//                     </Button>
-//                 </DialogActions>
-//             </BootstrapDialog>
-//         </React.Fragment>
-//     );
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import * as React from 'react';
 import "./style/about.scss";
 import Button from '@mui/material/Button';
@@ -219,14 +67,6 @@ export default function AboutDialogs({ open, onClose }) {
                         <FaTimes />
                     </IconButton>
                     <DialogContent dividers>
-                        {/* Utiliser motion.div pour animer le contenu */}
-                        {/* <motion.div
-                        initial="hidden"
-                        animate="visible"
-                        exit="exit"
-                        variants={variants}
-                        transition={{ duration: 0.5 }} // Durée de l'animation
-                    > */}
                         <Fade top>
                             <Typography gutterBottom>
                                 Cette application est un système de gestion des départs de courriers et des archives, spécifiquement conçu pour le ministère de l'Économie et des Finances.
@@ -276,7 +116,6 @@ export default function AboutDialogs({ open, onClose }) {
                                 </Typography>
                             </Box>
                         </Fade>
-                        {/* </motion.div> */}
                     </DialogContent>
                     <DialogActions>
                         <Button autoFocus onClick={handleClose}>

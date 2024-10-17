@@ -6,6 +6,8 @@ import { useAddVisa, useGetVisaById, useUpdateVisa } from '../../services/servic
 import { useSnackbar } from 'notistack';
 import { AiOutlineClose } from 'react-icons/ai';
 import IconButton from '@mui/material/IconButton'; // Assure-toi d'importer IconButton
+import "./style/visaModal.scss";
+import "../../assets/style/index.css"
 
 const modalVariants = {
   hidden: { opacity: 0, scale: 0.1 },
@@ -160,7 +162,7 @@ export default function VisaModal({ open, handleClose, folderId, mode, onSuccess
           >
             {/* <DialogTitle>Formulaire Ajout Dossier</DialogTitle> */}
             <DialogTitle>
-              <Typography variant="p" component="div" color="primary.main">
+              <Typography variant="p" component="div" color="primary.main" className='header__text'>
                 {mode === 'add' ? 'Formulaire Ajout Visa' : 'Modifier Visa'}
               </Typography>
             </DialogTitle>
@@ -244,9 +246,10 @@ export default function VisaModal({ open, handleClose, folderId, mode, onSuccess
               <Button
                 onClick={handleSubmit}
                 variant="contained"
-                color="primary"
+                // color="primary"
                 size="medium"
                 fullWidth
+                className='btn__modal__visa'
               >
                 {mode === 'add' ? 'Confirmer' : 'Modifier'}
               </Button>

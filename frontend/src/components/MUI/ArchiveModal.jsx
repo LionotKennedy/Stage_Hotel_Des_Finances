@@ -193,7 +193,7 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
             transition={{ duration: 0.5 }}
           >
             <DialogTitle>
-              <Typography variant="p" component="div" color="primary.main">
+              <Typography variant="p" component="div" color="primary.main" className='header__text'>
                 {mode === 'add' ? 'Formulaire Ajout Archive' : 'Modifier archive'}
               </Typography>
             </DialogTitle>
@@ -339,8 +339,9 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
                 onClick={handleSubmit}
                 variant="contained"
                 color="primary"
-                size="medium"
+                // size="medium"
                 fullWidth
+                 className='btn__modal__visa'
               >
                 {mode === 'add' ? 'Confirmer' : 'Modifier'}
               </Button>

@@ -11,7 +11,7 @@ const ContentToPrintArchive = ({ archives }) => {
             <table id='table__archive' style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
                 <thead>
                     <tr>
-                        <th style={styles.th}>Numero Bordereaux</th>
+                        <th style={styles.th}>Numéro</th>
                         <th style={styles.th}>Date Départ</th>
                         <th style={styles.th}>Expéditeur</th>
                         <th style={styles.th}>Destination</th>

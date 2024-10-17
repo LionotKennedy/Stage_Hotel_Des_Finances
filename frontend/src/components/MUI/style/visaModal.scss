@@ -1,0 +1,39 @@
+:root {
+    --main-color-green: #92ff96;
+    --second-color-green: #14e861;
+    --primary-color-green: #19961f;
+
+}
+
+// .theme-color-green {
+//     --main-color: var(--main-color-green);
+//     --primary-color: var(--primary-color-green);
+//     --second-color: var(--second-color-green);
+// }
+
+
+$linear-gradient1: linear-gradient(90deg, #97776f, #6dfa08);
+$linear-gradient: linear-gradient(90deg,
+        var(--main-color),
+        var(--second-color),
+        var(--primary-color),
+    );
+
+
+.btn__modal__visa {
+    // display: none;
+    // background-color: var(--main-bg);
+    // background-image: var(--primary-color) !important;
+    // background-color: var(--primary-color-red) !important;
+    // background: $linear-gradient !important;
+    // background-color: #19961f;
+    // background-color: var(--second-color) !important;
+    // background-color: gray !important;
+    background-color: var(--main-color) !important;
+}
+
+.header__text {
+    color: grey !important;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
