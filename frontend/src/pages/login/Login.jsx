@@ -185,7 +185,7 @@ const Login = ({ onLogin }) => {
                     {forgotPassword === 'verify' ? (
                         <>
                             <FaCheckCircle size={90} className='react__icons' />
-                            <h3 className="title">Verify Code</h3>
+                            <h3 className="title">Vérifier le code</h3>
                             <div className="text-input">
                                 <input
                                     type="text"
@@ -213,7 +213,7 @@ const Login = ({ onLogin }) => {
                         <>
 
                             <AiOutlineMail size={90} className='react__icons' />
-                            <h3 className="title">Forgot Password</h3>
+                            <h3 className="title">Mot de passe oublié</h3>
                             <div className="text-input">
                                 <AiOutlineMail className='react__icons' />
                                 <input
@@ -232,7 +232,7 @@ const Login = ({ onLogin }) => {
                     ) : (
                         <>
                             <MdLock size={90} className='react__icons' />
-                            <h3 className="title">User Login</h3>
+                            <h3 className="title">Se connecter</h3>
                             <div className="text-input" style={{ border: emailError ? '2px solid red' : '' }}>
                                 <RiUserFill className='react__icons' />
                                 <input
