@@ -165,6 +165,11 @@ const TopNav = ({ onLogout }) => {
         <span>A</span>
         <span>R</span>
         <span>T</span>
+        <span>-</span>
+        <span>S</span>
+        <span>R</span>
+        <span>S</span>
+        <span>P</span>
       </div>
       {/* Dialog About */}
       <AboutDialogs open={openAboutDialog} onClose={() => setOpenAboutDialog(false)} />

@@ -56,6 +56,7 @@ const registerUser = async (req, res) => {
 // ############### ENDING #################//
 
 // ############### TOKEN #################//
+
 const generateAccessToken = async (user) => {
   const payload = {
     userId: user._id,
@@ -63,10 +64,10 @@ const generateAccessToken = async (user) => {
   };
 
   const token = jwt.sign(payload, process.env.ACCESS_SECRET_TOKEN, {
-    expiresIn: "48h",
+    expiresIn: "7d", // Le token expirera après 7 jours
   });
 
-  // Save token to the database
+  // Enregistre le token dans la base de données
   const createdToken = await Token.create({
     userId: user._id,
     token,
@@ -76,6 +77,32 @@ const generateAccessToken = async (user) => {
 
   return token;
 };
+
+
+
+// const generateAccessToken = async (user) => {
+//   const payload = {
+//     userId: user._id,
+//     email: user.email,
+//   };
+
+//   const token = jwt.sign(payload, process.env.ACCESS_SECRET_TOKEN, {
+//     expiresIn: "48h",
+//   });
+
+//   // Save token to the database
+//   const createdToken = await Token.create({
+//     userId: user._id,
+//     token,
+//   });
+
+//   console.log('Token created:', createdToken); // Ajoutez ce log pour le débogage
+
+//   return token;
+// };
+
+
+
 
 // const generateAccessToken = async (user) => {
 //   const payload = {

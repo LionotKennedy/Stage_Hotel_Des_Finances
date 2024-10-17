@@ -142,8 +142,58 @@
 
 
 
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
 
+// const TokenSchema = new mongoose.Schema({
+  //   userId: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Users',
+    //     required: true
+    //   },
+    //   token: {
+      //     type: String,
+      //     required: true
+      //   },
+      //   // expiresAt: {
+        //   //   type: Date,
+        //   //   default: Date.now,
+        //   //   // index: { expireAfterSeconds: 0 } // Crée un index de TTL pour MongoDB
+        //   // },
+        //   // expiresIn: {
+          //   //   type: Date,
+          //   //   default: Date.now,
+          //   //   // index: { expireAfterSeconds: 0 } // Crée un index de TTL pour MongoDB
+          //   // },
+          //   createdAt: {
+            //     type: Date,
+            //     default: Date.now,
+            //     expires: '48h', // Le token expirera après 2 heures
+            //   }
+            // });
+
+// const Token = mongoose.model("Token", TokenSchema);
+// module.exports = Token;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const mongoose = require("mongoose");
 const TokenSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -154,23 +204,14 @@ const TokenSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  // expiresAt: {
-  //   type: Date,
-  //   default: Date.now,
-  //   // index: { expireAfterSeconds: 0 } // Crée un index de TTL pour MongoDB
-  // },
-  // expiresIn: {
-  //   type: Date,
-  //   default: Date.now,
-  //   // index: { expireAfterSeconds: 0 } // Crée un index de TTL pour MongoDB
-  // },
   createdAt: {
     type: Date,
     default: Date.now,
-    expires: '48h', // Le token expirera après 2 heures
+    expires: '7d', // Le token expirera après 7 jours
   }
 });
 
+TokenSchema.index({ createdAt: 1 }, { expireAfterSeconds: 7 * 24 * 3600 }); // 7 jours en secondes
+
 const Token = mongoose.model("Token", TokenSchema);
 module.exports = Token;
-
