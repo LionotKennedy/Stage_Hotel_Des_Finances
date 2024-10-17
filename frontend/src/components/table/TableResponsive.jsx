@@ -248,14 +248,14 @@ const TableResponsive = () => {
                     {/* <td className="td">{folder.date_depart}</td> */}
                     {/* <td className="td">{new Date(folder.date_depart).toLocaleDateString('fr-FR', { timeZone: 'Europe/Paris' })}</td> */}
                     <td className="td">
-    {(() => {
-        const date = new Date(folder.date_depart);
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Mois de 0 à 11, donc on ajoute 1
-        const day = String(date.getDate()).padStart(2, '0'); // Ajouter un zéro devant si nécessaire
-        return `${year}-${month}-${day}`;
-    })()}
-</td>
+                  {(() => {
+                     const date = new Date(folder.date_depart);
+                     const year = date.getFullYear();
+                     const month = String(date.getMonth() + 1).padStart(2, '0'); // Mois de 0 à 11, donc on ajoute 1
+                     const day = String(date.getDate()).padStart(2, '0'); // Ajouter un zéro devant si nécessaire
+                     return `${year}-${month}-${day}`;
+                  })()}
+                  </td>
 
                     <td className="td">{folder.expiditeur}</td>
                     <td className="td">{folder.destination}</td>

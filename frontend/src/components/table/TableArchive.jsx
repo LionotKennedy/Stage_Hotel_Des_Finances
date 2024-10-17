@@ -60,36 +60,36 @@ const TableArchive = ({ archives, refetch, year }) => {
     const handleNextPage = () => {
         if (currentPage < totalPages) setCurrentPage(currentPage + 1);
     };
-    
+
     const exportPdf = async () => {
         const doc = new jsPDF({ orientation: "landscape" });
-    
+
         // Variables pour centrer et ajuster la position des images
         const pageWidth = doc.internal.pageSize.getWidth();
         const imageWidth = 30; // Largeur de l'image principale (imageLogo)
         const imageWidth2 = 45; // Largeur de la deuxième image (imageLogo2)
         const imageDataWidth = 18; // Largeur de l'imageData
         const topMargin = 5; // Marges supérieures pour le décalage (réduite pour remonter l'imageLogo)
-  
-    
+
+
         // Centrer uniquement imageLogo
         const centeredX1 = (pageWidth - imageWidth) / 2; // Centrer imageLogo
         const centeredY1 = topMargin; // Réduire topMargin pour placer imageLogo plus haut
-    
+
         // Ajout de l'image centrée (imageLogo)
         doc.addImage(imageLogo, 'JPEG', centeredX1, centeredY1, imageWidth, imageWidth);
-    
+
         // Positionner imageLogo2 à gauche (X = 10)
         const leftX = 10; // Positionnement à gauche pour imageLogo2
         const imageLogo2Y = centeredY1 + imageWidth + 25; // Position Y pour imageLogo2, sous imageLogo
         doc.addImage(imageLogo2, 'JPEG', leftX, imageLogo2Y, imageWidth2, imageWidth2); // Image à gauche (imageLogo2)
-    
+
         // Centrer imageData par rapport à imageLogo2
         const centeredXImageData = leftX + (imageWidth2 - imageDataWidth) / 2; // Centrer imageData par rapport à imageLogo2
         const imageDataY = imageLogo2Y - imageDataWidth - 2; // Positionner imageData juste au-dessus de imageLogo2
-    
+
         doc.addImage(imageData, 'JPEG', centeredXImageData, imageDataY, imageDataWidth, imageDataWidth); // Image centrée par rapport à imageLogo2
-    
+
         // Démarrer la table après les images, avec un espace suffisant
         doc.autoTable({
             html: "#table__archive",
@@ -103,7 +103,7 @@ const TableArchive = ({ archives, refetch, year }) => {
                 fontSize: 10,
             }
         });
-    
+
         // Sauvegarder le fichier PDF
         doc.save("archive.pdf");
     };
@@ -400,7 +400,16 @@ const TableArchive = ({ archives, refetch, year }) => {
                                 paginateData(archives).map((archive, index) => (
                                     <tr key={archive._id}>
                                         <td className="td">{archive.numero_bordereaux}</td>
-                                        <td className="td">{new Date(archive.date_depart).toLocaleDateString()}</td>
+                                        {/* <td className="td">{new Date(archive.date_depart).toLocaleDateString()}</td> */}
+                                        <td className="td">
+                                            {(() => {
+                                                const date = new Date(archive.date_depart);
+                                                const year = date.getFullYear();
+                                                const month = String(date.getMonth() + 1).padStart(2, '0'); // Mois de 0 à 11, donc on ajoute 1
+                                                const day = String(date.getDate()).padStart(2, '0'); // Ajouter un zéro devant si nécessaire
+                                                return `${year}-${month}-${day}`;
+                                            })()}
+                                        </td>
                                         <td className="td">{archive.expiditeur}</td>
                                         <td className="td">{archive.destination}</td>
                                         <td className="td">{archive.nom_depose}</td>

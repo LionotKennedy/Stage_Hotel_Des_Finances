@@ -74,7 +74,16 @@ const TableJournal = () => {
 
         return currentFolders.map((folder, index) => (
             <tr key={index}>
-                <td className="td">{new Date(folder.date).toLocaleDateString()}</td>
+                {/* <td className="td">{new Date(folder.date).toLocaleDateString()}</td> */}
+                <td className="td">
+                    {(() => {
+                        const date = new Date(folder.date);
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(2, '0'); // Mois de 0 à 11, donc on ajoute 1
+                        const day = String(date.getDate()).padStart(2, '0'); // Ajouter un zéro devant si nécessaire
+                        return `${year}-${month}-${day}`;
+                    })()}
+                </td>
                 <td className="td">{folder.userName}</td>
                 <td className="td">{folder.adressEmail}</td>
                 <td className="td">{folder.action}</td>
@@ -87,12 +96,12 @@ const TableJournal = () => {
         ));
     };
 
-    const formatDate = (date) => {
-        const day = String(date.getDate()).padStart(2, '0');
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Les mois sont indexés à partir de 0
-        const year = date.getFullYear();
-        return `${day}/${month}/${year}`;
-    };
+    // const formatDate = (date) => {
+    //     const day = String(date.getDate()).padStart(2, '0');
+    //     const month = String(date.getMonth() + 1).padStart(2, '0'); // Les mois sont indexés à partir de 0
+    //     const year = date.getFullYear();
+    //     return `${day}/${month}/${year}`;
+    // };
 
     const SearchByTowDate = () => {
         const table = tableRef.current;
