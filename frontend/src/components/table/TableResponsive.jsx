@@ -238,23 +238,40 @@ const TableResponsive = () => {
             );
         }
 
-        return currentFolders.map((folder, index) => (
-            <tr key={index}>
-                <td className="td">{folder.numero_bordereaux}</td>
-                <td className="td">{new Date(folder.date_depart).toLocaleDateString()}</td>
-                <td className="td">{folder.expiditeur}</td>
-                <td className="td">{folder.destination}</td>
-                <td className="td">{folder.id_nature.nom_depose}</td>
-                <td className="td">{folder.id_nature.prenom_depose}</td>
-                <td className="td">{folder.id_nature.matricule}</td>
-                <td className="td">{folder.id_nature.description}</td>
-                <td className="td">
-                    <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
-                    <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
-                    <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
-                </td>
-            </tr>
-        ));
+        return currentFolders.map((folder, index) => {
+            console.log('Date depart:', folder.date_depart); // Debugging
+        
+            return (
+                <tr key={index}>
+                    {/* <td className="td">{new Date(folder.date_depart).toLocaleDateString('fr-FR')}</td> */}
+                    <td className="td">{folder.numero_bordereaux}</td>
+                    {/* <td className="td">{folder.date_depart}</td> */}
+                    {/* <td className="td">{new Date(folder.date_depart).toLocaleDateString('fr-FR', { timeZone: 'Europe/Paris' })}</td> */}
+                    <td className="td">
+    {(() => {
+        const date = new Date(folder.date_depart);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Mois de 0 à 11, donc on ajoute 1
+        const day = String(date.getDate()).padStart(2, '0'); // Ajouter un zéro devant si nécessaire
+        return `${year}-${month}-${day}`;
+    })()}
+</td>
+
+                    <td className="td">{folder.expiditeur}</td>
+                    <td className="td">{folder.destination}</td>
+                    <td className="td">{folder.id_nature.nom_depose}</td>
+                    <td className="td">{folder.id_nature.prenom_depose}</td>
+                    <td className="td">{folder.id_nature.matricule}</td>
+                    <td className="td">{folder.id_nature.description}</td>
+                    <td className="td">
+                        <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
+                        <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
+                        <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
+                    </td>
+                </tr>
+            );
+        });
+        
     };
 
     const SearchByTowDate = () => {
@@ -296,12 +313,29 @@ const TableResponsive = () => {
     };
     
     const handleSearch = () => {
-        const startDateInput = startDateRef.current.value;
-        const endDateInput = endDateRef.current.value;
+        // const startDateInput = startDateRef.current.value;
+        // const endDateInput = endDateRef.current.value;
     
-        console.log('Date de début:', startDateInput);
-        console.log('Date de fin:', endDateInput);
+        // console.log('Date de début:', startDateInput);
+        // console.log('Date de fin:', endDateInput);
     
+        // Supposons que les dates d'entrée sont des chaînes au format 'YYYY-MM-DD'
+const startDateInput = startDateRef.current.value; // '2024-10-17'
+const endDateInput = endDateRef.current.value; // '2024-10-18'
+
+// Convertir en objets Date
+const startDate = new Date(startDateInput);
+const endDate = new Date(endDateInput);
+
+// Formater les dates
+const formattedStartDate = startDate.toLocaleDateString('fr-FR', { timeZone: 'Europe/Paris' });
+const formattedEndDate = endDate.toLocaleDateString('fr-FR', { timeZone: 'Europe/Paris' });
+
+// Maintenant vous pouvez utiliser ces valeurs formatées
+console.log("Date de début:", formattedStartDate); // Affiche: Date de début: 17/10/2024
+console.log("Date de fin:", formattedEndDate); // Affiche: Date de fin: 18/10/2024
+
+
         // Appel de la fonction de recherche entre deux dates
         SearchByTowDate();
     };
@@ -461,6 +495,37 @@ export default TableResponsive;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+        // return currentFolders.map((folder, index) => (
+        //     <tr key={index}>
+        //         {/* <td className="td">{new Date(folder.date_depart).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' })}</td> */}
+        //         {/* <td className="td">{new Date(folder.date_depart).toLocaleDateString()}</td> */}
+        //         <td className="td">{folder.numero_bordereaux}</td>
+        //         <td className="td">{new Date(folder.date_depart).toLocaleDateString('fr-FR')}</td>
+        //         <td className="td">{folder.expiditeur}</td>
+        //         <td className="td">{folder.destination}</td>
+        //         <td className="td">{folder.id_nature.nom_depose}</td>
+        //         <td className="td">{folder.id_nature.prenom_depose}</td>
+        //         <td className="td">{folder.id_nature.matricule}</td>
+        //         <td className="td">{folder.id_nature.description}</td>
+        //         <td className="td">
+        //             <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
+        //             <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
+        //             <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
+        //         </td>
+        //     </tr>
+        // ));
 
 
 

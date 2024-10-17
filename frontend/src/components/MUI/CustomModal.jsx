@@ -145,7 +145,8 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
       date_depart: new Date(fields.date_depart).toISOString(),
     };
 
-
+// Afficher la date saisie dans la console
+    console.log("Date saisie :", fields.date_depart); // Ajouté pour afficher la date
 
     try {
       if (mode === 'add') {
