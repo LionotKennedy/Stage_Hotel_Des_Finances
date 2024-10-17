@@ -4,6 +4,8 @@ import "./profilecard.scss";
 import { getProfile } from '../../services/authServices'; // Importez le service
 import FullScreenDialog from '../MUI/ProfileModal'; // Importez votre FullScreenDialog
 import { useNavigate } from 'react-router-dom';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 
 
@@ -70,7 +72,7 @@ const ProfileCard = () => {
 
     return (
         <div className="container__profile">
-            <div className="profile__card">
+            <div className="profile__card"  data-aos="flip-right">
                 <div className="image__profile">
                     {/* Afficher l'image récupérée de l'API */}
                     <img

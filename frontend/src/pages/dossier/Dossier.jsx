@@ -15,10 +15,10 @@ const Dossier = () => {
   }, []);
   return (
     <div className="container__dossier">
-      <div className='title_corrier'>
+      <div className='title_corrier' data-aos="slide-down">
         <span>Courrier</span>
       </div>
-      <div  data-aos="slide-down">
+      <div data-aos="slide-down">
       <TableResponsive />
       </div>
       {/* <div className='container__folder row'>

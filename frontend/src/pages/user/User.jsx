@@ -51,22 +51,22 @@ const User = () => {
     return <p>Erreur lors du chargement des utilisateurs.</p>;
   }
 
-    // Count total items
-    const totalItems = users?.data ? users.data.length : 0;
+  // Count total items
+  const totalItems = users?.data ? users.data.length : 0;
 
-    const displayTotalItems = () => {
-      if (totalItems > 0) {
-        return (
-          <p>Total des utilisateurs : {totalItems}</p>
-        );
-      }
-      return null;
-    };
+  const displayTotalItems = () => {
+    if (totalItems > 0) {
+      return (
+        <p>Total des utilisateurs : {totalItems}</p>
+      );
+    }
+    return null;
+  };
 
   return (
     <div className='container__archive'>
       <div className='content__users'>
-        <div className='title__user'>
+        <div className='title__user' data-aos="slide-down">
           <span>Liste des utilisateurs</span>
         </div>
         <div className='add__users'>
@@ -75,22 +75,26 @@ const User = () => {
       </div>
       {users?.data && users.data.length > 0 ? (
         <>
-          <div className="card-container">
+          <div className="card-container" data-aos="fade-down">
             {/* Pass only the current page items to UserCard */}
             <UserCard users={currentItems} refetch={refetch} />
           </div>
-          <ReactPaginate
-            previousLabel={'Précédent'}
-            nextLabel={'Suivant'}
-            breakLabel={'...'}
-            pageCount={Math.ceil(users.data.length / itemsPerPage)} // Nombre total de pages
-            marginPagesDisplayed={2}
-            pageRangeDisplayed={3}
-            onPageChange={handlePageClick}
-            containerClassName={'pagination'}
-            activeClassName={'active'}
-          />
-          {displayTotalItems()}
+          <div data-aos="fade-up">
+            <ReactPaginate
+              previousLabel={'Précédent'}
+              nextLabel={'Suivant'}
+              breakLabel={'...'}
+              pageCount={Math.ceil(users.data.length / itemsPerPage)} // Nombre total de pages
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={3}
+              onPageChange={handlePageClick}
+              containerClassName={'pagination'}
+              activeClassName={'active'}
+            />
+          </div>
+          <div data-aos="slide-up">
+            {displayTotalItems()}
+          </div>
         </>
       ) : (
         <p>Aucun utilisateur trouvé.</p>

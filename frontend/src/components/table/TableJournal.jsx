@@ -22,6 +22,7 @@ const TableJournal = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [foldersPerPage] = useState(10); // Nombre d'éléments par page
     const { enqueueSnackbar } = useSnackbar();
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     const totalPages = journals && Array.isArray(journals.data) ? Math.ceil(journals.data.length / foldersPerPage) : 1;
     // Dossiers pour la page actuelle

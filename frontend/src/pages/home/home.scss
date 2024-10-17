@@ -1,5 +1,6 @@
 .page-header {
-    margin-bottom: calc(var(--topnav-height) + 20px); /* Espace supplémentaire sous TopNav */
+    margin-top: calc(var(--topnav-height) + 10px); /* Espace supplémentaire sous TopNav */
+    margin-bottom: calc(var(--topnav-height) + 10px); /* Espace supplémentaire sous TopNav */
     text-transform: capitalize;
 }
 

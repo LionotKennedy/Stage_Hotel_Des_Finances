@@ -137,13 +137,13 @@ const ShowUser = () => {
       {/* Afficher les données de l'utilisateur si elles existent */}
       {userData && userData.data && (
         <div className="user__details">
-          <div className='user__info'>
+          <div className='user__info' data-aos="slide-right">
             <h3>Nom: {userData.data.name}</h3>
             <p>Email: {userData.data.email}</p>
             <p>Rôle: {userData.data.role === 1 ? 'Admin' : 'Utilisateur'}</p>
             <p>Statut: {userData.data.status}</p>
           </div>
-          <div className="imgs_show">
+          <div className="imgs_show" data-aos="fade-up">
             <img className="img_show" src={userData.data.image} alt="User" />
           </div>
         </div>

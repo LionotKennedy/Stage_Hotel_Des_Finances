@@ -493,12 +493,12 @@ const Journal = () => {
     <div>
       <h2 className="page-header">
       </h2>
-      <div className='title__journal'>
+      <div className='title__journal' data-aos="slide-down">
         <span>
           Journaux utilisateur
         </span>
       </div>
-      <div className="row">
+      <div className="row" data-aos="fade-down">
         <div className="col-12">
           <div className="card">
             <div className="card__body">

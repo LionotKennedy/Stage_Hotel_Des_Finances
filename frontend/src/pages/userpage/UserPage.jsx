@@ -9,6 +9,7 @@ import { FaRegFileImage } from 'react-icons/fa';
 import { useSnackbar } from 'notistack';
 import { AiOutlineClose } from 'react-icons/ai';
 import IconButton from '@mui/material/IconButton';
+import 'aos/dist/aos.css';
 
 const UserPage = () => {
     const location = useLocation();
@@ -174,7 +175,7 @@ const UserPage = () => {
     return (
         <div className='container__users'>
             <div className='content__headers'>
-                <div className='icon__back'>
+                <div className='icon__back' data-aos="slide-right">
                     <FaArrowLeft
                         className='back__icon'
                         onClick={handleBackClick}
@@ -182,7 +183,7 @@ const UserPage = () => {
                         style={{ cursor: 'pointer' }}
                     />
                 </div>
-                <div className='title__profile'>
+                <div className='title__profile' data-aos="fade-down">
                     <span>Modification du profile</span>
                 </div>
                 {userId ? (
@@ -198,10 +199,10 @@ const UserPage = () => {
 
             <form onSubmit={handleSubmit} className="user-form" encType="multipart/form-data">
                 <div className='container__form'>
-                    <div className='image___recive'>
+                    <div className='image___recive' data-aos="slide-right">
                         {imagePreview && <img src={imagePreview} alt="Prévisualisation" className="image-preview" />} {/* Affiche l'image prévisualisée */}
                     </div>
-                    <div className='content__form'>
+                    <div className='content__form' data-aos="flip-up">
                         <div className="form-group">
                             <label htmlFor="name">Nom:</label>
                             <input
@@ -214,7 +215,7 @@ const UserPage = () => {
                                 required
                             />
                         </div>
-                        <div className="form-group">
+                        <div className="form-group" data-aos="flip-up">
                             <label htmlFor="email">Email:</label>
                             <input
                                 type="email"
@@ -226,7 +227,7 @@ const UserPage = () => {
                                 required
                             />
                         </div>
-                        <div className="form-group content__input">
+                        <div className="form-group content__input" data-aos="flip-up">
                             <label htmlFor="image">
                                 Image : <FaRegFileImage className="icon" />
                             </label>
@@ -238,7 +239,7 @@ const UserPage = () => {
                                 style={{ display: "none" }}
                             />
                         </div>
-                        <div className='btn__update__profile'>
+                        <div className='btn__update__profile' data-aos="flip-up">
                             <button type="submit" className="submit-button">Enregistrer</button>
                         </div>
                     </div>

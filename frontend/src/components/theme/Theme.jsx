@@ -31,7 +31,7 @@ const color_settings = [
     },
     {
         id: 'red',
-        name: 'Red',
+        name: 'Rouge',
         background: 'red-color',
         class: 'theme-color-red'
     },
@@ -43,7 +43,7 @@ const color_settings = [
     },
     {
         id: 'green',
-        name: 'Green',
+        name: 'Vert',
         background: 'green-color',
         class: 'theme-color-green'
     },

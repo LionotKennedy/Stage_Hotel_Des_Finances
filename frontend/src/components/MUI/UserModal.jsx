@@ -7,7 +7,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { DialogTitle, DialogContent, DialogActions, TextField, Grid } from '@mui/material';
+import { DialogTitle, DialogContent, TextField, Grid } from '@mui/material';
 import { FaTimes } from 'react-icons/fa';
 import Slide from '@mui/material/Slide';
 import { useAddUser } from '../../services/serviceUser';
@@ -101,7 +101,7 @@ export default function UserScreenDialog({ open, handleClose, onSuccess }) {
                 fullWidth // Assure que le modal occupe toute la largeur disponible
                 maxWidth="sm" // Choisissez une taille maximale : 'xs', 'sm', 'md', 'lg', 'xl'
             >
-                <AppBar sx={{ position: 'relative' }}>
+                <AppBar sx={{ position: 'relative' }} className='appBar'>
                     <Toolbar>
                         <IconButton
                             edge="start"

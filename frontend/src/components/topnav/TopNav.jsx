@@ -17,7 +17,8 @@ import {
   DialogTitle,
   Button
 } from '@mui/material';
-
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 // CONFIGURATION
 const curr_user = {
   display_name: 'Lionot',
@@ -47,6 +48,13 @@ const TopNav = ({ onLogout }) => {
     } else {
       setError("Utilisateur non trouvé. Veuillez vous reconnecter.");
     }
+  }, []);
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // Durée des animations en millisecondes
+    //   once: true,    // Pour que l'animation se joue une seule fois
+    });
   }, []);
 
   const fetchProfileData = async (userId, token) => {
@@ -150,7 +158,7 @@ const TopNav = ({ onLogout }) => {
         <input type="text" placeholder='Search here...' />
         <i className='bx bx-search'></i>
       </div> */}
-      <div className='content__name__app'>
+      <div className='content__name__app'  data-aos="fade-right">
         <span>D</span>
         <span>E</span>
         <span>P</span>

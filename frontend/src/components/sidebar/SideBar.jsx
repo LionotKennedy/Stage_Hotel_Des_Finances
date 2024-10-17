@@ -81,11 +81,13 @@
 
 
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import "./sidebar.scss";
 import sidebar_items from '../../Data/Sidebar__route.json';
 import logo from '../../assets/images/logo.png';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const SidebarItem = props => {
   const active = props.active ? 'active' : '';
@@ -119,6 +121,13 @@ const SideBar = () => {
   const activeItem = filteredItems.findIndex(item => 
     location.pathname.startsWith(item.route)
   );
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // Durée des animations en millisecondes
+    //   once: true,    // Pour que l'animation se joue une seule fois
+    });
+  }, []);
 
   return (
     <div className='sidebar'>

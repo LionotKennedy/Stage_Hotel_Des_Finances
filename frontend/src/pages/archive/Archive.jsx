@@ -128,7 +128,7 @@
 //     // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 //     // const currentItems = groups.slice(indexOfFirstItem, indexOfLastItem);
 //     // // ************* ENDING ***************//
-  
+
 //     // // ************* PAGINATION ***************//
 //     // useEffect(() => {
 //     //   refresh();
@@ -203,26 +203,28 @@ const Archive = () => {
 
   return (
     <div className='container__archive'>
-      <div className='title_archive'>
+      <div className='title_archive' data-aos="slide-down">
         <span>Archives</span>
       </div>
       {groups?.data && groups.data.length > 0 ? (
         <>
-          <div className="card-container">
+          <div className="card-container" data-aos="fade-up">
             {/* Pass only the current page items to ArchiveCard */}
             <ArchiveCard groups={currentItems} />
           </div>
-          <ReactPaginate
-            previousLabel={'Précédent'}
-            nextLabel={'Suivant'}
-            breakLabel={'...'}
-            pageCount={Math.ceil(groups.data.length / itemsPerPage)} // Nombre total de pages
-            marginPagesDisplayed={2}
-            pageRangeDisplayed={3}
-            onPageChange={handlePageClick}
-            containerClassName={'pagination'}
-            activeClassName={'active'}
-          />
+          <div data-aos="fade-down">
+            <ReactPaginate
+              previousLabel={'Précédent'}
+              nextLabel={'Suivant'}
+              breakLabel={'...'}
+              pageCount={Math.ceil(groups.data.length / itemsPerPage)} // Nombre total de pages
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={3}
+              onPageChange={handlePageClick}
+              containerClassName={'pagination'}
+              activeClassName={'active'}
+            />
+          </div>
         </>
       ) : (
         <p>Aucune archive trouvée.</p>

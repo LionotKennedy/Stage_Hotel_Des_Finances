@@ -1,9 +1,11 @@
-import React from 'react'
+import React,{ useEffect } from 'react'
 import "./visa.scss"
 // import customerList from '../../Data/user.json'
 // import TablePersonalize from '../../components/table/TablePersonalize'
 // import { MdEdit, MdDelete, MdVisibility } from 'react-icons/md';
 import TableVisa from '../../components/table/TableVisa';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 
 // const customerTableHead = [
@@ -52,11 +54,18 @@ import TableVisa from '../../components/table/TableVisa';
 //   // Logique pour supprimer l'élément
 // };
 
+// useEffect(() => {
+//   AOS.init({
+//     duration: 1000, // Durée des animations en millisecondes
+//     //   once: true,    // Pour que l'animation se joue une seule fois
+//   });
+// }, []);
+
 
 const Visa = () => {
   return (
     <div className='rowc container__visa'>
-        <div className='title_visa'>
+      <div className='title_visa' data-aos="slide-down">
         <span>Visa</span>
       </div>
       {/* <TablePersonalize
@@ -66,7 +75,9 @@ const Visa = () => {
         bodyData={customerList}
         renderBody={(item, index) => renderBody(item, index)}
       /> */}
-      <TableVisa />
+      <div data-aos="fade-down">
+        <TableVisa />
+      </div>
     </div>
   )
 }

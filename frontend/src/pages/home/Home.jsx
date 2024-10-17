@@ -19,6 +19,8 @@ import CalendarComponent from '../../components/calendars/CalendarComponent'
 import CurrentTime from '../../components/Timer/CurrentTime';
 import Card from '../../components/progresbar/Card';
 // import Calendars from '../../components/calendars/Calendars';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const Home = () => {
   const { data: monthData, isLoading, isError } = useGetFoldersByMonth();
@@ -153,6 +155,12 @@ const Home = () => {
     }
   }, [monthData]);
 
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // Durée des animations en millisecondes
+    //   once: true,    // Pour que l'animation se joue une seule fois
+    });
+  }, []);
 
   const chartOptions = {
     series: [{
@@ -311,7 +319,7 @@ const Home = () => {
           <div className="row">
             {
               statusCards.map((item, index) => (
-                <div className="col-6" key={index}>
+                <div className="col-6" key={index} data-aos="fade-right">
                   <StatusCard
                     icon={getIcon(item.title)}
                     count={getItemValue(item.field)}
@@ -323,7 +331,7 @@ const Home = () => {
           </div>
         </div>
         <div className="col-6">
-          <div className="card full-height">
+          <div className="card full-height" data-aos="flip-right">
             {/* chart */}
             <Chart
               options={themeReducer === 'theme-mode-dark' ? {
@@ -340,7 +348,7 @@ const Home = () => {
 
           </div>
         </div>
-        <div className="col-4">
+        <div className="col-4"  data-aos="slide-up">
           <div className="card">
             <div className="card__header">
               <h3>top horaire</h3>
@@ -361,7 +369,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <div className="col-8">
+        <div className="col-8" data-aos="slide-left">
           <div className="card">
             {/* <div className="card__header">
               <h3>latest orders</h3>

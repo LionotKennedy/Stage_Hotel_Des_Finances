@@ -227,7 +227,7 @@ const ArchiveMore = () => {
     }
 
     return (
-        <div className='container__archive-more'>
+        <div className='container__archive-more' data-aos="slide-right">
             <div className='content__archive-more'>
                 <div className='icon__back'>
                     <FaArrowLeft
