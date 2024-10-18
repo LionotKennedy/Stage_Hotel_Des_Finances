@@ -43,7 +43,7 @@ const TableArchive = ({ archives, refetch, year }) => {
     const { enqueueSnackbar } = useSnackbar();
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
-    const [rowsPerPage] = useState(10); // Customize number of rows per page
+    const [rowsPerPage] = useState(20); // Customize number of rows per page
     // Calculate total pages
     const totalPages = Math.ceil(archives.length / rowsPerPage);
     // Paginate the archive data
@@ -66,7 +66,7 @@ const TableArchive = ({ archives, refetch, year }) => {
 
         // Variables pour centrer et ajuster la position des images
         const pageWidth = doc.internal.pageSize.getWidth();
-        const imageWidth = 30; // Largeur de l'image principale (imageLogo)
+        const imageWidth = 40; // Largeur de l'image principale (imageLogo)
         const imageWidth2 = 45; // Largeur de la deuxième image (imageLogo2)
         const imageDataWidth = 18; // Largeur de l'imageData
         const topMargin = 5; // Marges supérieures pour le décalage (réduite pour remonter l'imageLogo)
@@ -95,8 +95,10 @@ const TableArchive = ({ archives, refetch, year }) => {
             html: "#table__archive",
             startY: imageLogo2Y + imageWidth2 + 20, // Démarrer la table après imageLogo2 avec un décalage
             headStyles: {
-                fillColor: [109, 109, 109],
-                textColor: [255, 255, 255],
+                fillColor: [200, 200, 200],
+                textColor: [0, 0, 0],
+                // fillColor: [109, 109, 109],
+                // textColor: [255, 255, 255],
             },
             styles: {
                 cellPadding: 4,
@@ -105,16 +107,15 @@ const TableArchive = ({ archives, refetch, year }) => {
         });
 
         // Sauvegarder le fichier PDF
-        doc.save("archive.pdf");
+        doc.save("archive-srsp.pdf");
     };
 
     const exportExcel = () => {
         // const table = document.getElementById('my-table');
         const table = document.getElementById('table__archive');
         const wb = XLSX.utils.table_to_book(table);
-        XLSX.writeFile(wb, 'archive.xlsx');
+        XLSX.writeFile(wb, 'archive-srsp.xlsx');
     };
-
 
     const exportWord = () => {
         const doc = new jsPDF();
@@ -122,7 +123,7 @@ const TableArchive = ({ archives, refetch, year }) => {
             html: "#table__archive",
             styles: { cellPadding: 6 }
         });
-        doc.save('archive.docx');
+        doc.save('archive-srsp.docx');
     };
 
     const toggleDropdown = () => {
@@ -310,128 +311,141 @@ const TableArchive = ({ archives, refetch, year }) => {
 
 
     return (
-        <div className='container__table'>
-            <main className="table" id="archive_table">
-                <div ref={contentRef} className="content-to-print">
-                    <div className="hidden-contents">
-                        <ContentToPrintArchive archives={archives} />
+        <>
+            <div className='container__table'>
+                <main className="table" id="archive_table">
+                    <div ref={contentRef} className="content-to-print">
+                        <div className="hidden-contents">
+                            <ContentToPrintArchive archives={archives} />
+                        </div>
                     </div>
-                </div>
-                <section className="table__header">
-                    <select className='searchByeverything' value={searchType} onChange={(e) => setSearchType(e.target.value)}>
-                        <option value="numero">Recherche par numéro</option>
-                        <option value="nom">Recherche par nom</option>
-                        <option value="matricule">Recherche par matricule</option>
-                        <option value="date">Recherche par date</option>
-                    </select>
-                    {searchType === 'date' ? (
-                        <div className='container__search'>
-                            <div className='contents__search'>
-                                <input
-                                    type="date"
-                                    ref={startDateRef}
-                                    onChange={(e) => setStartDateValue(e.target.value)}
-                                    placeholder="Start Date..."
-                                />
-                            </div>
-                            <div className='contents__search'>
-                                <input
-                                    type="date"
-                                    ref={endDateRef}
-                                    onChange={(e) => setEndDateValue(e.target.value)}
-                                    placeholder="End Date..."
-                                />
-                            </div>
-                            <div className='search__btn'>
-                                <FaSearch className='search__icon' onClick={handleSearch} />
-                            </div>
-                        </div>
-                    ) : (
-                        <div className="input-group">
-                            <input
-                                type="search"
-                                placeholder="Recherche donnée..."
-                                ref={searchRef}
-                                onChange={(e) => setSearchValue(e.target.value)}
-                            />
-
-
-                            <img src={search} alt="Search Icon" />
-                        </div>
-                    )}
-                    <div className='option_right'>
-                        <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
-                        <div className="dropdown-container">
-                            <div onClick={toggleDropdown} className='background_download'>
-                                <FaArrowDown className="icon_download" style={{ marginLeft: '0px', fontSize: '20px' }} />
-                            </div>
-                            {dropdownOpen && (
-                                <div className="dropdown-menu">
-                                    <button onClick={() => handleOptionClick('option1')} className="dropdown-item"><img src={pdf} alt="Search Icon" />PDF</button>
-                                    <button onClick={() => handleOptionClick('option2')} className="dropdown-item"><img src={word} alt="Search Icon" />DOCX</button>
-                                    <button onClick={() => handleOptionClick('option3')} className="dropdown-item"><img src={excel} alt="Search Icon" />EXCEL</button>
+                    <section className="table__header">
+                        <select className='searchByeverything' value={searchType} onChange={(e) => setSearchType(e.target.value)}>
+                            <option value="numero">Recherche par numéro</option>
+                            <option value="nom">Recherche par nom</option>
+                            <option value="matricule">Recherche par matricule</option>
+                            <option value="date">Recherche par date</option>
+                        </select>
+                        {searchType === 'date' ? (
+                            <div className='container__search'>
+                                <div className='contents__search'>
+                                    <input
+                                        type="date"
+                                        ref={startDateRef}
+                                        onChange={(e) => setStartDateValue(e.target.value)}
+                                        placeholder="Start Date..."
+                                    />
                                 </div>
-                            )}
+                                <div className='contents__search'>
+                                    <input
+                                        type="date"
+                                        ref={endDateRef}
+                                        onChange={(e) => setEndDateValue(e.target.value)}
+                                        placeholder="End Date..."
+                                    />
+                                </div>
+                                <div className='search__btn'>
+                                    <FaSearch className='search__icon' onClick={handleSearch} />
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="input-group">
+                                <input
+                                    type="search"
+                                    placeholder="Recherche donnée..."
+                                    ref={searchRef}
+                                    onChange={(e) => setSearchValue(e.target.value)}
+                                />
+
+
+                                <img src={search} alt="Search Icon" />
+                            </div>
+                        )}
+                        <div className='option_right'>
+                            <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
+                            <div className="dropdown-container">
+                                <div onClick={toggleDropdown} className='background_download'>
+                                    <FaArrowDown className="icon_download" style={{ marginLeft: '0px', fontSize: '20px' }} />
+                                </div>
+                                {dropdownOpen && (
+                                    <div className="dropdown-menu">
+                                        <button onClick={() => handleOptionClick('option1')} className="dropdown-item"><img src={pdf} alt="Search Icon" />PDF</button>
+                                        <button onClick={() => handleOptionClick('option2')} className="dropdown-item"><img src={word} alt="Search Icon" />DOCX</button>
+                                        <button onClick={() => handleOptionClick('option3')} className="dropdown-item"><img src={excel} alt="Search Icon" />EXCEL</button>
+                                    </div>
+                                )}
+                            </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
 
-                <section className="table__body">
-                    <table className='table' ref={tableRef}>
-                        <thead className='thead'>
-                            <tr>
-                                {/* <th className='th'>ID</th> */}
-                                <th className='th'>Numéro</th>
-                                <th className='th'>Date Départ</th>
-                                <th className='th'>Expéditeur</th>
-                                <th className='th'>Destination</th>
-                                <th className='th'>Nom</th>
-                                <th className='th'>Prénom</th>
-                                <th className='th'>Matricule</th>
-                                <th className='th'>Description</th>
-                                <th className='th'>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody className='tbody'>
-                            {/* {displayData()} */}
-                            {/* {archives && archives.length > 0 ? ( */}
-                            {/*  archives.map((archive) => ( */}
-                            {archives.length > 0 ? (
-                                paginateData(archives).map((archive, index) => (
-                                    <tr key={archive._id}>
-                                        <td className="td">{archive.numero_bordereaux}</td>
-                                        {/* <td className="td">{new Date(archive.date_depart).toLocaleDateString()}</td> */}
-                                        <td className="td">
-                                            {(() => {
-                                                const date = new Date(archive.date_depart);
-                                                const year = date.getFullYear();
-                                                const month = String(date.getMonth() + 1).padStart(2, '0'); // Mois de 0 à 11, donc on ajoute 1
-                                                const day = String(date.getDate()).padStart(2, '0'); // Ajouter un zéro devant si nécessaire
-                                                return `${year}-${month}-${day}`;
-                                            })()}
-                                        </td>
-                                        <td className="td">{archive.expiditeur}</td>
-                                        <td className="td">{archive.destination}</td>
-                                        <td className="td">{archive.nom_depose}</td>
-                                        <td className="td">{archive.prenom_depose}</td>
-                                        <td className="td">{archive.matricule}</td>
-                                        <td className="td">{archive.description}</td>
-                                        <td className="td">
-                                            <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(archive._id, 'edit')} />
-                                            <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(archive._id)} />
-                                            <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(archive._id)} />
-                                        </td>
-                                    </tr>
-                                ))
-                            ) : (
+                    <section className="table__body">
+                        <table className='table' ref={tableRef}>
+                            <thead className='thead'>
                                 <tr>
-                                    <td colSpan="10">Aucune archive trouvée pour cette année.</td>
+                                    <th className='th'>Numéro</th>
+                                    <th className='th'>Date Départ</th>
+                                    <th className='th'>Expéditeur</th>
+                                    <th className='th'>Destination</th>
+                                    <th className='th'>Nom</th>
+                                    <th className='th'>Prénom</th>
+                                    <th className='th'>Matricule</th>
+                                    <th className='th'>Description</th>
+                                    <th className='th'>Actions</th>
                                 </tr>
-                            )}
+                            </thead>
+                            <tbody className='tbody'>
+                                {archives.length > 0 ? (
+                                    paginateData(archives).map((archive, index) => (
+                                        <tr key={archive._id}>
+                                            <td className="td">{archive.numero_bordereaux}</td>
+                                            {/* <td className="td">{new Date(archive.date_depart).toLocaleDateString()}</td> */}
+                                            <td className="td">
+                                                {(() => {
+                                                    const date = new Date(archive.date_depart);
+                                                    const year = date.getFullYear();
+                                                    const month = String(date.getMonth() + 1).padStart(2, '0'); // Mois de 0 à 11, donc on ajoute 1
+                                                    const day = String(date.getDate() + 1).padStart(2, '0'); // Ajouter un zéro devant si nécessaire
+                                                    return `${year}-${month}-${day}`;
+                                                })()}
+                                            </td>
+                                            <td className="td">{archive.expiditeur}</td>
+                                            <td className="td">{archive.destination}</td>
+                                            <td className="td">{archive.nom_depose}</td>
+                                            <td className="td">{archive.prenom_depose}</td>
+                                            <td className="td">{archive.matricule}</td>
+                                            <td className="td">{archive.description}</td>
+                                            <td className="td">
+                                                <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(archive._id, 'edit')} />
+                                                <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(archive._id)} />
+                                                <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(archive._id)} />
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="10">Aucune archive trouvée pour cette année.</td>
+                                    </tr>
+                                )}
 
-                        </tbody>
-                    </table>
-                </section>
+                            </tbody>
+                        </table>
+                    </section>
+                    <AnimatePresence>
+                        {modalOpen && (
+                            <ArchiveModal
+                                open={modalOpen}
+                                handleClose={handleCloseModal}
+                                folderId={selectedFolderId}
+                                mode={mode}
+                                onSuccess={refetch} // On passe refetch ici
+                            />
+                        )}
+                    </AnimatePresence>
+                    <AlertDialogArchiveSlide open={alertOpen} setOpen={setAlertOpen} folderId={deleteFolderId} onSuccess={refetch} />
+                    <ArchiveDialogs open={alertOpenRead} setOpen={setAlertOpenRead} folderId={readFolderId} />
+                </main>
+            </div>
+            <div>
                 {/* Pagination Controls */}
                 <div className="pagination">
                     <button className="pagination-button" onClick={handlePrevPage} disabled={currentPage === 1}>
@@ -443,21 +457,8 @@ const TableArchive = ({ archives, refetch, year }) => {
                     </button>
                 </div>
                 {displayTotalItems()}
-                <AnimatePresence>
-                    {modalOpen && (
-                        <ArchiveModal
-                            open={modalOpen}
-                            handleClose={handleCloseModal}
-                            folderId={selectedFolderId}
-                            mode={mode}
-                            onSuccess={refetch} // On passe refetch ici
-                        />
-                    )}
-                </AnimatePresence>
-                <AlertDialogArchiveSlide open={alertOpen} setOpen={setAlertOpen} folderId={deleteFolderId} onSuccess={refetch} />
-                <ArchiveDialogs open={alertOpenRead} setOpen={setAlertOpenRead} folderId={readFolderId} />
-            </main>
-        </div>
+            </div>
+        </>
     );
 };
 

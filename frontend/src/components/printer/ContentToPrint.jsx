@@ -17,7 +17,7 @@ const ContentToPrint = ({ folders }) => {
             <table id='teste' style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
                 <thead>
                     <tr>
-                        <th style={styles.th}>Numero Bordereaux</th>
+                        <th style={styles.th}>Numéro</th>
                         <th style={styles.th}>Date Départ</th>
                         <th style={styles.th}>Expéditeur</th>
                         <th style={styles.th}>Destination</th>
@@ -31,7 +31,16 @@ const ContentToPrint = ({ folders }) => {
                     {folders.map((folder, index) => (
                         <tr key={index}>
                             <td style={styles.td}>{folder.numero_bordereaux}</td>
-                            <td style={styles.td}>{new Date(folder.date_depart).toLocaleDateString()}</td>
+                            {/* <td style={styles.td}>{new Date(folder.date_depart).toLocaleDateString()}</td> */}
+                            <td style={styles.td}>
+                                {(() => {
+                                    const date = new Date(folder.date_depart);
+                                    const year = date.getFullYear();
+                                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                                    const day = String(date.getDate() + 1).padStart(2, '0');
+                                    return `${day}/${month}/${year}`;
+                                })()}
+                            </td>
                             <td style={styles.td}>{folder.expiditeur}</td>
                             <td style={styles.td}>{folder.destination}</td>
                             <td style={styles.td}>{folder.id_nature.nom_depose}</td>

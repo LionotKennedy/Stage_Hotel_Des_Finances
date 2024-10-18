@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { useGetJournals } from '../../services/serviceJournal';
+import { useGetJournals } from '../../../services/serviceJournal';
 
 import './table.scss'
 

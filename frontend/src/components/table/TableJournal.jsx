@@ -20,7 +20,7 @@ const TableJournal = () => {
     const [startDateValue, setStartDateValue] = useState('');
     const [endDateValue, setEndDateValue] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [foldersPerPage] = useState(10); // Nombre d'éléments par page
+    const [foldersPerPage] = useState(20); // Nombre d'éléments par page
     const { enqueueSnackbar } = useSnackbar();
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -37,13 +37,11 @@ const TableJournal = () => {
     const handleDeleteClick = (folderId) => {
         setDeleteFolderId(folderId);
         setAlertOpen(true);
-        // console.log(folderId);
     };
 
     const handleReadClick = (folderId) => {
         setReadFolderId(folderId);
         setAlertOpenRead(true);
-        // console.log(folderId);
     };
 
     const displayData = () => {
@@ -75,19 +73,19 @@ const TableJournal = () => {
         return currentFolders.map((folder, index) => (
             <tr key={index}>
                 {/* <td className="td">{new Date(folder.date).toLocaleDateString()}</td> */}
+                <td className="td">{folder.userName}</td>
+                <td className="td">{folder.adressEmail}</td>
+                <td className="td">{folder.action}</td>
+                <td className="td">{folder.details}</td>
                 <td className="td">
                     {(() => {
                         const date = new Date(folder.date);
                         const year = date.getFullYear();
                         const month = String(date.getMonth() + 1).padStart(2, '0'); // Mois de 0 à 11, donc on ajoute 1
-                        const day = String(date.getDate()).padStart(2, '0'); // Ajouter un zéro devant si nécessaire
+                        const day = String(date.getDate() ).padStart(2, '0'); // Ajouter un zéro devant si nécessaire
                         return `${year}-${month}-${day}`;
                     })()}
                 </td>
-                <td className="td">{folder.userName}</td>
-                <td className="td">{folder.adressEmail}</td>
-                <td className="td">{folder.action}</td>
-                <td className="td">{folder.details}</td>
                 <td className="td">
                     <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
                     <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
@@ -95,13 +93,6 @@ const TableJournal = () => {
             </tr>
         ));
     };
-
-    // const formatDate = (date) => {
-    //     const day = String(date.getDate()).padStart(2, '0');
-    //     const month = String(date.getMonth() + 1).padStart(2, '0'); // Les mois sont indexés à partir de 0
-    //     const year = date.getFullYear();
-    //     return `${day}/${month}/${year}`;
-    // };
 
     const SearchByTowDate = () => {
         const table = tableRef.current;
@@ -127,7 +118,7 @@ const TableJournal = () => {
 
         tableRows.forEach((row, i) => {
             // On récupère la date à comparer dans la colonne spécifique (par exemple la 8ème colonne).
-            let tableDateText = row.querySelectorAll('td')[0].textContent; // Suppose que la date est dans la 8ème colonne (index 7)
+            let tableDateText = row.querySelectorAll('td')[4].textContent; // Suppose que la date est dans la 8ème colonne (index 7)
             let tableDate = new Date(tableDateText);
 
             // Vérifie si la date est entre les deux dates sélectionnées
@@ -175,50 +166,56 @@ const TableJournal = () => {
     };
 
     return (
-        <div className='container__table'>
-            <main className="table" ref={tableRef} id="customers_table">
-                <section className="table__header cont">
-                    <div className='container__search__journal'>
-                        <div className='contents__search__journal'>
-                            <input
-                                type="date"
-                                ref={startDateRef}
-                                onChange={(e) => setStartDateValue(e.target.value)}
-                                placeholder="Start Date..."
-                            />
+        <>
+            <div className='container__table'>
+                <main className="table" ref={tableRef} id="customers_table">
+                    <section className="table__header cont">
+                        <div className='container__search__journal'>
+                            <div className='contents__search__journal'>
+                                <input
+                                    type="date"
+                                    ref={startDateRef}
+                                    onChange={(e) => setStartDateValue(e.target.value)}
+                                    placeholder="Start Date..."
+                                />
+                            </div>
+                            <div className='contents__search__journal'>
+                                <input
+                                    type="date"
+                                    ref={endDateRef}
+                                    onChange={(e) => setEndDateValue(e.target.value)}
+                                    placeholder="End Date..."
+                                />
+                            </div>
+                            <div className='search__btn__journal'>
+                                <FaSearch className='search__icon__journal' onClick={handleSearch} />
+                            </div>
                         </div>
-                        <div className='contents__search__journal'>
-                            <input
-                                type="date"
-                                ref={endDateRef}
-                                onChange={(e) => setEndDateValue(e.target.value)}
-                                placeholder="End Date..."
-                            />
-                        </div>
-                        <div className='search__btn__journal'>
-                            <FaSearch className='search__icon__journal' onClick={handleSearch} />
-                        </div>
-                    </div>
 
-                </section>
+                    </section>
 
-                <section className="table__body">
-                    <table className='table' id="my-table">
-                        <thead className='thead'>
-                            <tr>
-                                <th className='th'>Nom d’utilisateur </th>
-                                <th className='th'>Email </th>
-                                <th className='th'>Action </th>
-                                <th className='th'>Détails </th>
-                                <th className='th'>Date </th>
-                                <th className='th'>Actions </th>
-                            </tr>
-                        </thead>
-                        <tbody className='tbody'>
-                            {displayData()}
-                        </tbody>
-                    </table>
-                </section>
+                    <section className="table__body">
+                        <table className='table' id="my-table">
+                            <thead className='thead'>
+                                <tr>
+                                    <th className='th'>Nom d’utilisateur </th>
+                                    <th className='th'>Email </th>
+                                    <th className='th'>Action </th>
+                                    <th className='th'>Détails </th>
+                                    <th className='th'>Date </th>
+                                    <th className='th'>Actions </th>
+                                </tr>
+                            </thead>
+                            <tbody className='tbody'>
+                                {displayData()}
+                            </tbody>
+                        </table>
+                    </section>
+                    <AlertJournalDialogSlide open={alertOpen} setOpen={setAlertOpen} id={deleteFolderId} />
+                    <JournalDialogs open={alertOpenRead} setOpen={setAlertOpenRead} id={readFolderId} />
+                </main>
+            </div>
+            <div>
                 {/* Pagination controls */}
                 <ReactPaginate
                     previousLabel={'Précédent'}
@@ -229,12 +226,8 @@ const TableJournal = () => {
                     activeClassName={'active'}
                 />
                 {displayTotalItems()}
-                {/* <AlertDialogSlide open={alertOpen} setOpen={setAlertOpen} folderId={deleteFolderId} onSuccess={refetch} /> */}
-                {/* <CustomizedDialogs open={alertOpenRead} setOpen={setAlertOpenRead} folderId={readFolderId} /> */}
-                <AlertJournalDialogSlide open={alertOpen} setOpen={setAlertOpen} id={deleteFolderId} />
-                <JournalDialogs open={alertOpenRead} setOpen={setAlertOpenRead} id={readFolderId} />
-            </main>
-        </div>
+            </div>
+        </>
     )
 }
 

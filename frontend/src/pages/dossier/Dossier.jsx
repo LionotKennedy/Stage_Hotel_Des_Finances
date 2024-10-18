@@ -2,15 +2,14 @@ import React, { useEffect } from 'react'
 import TableResponsive from '../../components/table/TableResponsive'
 import "./dossier.scss"
 import AOS from 'aos';
-import 'aos/dist/aos.css'; // Importer le CSS de AOS
+import 'aos/dist/aos.css';
 
 
 const Dossier = () => {
-  
+
   useEffect(() => {
     AOS.init({
-      duration: 1000, // Durée des animations en millisecondes
-    //   once: true,    // Pour que l'animation se joue une seule fois
+      duration: 1000,
     });
   }, []);
   return (
@@ -18,14 +17,15 @@ const Dossier = () => {
       <div className='title_corrier' data-aos="slide-down">
         <span>Courrier</span>
       </div>
-      <div data-aos="slide-down">
-      <TableResponsive />
-      </div>
-      {/* <div className='container__folder row'>
-        <div className='row'>
-
+      <div className="row" data-aos="slide-down">
+        <div className="col-12">
+          <div className="card">
+            <div className="card__body">
+              <TableResponsive />
+            </div>
+          </div>
         </div>
-      </div> */}
+      </div>
     </div>
   )
 }

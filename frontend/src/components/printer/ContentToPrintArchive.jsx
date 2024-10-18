@@ -25,7 +25,16 @@ const ContentToPrintArchive = ({ archives }) => {
                     {archives.map((archive, index) => (
                         <tr key={index}>
                             <td style={styles.td}>{archive.numero_bordereaux}</td>
-                            <td style={styles.td}>{new Date(archive.date_depart).toLocaleDateString()}</td>
+                            {/* <td style={styles.td}>{new Date(archive.date_depart).toLocaleDateString()}</td> */}
+                            <td className="td">
+                                {(() => {
+                                    const date = new Date(archive.date_depart);
+                                    const year = date.getFullYear();
+                                    const month = String(date.getMonth() + 1).padStart(2, '0'); // Mois de 0 à 11, donc on ajoute 1
+                                    const day = String(date.getDate() + 1).padStart(2, '0'); // Ajouter un zéro devant si nécessaire
+                                    return `${day}/${month}/${year}`;
+                                })()}
+                            </td>
                             <td style={styles.td}>{archive.expiditeur}</td>
                             <td style={styles.td}>{archive.destination}</td>
                             <td style={styles.td}>{archive.nom_depose}</td>

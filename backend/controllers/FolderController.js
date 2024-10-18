@@ -105,7 +105,7 @@ const addFolder = async (req, res) => {
 
       // Enregistrer dans Journal
       const newJournal = new Journal({
-        action: "Ajout d'un nouveau dossier",
+        action: "Ajout d'un nouveau dossier courrier",
         details: `Nouveau dossier ajouté avec le numéro bordereaux: ${numero_bordereaux}`,
         user: req.user._id,
         userName: req.user.name,
@@ -297,7 +297,7 @@ const updateFolderById = async (req, res) => {
       await courrier.save(); // Sauvegarder les modifications dans la collection Courriers
 
       const newJournal = new Journal({
-        action: "Mise à jour de dossier",
+        action: "Mise à jour de dossier courrier",
         details: `Dossier mis à jour avec le numéro bordereaux: ${numero_bordereaux}`,
         user: req.user._id,
         userName: req.user.name,
@@ -352,7 +352,7 @@ const deleteFolderById = async (req, res) => {
     await Courrier.findByIdAndDelete(id);
 
     const newJournal = new Journal({
-      action: "Suppression de dossier",
+      action: "Suppression de dossier courrier",
       details: `Dossier supprimé avec le numéro bordereaux: ${courrier.numero_bordereaux}`,
       user: req.user._id,
       userName: req.user.name,
@@ -417,8 +417,6 @@ const CountLettersByMonth = async (req, res) => {
 
     // Tableau pour convertir les numéros de mois en noms de mois
     const monthNames = [
-      // "", "January", "February", "March", "April", "May", "June",
-      // "July", "August", "September", "October", "November", "December"
       "",
       "Janvier",
       "Février",

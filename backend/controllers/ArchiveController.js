@@ -90,7 +90,7 @@ const addArchive = async (req, res) => {
 
       // Enregistrer l'action dans Journales
       const newJournal = new Journal({
-        action: "Ajout d'un dossier",
+        action: "Ajout d'un dossier courrier",
         details: `Nouveau dossier ajouté avec le numéro bordereaux: ${numero_bordereaux}`,
         user: req.user._id,
         userName: req.user.name,
@@ -220,7 +220,7 @@ const updateArchiveById = async (req, res) => {
       }
 
       const newJournal = new Journal({
-        action: `Mise à jour de dossier archive`,
+        action: `Mise à jour de dossier archivé`,
         details: `Dossier mis à jour avec le numéro bordereaux: ${archive.numero_bordereaux}`,
         user: req.user._id,
         userName: req.user.name,
@@ -262,7 +262,7 @@ const updateArchiveById = async (req, res) => {
       await Archive.findByIdAndDelete(id);
 
       const newJournal = new Journal({
-        action: "Mise à jour de dossier",
+        action: "Mise à jour de dossier courrier",
         details: `Dossier mis à jour avec le numéro bordereaux: ${numero_bordereaux}`,
         user: req.user._id,
         userName: req.user.name,
@@ -296,7 +296,7 @@ const deleteArhiveById = async (req, res) => {
     const archive = await Archive.findById(id);
     await archive.deleteOne({ $set: req.body });
     const newJournal = new Journal({
-      action: "Suppression de dossier",
+      action: "Suppression de dossier archivé",
       details: `Dossier supprimé avec le numéro bordereaux: ${archive.numero_bordereaux}`,
       user: req.user._id,
       userName: req.user.name,

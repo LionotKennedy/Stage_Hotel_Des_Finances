@@ -14,6 +14,7 @@ import { useAddUser } from '../../services/serviceUser';
 import { useSnackbar } from 'notistack';
 import { AiOutlineClose } from 'react-icons/ai'
 
+
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -159,5 +160,90 @@ export default function UserScreenDialog({ open, handleClose, onSuccess }) {
                 </List>
             </Dialog>
         </React.Fragment>
+
+
+    //     <React.Fragment>
+    //   <Dialog
+    //     open={open}
+    //     onClose={handleClose}
+    //     TransitionComponent={Transition}
+    //     fullWidth
+    //     maxWidth="sm"
+    //   >
+    //     <AppBar sx={{ position: 'relative' }} className='appBar'>
+    //       <Toolbar>
+    //         <IconButton
+    //           edge="start"
+    //           color="inherit"
+    //           onClick={handleClose}
+    //           aria-label="close"
+    //         >
+    //           <FaTimes />
+    //         </IconButton>
+    //         <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+    //           Compte
+    //         </Typography>
+    //         <Button 
+    //           autoFocus 
+    //           color="inherit" 
+    //           onClick={handleSubmit}
+    //           sx={{
+    //             backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--main-color'),
+    //             color: getComputedStyle(document.documentElement).getPropertyValue('--txt-color'),
+    //           }}
+    //         >
+    //           Creer
+    //         </Button>
+    //       </Toolbar>
+    //     </AppBar>
+    //     <List>
+    //       <DialogTitle>Creation compte utilisateur</DialogTitle>
+    //       <DialogContent>
+    //         <form>
+    //           <Grid container spacing={2}>
+    //             <Grid item xs={12} sm={12}>
+    //               <TextField
+    //                 name="name"
+    //                 label="Nom du utilisateur"
+    //                 variant="standard"
+    //                 fullWidth
+    //                 onChange={handleChange}
+    //                 error={!!fieldErrors.name}
+    //                 helperText={fieldErrors.name ? 'Ce champ est requis' : ''}
+    //                 InputProps={{
+    //                   style: fieldErrors.name ? { borderColor: 'red' } : {},
+    //                 }}
+    //                 sx={{
+    //                   backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--bg'),
+    //                   color: getComputedStyle(document.documentElement).getPropertyValue('--txt-color'),
+    //                 }}
+    //               />
+    //             </Grid>
+    //             <Grid item xs={12} sm={12}>
+    //               <TextField
+    //                 type="email"
+    //                 name="email"
+    //                 label="Adresse email"
+    //                 variant="standard"
+    //                 fullWidth
+    //                 onChange={handleChange}
+    //                 error={!!fieldErrors.email}
+    //                 helperText={fieldErrors.email ? 'Ce champ est requis' : ''}
+    //                 InputProps={{
+    //                   style: fieldErrors.email ? { borderColor: 'red' } : {},
+    //                 }}
+    //                 sx={{
+    //                   backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--bg'),
+    //                   color: getComputedStyle(document.documentElement).getPropertyValue('--txt-color'),
+    //                 }}
+    //               />
+    //             </Grid>
+    //           </Grid>
+    //         </form>
+    //       </DialogContent>
+    //     </List>
+    //   </Dialog>
+    // </React.Fragment>
+
     );
 }

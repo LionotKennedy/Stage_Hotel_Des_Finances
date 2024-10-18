@@ -10,7 +10,7 @@ const ContentToPrintVisa = ({ folders }) => {
             <table id='table_visa' style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
                 <thead>
                     <tr>
-                        <th style={styles.th}>Numero</th>
+                        <th style={styles.th}>Numéro</th>
                         <th style={styles.th}>Nom</th>
                         <th style={styles.th}>Prénom</th>
                         <th style={styles.th}>Reference</th>

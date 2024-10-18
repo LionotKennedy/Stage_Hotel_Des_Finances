@@ -41,7 +41,7 @@ const TableVisa = () => {
     const { enqueueSnackbar } = useSnackbar();
 
     const [currentPage, setCurrentPage] = useState(0);
-    const rowsPerPage = 10;
+    const rowsPerPage = 20;
 
     // Calculate the number of total pages
     const totalPages = folders ? Math.ceil(folders.data.length / rowsPerPage) : 1;
@@ -54,49 +54,51 @@ const TableVisa = () => {
 
     const exportPdf = async () => {
         const doc = new jsPDF({ orientation: "landscape" });
-    
+
         // Variables pour centrer et ajuster la position des images
         const pageWidth = doc.internal.pageSize.getWidth();
-        const imageWidth = 30; // Largeur de l'image principale (imageLogo)
+        const imageWidth = 40; // Largeur de l'image principale (imageLogo)
         const imageWidth2 = 45; // Largeur de la deuxième image (imageLogo2)
         const imageDataWidth = 18; // Largeur de l'imageData
         const topMargin = 5; // Marges supérieures pour le décalage (réduite pour remonter l'imageLogo)
-  
-    
+
+
         // Centrer uniquement imageLogo
         const centeredX1 = (pageWidth - imageWidth) / 2; // Centrer imageLogo
         const centeredY1 = topMargin; // Réduire topMargin pour placer imageLogo plus haut
-    
+
         // Ajout de l'image centrée (imageLogo)
         doc.addImage(imageLogo, 'JPEG', centeredX1, centeredY1, imageWidth, imageWidth);
-    
+
         // Positionner imageLogo2 à gauche (X = 10)
         const leftX = 10; // Positionnement à gauche pour imageLogo2
         const imageLogo2Y = centeredY1 + imageWidth + 25; // Position Y pour imageLogo2, sous imageLogo
         doc.addImage(imageLogo2, 'JPEG', leftX, imageLogo2Y, imageWidth2, imageWidth2); // Image à gauche (imageLogo2)
-    
+
         // Centrer imageData par rapport à imageLogo2
         const centeredXImageData = leftX + (imageWidth2 - imageDataWidth) / 2; // Centrer imageData par rapport à imageLogo2
         const imageDataY = imageLogo2Y - imageDataWidth - 2; // Positionner imageData juste au-dessus de imageLogo2
-    
+
         doc.addImage(imageData, 'JPEG', centeredXImageData, imageDataY, imageDataWidth, imageDataWidth); // Image centrée par rapport à imageLogo2
-    
+
         // Démarrer la table après les images, avec un espace suffisant
         doc.autoTable({
             html: "#table_visa",
             startY: imageLogo2Y + imageWidth2 + 20, // Démarrer la table après imageLogo2 avec un décalage
             headStyles: {
-                fillColor: [109, 109, 109],
-                textColor: [255, 255, 255],
+                // fillColor: [109, 109, 109],
+                // textColor: [255, 255, 255],
+                fillColor: [200, 200, 200],
+                textColor: [0, 0, 0],
             },
             styles: {
                 cellPadding: 4,
                 fontSize: 10,
             }
         });
-    
+
         // Sauvegarder le fichier PDF
-        doc.save("corrier.pdf");
+        doc.save("visa-srsp.pdf");
     };
 
 
@@ -104,7 +106,7 @@ const TableVisa = () => {
         // const table = document.getElementById('my-table');
         const table = document.getElementById('table_visa');
         const wb = XLSX.utils.table_to_book(table);
-        XLSX.writeFile(wb, 'visa.xlsx');
+        XLSX.writeFile(wb, 'visa-srsp.xlsx');
     };
 
 
@@ -114,31 +116,26 @@ const TableVisa = () => {
             html: "#table_visa",
             styles: { cellPadding: 6 }
         });
-        doc.save('visa.docx');
+        doc.save('visa-srsp.docx');
     };
 
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
-        // console.log('Dropdown toggled!');
     };
 
     const handleOptionClick = async (option) => {
         setSelectedOption(option);
-        // console.log(`Option selected: ${option}`);
         switch (option) {
             case 'option1':
                 await exportPdf();
-                // console.log("PDF généré avec succès");
                 enqueueSnackbar('PDF généré avec succès.', { variant: 'success' });
                 break;
             case 'option2':
                 await exportWord();
-                // console.log("Fichier Word généré avec succès");
                 enqueueSnackbar('Fichier Word généré avec succès.', { variant: 'success' });
                 break;
             case 'option3':
                 await exportExcel();
-                // console.log("Fichier Word généré avec succès");
                 enqueueSnackbar('Fichier excel généré avec succès.', { variant: 'success' });
                 break;
         }
@@ -157,13 +154,11 @@ const TableVisa = () => {
     const handleDeleteClick = (folderId) => {
         setDeleteFolderId(folderId);
         setAlertOpen(true);
-        // console.log(folderId)
     };
 
     const handleReadClick = (folderId) => {
         setReadFolderId(folderId);
         setAlertOpenRead(true);
-        // console.log(folderId)
     };
 
     useEffect(() => {
@@ -222,8 +217,6 @@ const TableVisa = () => {
         return null;
     };
 
-
-
     // Display data according to the current page
     const displayData = () => {
         if (!folders || !folders.data) return null;
@@ -247,62 +240,78 @@ const TableVisa = () => {
     };
 
     return (
-        <div className='container__table'>
-            <main className="table" ref={tableRef} id="customers_table">
-                <div ref={contentRef} className="content-to-print">
-                    <div className="hidden-contents">
-                        <ContentToPrintVisa folders={folders?.data} />
-                    </div>
-                </div>
-                <section className="table__header">
-                    <select className='searchByeverything' value={searchType} onChange={(e) => setSearchType(e.target.value)}>
-                        <option value="nom">Recherche par Nom</option>
-                        <option value="prenom">Recherche par prenom</option>
-                        <option value="numero">Recherche par Numero</option>
-                        <option value="reference">Recherche par reference</option>
-                    </select>
-                    <div className="input-group">
-                        <input type="search"
-                            placeholder="Recherche donnée..."
-                            ref={searchRef}
-                            onChange={(e) => setSearchValue(e.target.value)} />
-                        <img src={search} alt="Search Icon" />
-                    </div>
-                    <div className='option_right'>
-                        <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
-                        <div className="dropdown-container">
-                            <div onClick={toggleDropdown} className='background_download'>
-                                <FaArrowDown className="icon_download" style={{ marginLeft: '0px', fontSize: '20px' }} />
-                            </div>
-                            {dropdownOpen && (
-                                <div className="dropdown-menu">
-                                    <button onClick={() => handleOptionClick('option1')} className="dropdown-item"><img src={pdf} alt="Search Icon" />PDF</button>
-                                    <button onClick={() => handleOptionClick('option2')} className="dropdown-item"><img src={word} alt="Search Icon" />DOCX</button>
-                                    <button onClick={() => handleOptionClick('option3')} className="dropdown-item"><img src={excel} alt="Search Icon" />EXCEL</button>
-                                </div>
-                            )}
+        <>
+            <div className='container__table'>
+                <main className="table" ref={tableRef} id="customers_table">
+                    <div ref={contentRef} className="content-to-print">
+                        <div className="hidden-contents">
+                            <ContentToPrintVisa folders={folders?.data} />
                         </div>
                     </div>
-                </section>
+                    <section className="table__header">
+                        <select className='searchByeverything' value={searchType} onChange={(e) => setSearchType(e.target.value)}>
+                            <option value="nom">Recherche par nom</option>
+                            <option value="prenom">Recherche par prénom</option>
+                            <option value="numero">Recherche par numéro</option>
+                            <option value="reference">Recherche par reference</option>
+                        </select>
+                        <div className="input-group">
+                            <input type="search"
+                                placeholder="Recherche donnée..."
+                                ref={searchRef}
+                                onChange={(e) => setSearchValue(e.target.value)} />
+                            <img src={search} alt="Search Icon" />
+                        </div>
+                        <div className='option_right'>
+                            <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
+                            <div className="dropdown-container">
+                                <div onClick={toggleDropdown} className='background_download'>
+                                    <FaArrowDown className="icon_download" style={{ marginLeft: '0px', fontSize: '20px' }} />
+                                </div>
+                                {dropdownOpen && (
+                                    <div className="dropdown-menu">
+                                        <button onClick={() => handleOptionClick('option1')} className="dropdown-item"><img src={pdf} alt="Search Icon" />PDF</button>
+                                        <button onClick={() => handleOptionClick('option2')} className="dropdown-item"><img src={word} alt="Search Icon" />DOCX</button>
+                                        <button onClick={() => handleOptionClick('option3')} className="dropdown-item"><img src={excel} alt="Search Icon" />EXCEL</button>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </section>
 
-                <section className="table__body">
-                    <table className='table'>
-                        <thead className='thead'>
-                            <tr>
-                                {/* <th className='th'>ID Visa </th> */}
-                                <th className='th'>Numero </th>
-                                <th className='th'>Nom </th>
-                                <th className='th'>Prénom </th>
-                                <th className='th'>Reference </th>
-                                <th className='th'>Actions </th>
-                            </tr>
-                        </thead>
-                        <tbody className='tbody'>
-                            {displayData()}
-                        </tbody>
-                    </table>
-                </section>
+                    <section className="table__body">
+                        <table className='table'>
+                            <thead className='thead'>
+                                <tr>
+                                    <th className='th'>Numéro </th>
+                                    <th className='th'>Nom </th>
+                                    <th className='th'>Prénom </th>
+                                    <th className='th'>Reference </th>
+                                    <th className='th'>Actions </th>
+                                </tr>
+                            </thead>
+                            <tbody className='tbody'>
+                                {displayData()}
+                            </tbody>
+                        </table>
+                    </section>
 
+                    <AnimatePresence>
+                        {modalOpen && (
+                            <VisaModal
+                                open={modalOpen}
+                                handleClose={handleCloseModal}
+                                folderId={selectedFolderId} // Passer l'ID du courrier à la modale
+                                mode={mode} // Passer le mode à la modale
+                                onSuccess={refetch}
+                            />
+                        )}
+                    </AnimatePresence>
+                    <AlertDialogSlideVisa open={alertOpen} setOpen={setAlertOpen} folderId={deleteFolderId} onSuccess={refetch} />
+                    <CustomizedVisaDialogs open={alertOpenRead} setOpen={setAlertOpenRead} folderId={readFolderId} />
+                </main>
+            </div>
+            <div>
                 {/* Pagination controls */}
                 <ReactPaginate
                     previousLabel={'Précédent'}
@@ -314,211 +323,11 @@ const TableVisa = () => {
                 />
                 {/* Affichage du nombre total d'items */}
                 {displayTotalItems()}
-                <AnimatePresence>
-                    {modalOpen && (
-                        <VisaModal
-                            open={modalOpen}
-                            handleClose={handleCloseModal}
-                            folderId={selectedFolderId} // Passer l'ID du courrier à la modale
-                            mode={mode} // Passer le mode à la modale
-                            onSuccess={refetch}
-                        />
-                    )}
-                </AnimatePresence>
-                <AlertDialogSlideVisa open={alertOpen} setOpen={setAlertOpen} folderId={deleteFolderId} onSuccess={refetch} />
-                <CustomizedVisaDialogs open={alertOpenRead} setOpen={setAlertOpenRead} folderId={readFolderId} />
-            </main>
-        </div>
+
+            </div>
+        </>
     )
 }
 
 export default TableVisa
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const exportPdfs = async () => {
-//     const doc = new jsPDF({ orientation: "landscape" });
-
-//     // Ajoutez une image centrée en haut avec un décalage de 2 lignes
-//     const pageWidth = doc.internal.pageSize.getWidth();
-//     const pageHeight = doc.internal.pageSize.getHeight();
-//     const imageWidth = 40; // Largeur de l'image
-//     const centeredX = (pageWidth - imageWidth) / 2; // Calculer le positionnement centré
-//     const topMargin = 20; // Marges supérieures et inférieures pour le décalage
-//     const centeredY = topMargin; // Position Y de l'image centrée
-
-//     doc.addImage(imageLogo, 'JPEG', centeredX, centeredY, imageWidth, imageWidth); // Image centrée en haut
-
-//     // Ajoutez l'image à gauche
-//     doc.addImage(imageData, 'JPEG', 10, 65, 23, 23); // Image à gauche
-
-//     // Démarrer la table après les images, avec un espace suffisant
-//     doc.autoTable({
-//         html: "#table_visa",
-//         startY: centeredY + imageWidth + topMargin * 2,
-//         headStyles: {
-//             // fillColor: [255, 0, 0], 
-//             fillColor: [109, 109, 109],
-//             textColor: [255, 255, 255],
-
-//         },
-//         styles: {
-//             cellPadding: 4,
-//             fontSize: 10,
-//             // Ajoutez d'autres styles globaux si nécessaire
-//         }
-//     });
-
-//     doc.save("visa.pdf");
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const exportPdf = async () => {
-//     const doc = new jsPDF({ orientation: "landscape" });
-//     // doc.addImage(imageData, 'JPEG', 10, 10, 50, 50); // x, y, largeur, hauteur
-//     doc.addImage(imageData, 'JPEG', 10, 10, 30, 30); // x, y, largeur, hauteur (30, 30 pour une image plus petite)
-//     doc.autoTable({
-//         html: "#table_visa",
-//         startY: 50, // Démarrer la table après l'image
-//     });
-//     doc.save("mypdf.pdf");
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const displayData = () => {
-//     if (!folders || !folders.data) return null;
-
-//     return folders.data.map((folder, index) => (
-//         <tr key={index}>
-//             <td className="td">{folder.numero_visa}</td>
-//             <td className="td">{folder.nom_depose_visa}</td>
-//             <td className="td">{folder.prenom_depose_visa}</td>
-//             <td className="td">{folder.reference}</td>
-//             <td className="td">
-//                 <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
-//                 <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
-//                 <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
-//             </td>
-//         </tr>
-//     ));
-// };
-
-
-
-
-
-
-
-
-// const displayData = () => {
-//     if (!folders || !folders.data) return null;
-
-//     const startIndex = (currentPage - 1) * rowsPerPage;
-//     const selectedFolders = folders.data.slice(startIndex, startIndex + rowsPerPage);
-
-//     return selectedFolders.map((folder, index) => (
-//         <tr key={index}>
-//             <td className="td">{folder.numero_visa}</td>
-//             <td className="td">{folder.nom_depose_visa}</td>
-//             <td className="td">{folder.prenom_depose_visa}</td>
-//             <td className="td">{folder.reference}</td>
-//             <td className="td">
-//                 <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
-//                 <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
-//                 <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
-//             </td>
-//         </tr>
-//     ));
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-
-{/* Pagination controls */ }
-{/* <div className="pagination">
-                    <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
-                    <span>Page {currentPage} of {totalPages}</span>
-                    <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>Next</button>
-                </div> */}

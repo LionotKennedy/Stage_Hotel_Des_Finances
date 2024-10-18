@@ -1,0 +1,188 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const exportPdfs = async () => {
+//     const doc = new jsPDF({ orientation: "landscape" });
+
+//     // Ajoutez une image centrée en haut avec un décalage de 2 lignes
+//     const pageWidth = doc.internal.pageSize.getWidth();
+//     const pageHeight = doc.internal.pageSize.getHeight();
+//     const imageWidth = 40; // Largeur de l'image
+//     const centeredX = (pageWidth - imageWidth) / 2; // Calculer le positionnement centré
+//     const topMargin = 20; // Marges supérieures et inférieures pour le décalage
+//     const centeredY = topMargin; // Position Y de l'image centrée
+
+//     doc.addImage(imageLogo, 'JPEG', centeredX, centeredY, imageWidth, imageWidth); // Image centrée en haut
+
+//     // Ajoutez l'image à gauche
+//     doc.addImage(imageData, 'JPEG', 10, 65, 23, 23); // Image à gauche
+
+//     // Démarrer la table après les images, avec un espace suffisant
+//     doc.autoTable({
+//         html: "#table_visa",
+//         startY: centeredY + imageWidth + topMargin * 2,
+//         headStyles: {
+//             // fillColor: [255, 0, 0], 
+//             fillColor: [109, 109, 109],
+//             textColor: [255, 255, 255],
+
+//         },
+//         styles: {
+//             cellPadding: 4,
+//             fontSize: 10,
+//             // Ajoutez d'autres styles globaux si nécessaire
+//         }
+//     });
+
+//     doc.save("visa.pdf");
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const exportPdf = async () => {
+//     const doc = new jsPDF({ orientation: "landscape" });
+//     // doc.addImage(imageData, 'JPEG', 10, 10, 50, 50); // x, y, largeur, hauteur
+//     doc.addImage(imageData, 'JPEG', 10, 10, 30, 30); // x, y, largeur, hauteur (30, 30 pour une image plus petite)
+//     doc.autoTable({
+//         html: "#table_visa",
+//         startY: 50, // Démarrer la table après l'image
+//     });
+//     doc.save("mypdf.pdf");
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const displayData = () => {
+//     if (!folders || !folders.data) return null;
+
+//     return folders.data.map((folder, index) => (
+//         <tr key={index}>
+//             <td className="td">{folder.numero_visa}</td>
+//             <td className="td">{folder.nom_depose_visa}</td>
+//             <td className="td">{folder.prenom_depose_visa}</td>
+//             <td className="td">{folder.reference}</td>
+//             <td className="td">
+//                 <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
+//                 <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
+//                 <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
+//             </td>
+//         </tr>
+//     ));
+// };
+
+
+
+
+
+
+
+
+// const displayData = () => {
+//     if (!folders || !folders.data) return null;
+
+//     const startIndex = (currentPage - 1) * rowsPerPage;
+//     const selectedFolders = folders.data.slice(startIndex, startIndex + rowsPerPage);
+
+//     return selectedFolders.map((folder, index) => (
+//         <tr key={index}>
+//             <td className="td">{folder.numero_visa}</td>
+//             <td className="td">{folder.nom_depose_visa}</td>
+//             <td className="td">{folder.prenom_depose_visa}</td>
+//             <td className="td">{folder.reference}</td>
+//             <td className="td">
+//                 <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
+//                 <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
+//                 <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
+//             </td>
+//         </tr>
+//     ));
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+{/* Pagination controls */ }
+{/* <div className="pagination">
+                    <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
+                    <span>Page {currentPage} of {totalPages}</span>
+                    <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>Next</button>
+                </div> */}

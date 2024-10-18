@@ -30,12 +30,8 @@ export default function AlertJournalDialogSlide({ open, setOpen, id, onSuccess }
     };
 
     const handleConfirmDelete = async () => {
-        // Ajoutez votre logique de suppression ici avec folderId
-        // console.log(id);
-
         try {
             await deleteJournalMutation.mutateAsync({ id });
-            // console.log("Supprimer le dossier avec ID:", id);
             enqueueSnackbar('Le journal a été supprimé avec succès', {
                 variant: 'success',
                 anchorOrigin: {
@@ -55,7 +51,7 @@ export default function AlertJournalDialogSlide({ open, setOpen, id, onSuccess }
             });
             refetch();
             setOpen(false);
-            onSuccess();
+            // onSuccess();
         } catch (error) {
             console.error('Erreur lors de l\'envoi du formulaire:', error);
             setError('Une erreur est survenue lors de l\'ajout/modification du dossier.');
