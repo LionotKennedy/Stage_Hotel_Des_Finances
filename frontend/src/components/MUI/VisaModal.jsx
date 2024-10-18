@@ -87,6 +87,7 @@ export default function VisaModal({ open, handleClose, folderId, mode, onSuccess
       ...fields,
       //   date_depart: new Date(fields.date_depart).toISOString(), // Par exemple, si le backend attend un format ISO
     };
+    console.log(formattedFields)
     try {
       if (mode === 'edit') {
         await updateVisaMutation.mutateAsync({ folderId, data: formattedFields }); // Utiliser la mutation pour mettre à jour
