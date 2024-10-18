@@ -91,16 +91,16 @@ export default function AboutDialogs({ open, onClose }) {
                         <Fade bottom>
 
                             <Box display="flex" justifyContent="space-around" sx={{ my: 2 }}>
-                                <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className='scale__facebook'>
+                                <a href="https://www.facebook.com/kennedy.rog.5" target="_blank" rel="noopener noreferrer" className='scale__facebook'>
                                     <FaFacebook size={24} />
                                 </a>
-                                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className='scale__github'>
+                                <a href="https://github.com/LionotKennedy" target="_blank" rel="noopener noreferrer" className='scale__github'>
                                     <FaGithub size={24} />
                                 </a>
-                                <a href="mailto:example@example.com" target="_blank" rel="noopener noreferrer" className='scale__email'>
+                                <a href="mailto:razafimandimbylionotkennedy@gmail.com" target="_blank" rel="noopener noreferrer" className='scale__email'>
                                     <FaEnvelope size={24} />
                                 </a>
-                                <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className='scale__instagram'>
+                                <a href="https://www.instagram.com/kennedyroyrog/" target="_blank" rel="noopener noreferrer" className='scale__instagram'>
                                     <FaInstagram size={24} />
                                 </a>
                             </Box>
