@@ -321,7 +321,7 @@ const getArchiveByYear = async (req, res) => {
   try {
     const { year } = req.params; // Récupérer l'année à partir des paramètres de l'URL
 
-    // Vérifier si l'année est un nombre
+    // Vérifier si l'année est un nombre valide
     if (!year || isNaN(year)) {
       return res.status(400).json({
         success: false,
@@ -329,13 +329,25 @@ const getArchiveByYear = async (req, res) => {
       });
     }
 
-    // Rechercher les archives pour une année spécifique
-    const archives = await Archive.find({
-      date_depart: {
-        $gte: new Date(`${year}-01-01`),
-        $lt: new Date(`${parseInt(year) + 1}-01-01`), // Obtenir toutes les dates dans l'année donnée
+    // Rechercher les archives pour une année spécifique avec tri par numero_bordereaux en ordre croissant
+    const archives = await Archive.aggregate([
+      {
+        $match: {
+          date_depart: {
+            $gte: new Date(`${year}-01-01`),
+            $lt: new Date(`${parseInt(year) + 1}-01-01`), // Obtenir toutes les dates dans l'année donnée
+          },
+        },
       },
-    });
+      {
+        $addFields: {
+          numero_bordereaux_num: { $toInt: "$numero_bordereaux" } // Conversion de numero_bordereaux en nombre pour tri
+        }
+      },
+      {
+        $sort: { numero_bordereaux_num: 1 } // Tri en ordre croissant
+      }
+    ]);
 
     if (archives.length === 0) {
       return res.status(404).json({
@@ -352,7 +364,7 @@ const getArchiveByYear = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "Server error: " + error.message,
+      message: "Erreur du serveur : " + error.message,
     });
   }
 };

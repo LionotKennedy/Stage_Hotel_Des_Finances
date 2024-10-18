@@ -136,8 +136,28 @@ const addFolder = async (req, res) => {
 // ############### GET FOLDER #################//
 const getFolder = async (req, res) => {
   try {
-    // Récupérer tous les courriers et utiliser populate pour inclure les informations de la nature
-    const courriers = await Courrier.find().populate("id_nature");
+    // Utiliser l'agrégation pour trier en convertissant 'numero_bordereaux' en nombre
+    const courriers = await Courrier.aggregate([
+      {
+        $addFields: {
+          numero_bordereaux_num: { $toInt: "$numero_bordereaux" } // Conversion en nombre
+        }
+      },
+      {
+        $sort: { numero_bordereaux_num: 1 } // Tri sur la version numérique
+      },
+      {
+        $lookup: {
+          from: "natures", // Nom de la collection 'Natures'
+          localField: "id_nature",
+          foreignField: "_id",
+          as: "id_nature"
+        }
+      },
+      {
+        $unwind: "$id_nature" // Pour décomposer l'array retourné par le lookup
+      }
+    ]);
 
     if (!courriers || courriers.length === 0) {
       return res.status(404).json({
@@ -159,6 +179,7 @@ const getFolder = async (req, res) => {
   }
 };
 // ############### ENDING #################//
+
 
 // ############### EDIT FOLDER BY ID #################//
 const editFolderById = async (req, res) => {

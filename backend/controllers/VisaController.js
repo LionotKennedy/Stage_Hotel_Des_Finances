@@ -63,7 +63,18 @@ const addArchive = async (req, res) => {
 // ############### GET VISA #################//
 const getVisa = async (req, res) => {
   try {
-    const VisaData = await Visa.find();
+    // Utiliser une agrégation pour convertir 'numero_visa' en entier et trier numériquement
+    const VisaData = await Visa.aggregate([
+      {
+        $addFields: {
+          numero_visa_int: { $toInt: "$numero_visa" } // Convertir 'numero_visa' en entier
+        }
+      },
+      {
+        $sort: { numero_visa_int: 1 } // Trier par 'numero_visa' numériquement
+      }
+    ]);
+    
     return res.status(200).json({
       success: true,
       message: "Visa récupéré avec succès.",
