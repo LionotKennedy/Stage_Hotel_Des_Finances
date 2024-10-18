@@ -21,15 +21,15 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogActions-root': {
         padding: theme.spacing(2),
     },
-    '& .MuiPaper-root': { 
-        minWidth: '600px', 
-        minHeight: '400px', 
+    '& .MuiPaper-root': {
+        minWidth: '600px',
+        minHeight: '400px',
     },
 
     '& .custom-text': {
         textAlign: 'center',
-        fontSize: '1.2rem', 
-        lineHeight: '1.6', 
+        fontSize: '1.2rem',
+        lineHeight: '1.6',
     },
 }));
 
@@ -38,8 +38,8 @@ const LogoHeader = styled('div')(({ theme }) => ({
     flexDirection: 'column',
     alignItems: 'center',
     marginBottom: theme.spacing(2), // Ajoute un espacement en bas
-  }));
-  
+}));
+
 
 export default function ArchiveDialogs({ open, setOpen, folderId }) {
     const handleClose = () => {
@@ -100,7 +100,15 @@ export default function ArchiveDialogs({ open, setOpen, folderId }) {
                                 <strong>Numéro de bordereau:</strong> {folder?.numero_bordereaux}
                             </Typography>
                             <Typography className="custom-text" gutterBottom>
-                                <strong>Date de départ:</strong> {new Date(folder?.date_depart).toLocaleDateString()}
+                                <strong>Date de départ: </strong>
+                                {/* {new Date(folder?.date_depart).toLocaleDateString()} */}
+                                {(() => {
+                                    const date = new Date(folder.date_depart);
+                                    const year = date.getFullYear();
+                                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                                    const day = String(date.getDate() + 1).padStart(2, '0');
+                                    return `${day}/${month}/${year}`;
+                                })()}
                             </Typography>
                             <Typography className="custom-text" gutterBottom>
                                 <strong>Expéditeur:</strong> {folder?.expiditeur}

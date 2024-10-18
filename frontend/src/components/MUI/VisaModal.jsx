@@ -240,7 +240,7 @@ export default function VisaModal({ open, handleClose, folderId, mode, onSuccess
                 onClick={handleClose}
                 size="medium"
                 fullWidth
-                style={{ backgroundColor: 'grey', color: 'white' }}
+                className='btn__modal__visa__fermer'
               >
                 Fermer
               </Button>

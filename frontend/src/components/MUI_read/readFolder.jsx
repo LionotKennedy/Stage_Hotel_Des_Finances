@@ -75,11 +75,11 @@ export default function CustomizedDialogs({ open, setOpen, folderId }) {
         >
           <DialogTitle sx={{ m: 0, p: 3 }} id="customized-dialog-title">
             <LogoHeader>
-            <Fade top>
-              {/* Ajoutez votre logo ici */}
-              <img src={imageLogo} alt="Logo" style={{ width: '100px', height: 'auto' }} />
-              {/* <img src={imageData} alt="Logo" style={{ width: '100px', height: 'auto' }} /> */}
-              <Typography variant="h6">Informations du dossier</Typography>
+              <Fade top>
+                {/* Ajoutez votre logo ici */}
+                <img src={imageLogo} alt="Logo" style={{ width: '100px', height: 'auto' }} />
+                {/* <img src={imageData} alt="Logo" style={{ width: '100px', height: 'auto' }} /> */}
+                <Typography variant="h6">Informations du courrier</Typography>
               </Fade>
             </LogoHeader>
           </DialogTitle>
@@ -101,7 +101,15 @@ export default function CustomizedDialogs({ open, setOpen, folderId }) {
                 <strong>Numéro de bordereau:</strong> {folder?.numero_bordereaux}
               </Typography>
               <Typography className="custom-text" gutterBottom>
-                <strong>Date de départ:</strong> {new Date(folder?.date_depart).toLocaleDateString()}
+                {/* <strong>Date de départ:</strong> {new Date(folder?.date_depart).toLocaleDateString()} */}
+                <strong>Date de départ: </strong>
+                {(() => {
+                  const date = new Date(folder.date_depart);
+                  const year = date.getFullYear();
+                  const month = String(date.getMonth() + 1).padStart(2, '0');
+                  const day = String(date.getDate() + 1).padStart(2, '0');
+                  return `${day}/${month}/${year}`;
+                })()}
               </Typography>
               <Typography className="custom-text" gutterBottom>
                 <strong>Expéditeur:</strong> {folder?.expiditeur}

@@ -333,7 +333,7 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
               <Button
                 onClick={handleClose}
                 fullWidth
-                style={{ backgroundColor: 'grey', color: 'white' }}
+                className='btn__modal__visa__fermer'
               >Fermer</Button>
               <Button
                 onClick={handleSubmit}
