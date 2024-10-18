@@ -41,8 +41,7 @@ const Login = ({ onLogin }) => {
 
     useEffect(() => {
         AOS.init({
-            duration: 1000, // Durée des animations en millisecondes
-            //   once: true,    // Pour que l'animation se joue une seule fois
+            duration: 1000, 
         });
     }, []);
 
@@ -53,14 +52,6 @@ const Login = ({ onLogin }) => {
         setMessage('');
         setEmailError(false);
         setPasswordError(false);
-
-        // if (!email || !password) {
-        //     setMessage('Veuillez remplir tous les champs.');
-        //     if (!email) setEmailError(true);
-        //     if (!password) setPasswordError(true);
-        //     setLoading(false);
-        //     return;
-        // }
 
         if (!email) {
             setMessage('Veuillez entrer votre adresse email.');
@@ -189,7 +180,7 @@ const Login = ({ onLogin }) => {
                             <div className="text-input">
                                 <input
                                     type="text"
-                                    placeholder="Enter verification code"
+                                    placeholder="Entrez le code de vérification"
                                     value={verificationCode}
                                     onChange={(e) => setVerificationCode(e.target.value)}
                                     autoComplete="off"
@@ -198,13 +189,13 @@ const Login = ({ onLogin }) => {
                             <div className="text-input">
                                 <input
                                     type="password"
-                                    placeholder="Enter new password"
+                                    placeholder="Entrez un nouveau mot de passe"
                                     value={newPassword}
                                     onChange={(e) => setNewPassword(e.target.value)}
                                     autoComplete="off"
                                 />
                             </div>
-                            <button className="login-btn" onClick={handleVerifyCode}>Validate</button>
+                            <button className="login-btn" onClick={handleVerifyCode}>Valider</button>
                             {message && <p className="message">{message}</p>}
                             {/* <a className="forgot text_login" onClick={() => setForgotPasswordMode(false)}>Back to Login</a> */}
                             <a className="forgot text_login" onClick={() => { setForgotPasswordMode(false); setForgotPassword(''); }}>Back to Login</a>
@@ -218,15 +209,15 @@ const Login = ({ onLogin }) => {
                                 <AiOutlineMail className='react__icons' />
                                 <input
                                     type="text"
-                                    placeholder="Enter your email"
+                                    placeholder="Entrez votre adresse e-mail"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     autoComplete="off"
                                 />
                             </div>
                             {/* <button className="login-btn" onClick={() => setForgotPassword('verify')}>Send Reset Link</button> */}
-                            <button className="login-btn" onClick={handleSendResetCode}>Send Reset Link</button>
-                            <a className="forgot text_login" onClick={() => setForgotPassword(false)}>Back to Login</a>
+                            <button className="login-btn" onClick={handleSendResetCode}>Envoyer le lien de réinitialisation</button>
+                            <a className="forgot text_login" onClick={() => setForgotPassword(false)}>Retour à la page de connexion</a>
 
                         </>
                     ) : (
@@ -261,12 +252,8 @@ const Login = ({ onLogin }) => {
                                     autoComplete="off"
                                 />
                             </div>
-                            <button className="login-btn" onClick={handleLogin}>LOGIN</button>
-                            <a className="forgot text_login" onClick={() => setForgotPassword(true)}>Forgot Username/Password?</a>
-                            {/* <div className="create">
-                                <a className='text_login' href="#">Create Your Account</a>
-                                <i className="ri-arrow-right-fill"></i>
-                            </div> */}
+                            <button className="login-btn" onClick={handleLogin}>CONNEXION</button>
+                            <a className="forgot text_login" onClick={() => setForgotPassword(true)}>Mot de passe oublié ?</a>
                             {message && <p className="error-message">{message}</p>} {/* Error message display */}
                         </>
                     )}

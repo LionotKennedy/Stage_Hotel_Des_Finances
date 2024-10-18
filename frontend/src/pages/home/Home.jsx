@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import "./home.scss"
-import { Link } from 'react-router-dom'
 import Chart from 'react-apexcharts'
 import { useSelector } from 'react-redux'
 import StatusCard from '../../components/status-card/StatusCard'
