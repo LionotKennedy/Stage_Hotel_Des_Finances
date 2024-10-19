@@ -31,10 +31,10 @@
 //   const activeItem = sidebar_items.findIndex(item => 
 //     location.pathname.startsWith(item.route)
 //   );
-  
+
 //   return (
 //     <div className='sidebar'>
-            
+
 //       <div className="sidebar__logo">
 //         <img className='logo_img' src={logo} alt="company logo" />
 //         {/* Bro-Coding */}
@@ -107,7 +107,7 @@ const SideBar = () => {
 
   // Filtrer les items en fonction du userRole
   const filteredItems = sidebar_items.filter(item => {
-    switch(userRole) {
+    switch (userRole) {
       case 1: // Administrateur
         return true;
       case 0: // Utilisateur
@@ -118,32 +118,36 @@ const SideBar = () => {
   });
 
   // Trouver l'élément actuel
-  const activeItem = filteredItems.findIndex(item => 
+  const activeItem = filteredItems.findIndex(item =>
     location.pathname.startsWith(item.route)
   );
 
   useEffect(() => {
     AOS.init({
       duration: 1000, // Durée des animations en millisecondes
-    //   once: true,    // Pour que l'animation se joue une seule fois
+      //   once: true,    // Pour que l'animation se joue une seule fois
     });
   }, []);
 
   return (
     <div className='sidebar'>
-      <div className="sidebar__logo">
-        <img className='logo_img' src={logo} alt="company logo" />
+      <div className="sidebar__logo" data-aos="slide-down">
+        {/* <img className='logo_img' src={logo} alt="company logo" /> */}
+        <div className='logo__sidebar'>
+          <span>D</span>
+          <span>E</span>
+          <span>P</span>
+          <span>A</span>
+          <span>R</span>
+          <span>T</span>
+          <span>-</span>
+          <span>S</span>
+          <span>R</span>
+          <span>S</span>
+          <span>P</span>
+        </div>
       </div>
-      {/* Afficher tous les items sauf ceux filtrés */}
-      {/* {sidebar_items.map((item, index) => (
-        <Link to={item.route} key={index}>
-          <SidebarItem
-            title={item.display_name}
-            icon={item.icon}
-            active={index === activeItem}
-          />
-        </Link>
-      ))} */}
+      
       {/* Afficher les items filtrés en fonction du userRole */}
       {filteredItems.map((item, index) => (
         <Link to={item.route} key={index}>

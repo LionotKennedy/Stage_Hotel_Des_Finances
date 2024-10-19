@@ -8,7 +8,8 @@ import user_image from '../../assets/images/photo.jpg';
 import user_menu from '../../Data/user_menus.json';
 import Theme from '../theme/Theme';
 import { logout, getProfile } from '../../services/authServices';
-import AboutDialogs from '../MUI/AboutModal'; // Importer le composant CustomizedDialogs
+import AboutDialogs from '../MUI/AboutModal';
+import { FaExclamationTriangle } from 'react-icons/fa';
 import {
   Dialog,
   DialogActions,
@@ -52,8 +53,7 @@ const TopNav = ({ onLogout }) => {
 
   useEffect(() => {
     AOS.init({
-      duration: 1000, // Durée des animations en millisecondes
-    //   once: true,    // Pour que l'animation se joue une seule fois
+      duration: 1000, 
     });
   }, []);
 
@@ -159,7 +159,7 @@ const TopNav = ({ onLogout }) => {
         <i className='bx bx-search'></i>
       </div> */}
       <div className='content__name__app'  data-aos="fade-right">
-        <span>D</span>
+        {/* <span>D</span>
         <span>E</span>
         <span>P</span>
         <span>A</span>
@@ -169,7 +169,8 @@ const TopNav = ({ onLogout }) => {
         <span>S</span>
         <span>R</span>
         <span>S</span>
-        <span>P</span>
+        <span>P</span> */}
+        <span>Ministère de l'Économie et des Finances.</span>
       </div>
       {/* Dialog About */}
       <AboutDialogs open={openAboutDialog} onClose={() => setOpenAboutDialog(false)} />
@@ -203,7 +204,10 @@ const TopNav = ({ onLogout }) => {
         open={openDialog}
         onClose={handleCloseDialog}
       >
-        <DialogTitle>Confirmation</DialogTitle>
+        <DialogTitle style={{ display: 'flex', alignItems: 'center' }}>
+                <FaExclamationTriangle style={{ color: 'orange', marginRight: '10px' }} />
+                {"Confirmation"}
+            </DialogTitle>
         <DialogContent>
           <DialogContentText>
             Êtes-vous sûr de vouloir vous déconnecter ?
@@ -213,7 +217,7 @@ const TopNav = ({ onLogout }) => {
           <Button onClick={handleCloseDialog} color="primary">
             Annuler
           </Button>
-          <Button onClick={handleConfirmLogout} color="primary">
+          <Button onClick={handleConfirmLogout} style={{ color: 'red' }}>
             Déconnexion
           </Button>
         </DialogActions>

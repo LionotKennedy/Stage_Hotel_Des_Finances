@@ -14,13 +14,11 @@
   --box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   --main-table: rgba(196, 196, 196, 0.81);
 
-
   --main-bg-light: #ffffff;
   --second-bg-light: #fafafb;
   --txt-color-light: #455560;
   /* --box-shadow-light: rgba(149, 157, 165, 0.2) 0px 8px 24px; */
   --box-shadow-light: 3px 3px 12px 2px rgba(0, 0, 0, 0.252);
-  ;
   --main-table-light: rgba(196, 196, 196, 0.81);
 
   --main-bg-dark: #2d2d2d;
@@ -53,7 +51,7 @@
   /* --main-color-blue: #89379c; */
   /* --primary-color-blue: #4a2b4f; */
   /* --primary-color-blue: #3dbeff; */
-  
+
   --main-color-blue: #ffb199;
   --second-color-blue: #ea6292;
   --primary-color-blue: #ee00ff;
@@ -61,38 +59,37 @@
   /* --main-color-blue: #ee00ff;
   --second-color-blue: #fa538d;
   --primary-color-blue: #ffb199; */
-  
-  --primary-color-red:  rgb(255, 25, 0);
+
+  --primary-color-red: rgb(255, 25, 0);
   --second-color-red: rgb(234, 32, 56);
   --main-color-red: rgb(211, 135, 130);
-  
+
   /* --main-color-red: rgb(249, 166, 157); */
   /* --main-color-red:  rgb(235, 23, 0);
   --second-color-red: rgb(225, 33, 55);
   --primary-color-red: rgb(223, 113, 100); */
-  
+
   --main-color-cyan: #10d4d2;
   --second-color-cyan: #3e88ff;
   --primary-color-cyan: #005bea;
-  
+
   /* --main-color-cyan: #FF3CAC;
   --primary-color-cyan: #562B7C;
   --second-color-cyan: #2B86C5; */
-  
+
   --main-color-green: #92ff96;
   --second-color-green: #14e861;
   --primary-color-green: #19961f;
-  
+
   /* --main-color-green: #019707; */
   /* --second-color-green: #4caf50; */
   /* --primary-color-green: #2d844e; */
-  
-  --main-color-orange: rgba(255,128,0,1);
-  --second-color-orange: rgba(219,112,54,1);
-  --primary-color-orange: rgba(232,211,59,1);
-  
+
+  --main-color-orange: rgba(255, 128, 0, 1);
+  --second-color-orange: rgba(219, 112, 54, 1);
+  --primary-color-orange: rgba(232, 211, 59, 1);
+
   /* --second-color-orange: rgba(232,211,59,1); */
-  
 
   --sidebar-width: 240px;
   --border-radius: 15px;
@@ -116,8 +113,6 @@
 
   /* ===== Valeur responsive page personnalise ===== */
   --sidebar-width-res: 90px;
-
-
 }
 
 .light-background {
@@ -131,26 +126,32 @@
 }
 
 .blue-color {
-  background-color: var(--main-color-blue);
+  /* background-color: var(--main-color-blue); */
+  background-color: var(--primary-color-blue);
   color: #fff;
+
 }
 
 .red-color {
-  background-color: var(--main-color-red);
+  /* background-color: var(--main-color-red); */
+  background-color: var(--primary-color-red);
   color: #fff;
 }
 
 .cyan-color {
-  background-color: var(--main-color-cyan);
+  /* background-color: var(--main-color-cyan); */
+  background-color: var(--primary-color-cyan);
   color: #fff;
 }
 
 .green-color {
-  background-color: var(--main-color-green);
+  /* background-color: var(--main-color-green); */
+  background-color: var(--primary-color-green);
   color: #fff;
 }
 
 .orange-color {
-  background-color: var(--main-color-orange);
+  /* background-color: var(--main-color-orange); */
+  background-color: var(--second-color-orange);
   color: #fff;
 }

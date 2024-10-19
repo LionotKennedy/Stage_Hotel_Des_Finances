@@ -4,9 +4,9 @@
     position: fixed;
     left: 0;
     top: 0;
-    // background-color: var(--main-bg);
+    background-color: var(--main-bg);
     box-shadow: var(--box-shadow);
-    background-color: green;
+    // background-color: green;
     // border-right: 1px solid rgba(164, 164, 164, 0.633);
     z-index: 999;
     transition: all 0.3s ease-in-out;
@@ -23,36 +23,6 @@
             transform: translateX(0%);
         }
     }
-
-
-    //   // Adjustments for tablets
-    //   @media (max-width: 1024px) {
-    //     min-width: 50px; // Reduce sidebar width on tablet
-    //   }
-
-    //   // Adjustments for mobile
-    //   @media (max-width: 768px) {
-    //     // position: absolute;
-    //     width: 0;
-    //     transition: all 0.3s ease;
-    //     left: -300px;
-
-    //     // Sidebar toggle for mobile
-
-    //   }
-
-
-    // @media (max-width: 767px) {
-    //     /* Hide sidebar on smaller screens */
-    //     transform: translateX(-100%); /* Move off-screen */
-    //     transition: transform 0.3s ease-in-out; /* Smooth transition */
-    //   }
-
-
-
-
-
-
 }
 
 .sidebar__logo {
@@ -60,37 +30,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
-
-    // @media (max-width: 1024px) {
-    //     height: 100px;
-    //   }
-
-    //   @media (max-width: 768px) {
-    //     height: 80px;
-    //   }
 }
-
-
-
-
 
 .sidebar__logo>img {
     height: 85px;
-
-    // @media (max-width: 768px) {
-    //     height: 60px;
-    // }
 }
-
-
 
 
 .sidebar__item {
     padding: 0 20px;
 }
-
-
 
 .sidebar__item-inner {
     padding: 15px 25px;
@@ -100,41 +49,20 @@
     // transition: color 0.3s ease 0s;
     transition: all 0.4s ease-in-out;
     color: var(--txt-color);
-
-    // @media (max-width: 768px) {
-    //     padding: 10px 15px;
-    //     font-size: 0.9rem;
-    // }
 }
-
-
-
 
 .sidebar__item-inner>i {
     margin-right: 10px;
     font-size: 1.5rem;
-
-    // @media (max-width: 768px) {
-    //     font-size: 1.2rem;
-    // }
 }
-
-
 
 .sidebar__item-inner>span {
     text-transform: capitalize;
-
-    // @media (max-width: 768px) {
-    //     display: none;
-    // }
 }
-
-
 
 .sidebar__item-inner:hover {
-    color: var(--main-color);
+    color: var(--primary-color);
 }
-
 
 .sidebar__item-inner.active {
     border-radius: var(--border-radius);
@@ -142,8 +70,7 @@
             var(--main-color),
             var(--second-color),
             var(--primary-color),
-            );
-
+        );
     color: var(--txt-white);
 }
 
@@ -153,26 +80,6 @@
     // transform: scale(1.1);
     transition: all 0.4s ease-in-out;
 }
-
-
-
-/* RESPONSIVE */
-// @media (max-width: 998px) {
-//     .sidebar {
-//         transform: translateX(-100%);
-//         &.actif {
-//             transform: translateX(0%);
-//           }
-//     }
-// }
-
-
-
-
-
-
-
-
 
 .pill-1 {
     top: 50vh;
@@ -197,4 +104,18 @@
             var(--main-color),
             var(--second-color));
     border-radius: 70px;
+}
+
+
+
+.logo__sidebar {
+    font-size: 1.6rem;
+    font-weight: 1000;
+    background-image: linear-gradient(to bottom right,
+            var(--main-color),
+            var(--second-color),
+            var(--primary-color),
+        );
+    -webkit-background-clip: text; // Pour Safari
+    -webkit-text-fill-color: transparent; // Remplissage transparent
 }

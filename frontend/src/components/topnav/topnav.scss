@@ -7,8 +7,8 @@
     width: calc(100% - var(--sidebar-width));
     top: 0;
     left: var(--sidebar-width);
-    background-color: red;
-    // background-color: var(--main-bg);
+    // background-color: red;
+    background-color: var(--main-bg);
     z-index: 1000;
     height: var(--topnav-height-t);
     transition: all 0.3s ease-in-out;

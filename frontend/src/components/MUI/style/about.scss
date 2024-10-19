@@ -8,9 +8,10 @@
     align-items: center;
     width: auto;
     padding: 5px 5px;
-
+    
     &:hover {
         transition: transform 0.3s ease;
+        color: #19459b;
         /* Ajoutez une transition pour un effet plus fluide */
         transform: scale(2) !important;
     }
