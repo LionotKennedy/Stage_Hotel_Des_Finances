@@ -902,10 +902,10 @@ const ProfileCard = () => {
 
                 <div className="buttons">
                     <button className="button__btn" onClick={handleSubscribeClick}>
-                        Modification profile
+                    Modification du profil
                     </button>
                     <button className="button__btn" onClick={() => handleOpenDialog(userData.data._id)}>
-                        Change mot de passe
+                    Modifier mot de passe
                     </button>
                 </div>
 

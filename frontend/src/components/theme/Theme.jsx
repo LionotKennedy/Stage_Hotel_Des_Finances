@@ -10,13 +10,13 @@ import ThemeAction from '../../redux/actions/ThemeAction'
 const mode_settings = [
     {
         id: 'light',
-        name: 'Light',
+        name: 'Clair',
         background: 'light-background',
         class: 'theme-mode-light'
     },
     {
         id: 'dark',
-        name: 'Dark',
+        name: 'Sombre',
         background: 'dark-background',
         class: 'theme-mode-dark'
     }
@@ -25,31 +25,31 @@ const mode_settings = [
 const color_settings = [
     {
         id: 'blue',
-        name: 'Blue',
+        name: 'Magenta Framboise',
         background: 'blue-color',
         class: 'theme-color-blue'
     },
     {
         id: 'red',
-        name: 'Rouge',
+        name: 'Rouge Corail',
         background: 'red-color',
         class: 'theme-color-red'
     },
     {
         id: 'cyan',
-        name: 'Cyan',
+        name: 'Cyan Océan',
         background: 'cyan-color',
         class: 'theme-color-cyan'
     },
     {
         id: 'green',
-        name: 'Vert',
+        name: 'Vert Nature',
         background: 'green-color',
         class: 'theme-color-green'
     },
     {
         id: 'orange',
-        name: 'Orange',
+        name: 'Citrus Sunrise',
         background: 'orange-color',
         class: 'theme-color-orange'
     },
@@ -113,15 +113,24 @@ const Theme = () => {
     return (
         <div>
             <button ref={menu_toggle_ref} className="dropdown__toggle" onClick={() => setActiveMenu()}>
-                <i className='bx bx-palette'></i>
+                {/* <i className='bx bx-palette'></i> */}
+                {/* <i className='bx bx-brush'></i> */}
+                {/* <i className='bx bx-color'></i> */}
+                {/* <i className='bx bx-slider'></i> */}
+                {/* <i className='bx bx-palette-alt'></i> */}
+                {/* <i className='bx bx-font-color'></i> */}
+                <i className='bx bx-brush-alt'></i>
+                {/* <i className='bx bx-paint-roll'></i> */}
+
+
             </button>
             <div ref={menu_ref} className="theme-menu">
-                <h4>Theme settings</h4>
+                <h4>Paramètres du thème</h4>
                 <button className="theme-menu__close" onClick={() => closeMenu()}>
                     <i className='bx bx-x'></i>
                 </button>
                 <div className="theme-menu__select">
-                    <span>Choose mode</span>
+                    <span>Choisir le mode</span>
                     <ul className="mode-list">
                         {
                             mode_settings.map((item, index) => (
@@ -136,7 +145,7 @@ const Theme = () => {
                     </ul>
                 </div>
                 <div className="theme-menu__select">
-                    <span>Choose color</span>
+                    <span>Choisir une couleur</span>
                     <ul className="mode-list">
                         {
                             color_settings.map((item, index) => (
