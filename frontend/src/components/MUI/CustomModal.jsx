@@ -145,7 +145,7 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
       date_depart: new Date(fields.date_depart).toISOString(),
     };
 
-// Afficher la date saisie dans la console
+    // Afficher la date saisie dans la console
     console.log("Date saisie :", fields.date_depart); // Ajouté pour afficher la date
 
     try {
@@ -273,7 +273,7 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                       }}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={12}>
+                  {/* <Grid item xs={12} sm={12}>
                     <TextField
                       type="date"
                       name="date_depart"
@@ -288,7 +288,31 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                         style: fieldErrors.date_depart ? { borderColor: 'red' } : {},
                       }}
                     />
+                  </Grid> */}
+
+
+                  <Grid item xs={12} sm={12}>
+                    <TextField
+                      type="text"
+                      name="date_depart"
+                      label="Date Départ"
+                      variant="standard"
+                      fullWidth
+                      value={fields.date_depart}
+                      onChange={handleChange}
+                      error={!!fieldErrors.date_depart}
+                      helperText={fieldErrors.date_depart ? 'Ce champ est requis' : ''}
+                      InputProps={{
+                        style: fieldErrors.date_depart ? { borderColor: 'red' } : {},
+                        placeholder: "jj/mm/aaaa",  // Ajout du placeholder personnalisé
+                      }}
+                      onFocus={(e) => e.target.type = "date"}  // Change to date picker on focus
+                      onBlur={(e) => {
+                        if (!fields.date_depart) e.target.type = "text";  // Revert to text if no value
+                      }}
+                    />
                   </Grid>
+
                   <Grid item xs={12} sm={12}>
                     <TextField
                       name="expiditeur"
@@ -388,7 +412,7 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                 size="medium"
                 fullWidth
                 // style={{ backgroundColor: 'grey', color: 'white' }}
-                  className='btn__modal__visa__fermer'
+                className='btn__modal__visa__fermer'
               >Fermer</Button>
 
               <Button
@@ -398,7 +422,7 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                 // style={{ backgroundColor: 'purple' }}
                 size="medium"
                 fullWidth
-                 className='btn__modal__visa'
+                className='btn__modal__visa'
               >
                 {mode === 'add' ? 'Confirmer' : 'Modifier'}
               </Button>
