@@ -5,6 +5,7 @@ import { useGetUser } from '../../services/serviceUser';
 import { MdAdd } from 'react-icons/md';
 import UserScreenDialog from '../../components/MUI/UserModal';
 import ReactPaginate from 'react-paginate';
+import Calendar from "../../components/calendars/Calendar"
 // import Calendars from '../../components/calendars/Calendars';
 // import CalendarComponent from '../../components/calendars/CalendarComponent';
 // import Clock from '../../components/hours/Clock';
@@ -109,6 +110,7 @@ const User = () => {
       {/* <Clock /> */}
       {/* <button className='tsr'>Fory ee</button> */}
       {/* <h1 className='tsrs'>Fory eee</h1> */}
+      <Calendar />
     </div>
   );
 };
