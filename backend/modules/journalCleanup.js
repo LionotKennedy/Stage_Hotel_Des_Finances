@@ -1335,7 +1335,7 @@ async function setupJournalCleanup() {
           });
           
           // Supprimer uniquement les journaux dont la différence est d'au moins 1 jour
-          const outdatedJournals = journalDates.filter(journal => journal.differenceDays >= 3);
+          const outdatedJournals = journalDates.filter(journal => journal.differenceDays >= 30);
           
           if (outdatedJournals.length > 0) {
             console.log('\nJournaux obsolètes (décalage d\'au moins 1 jour):');
