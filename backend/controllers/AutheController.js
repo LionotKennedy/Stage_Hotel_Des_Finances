@@ -66,9 +66,8 @@ const generateAccessToken = async (user) => {
     image: user.image,
   };
 
-  const token = jwt.sign(payload, process.env.ACCESS_SECRET_TOKEN, {
-    expiresIn: "7d", // Le token expirera après 7 jours
-  });
+  // Générez le token sans expiration (pas d'option expiresIn)
+  const token = jwt.sign(payload, process.env.ACCESS_SECRET_TOKEN);
 
   // Enregistre le token dans la base de données
   const createdToken = await Token.create({
@@ -76,10 +75,55 @@ const generateAccessToken = async (user) => {
     token,
   });
 
-  console.log("Token created:", createdToken); // Ajoutez ce log pour le débogage
+  console.log("Token created:", createdToken); // Ajouté pour le débogage
 
   return token;
 };
+
+
+
+
+
+
+// const generateAccessToken = async (user) => {
+//   const payload = {
+//     userId: user._id,
+//     email: user.email,
+//     role: user.role,
+//     status: user.status,
+//     image: user.image,
+//   };
+
+//   const token = jwt.sign(payload, process.env.ACCESS_SECRET_TOKEN, {
+//     expiresIn: "7d", // Le token expirera après 7 jours
+//   });
+
+//   // Enregistre le token dans la base de données
+//   const createdToken = await Token.create({
+//     userId: user._id,
+//     token,
+//   });
+
+//   console.log("Token created:", createdToken); // Ajoutez ce log pour le débogage
+
+//   return token;
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // const generateAccessToken = async (user) => {
 //   const payload = {

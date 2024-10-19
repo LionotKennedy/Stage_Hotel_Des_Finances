@@ -193,7 +193,38 @@
 
 
 
+// const mongoose = require("mongoose");
+// const TokenSchema = new mongoose.Schema({
+//   userId: {
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref: 'Users',
+//     required: true
+//   },
+//   token: {
+//     type: String,
+//     required: true
+//   },
+//   createdAt: {
+//     type: Date,
+//     default: Date.now,
+//     expires: '7d', // Le token expirera après 7 jours
+//   }
+// });
+
+// TokenSchema.index({ createdAt: 1 }, { expireAfterSeconds: 7 * 24 * 3600 }); // 7 jours en secondes
+
+// const Token = mongoose.model("Token", TokenSchema);
+// module.exports = Token;
+
+
+
+
+
+
+
+
 const mongoose = require("mongoose");
+
 const TokenSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -206,15 +237,14 @@ const TokenSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now,
-    expires: '7d', // Le token expirera après 7 jours
+    default: Date.now
   }
 });
 
-TokenSchema.index({ createdAt: 1 }, { expireAfterSeconds: 7 * 24 * 3600 }); // 7 jours en secondes
+// Supprimer l'index qui force l'expiration automatique après 7 jours
+// TokenSchema.index({ createdAt: 1 }, { expireAfterSeconds: 7 * 24 * 3600 });
 
 const Token = mongoose.model("Token", TokenSchema);
 module.exports = Token;
-
 
 
