@@ -2,33 +2,32 @@
     {
         "display_name": "Dashboard",
         "route": "/accueil",
-        "icon": "bx bx-grid" 
+        "icon": "bx bx-category-alt"
     },
     {
         "display_name": "Courrier",
         "route": "/courrier",
-        "icon": "bx bx-mail-send" 
+        "icon": "bx bx-user-pin"
     },
     {
         "display_name": "Visa",
         "route": "/visa",
-        "icon": "bx bx-id-card" 
+        "icon": "bx bx-package"
     },
     {
         "display_name": "Archive",
         "route": "/archive",
-        "icon": "bx bx-archive" 
+        "icon": "bx bx-cart"
     },
     {
         "display_name": "Journal",
         "route": "/journal",
-        "icon": "bx bx-notepad" 
+        "icon": "bx bx-bar-chart-alt"
     },
     {
         "display_name": "Utilisateur",
         "route": "/utilisateur",
-        "icon": "bx bx-user" 
+        "icon": "bx bx-list-ol"
     }
+   
 ]
-
-
