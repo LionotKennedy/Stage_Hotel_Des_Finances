@@ -286,7 +286,7 @@ const TableVisa = () => {
                                     <th className='th'>Numéro </th>
                                     <th className='th'>Nom </th>
                                     <th className='th'>Prénom </th>
-                                    <th className='th'>Reference </th>
+                                    <th className='th'>Référence </th>
                                     <th className='th'>Actions </th>
                                 </tr>
                             </thead>

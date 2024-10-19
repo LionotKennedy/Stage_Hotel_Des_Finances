@@ -426,7 +426,7 @@ const TableResponsive = () => {
                                 <tr>
                                     <th className='th'>Numéro </th>
                                     <th className='th'>Date Départ </th>
-                                    <th className='th'>Expediteur </th>
+                                    <th className='th'>Expéditeur </th>
                                     <th className='th'>Destination </th>
                                     <th className='th'>Nom </th>
                                     <th className='th'>Prénom </th>
