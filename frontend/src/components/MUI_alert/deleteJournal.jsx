@@ -76,8 +76,8 @@ export default function AlertJournalDialogSlide({ open, setOpen, id, onSuccess }
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose} className='annuler__folder'>Annuler</Button>
-                <Button onClick={handleConfirmDelete}>Confirmer</Button>
+                <Button onClick={handleClose}>Annuler</Button>
+                <Button onClick={handleConfirmDelete} className='annuler__folder'>Confirmer</Button>
             </DialogActions>
         </Dialog>
     );
