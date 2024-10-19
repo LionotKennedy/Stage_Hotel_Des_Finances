@@ -1,6 +1,7 @@
 
 
-import * as React from 'react';
+// import * as React from 'react';
+import React, { useEffect } from 'react';
 import "./style/about.scss";
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
@@ -15,6 +16,8 @@ import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import { motion } from 'framer-motion'; // Importer motion
 import { Fade } from 'react-reveal';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -41,6 +44,13 @@ export default function AboutDialogs({ open, onClose }) {
         onClose(true);
     };
 
+    useEffect(() => {
+        AOS.init({
+            duration: 1000,
+            once: true,
+        });
+    }, []);
+
     return (
         <motion.div initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -51,7 +61,8 @@ export default function AboutDialogs({ open, onClose }) {
                     aria-labelledby="customized-dialog-title"
                     open={open}
                 >
-                    <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+                    <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title" data-aos="flip-down" data-aos-easing="ease-out-cubic-bezier"
+           data-aos-duration="1500" data-aos-delay="300">
                         À propos de l'application
                     </DialogTitle>
                     <IconButton
