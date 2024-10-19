@@ -255,9 +255,9 @@ const TableResponsive = () => {
                     <td className="td">{folder.id_nature.matricule}</td>
                     <td className="td">{folder.id_nature.description}</td>
                     <td className="td">
-                        <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
-                        <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
-                        <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
+                        <MdEdit className="action-icon icon color__icon-edit" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
+                        <MdDelete className="action-icon icon color__icon-delete" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
+                        <MdVisibility className="action-icon icon color__icon-visible" title="Read" onClick={() => handleReadClick(folder._id)} />
                     </td>
                 </tr>
             );

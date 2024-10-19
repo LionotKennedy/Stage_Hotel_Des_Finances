@@ -232,9 +232,9 @@
 
 .layout__content {
     padding-left: var(--sidebar-width);
-    background-color: var(--second-bg);
+    // background-color: var(--second-bg);
     min-height: 100vh;
-    // background-color: aqua;
+    background-color: aqua;
     width: 100%;
     transition: all 0.3s ease-in-out;
     &.actif {

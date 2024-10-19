@@ -167,6 +167,9 @@ main.table {
 
 .tbody tr:hover {
     background-color: #fff6 !important;
+    // transform: scale(1.05) !important;
+    // background-color: var(--second-color) !important;
+    // color: var(--txt-color);
 }
 
 .tbody tr .td,
@@ -674,3 +677,12 @@ $linear-gradient: linear-gradient(90deg, #97776f, #6dfa08);
 //     align-items: center;
 // }
 
+
+
+.color__icon-visible {
+    color: rgb(76, 76, 239);
+}
+
+.color__icon-delete {
+    color: rgb(239, 76, 76);
+}
