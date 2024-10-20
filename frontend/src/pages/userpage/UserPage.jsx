@@ -60,11 +60,9 @@ const UserPage = () => {
         let updateData = { ...formData };
     
         if (updateData.image == imagePreview) {
-            console.log("image old")
+            // console.log("image old")
             const name = updateData.name
             const email = updateData.email
-            // console.log(name)
-            // console.log(email)
                 try {
             // Lancer la mise à jour de l'utilisateur ici
             await updateEmailName({ userId, name: name, email: email  }, {
@@ -115,8 +113,8 @@ const UserPage = () => {
         }
         }
         else {
-            console.log("update image")
-            console.log(updateData)
+            // console.log("update image")
+            // console.log(updateData)
             try {
             // Lancer la mise à jour de l'utilisateur ici
             await updateUser({ userId, data: updateData }, {

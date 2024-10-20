@@ -20,7 +20,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function FullScreenDialog({ open, handleClose, userId }) {
-  const { data: userData, error, isLoading } = useGetUserById(userId);
+  const { data: userData } = useGetUserById(userId);
   const [imagePreview, setImagePreview] = useState('');
   const [fieldErrors, setFieldErrors] = useState({}); // Gérer les erreurs spécifiques des champs
   const { enqueueSnackbar } = useSnackbar();
@@ -60,8 +60,8 @@ export default function FullScreenDialog({ open, handleClose, userId }) {
 
     if (hasError) {
       setFieldErrors(errors); // Définir les erreurs dans l'état
-      setError('Veuillez remplir tous les champs requis.');
       enqueueSnackbar('Veuillez remplir tous les champs requis.', { variant: 'error' });
+      // setError('Veuillez remplir tous les champs requis.');
       return;
     }
 
