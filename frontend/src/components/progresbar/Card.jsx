@@ -22,26 +22,3 @@ const Card = ({ title, percentage }) => {
 };
 
 export default Card;
-
-
-
-
-
-
-
-
-
-
-//     path: { 
-//         stroke: `rgba(62, 152, 199, ${percentage / 100})`,
-//         strokeLinecap: 'round',
-//     },
-//     text: {
-//         fill: '#fff',
-//         fontSize: '16px',
-//     },
-//     trail: {
-    //         stroke: '#d6d6d6',
-//     },
-// }} 
-    // styles={{

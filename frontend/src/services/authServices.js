@@ -2,6 +2,7 @@ import { useMutation } from "react-query";
 
 const API_URL = "http://127.0.0.1:9876/api"; // Assurez-vous que cette URL correspond à votre backend
 
+// ******************************START**********************************//
 export const useLogin = () => {
   return useMutation(({ email, password }) =>
     fetch(`${API_URL}/login`, {
@@ -13,8 +14,9 @@ export const useLogin = () => {
     }).then((res) => res.json())
   );
 };
+// ******************************END**********************************//
 
-
+// ******************************START**********************************//
 export const useRegisterUser = () => {
   return useMutation(({ name, email, password }) =>
     fetch(`${API_URL}/register`, {
@@ -26,8 +28,9 @@ export const useRegisterUser = () => {
     }).then((res) => res.json())
   );
 };
+// ******************************END**********************************//
 
-
+// ******************************START**********************************//
 export const useGetUserProfile = (token) => {
   return useMutation(["profile", token], () =>
     fetch(`${API_URL}/profile/${token}`, {
@@ -37,8 +40,9 @@ export const useGetUserProfile = (token) => {
     }).then((res) => res.json())
   );
 };
+// ******************************END**********************************//
 
-
+// ******************************START**********************************//
 export const usePasswordReset = () => {
   return useMutation(({ email }) =>
     fetch(`${API_URL}/password_reset_request`, {
@@ -50,8 +54,9 @@ export const usePasswordReset = () => {
     }).then((res) => res.json())
   );
 };
+// ******************************END**********************************//
 
-
+// ******************************START**********************************//
 export const useNewPasswordVerification = () => {
   return useMutation(({ token, newPassword }) =>
     fetch(`${API_URL}/password_reset`, {
@@ -63,8 +68,9 @@ export const useNewPasswordVerification = () => {
     }).then((res) => res.json())
   );
 };
+// ******************************END**********************************//
 
-
+// ******************************START**********************************//
 export const getProfile = async (userId, token) => {
   try {
     const response = await fetch(`${API_URL}/profile/${userId}`, {
@@ -80,25 +86,27 @@ export const getProfile = async (userId, token) => {
         throw new Error("Token a expiré");
       }
     }
-    
+
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error('Erreur lors de la récupération du profil utilisateur:', error);
+    console.error(
+      "Erreur lors de la récupération du profil utilisateur:",
+      error
+    );
     throw new Error(error.message);
   }
 };
+// ******************************END**********************************//
 
-
-
-
+// ******************************START**********************************//
 export const logout = async (token) => {
-    const response = await fetch(`${API_URL}/logout`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
+  const response = await fetch(`${API_URL}/logout`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
   });
 
   const data = await response.json();
@@ -114,78 +122,4 @@ export const logout = async (token) => {
 
   return data;
 };
-
-
-
-  
-  // export const getProfile = async (userId, token) => {
-  //   try {
-  //     const response = await fetch(`${API_URL}/profile/${userId}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //         'Content-Type': 'application/json',
-  //       },
-  //     });
-  //     const data = await response.json();
-  
-  //     // Vérifiez si le token est toujours valide
-  //     const now = Date.now() / 1000;
-  //     if (data.expireAt && data.expireAt < now) {
-  //       throw new Error('Token a expiré');
-  //       let time = 0
-  //     }
-  
-  //     // Si le token est valide, retournez les données
-  //     return data;
-  //   } catch (error) {
-  //     console.error('Erreur lors de la récupération du profil utilisateur:', error);
-  
-  //     // Si le token est expiré, supprimez-le et l'ID utilisateur du localStorage
-  //     // if (error.message === 'Token a expiré') {
-  //     if (time == 0) {
-  //       localStorage.removeItem('token');
-  //       localStorage.removeItem('userId');
-  //     }
-  
-  //     throw new Error('Échec de la récupération du profil utilisateur:' + error.message);
-  //   }
-  // };
-  
-  // export const getProfile = async (userId, token) => {
-  //   try {
-  //     const response = await fetch(`${API_URL}/profile/${userId || ""}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-  //     const data = await response.json();
-  
-  //     // Vérifiez si le token est toujours valide
-  //     const now = Date.now() / 1000;
-  //     if (data.expireAt && data.expireAt < now) {
-  //       // throw new Error('Token a expiré');
-  //       // console.log( error.message);
-  //       localStorage.removeItem("token");
-  //       localStorage.removeItem("userId");
-  //     }
-  
-  //     // Si le token est valide, retournez les données
-  //     return data;
-  //   } catch (error) {
-  //     console.error(
-  //       "Erreur lors de la récupération du profil utilisateur:",
-  //       error
-  //     );
-  
-  //     // Si le token est expiré, supprimez-le et l'ID utilisateur du localStorage
-  //     localStorage.removeItem("token");
-  //     localStorage.removeItem("userId");
-  
-  //     throw new Error(
-  //       "Échec de la récupération du profil utilisateur foryyyy:" + error.message
-  //     );
-  //   }
-  // };
-  
-  
+// ******************************END**********************************//

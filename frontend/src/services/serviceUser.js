@@ -1,5 +1,7 @@
 import { useMutation, useQuery } from "react-query";
 const API_URL = "http://127.0.0.1:9876/api";
+
+// ******************************START**********************************//
 export const useGetUser = () => {
   return useQuery("users", async () => {
     const token = localStorage.getItem("token");
@@ -24,7 +26,9 @@ export const useGetUser = () => {
     return response.json();
   });
 };
+// ******************************END**********************************//
 
+// ******************************START**********************************//
 export const useGetUserById = (userId) => {
   return useQuery(["users", userId], async () => {
     // Utilisez une clé de requête unique pour chaque ID
@@ -51,7 +55,9 @@ export const useGetUserById = (userId) => {
     return response.json();
   });
 };
+// ******************************END**********************************//
 
+// ******************************START**********************************//
 export const useUpdateUser = () => {
   return useMutation(["updateUser"], async ({ userId, data }) => {
     // Créer une instance de FormData
@@ -83,83 +89,90 @@ export const useUpdateUser = () => {
     return response.json();
   });
 };
+// ******************************END**********************************//
 
-
-
+// ******************************START**********************************//
 export const useAddUser = () => {
-  return useMutation(['addUser'], (data) =>
-  fetch(`${API_URL}/add_user`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token')}`
-    },
-    body: JSON.stringify(data)
-  })
-    .then(res => res.json())
+  return useMutation(["addUser"], (data) =>
+    fetch(`${API_URL}/add_user`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(data),
+    }).then((res) => res.json())
   );
 };
 
+export const useUpdatePermissionUser = () => {
+  return useMutation(["updateUser"], ({ userId, data }) =>
+    fetch(`${API_URL}/update_role_status/${userId}`, {
+      method: "PUT",
+      headers: {
+        // "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(data),
+    }).then((res) => res.json())
+  );
+};
+// ******************************END**********************************//
 
-  export const useUpdatePermissionUser = () => {
-    return useMutation(['updateUser'], ({ userId, data }) =>
-      fetch(`${API_URL}/update_role_status/${userId}`, {
-        method: 'PUT',
-        headers: {
-            // "Content-Type": "multipart/form-data",
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify(data)
-      })
-      .then(res => res.json())
-    );
-  };
-
-
-  export const useUpdateUserPassword = () => {
-    return useMutation(['updatePassword'], async ({ userId, oldPassword, newPassword }) => {
+// ******************************START**********************************//
+export const useUpdateUserPassword = () => {
+  return useMutation(
+    ["updatePassword"],
+    async ({ userId, oldPassword, newPassword }) => {
       const response = await fetch(`${API_URL}/update_password/${userId}`, {
-        method: 'PUT', // Utilisez PATCH ou PUT selon votre API
+        method: "PUT", // Utilisez PATCH ou PUT selon votre API
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({
           oldPassword,
-          newPassword
+          newPassword,
         }),
       });
-  
+
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Erreur lors de la mise à jour du mot de passe");
+        throw new Error(
+          errorData.message || "Erreur lors de la mise à jour du mot de passe"
+        );
       }
-  
-      return response.json();
-    });
-  };
 
-  
-  export const useUpdateUserEmailName = () => {
-    return useMutation(['updateEmailName'], async ({ userId, name, email }) => {
+      return response.json();
+    }
+  );
+};
+// ******************************END**********************************//
+
+// ******************************START**********************************//
+export const useUpdateUserEmailName = () => {
+  return useMutation(["updateEmailName"], async ({ userId, name, email }) => {
     const response = await fetch(`${API_URL}/update_email__name/${userId}`, {
-      method: 'PUT', // Utilisez PATCH ou PUT selon votre API
+      method: "PUT", // Utilisez PATCH ou PUT selon votre API
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify({
         name,
-        email
+        email,
       }),
     });
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || "Erreur lors de la mise à jour du mot de passe");
+      throw new Error(
+        errorData.message || "Erreur lors de la mise à jour du mot de passe"
+      );
     }
 
     return response.json();
-    });
-  };
+  });
+};
+// ******************************END**********************************//
