@@ -172,7 +172,8 @@
 
 
 .forgot {
-    margin-top: 15px;
+    // margin-top: 15px;
+    margin-top: 1.5rem;
 }
 
 
@@ -205,7 +206,6 @@
     }
 }
 
-
 //############# personnalisation du input ##############
 
 .text-input {
@@ -218,12 +218,15 @@
     padding: 0 15px;
     margin: 5px 0;
     transition: all 0.3s ease-in-out;
+    margin-bottom: 1.5rem;
+    border: none;
 
 
-   
+
     &:focus-within {
-        background: #ffb6c1; 
-        box-shadow: 0 0 5px #ff1493; 
+        // background: #ffb6c1;
+        box-shadow: 0 0 5px #ff1493;
+        border: 1px solid #ff1493;
     }
 }
 
@@ -231,14 +234,12 @@
     color: #606060;
 }
 
-
-
-
 .error-message {
     color: red;
     margin-top: 10px;
     font-size: 13px;
 }
+
 .message {
     color: rgb(30, 173, 85);
     margin-top: 10px;
@@ -247,4 +248,13 @@
 
 .text-input input {
     transition: border-color 0.3s; // Smooth transition for border color
+}
+
+.title__auth {
+    color: #606060;
+    margin-bottom: 1.5rem;
+}
+
+.icon__header {
+    margin-bottom: 1rem;
 }

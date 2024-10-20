@@ -1,7 +1,6 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { MdLock } from 'react-icons/md';
 import { RiUserFill, RiLockFill } from 'react-icons/ri';
 import { AiOutlineMail } from 'react-icons/ai';
@@ -24,7 +23,6 @@ const Login = ({ onLogin }) => {
     const [message, setMessage] = useState('');
     const [emailError, setEmailError] = useState(false); // State to track email error
     const [passwordError, setPasswordError] = useState(false); // State to track password error
-
     const loginMutation = useLogin(email, password);
     const passwordResetMutation = usePasswordReset(); // Hook for password reset
     const newPasswordVerifyMutation = useNewPasswordVerification(); // Hook for password reset
@@ -66,24 +64,23 @@ const Login = ({ onLogin }) => {
             return;
         };
 
-
         try {
             const result = await loginMutation.mutateAsync({ email, password });
 
             if (result.success) {
                 const userStatus = result.data.status;
                 const userRole = result.data.role; // Assurez-vous que le rôle est présent dans les données renvoyées
-                console.log('User status:', userStatus);
-                console.log('User role:', userRole); // Ajoutez ceci pour afficher le rôle dans la console
+                // console.log('User status:', userStatus);
+                // console.log('User role:', userRole); // Ajoutez ceci pour afficher le rôle dans la console
                 const userId = result.data._id;
 
                 // Affichez un message en fonction du rôle
                 if (userRole === 1) {
-                    console.log('Bienvenue, administrateur !');
+                    // console.log('Bienvenue, administrateur !');
                 } else if (userRole === 0) {
-                    console.log('Bienvenue, utilisateur !');
+                    // console.log('Bienvenue, utilisateur !');
                 } else {
-                    console.log('Rôle inconnu.');
+                    // console.log('Rôle inconnu.');
                 }
 
                 // Vérifiez le statut de l'utilisateur
@@ -92,11 +89,11 @@ const Login = ({ onLogin }) => {
                     localStorage.setItem('userId', userId);
                     localStorage.setItem('userRole', userRole);
                     const userData = await getProfile(userId, result.accessToken);
-                    console.log("Données utilisateur après connexion:", userData);
+                    // console.log("Données utilisateur après connexion:", userData);
                     onLogin(userData, userRole);
                     // onLogin(result.data);
-                    console.log("Données utilisateur stockées :", result.data);
-                    console.log("Id :", userId);
+                    // console.log("Données utilisateur stockées :", result.data);
+                    // console.log("Id :", userId);
                 } else {
                     setMessage('Votre compte est désactivé. Veuillez contacter le support.');
                 }
@@ -104,14 +101,12 @@ const Login = ({ onLogin }) => {
                 setMessage(result.message || 'Connexion échouée. Veuillez vérifier vos identifiants.');
             }
         } catch (error) {
-            console.error('Erreur lors de la connexion:', error);
+            // console.error('Erreur lors de la connexion:', error);
             setMessage('Une erreur s\'est produite. Veuillez réessayer.');
         } finally {
             setLoading(false);
         }
     };
-
-
 
     const handleSendResetCode = async () => {
         setMessage('');
@@ -119,7 +114,6 @@ const Login = ({ onLogin }) => {
             setMessage('Veuillez entrer votre adresse email.');
             return;
         }
-
         try {
             const result = await passwordResetMutation.mutateAsync({ email });
             if (result.success) {
@@ -129,11 +123,10 @@ const Login = ({ onLogin }) => {
                 setMessage(result.message || 'Erreur lors de l\'envoi du code.');
             }
         } catch (error) {
-            console.error('Erreur lors de l\'envoi du code:', error);
+            // console.error('Erreur lors de l\'envoi du code:', error);
             setMessage('Une erreur s\'est produite. Veuillez réessayer.');
         }
     };
-
 
     const handleVerifyCode = async () => {
         setMessage('');
@@ -141,7 +134,6 @@ const Login = ({ onLogin }) => {
             setMessage('Veuillez remplir tous les champs.');
             return;
         }
-
         try {
             const result = await newPasswordVerifyMutation.mutateAsync({
                 token: verificationCode,
@@ -154,7 +146,7 @@ const Login = ({ onLogin }) => {
                 setMessage(result.message || 'Erreur lors de la mise à jour du mot de passe.');
             }
         } catch (error) {
-            console.error('Erreur lors de la mise à jour du mot de passe:', error);
+            // console.error('Erreur lors de la mise à jour du mot de passe:', error);
             setMessage('Une erreur s\'est produite. Veuillez réessayer.');
         }
     };
@@ -165,7 +157,7 @@ const Login = ({ onLogin }) => {
 
     return (
         <div className='pages__login'>
-            <div className="container animatex" data-aos="flip-right">
+            <div className="container animatex" data-aos="flip-up">
                 <div className="design">
                     <div className="pill-1 rotate-45"></div>
                     <div className="pill-2 rotate-45"></div>
@@ -175,8 +167,8 @@ const Login = ({ onLogin }) => {
                 <div className="login">
                     {forgotPassword === 'verify' ? (
                         <>
-                            <FaCheckCircle size={90} className='react__icons' />
-                            <h3 className="title">Vérifier le code</h3>
+                            <FaCheckCircle size={60} className='react__icons icon__header' data-aos="fade-down" />
+                            <h3 className="title__auth">Vérifier le code</h3>
                             <div className="text-input">
                                 <input
                                     type="text"
@@ -195,18 +187,18 @@ const Login = ({ onLogin }) => {
                                     autoComplete="off"
                                 />
                             </div>
-                            <button className="login-btn" onClick={handleVerifyCode}>Valider</button>
+                            <button  data-aos="fade-up" className="login-btn" onClick={handleVerifyCode}>Valider</button>
                             {message && <p className="message">{message}</p>}
-                            {/* <a className="forgot text_login" onClick={() => setForgotPasswordMode(false)}>Back to Login</a> */}
                             <a className="forgot text_login" onClick={() => { setForgotPasswordMode(false); setForgotPassword(''); }}>Back to Login</a>
+                            {message && <p className="error-message">{message}</p>} {/* Error message display */}
                         </>
                     ) : forgotPassword ? (
                         <>
 
-                            <AiOutlineMail size={90} className='react__icons' />
-                            <h3 className="title">Mot de passe oublié</h3>
+                            <AiOutlineMail size={60} className='react__icons icon__header' data-aos="fade-down" />
+                            <h3 className="title__auth"><div data-aos="fade-up"> Mot de passe oublié</div></h3>
                             <div className="text-input">
-                                <AiOutlineMail className='react__icons' />
+                                <AiOutlineMail className='react__icons' data-aos="fade-right" />
                                 <input
                                     type="text"
                                     placeholder="Entrez votre adresse e-mail"
@@ -215,17 +207,16 @@ const Login = ({ onLogin }) => {
                                     autoComplete="off"
                                 />
                             </div>
-                            {/* <button className="login-btn" onClick={() => setForgotPassword('verify')}>Send Reset Link</button> */}
-                            <button className="login-btn" onClick={handleSendResetCode}>Envoyer le lien de réinitialisation</button>
+                            <button  data-aos="fade-up" className="login-btn" onClick={handleSendResetCode}>Envoyer le lien de réinitialisation</button>
                             <a className="forgot text_login" onClick={() => setForgotPassword(false)}>Retour à la page de connexion</a>
-
+                            {message && <p className="error-message">{message}</p>} {/* Error message display */}
                         </>
                     ) : (
                         <>
-                            <MdLock size={90} className='react__icons' />
-                            <h3 className="title">Se connecter</h3>
+                            <MdLock size={60} className='react__icons icon__header' data-aos="fade-down" />
+                            <h3 className="title__auth"><div data-aos="fade-up">Se connecter </div></h3>
                             <div className="text-input" style={{ border: emailError ? '2px solid red' : '' }}>
-                                <RiUserFill className='react__icons' />
+                                <RiUserFill className='react__icons' data-aos="fade-right" />
                                 <input
                                     type="text"
                                     placeholder="Adresse mail"
@@ -234,12 +225,11 @@ const Login = ({ onLogin }) => {
                                         setEmail(e.target.value);
                                         setEmailError(false); // Clear error on input change
                                     }}
-                                    // style={{ borderColor: emailError ? 'red' : '' }} // Highlight in red
                                     autoComplete="off"
                                 />
                             </div>
                             <div className="text-input" style={{ border: passwordError ? '2px solid red' : '' }}>
-                                <RiLockFill className='react__icons' />
+                                <RiLockFill className='react__icons'data-aos="fade-left" />
                                 <input
                                     type="password"
                                     placeholder="Mot de passe"
@@ -248,11 +238,10 @@ const Login = ({ onLogin }) => {
                                         setPassword(e.target.value);
                                         setPasswordError(false); // Clear error on input change
                                     }}
-                                    // style={{ borderColor: passwordError ? 'red' : '' }} // Highlight in red
                                     autoComplete="off"
                                 />
                             </div>
-                            <button className="login-btn" onClick={handleLogin}>CONNEXION</button>
+                            <button  data-aos="fade-up" className="login-btn" onClick={handleLogin}>CONNEXION</button>
                             <a className="forgot text_login" onClick={() => setForgotPassword(true)}>Mot de passe oublié ?</a>
                             {message && <p className="error-message">{message}</p>} {/* Error message display */}
                         </>
