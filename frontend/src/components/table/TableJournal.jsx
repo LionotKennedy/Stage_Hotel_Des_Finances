@@ -6,7 +6,7 @@ import { useGetJournals } from '../../services/serviceJournal';
 import JournalDialogs from '../../components/MUI_read/readJournal';
 import AlertJournalDialogSlide from '../../components/MUI_alert/deleteJournal';
 import ReactPaginate from 'react-paginate';
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch, FaTruckLoading } from 'react-icons/fa';
 import { useSnackbar } from 'notistack';
 
 
@@ -140,13 +140,12 @@ const TableJournal = () => {
         const startDateInput = startDateRef.current.value;
         const endDateInput = endDateRef.current.value;
 
-        console.log('Date de début:', startDateInput);
-        console.log('Date de fin:', endDateInput);
+        // console.log('Date de début:', startDateInput);
+        // console.log('Date de fin:', endDateInput);
 
         // Appel de la fonction de recherche entre deux dates
         SearchByTowDate();
     };
-
 
 
     const startDateRef = useRef(null);
@@ -158,11 +157,15 @@ const TableJournal = () => {
         if (totalItems > 0) {
             return (
                 <div className='total__courrier'>
-                    <span>Total des journaux : {totalItems}</span>
+                    <span>Nombre total de journaux : {totalItems}</span>
                 </div>
             );
         }
         return null;
+    };
+
+    const handleRefresh = () => {
+        console.log('afficher tout le donnee:');
     };
 
     return (
@@ -190,6 +193,10 @@ const TableJournal = () => {
                             <div className='search__btn__journal'>
                                 <FaSearch className='search__icon__journal' onClick={handleSearch} />
                             </div>
+
+                            {/* <div className='search__btn__journal'>
+                                <FaTruckLoading className='search__icon__journal' onClick={handleRefresh} />
+                            </div> */}
                         </div>
 
                     </section>
