@@ -1,0 +1,30 @@
+
+// .btn__modal__visa {
+//     // display: none;
+//     // background-color: var(--main-bg);
+//     // background-image: var(--primary-color) !important;
+//     // background-color: var(--primary-color-red) !important;
+//     // background: $linear-gradient !important;
+//     // background-color: #19961f;
+//     // background-color: var(--second-color) !important;
+//     // background-color: gray !important;
+//     // background-color: var(--main-color) !important;
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+// .theme-color-green {
+//     --main-color: var(--main-color-green);
+//     --primary-color: var(--primary-color-green);
+//     --second-color: var(--second-color-green);
+// }
+

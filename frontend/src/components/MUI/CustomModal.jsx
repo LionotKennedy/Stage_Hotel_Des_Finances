@@ -411,15 +411,12 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
                 onClick={handleClose}
                 size="medium"
                 fullWidth
-                // style={{ backgroundColor: 'grey', color: 'white' }}
                 className='btn__modal__visa__fermer'
               >Fermer</Button>
 
               <Button
                 onClick={handleSubmit}
                 variant="contained"
-                // color="primary"
-                // style={{ backgroundColor: 'purple' }}
                 size="medium"
                 fullWidth
                 className='btn__modal__visa'

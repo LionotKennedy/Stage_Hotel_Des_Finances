@@ -20,19 +20,19 @@ import { useGetUser } from '../../services/serviceUser';
 
   const handleOpenModal = (userId) => {
     setSelectedFolderId(userId);
-    console.log(userId)
+    // console.log(userId)
     // setMode(mode);
     setModalOpen(true);
   };
   
   const handleShowClick = (userId) => {
-    console.log("Show")
-    console.log(userId)
+    // console.log("Show")
+    // console.log(userId)
     // setSelectedFolderId(userId);
     navigate('/utilisateur/show_user', { state: { userId } });  // Passer l'ID à la UserPage
     if (selectedFolderId) {
       // const userId = selectedFolderId.data._id;  // Récupérer l'ID de l'utilisateur
-      console.log(userId)
+      // console.log(userId)
       // navigate('/utilisateur/show_user', { state: { userId } });  // Passer l'ID à la UserPage
     }
 };
@@ -99,156 +99,3 @@ import { useGetUser } from '../../services/serviceUser';
 
 export default UserCard;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // useEffect(() => {
-  //   if (onSuccess) onSuccess();
-  // }, [onSuccess]);
-
-  // const refreshData = () => {
-  //   if (refetch) {
-  //     refetch();
-  //   }
-  // };
-
-   // Fonction pour afficher les données des utilisateurs dans la console
-  //  const logUserData = (usersData) => {
-  //   console.log("Données récupérées :", usersData);
-  // };
-
-
-//   const logUserData = (usersData) => {
-//     usersData.forEach(user => {
-//         console.log(`Nom: ${user.name}, Email: ${user.email}, Rôle: ${user.role}, Statut: ${user.status}`);
-//     });
-// };
-
-
-//   useEffect(() => {
-//     logUserData(users); // Appelle la fonction pour afficher les données
-//   }, [users]); // Le tableau de dépendances permet de s'assurer que cela ne s'exécute que lorsque users change
-
-
-  // // Afficher les données des utilisateurs dans la console
-  // useEffect(() => {
-  //   console.log("Données récupérées :", users);
-  // }, [users]); // Le tableau de dépendances permet de s'assurer que cela ne s'exécute que lorsque users change
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// onSuccess={refreshData}
-// logUserData={logUserData} // Passer la fonction ici
-
-
-  // <div className='container__cards'>
-    //   {users.map((user, index) => (
-    //     <div key={index} className="content_user">
-    //       <div className="user_details">
-    //         <div className="img_user">
-    //           {/* Utilisation d'une image par défaut si l'utilisateur n'a pas d'image */}
-    //           <img
-    //             className="imageUser"
-    //             // src={user.image ? `http://127.0.0.1:9876/uploads/${user.image}` : "default_user_image.png"}
-    //             src={
-    //               user.image.startsWith('uploads_default/')
-    //               ? `http://127.0.0.1:9876/uploads/${user.image}` // Si l'image est dans "upload_default/", ajouter "uploads/" devant
-    //               : `http://127.0.0.1:9876${user.image}` // Sinon, garder le chemin de l'image tel quel
-    //           }
-    //             alt="Profile"
-    //           />
-    //         </div>
-    //         <div className="text__user">
-    //           <div className="name_user">{user.name}</div>
-    //           <span>{user.email}</span><br />
-    //           <span>{user.role}</span>
-    //         </div>
-    //       </div>
-    //       <div className="_user">
-    //         <div className="info__User">Rôle: {user.role}</div>
-    //         <span>Statut: {user.status}</span><br />
-    //         {/* Icônes d'édition, suppression et vue */}
-    //         <MdEdit onClick={() => handleOpenModal(user._id)} className="icon__user" title="Modifier" />
-    //         <MdVisibility className="icon__user" title="Afficher" onClick={() => handleShowClick(user._id)} />
-    //         {/* <MdDelete className="icon__user" title="Supprimer" /> */}
-    //       </div>
-    //     </div>
-    //   ))}
-
-    //   {modalOpen && (
-    //     <UserUpdateScreenDialog
-    //       open={modalOpen}
-    //       handleClose={handleCloseModal}
-    //       userId={selectedFolderId} // Passer l'ID du courrier à la modale
-    //       // onSuccess={refetch} // On passe refetch ici
-    //       // onSuccess={() => {
-    //       //   refetch(); // Appellez la fonction de rafraîchissement ici
-    //       // }}
-    //       onSuccess={refreshData}
-    //     />
-    //   )}
-    // </div>

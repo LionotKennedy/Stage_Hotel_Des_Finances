@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Slide, TextField, Grid, Typography } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useAddFolder, useGetFolderById, useUpdateFolder } from '../../services/serviceFolder';
 import { useAddArchive, useGetArchiveById, useUpdateArchive } from '../../services/serviceArchive';
 import { useSnackbar } from 'notistack';
 import { AiOutlineClose } from 'react-icons/ai';
@@ -169,8 +168,6 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
       console.error('Erreur lors de l\'envoi du formulaire:', error);
       setError('Une erreur est survenue lors de l\'ajout/modification du dossier.');
     }
-
-
   };
 
   return (

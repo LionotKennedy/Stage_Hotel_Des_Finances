@@ -5,7 +5,7 @@ import { useGetUser } from '../../services/serviceUser';
 import { MdAdd } from 'react-icons/md';
 import UserScreenDialog from '../../components/MUI/UserModal';
 import ReactPaginate from 'react-paginate';
-import Calendar from "../../components/calendars/Calendar"
+// import Calendar from "../../components/calendars/Calendar"
 // import Calendars from '../../components/calendars/Calendars';
 // import CalendarComponent from '../../components/calendars/CalendarComponent';
 // import Clock from '../../components/hours/Clock';
@@ -58,7 +58,7 @@ const User = () => {
   const displayTotalItems = () => {
     if (totalItems > 0) {
       return (
-        <p>Total des utilisateurs : {totalItems}</p>
+        <p>Nombre d'utilisateurs : {totalItems}</p>
       );
     }
     return null;
@@ -101,8 +101,8 @@ const User = () => {
         <p>Aucun utilisateur trouvé.</p>
       )}
       <UserScreenDialog open={modalOpen} handleClose={handleCloseDialog} onSuccess={refetch} />
-      {/* <Calendars /> */}
-      {/* <CalendarComponent /> */}
+      {/* <Calendars />
+      <CalendarComponent /> */}
       <div>
         {/* <CurrentTime /> */}
         {/* <AnalogClock /> */}
@@ -110,7 +110,7 @@ const User = () => {
       {/* <Clock /> */}
       {/* <button className='tsr'>Fory ee</button> */}
       {/* <h1 className='tsrs'>Fory eee</h1> */}
-      <Calendar />
+      {/* <Calendar /> */}
     </div>
   );
 };

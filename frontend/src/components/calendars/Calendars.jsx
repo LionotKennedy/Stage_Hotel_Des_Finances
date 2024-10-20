@@ -236,7 +236,7 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import 'moment/locale/fr'; // Importation du locale français
-import './calendar.scss';
+import './calendars.scss';
 
 const Calendars = () => {
   const [currentMonth, setCurrentMonth] = useState(moment());
@@ -310,7 +310,7 @@ const Calendars = () => {
   };
 
   return (
-    <div className="calendar">
+    <div className="calendar_container">
       <header className="calendar-header">
         <button onClick={handlePrevMonth}>Précédent</button>
         <h2>{currentMonth.format('MMMM YYYY')}</h2> {/* Format français */}
