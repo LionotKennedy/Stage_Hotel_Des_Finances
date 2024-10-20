@@ -211,7 +211,7 @@ const TableVisa = () => {
     const displayTotalItems = () => {
         if (totalItems > 0) {
             return (
-                <p>Total des visa : {totalItems}</p>
+                <p>Nombre total de visas : {totalItems}</p>
             );
         }
         return null;

@@ -303,7 +303,7 @@ const TableArchive = ({ archives, refetch, year }) => {
     const displayTotalItems = () => {
         if (totalItems > 0) {
             return (
-                <p>Total des archive(s) : {totalItems}</p>
+                <p>Nombre total d'archives : {totalItems}</p>
             );
         }
         return null;
