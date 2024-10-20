@@ -3,7 +3,7 @@ const API_URL = "http://127.0.0.1:9876/api";
 export const useGetVisa = () => {
     return useQuery('visas', async () => {
       const token = localStorage.getItem('token');
-      console.log('Token:', token); // Debugging token
+      // console.log('Token:', token); // Debugging token
   
       const response = await fetch(`${API_URL}/get_visa`, {
         headers: {
@@ -39,7 +39,7 @@ export const useGetVisa = () => {
 export const useGetVisaById = (folderId) => {
     return useQuery(['visa', folderId], async () => { // Utilisez une clé de requête unique pour chaque ID
       const token = localStorage.getItem('token');
-      console.log('Token:', token); // Debugging token
+      // console.log('Token:', token); // Debugging token
       
       const response = await fetch(`${API_URL}/edit_visa/${folderId}`, { // Ajoutez l'ID au chemin de l'URL
         headers: {

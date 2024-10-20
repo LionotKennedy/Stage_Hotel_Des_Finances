@@ -3,7 +3,7 @@ const API_URL = "http://127.0.0.1:9876/api";
 export const useGetUser = () => {
   return useQuery("users", async () => {
     const token = localStorage.getItem("token");
-    console.log("Token:", token); // Debugging token
+    // console.log("Token:", token); // Debugging token
 
     const response = await fetch(`${API_URL}/get_user`, {
       headers: {
@@ -29,7 +29,7 @@ export const useGetUserById = (userId) => {
   return useQuery(["users", userId], async () => {
     // Utilisez une clé de requête unique pour chaque ID
     const token = localStorage.getItem("token");
-    console.log("Token:", token); // Debugging token
+    // console.log("Token:", token); // Debugging token
 
     const response = await fetch(`${API_URL}/edit_user/${userId}`, {
       // Ajoutez l'ID au chemin de l'URL

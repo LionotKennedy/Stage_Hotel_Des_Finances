@@ -3,7 +3,7 @@ const API_URL = "http://127.0.0.1:9876/api";
 export const useGetFolders = () => {
     return useQuery('folders', async () => {
       const token = localStorage.getItem('token');
-      console.log('Token:', token); // Debugging token
+      // console.log('Token:', token); // Debugging token
   
       const response = await fetch(`${API_URL}/get_folder`, {
         headers: {
@@ -42,7 +42,7 @@ export const useGetFolders = () => {
   export const useGetFolderById = (folderId) => {
     return useQuery(['folder', folderId], async () => { // Utilisez une clé de requête unique pour chaque ID
     const token = localStorage.getItem('token');
-    console.log('Token:', token); // Debugging token
+    // console.log('Token:', token); // Debugging token
     
     const response = await fetch(`${API_URL}/edit_folder/${folderId}`, { // Ajoutez l'ID au chemin de l'URL
       headers: {
@@ -90,7 +90,7 @@ export const useDeleteFolder = () => {
 export const useGetFoldersByMonth = () => {
   return useQuery('folders', async () => {
     const token = localStorage.getItem('token');
-    console.log('Token:', token); // Debugging token
+    // console.log('Token:', token); // Debugging token
     
     const response = await fetch(`${API_URL}/count_letters_by_month`, {
       headers: {
@@ -112,7 +112,7 @@ export const useGetFoldersByMonth = () => {
 export const useGetFolders_2 = () => {
   return useQuery('folders', async () => {
     const token = localStorage.getItem('token');
-    console.log('Token:', token); // Debugging token
+    // console.log('Token:', token); // Debugging token
     
     const response = await fetch(`${API_URL}/get_folder`, {
       headers: {
@@ -126,7 +126,7 @@ export const useGetFolders_2 = () => {
     }
     
     const result = await response.json();
-    console.log("Résultat brut:", result);
+    // console.log("Résultat brut:", result);
     
     // Assurez-vous que les données sont au format attendu
     if (result && result.data && Array.isArray(result.data.courriers)) {
@@ -149,7 +149,7 @@ export const useGetFolders_2 = () => {
 export const useCountFolders = () => {
   return useQuery('countLetters', async () => {
     const token = localStorage.getItem('token');
-    console.log('Token:', token); // Debugging token
+    // console.log('Token:', token); // Debugging token
 
     const response = await fetch(`${API_URL}/count_letters`, {
       headers: {
@@ -173,7 +173,7 @@ export const useCountFolders = () => {
 export const useGetLastFolderNumber = () => {
   return useQuery('lastFolderNumber', async () => {
     const token = localStorage.getItem('token');
-    console.log('Token:', token); // Debugging token
+    // console.log('Token:', token); // Debugging token
 
     const response = await fetch(`${API_URL}/get_folder`, {
       headers: {

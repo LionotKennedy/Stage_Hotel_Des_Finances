@@ -3,7 +3,7 @@ const API_URL = "http://127.0.0.1:9876/api";
 export const useGetGroupArchive = () => {
     return useQuery('groups', async () => {
       const token = localStorage.getItem('token');
-      console.log('Token:', token); // Debugging token
+      // console.log('Token:', token); // Debugging token
   
       const response = await fetch(`${API_URL}/archive/grouped`, {
         headers: {
@@ -24,7 +24,7 @@ export const useGetGroupArchive = () => {
 export const useGetArchiveByYear = (year) => {
   return useQuery(['byYear', year], async () => {
     const token = localStorage.getItem('token');
-    console.log('Token:', token); // Debugging token
+    // console.log('Token:', token); // Debugging token
 
     const response = await fetch(`${API_URL}/archive/year/${year}`, {
       headers: {
@@ -61,7 +61,7 @@ export const useAddArchive = () => {
 export const useGetArchiveById = (folderId) => {
   return useQuery(['archive', folderId], async () => { // Utilisez une clé de requête unique pour chaque ID
     const token = localStorage.getItem('token');
-    console.log('Token:', token); // Debugging token
+    // console.log('Token:', token); // Debugging token
     
     const response = await fetch(`${API_URL}/edit_archive/${folderId}`, { // Ajoutez l'ID au chemin de l'URL
       headers: {
@@ -114,7 +114,7 @@ export const useDeleteArchive = () => {
 export const getAllArchive = () => {
   return useQuery('archive', async () => {
     const token = localStorage.getItem('token');
-    console.log('Token:', token); // Debugging token
+    // console.log('Token:', token); // Debugging token
 
     const response = await fetch(`${API_URL}/get_archive`, {
       headers: {
