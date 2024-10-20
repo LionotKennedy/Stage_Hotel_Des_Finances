@@ -9,13 +9,13 @@ const Card = ({ title, percentage }) => {
         <div className="card__proges">
             <h3 className="card-title__proges">{title}</h3>
             <div className="progress-container__proges">
-                <CircularProgressbar 
-                    value={percentage} 
-                    text={`${percentage}%`} 
-                    />
+                <CircularProgressbar
+                    value={percentage}
+                    text={`${percentage}%`}
+                />
             </div>
             <p className="card-description__proges">
-                Voici votre pourcentage d'accomplissement.
+                Pourcentage d'achèvement.
             </p>
         </div>
     );

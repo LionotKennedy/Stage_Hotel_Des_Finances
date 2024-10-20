@@ -5,22 +5,22 @@ import "./home.scss"
 import Chart from 'react-apexcharts'
 import { useSelector } from 'react-redux'
 import StatusCard from '../../components/status-card/StatusCard'
-// import Table from '../../components/table/Table'
-// import Badge from '../../components/badge/Badge'
 import { useGetFoldersByMonth } from '../../services/serviceFolder';
 import { useCountFolders } from '../../services/serviceFolder';
 import { getAllArchive } from '../../services/serviceArchive';
 import { useGetVisa } from '../../services/serviceVisa';
 import { useGetUser } from '../../services/serviceUser';
-// import statusCards from '../../Data/status-card-data.json'
-// import CalendarComponent from '../../components/calendar/Calendar'
 import CalendarComponent from '../../components/calendars/CalendarComponent'
 import CurrentTime from '../../components/Timer/CurrentTime';
 import Card from '../../components/progresbar/Card';
-// import Calendars from '../../components/calendars/Calendars';
 import Calendar from "../../components/calendars/Calendar"
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+// import Badge from '../../components/badge/Badge'
+// import Table from '../../components/table/Table'
+// import CalendarComponent from '../../components/calendar/Calendar'
+// import statusCards from '../../Data/status-card-data.json'
+// import Calendars from '../../components/calendars/Calendars';
 
 const Home = () => {
   const { data: monthData, isLoading, isError } = useGetFoldersByMonth();
@@ -158,7 +158,7 @@ const Home = () => {
   useEffect(() => {
     AOS.init({
       duration: 1000, // Durée des animations en millisecondes
-    //   once: true,    // Pour que l'animation se joue une seule fois
+      //   once: true,    // Pour que l'animation se joue une seule fois
     });
   }, []);
 
@@ -348,21 +348,15 @@ const Home = () => {
 
           </div>
         </div>
-        <div className="col-4"  data-aos="slide-up">
+        <div className="col-4" data-aos="slide-up">
           <div className="card">
             <div className="card__header">
-              <h3>top horaire</h3>
+              <h3>top progres</h3>
             </div>
             <div className="card__body">
               {/* <CurrentTime /> */}
               {/* <Card title="Progrès" percentage={75} /> */}
               <Card title="Progrès" percentage={folderCount} />
-              {/* <Table
-                headData={topCustomers.head}
-                renderHead={(item, index) => renderCusomerHead(item, index)}
-                bodyData={topCustomers.body}
-                renderBody={(item, index) => renderCusomerBody(item, index)}
-              />  */}
             </div>
             <div className="card__footer">
               {/* <Link to='/home'>view all</Link> */}
@@ -380,9 +374,6 @@ const Home = () => {
               {/* <Calendars /> */}
               {/* <CalendarComponent /> */}
             </div>
-            {/* <div className="card__footer">
-              <Link to='/home'>view all</Link>
-            </div> */}
           </div>
         </div>
       </div>
