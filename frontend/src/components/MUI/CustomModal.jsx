@@ -82,7 +82,7 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
       }));
     }
 
-    console.log(folderData);
+    // console.log(folderData);
   }, [folderData]);
 
   const handleChange = (e) => {
@@ -146,7 +146,7 @@ export default function CustomModal({ open, handleClose, folderId, mode, onSucce
     };
 
     // Afficher la date saisie dans la console
-    console.log("Date saisie :", fields.date_depart); // Ajouté pour afficher la date
+    // console.log("Date saisie :", fields.date_depart); // Ajouté pour afficher la date
 
     try {
       if (mode === 'add') {

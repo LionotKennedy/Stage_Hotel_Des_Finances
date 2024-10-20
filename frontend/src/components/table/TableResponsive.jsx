@@ -229,7 +229,7 @@ const TableResponsive = () => {
             );
         }
         return currentFolders.map((folder, index) => {
-            console.log('Date depart:', folder.date_depart); // Debugging
+            // console.log('Date depart:', folder.date_depart); // Debugging
 
             return (
                 <tr key={index}>
@@ -270,9 +270,7 @@ const TableResponsive = () => {
         const tableRows = table.querySelectorAll('tbody tr');
         const startDateInput = new Date(startDateRef.current.value);
         const endDateInput = new Date(endDateRef.current.value);
-        // const startDate = new Date(startDateRef.current.value);
-        // const endDate = new Date(endDateRef.current.value);
-
+        
         // Vérification des dates
         if (isNaN(startDateInput.getTime()) || isNaN(endDateInput.getTime())) {
             enqueueSnackbar('Les dates entrées sont invalides.', { variant: 'error' });
@@ -307,8 +305,6 @@ const TableResponsive = () => {
     };
 
     const handleSearch = () => {
-        // const startDateInput = startDateRef.current.value;
-        // const endDateInput = endDateRef.current.value;
 
         // console.log('Date de début:', startDateInput);
         // console.log('Date de fin:', endDateInput);
@@ -326,8 +322,8 @@ const TableResponsive = () => {
         const formattedEndDate = endDate.toLocaleDateString('fr-FR', { timeZone: 'Europe/Paris' });
 
         // Maintenant vous pouvez utiliser ces valeurs formatées
-        console.log("Date de début:", formattedStartDate); // Affiche: Date de début: 17/10/2024
-        console.log("Date de fin:", formattedEndDate); // Affiche: Date de fin: 18/10/2024
+        // console.log("Date de début:", formattedStartDate); // Affiche: Date de début: 17/10/2024
+        // console.log("Date de fin:", formattedEndDate); // Affiche: Date de fin: 18/10/2024
 
 
         // Appel de la fonction de recherche entre deux dates
@@ -343,7 +339,7 @@ const TableResponsive = () => {
         if (totalItems > 0) {
             return (
                 <div className='total__courrier'>
-                    <span>Total de(s) courrier(s) : {totalItems}</span>
+                    <span>Total des courriers : {totalItems}</span>
                 </div>
             );
         }

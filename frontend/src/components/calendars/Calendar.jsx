@@ -473,13 +473,13 @@ const Calendar = () => {
       </header>
       <div className="calendar">
         <ul className="weeks">
+          <li>Dim</li>
           <li>Lun</li>
           <li>Mar</li>
           <li>Mer</li>
           <li>Jeu</li>
           <li>Ven</li>
           <li>Sam</li>
-          <li>Dim</li>
         </ul>
         <ul className="days">
           {days}
