@@ -106,11 +106,10 @@
     border-radius: 70px;
 }
 
-
-
 .logo__sidebar {
-    font-size: 1.6rem;
-    font-weight: 1000;
+    font-size: 1.5rem;
+    // font-weight: 900;
+    font-weight: bolder;
     background-image: linear-gradient(to bottom right,
             var(--main-color),
             var(--second-color),

@@ -1,85 +1,3 @@
-// import React from 'react'
-// import { Link, useLocation } from 'react-router-dom'
-// import "./sidebar.scss"
-// import sidebar_items from '../../Data/Sidebar__route.json'
-// import logo from '../../assets/images/logo.png'
-
-// const SidebarItem = props => {
-
-//   const active = props.active ? 'active' : ''
-
-//   return (
-//     <div className="sidebar__item">
-//       <div className={`sidebar__item-inner ${active}`}>
-//         <i className={props.icon}></i>
-//         <span>
-//           {props.title}
-//         </span>
-//       </div>
-//     </div>
-//   )
-// }
-
-// const SideBar = () => {
-
-//   const location = useLocation()
-
-//   // const activeItem = sidebar_items.findIndex(item => item.route === location.pathname)
-//     // Récupérer le rôle de l'utilisateur à partir du localStorage
-//     const userRole = localStorage.getItem('userRole');
-
-//   const activeItem = sidebar_items.findIndex(item => 
-//     location.pathname.startsWith(item.route)
-//   );
-
-//   return (
-//     <div className='sidebar'>
-
-//       <div className="sidebar__logo">
-//         <img className='logo_img' src={logo} alt="company logo" />
-//         {/* Bro-Coding */}
-//       </div>
-//       {
-//         sidebar_items.map((item, index) => (
-//           <Link to={item.route} key={index}>
-//             <SidebarItem
-//               title={item.display_name}
-//               icon={item.icon}
-//               active={index === activeItem}
-//             />
-//           </Link>
-//         ))
-//       }
-//        {/* <div className="pill-1 rotate-45"></div>
-//        <div className="pill-2 rotate-45"></div> */}
-//     </div>
-//   )
-// }
-
-// export default SideBar
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -124,8 +42,7 @@ const SideBar = () => {
 
   useEffect(() => {
     AOS.init({
-      duration: 1000, // Durée des animations en millisecondes
-      //   once: true,    // Pour que l'animation se joue une seule fois
+      duration: 1000,
     });
   }, []);
 
@@ -134,20 +51,20 @@ const SideBar = () => {
       <div className="sidebar__logo" data-aos="slide-down">
         {/* <img className='logo_img' src={logo} alt="company logo" /> */}
         <div className='logo__sidebar'>
-          <span>D</span>
-          <span>E</span>
-          <span>P</span>
-          <span>A</span>
-          <span>R</span>
-          <span>T</span>
-          <span>-</span>
-          <span>S</span>
-          <span>R</span>
-          <span>S</span>
-          <span>P</span>
+            <span>D</span>
+            <span>E</span>
+            <span>P</span>
+            <span>A</span>
+            <span>R</span>
+            <span>T</span>
+            <span>-</span>
+            <span>S</span>
+            <span>R</span>
+            <span>S</span>
+            <span>P</span>
         </div>
       </div>
-      
+
       {/* Afficher les items filtrés en fonction du userRole */}
       {filteredItems.map((item, index) => (
         <Link to={item.route} key={index}>
@@ -163,186 +80,3 @@ const SideBar = () => {
 };
 
 export default SideBar;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React from 'react'
-// import { Link, useLocation } from 'react-router-dom'
-// import "./sidebar.scss"
-// import sidebar_items from '../../Data/Sidebar__route.json'
-// import logo from '../../assets/images/logo.png'
-
-// const SidebarItem = props => {
-//   const active = props.active ? 'active' : ''
-
-//   return (
-//     <div className="sidebar__item">
-//       <div className={`sidebar__item-inner ${active}`}>
-//         <i className={props.icon}></i>
-//         <span>{props.title}</span>
-//       </div>
-//     </div>
-//   )
-// }
-
-// const SideBar = ({ userRole }) => {
-//   const location = useLocation()
-
-//   // Trouver l'élément actif
-//   const activeItem = sidebar_items.findIndex(item => location.pathname.startsWith(item.route))
-
-//   // Filtrer les éléments du menu en fonction du rôle
-//   const filteredSidebarItems = sidebar_items.filter(item => {
-//     // Masquer "Journal" et "Utilisateur" si l'utilisateur est non-admin (userRole === 0)
-//     if (userRole === 0 && (item.display_name === 'Journal' || item.display_name === 'Utilisateur')) {
-//       return false;
-//     }
-//     return true;
-//   })
-
-//   return (
-//     <div className='sidebar'>
-//       {userRole === 1 ? (
-//         <p>Bienvenue, administrateur</p>
-//       ) : (
-//         <p>Bienvenue, utilisateur</p>
-//       )}
-//       <div className="sidebar__logo">
-//         <img className='logo_img' src={logo} alt="company logo" />
-//       </div>
-//       {filteredSidebarItems.map((item, index) => (
-//         <Link to={item.route} key={index}>
-//           <SidebarItem
-//             title={item.display_name}
-//             icon={item.icon}
-//             active={index === activeItem}
-//           />
-//         </Link>
-//       ))}
-//     </div>
-//   )
-// }
-
-// export default SideBar
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React from 'react'
-// import { Link, useLocation } from 'react-router-dom'
-// import "./sidebar.scss"
-// import sidebar_items from '../../Data/Sidebar__route.json'
-// import logo from '../../assets/images/logo.png'
-
-// const SidebarItem = props => {
-//   const active = props.active ? 'active' : ''
-
-//   return (
-//     <div className="sidebar__item">
-//       <div className={`sidebar__item-inner ${active}`}>
-//         <i className={props.icon}></i>
-//         <span>{props.title}</span>
-//       </div>
-//     </div>
-//   )
-// }
-
-// const SideBar = ({ userRole }) => {
-//   const location = useLocation()
-
-//   // Vérification si userRole est défini
-//   if (userRole == null) {
-//     return <div>Chargement...</div> // Afficher un message ou un loader pendant que le rôle est récupéré
-//   }
-
-//   // Trouver l'élément actif
-//   const activeItem = sidebar_items.findIndex(item => location.pathname.startsWith(item.route))
-
-//   // Filtrer les éléments du menu en fonction du rôle
-//   const filteredSidebarItems = sidebar_items.filter(item => {
-//     // Masquer "Journal" et "Utilisateur" si l'utilisateur est non-admin (userRole === 0)
-//     if (userRole === 0 && (item.display_name === 'Journal' || item.display_name === 'Utilisateur')) {
-//       return false
-//     }
-//     return true
-//   })
-
-//   return (
-//     <div className='sidebar'>
-//       {userRole === 1 ? (
-//         <p>Bienvenue, administrateur</p>
-//       ) : (
-//         <p>Bienvenue, utilisateur</p>
-//       )}
-//       <div className="sidebar__logo">
-//         <img className='logo_img' src={logo} alt="company logo" />
-//       </div>
-//       {filteredSidebarItems.map((item, index) => (
-//         <Link to={item.route} key={index}>
-//           <SidebarItem
-//             title={item.display_name}
-//             icon={item.icon}
-//             active={index === activeItem}
-//           />
-//         </Link>
-//       ))}
-//     </div>
-//   )
-// }
-
-// export default SideBar

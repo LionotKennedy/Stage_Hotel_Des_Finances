@@ -4,7 +4,6 @@ import "./topnav.scss";
 import { Link, useNavigate } from 'react-router-dom';
 import Dropdown from '../dropdown/Dropdown';
 import user_image from '../../assets/images/photo.jpg';
-// import notifications from '../../Data/notification.json';
 import user_menu from '../../Data/user_menus.json';
 import Theme from '../theme/Theme';
 import { logout, getProfile } from '../../services/authServices';
@@ -26,17 +25,10 @@ const curr_user = {
   image: user_image
 }
 
-// const renderNotificationItem = (item, index) => (
-//   <div className="notification-item" key={index}>
-//     <i className={item.icon}></i>
-//     <span>{item.content}</span>
-//   </div>
-// )
-
 const TopNav = ({ onLogout }) => {
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState('');
-  const [openDialog, setOpenDialog] = useState(false); 
+  const [openDialog, setOpenDialog] = useState(false);
   const [openAboutDialog, setOpenAboutDialog] = useState(false); // État pour le dialogue About
   const navigate = useNavigate();
 
@@ -53,7 +45,7 @@ const TopNav = ({ onLogout }) => {
 
   useEffect(() => {
     AOS.init({
-      duration: 1000, 
+      duration: 1000,
     });
   }, []);
 
@@ -85,7 +77,7 @@ const TopNav = ({ onLogout }) => {
         console.error('Erreur de déconnexion:', result.message);
       }
     }
-    handleCloseDialog(); 
+    handleCloseDialog();
   };
 
   const handleAboutClick = () => {
@@ -142,9 +134,7 @@ const TopNav = ({ onLogout }) => {
       </Link>
     );
   };
-
   const [sidebarActive, setSidebarActive] = useState(false);
-
   const toggleSidebar = () => {
     setSidebarActive(!sidebarActive);
     document.querySelector('.sidebar').classList.toggle('actif');
@@ -154,11 +144,7 @@ const TopNav = ({ onLogout }) => {
 
   return (
     <div className='topnav'>
-      {/* <div className="topnav__search">
-        <input type="text" placeholder='Search here...' />
-        <i className='bx bx-search'></i>
-      </div> */}
-      <div className='content__name__app'  data-aos="fade-right">
+      <div className='content__name__app' data-aos="fade-right">
         {/* <span>D</span>
         <span>E</span>
         <span>P</span>
@@ -170,27 +156,19 @@ const TopNav = ({ onLogout }) => {
         <span>R</span>
         <span>S</span>
         <span>P</span> */}
-        <span>Ministère de l'Économie et des Finances.</span>
+        <span>Ministère de l'Économie et des Finances</span>
       </div>
       {/* Dialog About */}
       <AboutDialogs open={openAboutDialog} onClose={() => setOpenAboutDialog(false)} />
       <div className="topnav__right">
         <div className="topnav__right-item">
           <Dropdown
-            customToggle={() => renderUserToggle(userToggleContent)} 
+            customToggle={() => renderUserToggle(userToggleContent)}
             contentData={user_menu}
             renderItems={(item, index) => renderUserMenu(item, index)}
           />
         </div>
-        {/* <div className="topnav__right-item">
-          <Dropdown
-            icon='bx bx-bell'
-            badge='13'
-            contentData={notifications}
-            renderItems={(item, index) => renderNotificationItem(item, index)}
-            renderFooter={() => <Link to='/'>View All</Link>}
-          />
-        </div> */}
+
         <div className="topnav__right-item">
           <Theme />
         </div>
@@ -205,9 +183,9 @@ const TopNav = ({ onLogout }) => {
         onClose={handleCloseDialog}
       >
         <DialogTitle style={{ display: 'flex', alignItems: 'center' }}>
-                <FaExclamationTriangle style={{ color: 'orange', marginRight: '10px' }} />
-                {"Confirmation"}
-            </DialogTitle>
+          <FaExclamationTriangle style={{ color: 'orange', marginRight: '10px' }} />
+          {"Confirmation"}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText>
             Êtes-vous sûr de vouloir vous déconnecter ?
