@@ -4,7 +4,7 @@ import "./archivemore.scss";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
 import TableArchive from '../../components/table/TableArchive';
-import { useGetArchiveByYear } from '../../services/serviceArchive'; 
+import { useGetArchiveByYear } from '../../services/serviceArchive';
 
 const ArchiveMore = () => {
     const navigate = useNavigate();
@@ -19,8 +19,8 @@ const ArchiveMore = () => {
     };
 
     useEffect(() => {
-        if (refetch) refetch(); 
-    }, [refetch]); 
+        if (refetch) refetch();
+    }, [refetch]);
 
     if (isLoading) {
         return <p>Chargement des archives...</p>;

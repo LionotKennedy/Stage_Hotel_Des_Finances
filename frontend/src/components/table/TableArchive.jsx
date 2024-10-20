@@ -356,8 +356,6 @@ const TableArchive = ({ archives, refetch, year }) => {
                                     ref={searchRef}
                                     onChange={(e) => setSearchValue(e.target.value)}
                                 />
-
-
                                 <img src={search} alt="Search Icon" />
                             </div>
                         )}

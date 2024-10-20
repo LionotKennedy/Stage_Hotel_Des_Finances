@@ -55,7 +55,7 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
       }));
     }
 
-    console.log(folderData);
+    // console.log(folderData);
 
   }, [folderData]);
 
@@ -122,8 +122,8 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
     try {
       if (mode === 'edit') {
         await updateArchiveMutation.mutateAsync({ folderId, data: formattedFields }); // Utiliser la mutation pour mettre à jour
-        console.log('Archive mis à jour avec succès');
-        console.log('Modification d\'un archive');
+        // console.log('Archive mis à jour avec succès');
+        // console.log('Modification d\'un archive');
         enqueueSnackbar(' Le archive a été modifié avec succès', {
           variant: 'success',
           anchorOrigin: {
