@@ -1,0 +1,250 @@
+// ::-webkit-scrollbar-track {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // .layout__content-main {
+//     height: calc(100vh - var(--topnav-height-t)); /* Prend en compte la hauteur du TopNav */
+//     display: flex;
+//     justify-content: center; /* Centre horizontalement */
+//     align-items: center;     /* Centre verticalement */
+//     padding: 20px;           /* Optionnel : ajoute un peu d'espace autour du contenu */
+//     overflow: auto;          /* Gère le débordement si le contenu est trop grand */
+// }
+
+
+//   .centered-content {
+//     width: 100% !important; 
+//     display: flex !important;
+//     justify-content: center !important;
+//     align-items: center !important;
+//   }
+
+
+
+
+// .layout__content {
+//     margin-left: var(--sidebar-width); 
+//     width: calc(100% - var(--sidebar-width));     
+// }
+
+// .layout__content-main {
+//     height: calc(100vh - var(--topnav-height-t)); 
+//     display: flex;
+//     justify-content: center; 
+//     align-items: center;     
+//     padding: 20px;           
+//     overflow: auto;
+//     background-color: aqua;  
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// .layout__content {
+//     margin-left: var(--sidebar-width); /* Espace laissé par la barre latérale */
+//     width: calc(100% - var(--sidebar-width)) !important; /* Espace restant pour le contenu principal */
+//     margin-top: var(--topnav-height); /* Espace pour le TopNav */
+// }
+
+// .layout__content-main {
+//     // width: calc(100% - var(--sidebar-width)) !important; /* Espace restant pour le contenu principal */
+//     height: calc(100vh - var(--topnav-height)); /* Ajuste la hauteur en fonction du TopNav */
+//     display: flex;
+//     width: 100%;
+//     justify-content: center; /* Centre horizontalement */
+//     align-items: flex-start; /* Aligne le contenu au début */
+//     padding: 20px; /* Optionnel : ajoute un peu d'espace */
+//     overflow: auto; /* Permet le défilement si le contenu dépasse */
+//     color: var(--txt-color); 
+//     background-color: aqua; 
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// .layout {
+//     display: flex;
+//     /* Enable flexbox layout */
+// }
+
+// .layout__content {
+//     flex: 1;
+//     /* Content area takes remaining space */
+//     margin-left: var(--sidebar-width);
+//     /* Space for sidebar */
+//     /* Optional: Add top margin for topbar if needed */
+// }
+
+// .layout__content-main {
+//     /* Additional styles for the main content area */
+//     padding: 20px;
+
+//     background-color: aqua;
+//     height: calc(100vh - var(--topnav-height));
+//     /* Ajuste la hauteur en fonction du TopNav */
+//     display: flex;
+//     justify-content: center;
+//     /* Centre horizontalement */
+//     align-items: flex-start;
+//     /* Aligne le contenu au début */
+//     overflow: auto;
+//     /* Permet le défilement si le contenu dépasse */
+//     color: var(--txt-color);
+// }
+
+
+
+// .layout__content {
+//     margin-left: var(--sidebar-width);
+//     width: calc(100% - var(--sidebar-width));
+//     padding-top: var(--topnav-height);
+//     height: 100vh;
+//     overflow: hidden;
+// }
+
+// .layout__content-main {
+//     height: calc(100vh - var(--topnav-height));
+//     padding: 20px;
+//     overflow-y: auto;
+//     background-color: var(--main-bg);
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* RESPONSIVE */
+// @media (max-width: 998px) {
+//     .layout__content{
+    //         padding-left: 0px; 
+//         &.actif {
+    //             padding-left: var(--sidebar-width);
+    //         }
+    //     }
+// }
+
+
+
+
+
+
+// ::-webkit-scrollbar {
+    //     width: 5px;
+    // }
+    
+    // ::-webkit-scrollbar-thumb {
+        //     /* background-color: var(--main-color); */
+        //     // background-image: linear-gradient(to right,
+        //     //         var(--main-color),
+        //     //         var(--second-color));
+//     background-color: rgb(138, 138, 138);
+// }
+
+//     // background-color: var(--main-bg);
+//     background-color: rgb(138, 138, 138);
+//     width: 50px;
+// }
+
+
+
