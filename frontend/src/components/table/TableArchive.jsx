@@ -413,9 +413,9 @@ const TableArchive = ({ archives, refetch, year }) => {
                                             <td className="td">{archive.matricule}</td>
                                             <td className="td">{archive.description}</td>
                                             <td className="td">
-                                                <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(archive._id, 'edit')} />
-                                                <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(archive._id)} />
-                                                <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(archive._id)} />
+                                                <MdEdit className="action-icon icon color__icon-edit" title="Modifier" onClick={() => handleOpenModal(archive._id, 'edit')} />
+                                                <MdDelete className="action-icon icon color__icon-delete" title="Delete" onClick={() => handleDeleteClick(archive._id)} />
+                                                <MdVisibility className="action-icon icon color__icon-visible" title="Read" onClick={() => handleReadClick(archive._id)} />
                                             </td>
                                         </tr>
                                     ))

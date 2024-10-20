@@ -87,8 +87,8 @@ const TableJournal = () => {
                     })()}
                 </td>
                 <td className="td">
-                    <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
-                    <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
+                    <MdDelete className="action-icon icon color__icon-delete" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
+                    <MdVisibility className="action-icon icon color__icon-visible" title="Read" onClick={() => handleReadClick(folder._id)} />
                 </td>
             </tr>
         ));

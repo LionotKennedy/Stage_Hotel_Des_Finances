@@ -17,7 +17,7 @@ import "./assets/boxicons-2.0.7/css/boxicons.min.css"
 // Créez une instance de QueryClient
 const queryClient = new QueryClient();
 
-document.title = 'Finances'
+document.title = 'DEPART-SRSP'
 
 const store = createStore(
   rootReducer

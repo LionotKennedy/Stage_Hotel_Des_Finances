@@ -671,18 +671,11 @@ $linear-gradient: linear-gradient(90deg, #97776f, #6dfa08);
     display: none;
 }
 
-// .total__courrier{
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-// }
 
-
-
-.color__icon-visible {
+.color__icon-visible:hover {
     color: rgb(76, 76, 239);
 }
 
-.color__icon-delete {
+.color__icon-delete:hover {
     color: rgb(239, 76, 76);
 }

@@ -231,9 +231,9 @@ const TableVisa = () => {
                 <td className="td">{folder.prenom_depose_visa}</td>
                 <td className="td">{folder.reference}</td>
                 <td className="td">
-                    <MdEdit className="action-icon icon" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
-                    <MdDelete className="action-icon icon" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
-                    <MdVisibility className="action-icon icon" title="Read" onClick={() => handleReadClick(folder._id)} />
+                    <MdEdit className="action-icon icon color__icon-edit" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
+                    <MdDelete className="action-icon icon color__icon-delete" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
+                    <MdVisibility className="action-icon icon color__icon-visible" title="Read" onClick={() => handleReadClick(folder._id)} />
                 </td>
             </tr>
         ));
