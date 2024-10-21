@@ -26,6 +26,7 @@ const Login = ({ onLogin }) => {
     const loginMutation = useLogin(email, password);
     const passwordResetMutation = usePasswordReset(); // Hook for password reset
     const newPasswordVerifyMutation = useNewPasswordVerification(); // Hook for password reset
+    const [loadingReset, setLoadingReset] = useState(false); // État pour le chargement de la réinitialisation
 
 
 
@@ -114,6 +115,7 @@ const Login = ({ onLogin }) => {
             setMessage('Veuillez entrer votre adresse email.');
             return;
         }
+        setLoadingReset(true); // Active le chargement
         try {
             const result = await passwordResetMutation.mutateAsync({ email });
             if (result.success) {
@@ -125,6 +127,9 @@ const Login = ({ onLogin }) => {
         } catch (error) {
             // console.error('Erreur lors de l\'envoi du code:', error);
             setMessage('Une erreur s\'est produite. Veuillez réessayer.');
+        }
+        finally {
+            setLoadingReset(false); // Désactive le chargement
         }
     };
 
@@ -151,8 +156,8 @@ const Login = ({ onLogin }) => {
         }
     };
 
-    if (loading) {
-        return <Loading />;
+    if (loading || loadingReset) {
+        return <Loading />; // Affiche le composant de chargement
     }
 
     return (
