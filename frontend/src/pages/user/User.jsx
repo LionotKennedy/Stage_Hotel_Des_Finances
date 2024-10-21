@@ -5,6 +5,11 @@ import { useGetUser } from '../../services/serviceUser';
 import { MdAdd } from 'react-icons/md';
 import UserScreenDialog from '../../components/MUI/UserModal';
 import ReactPaginate from 'react-paginate';
+import Calendrier from '../../components/calendrier/Calendrier';
+import Application from '../../components/calendrier/1/Application';
+import Calendrier_2 from '../../components/calendrier/2/Calendrier_2';
+import Calendrier_3 from '../../components/calendrier/3/Calendrier_3';
+import Calendrier_4 from '../../components/calendrier/4/Calendrier_4';
 // import Calendar from "../../components/calendars/Calendar"
 // import Calendars from '../../components/calendars/Calendars';
 // import CalendarComponent from '../../components/calendars/CalendarComponent';
@@ -111,6 +116,11 @@ const User = () => {
       {/* <button className='tsr'>Fory ee</button> */}
       {/* <h1 className='tsrs'>Fory eee</h1> */}
       {/* <Calendar /> */}
+      <Calendrier />
+      <Application />
+      <Calendrier_2 />
+      {/* <Calendrier_3 /> */}
+      <Calendrier_4 />
     </div>
   );
 };

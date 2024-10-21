@@ -16,6 +16,7 @@ import Card from '../../components/progresbar/Card';
 import Calendar from "../../components/calendars/Calendar"
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import Calendrier_4 from '../../components/calendrier/4/Calendrier_4';
 // import Badge from '../../components/badge/Badge'
 // import Table from '../../components/table/Table'
 // import CalendarComponent from '../../components/calendar/Calendar'
@@ -369,7 +370,8 @@ const Home = () => {
               <h3>latest orders</h3>
               </div> */}
             {/* <CalendarComponent /> */}
-            <Calendar />
+            {/* <Calendar /> */}
+              <Calendrier_4 />
             <div className="card__body">
               {/* <Calendars /> */}
               {/* <CalendarComponent /> */}
