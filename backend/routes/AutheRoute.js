@@ -4,12 +4,9 @@ const auth = require("../middlewares/AutheMiddleware");
 const { registerUser, loginUser, getProfile, logoutUser  } = require("../controllers/AutheController");
 const { registerValidator, loginValidator } = require("../helpers/Validator");
 const verifyToken = require("../middlewares/AutheMiddleware");
-// const { requestPasswordReset, resetPassword } = require("../controllers/PasswordController");
 const { requestPasswordReset, resetPassword } = require("../controllers/PasswordControllers");
 
-// router.route('/register').post(registerUser);
-// router.route('/login').post(loginUser);
-// router.route('/profile').get(getProfile);
+
 
 router.post('/register', registerValidator, registerUser);
 router.post('/login', loginValidator, loginUser);

@@ -3,13 +3,11 @@ const router = express.Router();
 
 const { addFolderValidator, updateFolderValidator } = require("../helpers/ValidatorFolder");
 const { addArchiveValidator } = require("../helpers/ValidatorArchive");
-// const auth = require("../middlewares/AutheMiddleware");
+
 const verifyToken = require("../middlewares/verifyToken");
 
 const { addArchive, getArchive, editArchiveById, updateArchiveById, deleteArhiveById, getArchiveByYear, getArchiveGroupedByYear } = require("../controllers/ArchiveController");
 
-// router.post("/add_archive", auth, addFolderValidator, addArchive);
-// Route protégée nécessitant une authentification
 router.post("/add_archive", verifyToken, addFolderValidator, addArchive);
 router.get("/get_archive", verifyToken, getArchive);
 router.get("/edit_archive/:id", verifyToken, addArchiveValidator, editArchiveById);
