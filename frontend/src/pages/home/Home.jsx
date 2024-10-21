@@ -351,7 +351,7 @@ const Home = () => {
         <div className="col-4" data-aos="slide-up">
           <div className="card">
             <div className="card__header">
-              <h3>top progres</h3>
+              <h3>top Progrès</h3>
             </div>
             <div className="card__body">
               {/* <CurrentTime /> */}
