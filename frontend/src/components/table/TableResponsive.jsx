@@ -1,7 +1,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import search from "../../assets/image/search.png";
-import { MdEdit, MdDelete, MdVisibility, MdAdd } from 'react-icons/md';
+import { MdEdit, MdDelete, MdVisibility, MdAdd, MdRefresh } from 'react-icons/md';
 import { FaArrowDown, FaSearch } from 'react-icons/fa';
 import { AnimatePresence } from 'framer-motion';
 import { useGetFolders } from '../../services/serviceFolder';
@@ -174,36 +174,36 @@ const TableResponsive = () => {
         setDropdownOpen(false);
     };
 
-    useEffect(() => {
-        const searchInput = searchRef.current;
-        const table = tableRef.current;
-        const tableRows = table.querySelectorAll('tbody tr');
+    // useEffect(() => {
+    //     const searchInput = searchRef.current;
+    //     const table = tableRef.current;
+    //     const tableRows = table.querySelectorAll('tbody tr');
 
-        const searchTable = () => {
-            tableRows.forEach((row, i) => {
-                let search_data = searchValue.toLowerCase();
-                let table_data = '';
+    //     const searchTable = () => {
+    //         tableRows.forEach((row, i) => {
+    //             let search_data = searchValue.toLowerCase();
+    //             let table_data = '';
 
-                if (searchType === 'numero') {
-                    table_data = row.querySelectorAll('td')[0].textContent.toLowerCase();
-                } else if (searchType === 'nom') {
-                    table_data = row.querySelectorAll('td')[4].textContent.toLowerCase();
-                } else if (searchType === 'matricule') {
-                    table_data = row.querySelectorAll('td')[6].textContent.toLowerCase();
-                }
+    //             if (searchType === 'numero') {
+    //                 table_data = row.querySelectorAll('td')[0].textContent.toLowerCase();
+    //             } else if (searchType === 'nom') {
+    //                 table_data = row.querySelectorAll('td')[4].textContent.toLowerCase();
+    //             } else if (searchType === 'matricule') {
+    //                 table_data = row.querySelectorAll('td')[6].textContent.toLowerCase();
+    //             }
 
-                row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
-                row.style.setProperty('--delay', i / 25 + 's');
-            });
+    //             row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
+    //             row.style.setProperty('--delay', i / 25 + 's');
+    //         });
 
-            document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
-                visible_row.style.backgroundColor = (i % 2 === 0) ? '--second-bg' : '--second-bg';
-                visible_row.style.animationDelay = `${i * 0.1}s`;
-            });
-        };
+    //         document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
+    //             visible_row.style.backgroundColor = (i % 2 === 0) ? '--second-bg' : '--second-bg';
+    //             visible_row.style.animationDelay = `${i * 0.1}s`;
+    //         });
+    //     };
 
-        searchTable();
-    }, [searchType, searchValue]);
+    //     searchTable();
+    // }, [searchType, searchValue]);
 
     const displayData = () => {
         if (isLoading) {
@@ -270,7 +270,7 @@ const TableResponsive = () => {
         const tableRows = table.querySelectorAll('tbody tr');
         const startDateInput = new Date(startDateRef.current.value);
         const endDateInput = new Date(endDateRef.current.value);
-        
+
         // Vérification des dates
         if (isNaN(startDateInput.getTime()) || isNaN(endDateInput.getTime())) {
             enqueueSnackbar('Les dates entrées sont invalides.', { variant: 'error' });
@@ -346,6 +346,40 @@ const TableResponsive = () => {
         return null;
     };
 
+    const searchTable = () => {
+        const tableRows = tableRef.current.querySelectorAll('tbody tr');
+        tableRows.forEach((row, i) => {
+            let search_data = searchValue.toLowerCase();
+            let table_data = '';
+
+            if (searchType === 'numero') {
+                table_data = row.querySelectorAll('td')[0].textContent.toLowerCase();
+            } else if (searchType === 'nom') {
+                table_data = row.querySelectorAll('td')[4].textContent.toLowerCase();
+            } else if (searchType === 'matricule') {
+                table_data = row.querySelectorAll('td')[6].textContent.toLowerCase();
+            }
+
+            row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
+            row.style.setProperty('--delay', i / 25 + 's');
+        });
+
+        document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
+            visible_row.style.backgroundColor = (i % 2 === 0) ? 'var(--second-bg)' : 'var(--second-bg)';
+            visible_row.style.animationDelay = `${i * 0.1}s`;
+        });
+    };
+
+
+    useEffect(() => {
+        searchTable();
+    }, [searchType, searchValue]);
+
+    const refreshTable = () => {
+        setSearchValue('');
+        searchTable();
+    };
+
     return (
         <>
             <div className='container__table'>
@@ -401,6 +435,8 @@ const TableResponsive = () => {
 
                         <div className='option_right'>
                             <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
+                            <MdRefresh onClick={refreshTable} className="icon_add" style={{ marginLeft: '15px', fontSize: '24px' }}  />
+
                             <div className="dropdown-container">
                                 <div onClick={toggleDropdown} className='background_download'>
                                     <FaArrowDown className="icon_download" style={{ marginLeft: '0px', fontSize: '20px' }} />

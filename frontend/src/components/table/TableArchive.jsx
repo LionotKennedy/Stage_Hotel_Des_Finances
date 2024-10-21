@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import "./tableResponsive.scss";
 import search from "../../assets/image/search.png"
-import { MdEdit, MdDelete, MdVisibility, MdAdd } from 'react-icons/md';
+import { MdEdit, MdDelete, MdVisibility, MdAdd, MdRefresh } from 'react-icons/md';
 import { AnimatePresence } from 'framer-motion';
 import { useGetFolders } from '../../services/serviceFolder';
 import AlertDialogArchiveSlide from '../MUI_alert/deleteArchive';
@@ -309,6 +309,52 @@ const TableArchive = ({ archives, refetch, year }) => {
         return null;
     };
 
+    const searchTable = () => {
+        const searchInput = searchRef.current;
+        const table = tableRef.current;
+        const tableRows = table.querySelectorAll('tbody tr');
+        const search_data = searchValue.trim().toLowerCase();
+        // Si le champ de recherche est vide, afficher toutes les lignes
+        if (search_data === "") {
+            tableRows.forEach((row, i) => {
+                row.classList.remove('hide');
+                row.style.setProperty('--delay', i / 25 + 's');
+            });
+            return; // Sortir de la fonction car aucun filtrage n'est nécessaire
+        }
+
+        tableRows.forEach((row, i) => {
+            let table_data = '';
+
+            if (searchType === 'nom') {
+                table_data = row.querySelectorAll('td')[4]?.textContent.toLowerCase();
+            } else if (searchType === 'numero') {
+                table_data = row.querySelectorAll('td')[0]?.textContent.toLowerCase();
+            } else if (searchType === 'matricule') {
+                table_data = row.querySelectorAll('td')[6]?.textContent.toLowerCase();
+            }
+            // Masquer la ligne si elle ne correspond pas à la recherche
+            if (table_data && search_data) {
+                row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
+                row.style.setProperty('--delay', i / 25 + 's');
+            }
+        });
+
+        // Appliquer des styles aux lignes visibles
+        document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
+            visible_row.style.backgroundColor = (i % 2 === 0) ? '--second-bg' : '--second-bg';
+            visible_row.style.animationDelay = `${i * 0.1}s`;
+        });
+    };
+
+    useEffect(() => {
+        searchTable();
+    }, [searchType, searchValue]);
+
+    const refreshTable = () => {
+        setSearchValue('');
+        searchTable();
+    };
 
     return (
         <>
@@ -361,6 +407,7 @@ const TableArchive = ({ archives, refetch, year }) => {
                         )}
                         <div className='option_right'>
                             <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
+                            <MdRefresh onClick={refreshTable} className="icon_add" style={{ marginLeft: '15px', fontSize: '24px' }} />
                             <div className="dropdown-container">
                                 <div onClick={toggleDropdown} className='background_download'>
                                     <FaArrowDown className="icon_download" style={{ marginLeft: '0px', fontSize: '20px' }} />

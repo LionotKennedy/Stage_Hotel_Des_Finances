@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import "./tableResponsive.scss";
 import "./tablejournal.scss"
-import { MdDelete, MdVisibility } from 'react-icons/md';
+import { MdDelete, MdVisibility, MdRefresh } from 'react-icons/md';
 import { useGetJournals } from '../../services/serviceJournal';
 import JournalDialogs from '../../components/MUI_read/readJournal';
 import AlertJournalDialogSlide from '../../components/MUI_alert/deleteJournal';
@@ -82,7 +82,7 @@ const TableJournal = () => {
                         const date = new Date(folder.date);
                         const year = date.getFullYear();
                         const month = String(date.getMonth() + 1).padStart(2, '0'); // Mois de 0 à 11, donc on ajoute 1
-                        const day = String(date.getDate() ).padStart(2, '0'); // Ajouter un zéro devant si nécessaire
+                        const day = String(date.getDate()).padStart(2, '0'); // Ajouter un zéro devant si nécessaire
                         return `${year}-${month}-${day}`;
                     })()}
                 </td>
@@ -164,9 +164,17 @@ const TableJournal = () => {
         return null;
     };
 
-    const handleRefresh = () => {
-        console.log('afficher tout le donnee:');
+
+    const refreshTable = () => {
+    setStartDateValue('');
+    setEndDateValue('');
+    const table = tableRef.current;
+    const tableRows = table.querySelectorAll('tbody tr');
+    tableRows.forEach((row) => {
+        row.classList.remove('hide'); // Affiche toutes les lignes
+    });
     };
+
 
     return (
         <>
@@ -194,10 +202,8 @@ const TableJournal = () => {
                                 <FaSearch className='search__icon__journal' onClick={handleSearch} />
                             </div>
 
-                            {/* <div className='search__btn__journal'>
-                                <FaTruckLoading className='search__icon__journal' onClick={handleRefresh} />
-                            </div> */}
                         </div>
+                        <MdRefresh onClick={refreshTable} className="icon_add" style={{ marginLeft: '15px', fontSize: '24px' }} />
 
                     </section>
 

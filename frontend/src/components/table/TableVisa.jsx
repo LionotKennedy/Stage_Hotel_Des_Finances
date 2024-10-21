@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import "./tableResponsive.scss"
 import search from "../../assets/image/search.png"
-import { MdEdit, MdDelete, MdVisibility, MdAdd } from 'react-icons/md';
+import { MdEdit, MdDelete, MdVisibility, MdAdd, MdRefresh } from 'react-icons/md';
 import { AnimatePresence } from 'framer-motion';
 import { useGetVisa } from '../../services/serviceVisa';
 import AlertDialogSlideVisa from '../MUI_alert/deleteVisa';
@@ -172,38 +172,38 @@ const TableVisa = () => {
         refetch();
     }, [refetch]);
 
-    useEffect(() => {
-        const searchInput = searchRef.current;
-        const table = tableRef.current;
-        const tableRows = table.querySelectorAll('tbody tr');
+    // useEffect(() => {
+    //     const searchInput = searchRef.current;
+    //     const table = tableRef.current;
+    //     const tableRows = table.querySelectorAll('tbody tr');
 
-        const searchTable = () => {
-            tableRows.forEach((row, i) => {
-                let search_data = searchValue.toLowerCase();
-                let table_data = '';
+    //     const searchTable = () => {
+    //         tableRows.forEach((row, i) => {
+    //             let search_data = searchValue.toLowerCase();
+    //             let table_data = '';
 
-                if (searchType === 'nom') {
-                    table_data = row.querySelectorAll('td')[1].textContent.toLowerCase();
-                } else if (searchType === 'prenom') {
-                    table_data = row.querySelectorAll('td')[2].textContent.toLowerCase();
-                } else if (searchType === 'numero') {
-                    table_data = row.querySelectorAll('td')[0].textContent.toLowerCase();
-                } else if (searchType === 'reference') {
-                    table_data = row.querySelectorAll('td')[3].textContent.toLowerCase();
-                }
+    //             if (searchType === 'nom') {
+    //                 table_data = row.querySelectorAll('td')[1].textContent.toLowerCase();
+    //             } else if (searchType === 'prenom') {
+    //                 table_data = row.querySelectorAll('td')[2].textContent.toLowerCase();
+    //             } else if (searchType === 'numero') {
+    //                 table_data = row.querySelectorAll('td')[0].textContent.toLowerCase();
+    //             } else if (searchType === 'reference') {
+    //                 table_data = row.querySelectorAll('td')[3].textContent.toLowerCase();
+    //             }
 
-                row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
-                row.style.setProperty('--delay', i / 25 + 's');
-            });
+    //             row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
+    //             row.style.setProperty('--delay', i / 25 + 's');
+    //         });
 
-            document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
-                visible_row.style.backgroundColor = (i % 2 === 0) ? '--second-bg' : '--second-bg';
-                visible_row.style.animationDelay = `${i * 0.1}s`;
-            });
-        };
+    //         document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
+    //             visible_row.style.backgroundColor = (i % 2 === 0) ? '--second-bg' : '--second-bg';
+    //             visible_row.style.animationDelay = `${i * 0.1}s`;
+    //         });
+    //     };
 
-        searchTable();
-    }, [searchType, searchValue]);
+    //     searchTable();
+    // }, [searchType, searchValue]);
 
 
     const totalItems = folders && Array.isArray(folders.data) ? folders.data.length : 0;
@@ -239,6 +239,44 @@ const TableVisa = () => {
         ));
     };
 
+    const searchTable = () => {
+        const searchInput = searchRef.current;
+        const table = tableRef.current;
+        const tableRows = table.querySelectorAll('tbody tr');
+        tableRows.forEach((row, i) => {
+            let search_data = searchValue.toLowerCase();
+            let table_data = '';
+
+            if (searchType === 'nom') {
+                table_data = row.querySelectorAll('td')[1].textContent.toLowerCase();
+            } else if (searchType === 'prenom') {
+                table_data = row.querySelectorAll('td')[2].textContent.toLowerCase();
+            } else if (searchType === 'numero') {
+                table_data = row.querySelectorAll('td')[0].textContent.toLowerCase();
+            } else if (searchType === 'reference') {
+                table_data = row.querySelectorAll('td')[3].textContent.toLowerCase();
+            }
+
+            row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
+            row.style.setProperty('--delay', i / 25 + 's');
+        });
+
+        document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
+            visible_row.style.backgroundColor = (i % 2 === 0) ? '--second-bg' : '--second-bg';
+            visible_row.style.animationDelay = `${i * 0.1}s`;
+        });
+    }
+
+    useEffect(() => {
+        searchTable();
+    }, [searchType, searchValue]);
+
+    const refreshTable = () => {
+        setSearchValue('');
+        searchTable();
+    };
+
+
     return (
         <>
             <div className='container__table'>
@@ -264,6 +302,7 @@ const TableVisa = () => {
                         </div>
                         <div className='option_right'>
                             <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
+                            <MdRefresh onClick={refreshTable} className="icon_add" style={{ marginLeft: '15px', fontSize: '24px' }}  />
                             <div className="dropdown-container">
                                 <div onClick={toggleDropdown} className='background_download'>
                                     <FaArrowDown className="icon_download" style={{ marginLeft: '0px', fontSize: '20px' }} />
