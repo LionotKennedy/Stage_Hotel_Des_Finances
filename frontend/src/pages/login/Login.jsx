@@ -190,7 +190,7 @@ const Login = ({ onLogin }) => {
                             <button  data-aos="fade-up" className="login-btn" onClick={handleVerifyCode}>Valider</button>
                             {message && <p className="message">{message}</p>}
                             <a className="forgot text_login" onClick={() => { setForgotPasswordMode(false); setForgotPassword(''); }}>Back to Login</a>
-                            {message && <p className="error-message">{message}</p>} {/* Error message display */}
+                            {/* {message && <p className="error-message">{message}</p>} */}
                         </>
                     ) : forgotPassword ? (
                         <>
@@ -243,7 +243,7 @@ const Login = ({ onLogin }) => {
                             </div>
                             <button  data-aos="fade-up" className="login-btn" onClick={handleLogin}>CONNEXION</button>
                             <a className="forgot text_login" onClick={() => setForgotPassword(true)}>Mot de passe oublié ?</a>
-                            {message && <p className="error-message">{message}</p>} {/* Error message display */}
+                            {message && <p className="error-message">{message}</p>} 
                         </>
                     )}
                 </div>
