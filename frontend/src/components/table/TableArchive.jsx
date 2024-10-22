@@ -66,8 +66,9 @@ const TableArchive = ({ archives, refetch, year }) => {
 
         // Variables pour centrer et ajuster la position des images
         const pageWidth = doc.internal.pageSize.getWidth();
-        const imageWidth = 40; // Largeur de l'image principale (imageLogo)
-        const imageWidth2 = 45; // Largeur de la deuxième image (imageLogo2)
+        const imageWidth = 45; // Largeur de l'image principale (imageLogo)
+        const imageWidth2 = 100; // Largeur ajustée de la deuxième image (imageLogo2) - élargir
+        const imageHeight2 = 40; // Hauteur ajustée de la deuxième image (imageLogo2) - réduire
         const imageDataWidth = 18; // Largeur de l'imageData
         const topMargin = 5; // Marges supérieures pour le décalage (réduite pour remonter l'imageLogo)
 
@@ -79,10 +80,16 @@ const TableArchive = ({ archives, refetch, year }) => {
         // Ajout de l'image centrée (imageLogo)
         doc.addImage(imageLogo, 'JPEG', centeredX1, centeredY1, imageWidth, imageWidth);
 
+        // Ajouter une ligne couleur d'or juste en dessous de l'imageLogo
+        const lineYPosition = centeredY1 + imageWidth + 2; // Positionner la ligne juste en dessous de l'imageLogo
+        doc.setDrawColor(255, 128, 0); // Couleur de la ligne (orange)
+        doc.setLineWidth(0.3); // Largeur de la ligne
+        doc.line(10, lineYPosition, pageWidth - 10, lineYPosition); // Ligne sur presque toute la largeur de la page
+
         // Positionner imageLogo2 à gauche (X = 10)
         const leftX = 10; // Positionnement à gauche pour imageLogo2
         const imageLogo2Y = centeredY1 + imageWidth + 25; // Position Y pour imageLogo2, sous imageLogo
-        doc.addImage(imageLogo2, 'JPEG', leftX, imageLogo2Y, imageWidth2, imageWidth2); // Image à gauche (imageLogo2)
+        doc.addImage(imageLogo2, 'JPEG', leftX, imageLogo2Y, imageWidth2, imageHeight2); // Image à gauche (imageLogo2) - Largeur plus grande et hauteur plus petite
 
         // Centrer imageData par rapport à imageLogo2
         const centeredXImageData = leftX + (imageWidth2 - imageDataWidth) / 2; // Centrer imageData par rapport à imageLogo2
@@ -93,12 +100,10 @@ const TableArchive = ({ archives, refetch, year }) => {
         // Démarrer la table après les images, avec un espace suffisant
         doc.autoTable({
             html: "#table__archive",
-            startY: imageLogo2Y + imageWidth2 + 20, // Démarrer la table après imageLogo2 avec un décalage
+            startY: imageLogo2Y + imageHeight2 + 20, // Démarrer la table après imageLogo2 avec un décalage
             headStyles: {
                 fillColor: [200, 200, 200],
                 textColor: [0, 0, 0],
-                // fillColor: [109, 109, 109],
-                // textColor: [255, 255, 255],
             },
             styles: {
                 cellPadding: 4,
