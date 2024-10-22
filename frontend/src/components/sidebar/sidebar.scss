@@ -1,8 +1,8 @@
 $cool: linear-gradient(to bottom right, rgba(255, 128, 0, 1), rgba(219, 112, 54, 1), rgba(232, 211, 59, 1));
 
 .sidebar {
-    // background-color: var(--main-bg);
-    background-color: green;
+    background-color: var(--main-bg);
+    // background-color: green;
     min-width: var(--sidebar-width);
     height: 100vh;
     position: fixed;
