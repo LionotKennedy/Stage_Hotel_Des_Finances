@@ -49,19 +49,11 @@ const SideBar = () => {
   return (
     <div className='sidebar'>
       <div className="sidebar__logo" data-aos="slide-down">
-        {/* <img className='logo_img' src={logo} alt="company logo" /> */}
+        <div className='content_img'>
+          <img className='logo_img' src={logo} alt="company logo" />
+        </div>
         <div className='logo__sidebar'>
-            <span>D</span>
-            <span>E</span>
-            <span>P</span>
-            <span>A</span>
-            <span>R</span>
-            <span>T</span>
-            <span>-</span>
-            <span>S</span>
-            <span>R</span>
-            <span>S</span>
-            <span>P</span>
+          <span>DEPART-SRSP</span>
         </div>
       </div>
 
