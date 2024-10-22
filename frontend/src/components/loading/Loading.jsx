@@ -1,7 +1,7 @@
 import React from 'react';
-import './loading.scss'; 
+import './loading.scss';
 
-import loaderGif from '../../assets/images/load.gif'; 
+import loaderGif from '../../assets/images/load.gif';
 
 const Loading = () => {
     return (
