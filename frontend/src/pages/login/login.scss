@@ -1,5 +1,5 @@
 .pages__login {
-    background: #000;
+    // background: #000;
     display: flex;
     justify-content: center;
     height: 100vh;
@@ -97,8 +97,8 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    // background: white;
-    background: linear-gradient(#ff966d, #fa538d, #89379c);
+    background: white;
+    // background: linear-gradient(#ff966d, #fa538d, #89379c);
 }
 
 .login h3.title {
