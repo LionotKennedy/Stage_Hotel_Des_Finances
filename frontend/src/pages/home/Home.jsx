@@ -12,7 +12,7 @@ import { useGetUser } from '../../services/serviceUser';
 import Card from '../../components/progresbar/Card';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import Calendrier_4 from '../../components/calendrier/4/Calendrier_4';
+import Calendar from '../../components/calendar/Calendar';
 
 const Home = () => {
   const { data: monthData } = useGetFoldersByMonth();
@@ -355,7 +355,7 @@ const Home = () => {
         <div className="col-8" data-aos="slide-left">
           <div className="card">
             <div className="card__body">
-              <Calendrier_4 />
+              <Calendar />
             </div>
           </div>
         </div>

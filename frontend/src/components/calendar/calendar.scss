@@ -1,60 +1,115 @@
-/* CalendarComponent.css */
 
-.calendar-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    // background-color: #f0f4f8; /* Couleur de fond agréable */
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: var(--main-bg);
-  }
-  
-  .calendar-title {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-    color: #333; /* Couleur du texte */
-  }
-  
-  .custom-calendar {
-    // height: 100vh;
-    border: 1px solid #b93f3f; /* Bordure douce pour le calendrier */
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    background-color: var(--main-bg);
-  }
-  
-  .selected-date {
-    margin-top: 20px;
-    font-size: 1.2rem;
-    color: #555; /* Couleur du texte */
-  }
-  
-  .react-calendar__tile--active {
-    // border-radius: 20% !important;
-    // background-color: #b93f3f !important;
-    border-radius: var(--border-radius);
-    background-image: linear-gradient(to right,
-            var(--main-color),
-            var(--second-color));
-    color: var(--txt-white) !important;
+$gradient-gradient: linear-gradient(to bottom right,
+    var(--main-color),
+    var(--second-color),
+    var(--primary-color),
+  );
+
+.calendrier-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: var(--second-bg);
+  box-shadow: var(--box-shadow);
+}
+
+.calendrier-entete {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.calendrier-entete h2 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.btn__calendrier {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5em;
+}
+
+.calendrier-jours-semaine,
+.calendrier-jours {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  gap: 5px;
+  /* Espace entre les jours */
+}
+
+.jour-semaine {
+  font-weight: bold;
+}
+
+.jour {
+  width: 40px;
+  /* Largeur fixe */
+  height: 40px;
+  /* Hauteur fixe */
+  border-radius: 50%;
+  /* Arrondi */
+  margin: 0 auto;
+  /* Centre le jour */
+  cursor: pointer;
+  display: flex;
+  /* Utiliser Flexbox pour centrer le texte */
+  align-items: center;
+  /* Centrer verticalement */
+  justify-content: center;
+  /* Centrer horizontalement */
+}
+
+.jour.actif {
+  color: var(--txt-color);
+  box-shadow: var(--box-shadow);
+}
+
+.jour.inactif {
+  color: gray;
+}
+
+.jour.aujourd-hui {
+  background: $gradient-gradient;
+  color: white;
+  font-weight: bold;
+}
+
+/* Responsiveness */
+@media screen and (max-width: 768px) {
+  .calendrier-container {
+    padding: 15px;
+    /* Réduction du padding sur les petits écrans */
   }
 
-  .react-calendar__tile {
-    color: rgb(24, 23, 23);
+  .calendrier-entete h2 {
+    font-size: 1.2em;
+    /* Réduction de la taille du texte */
   }
 
-  .react-calendar__month-view__weekdays {
-    color: cadetblue !important;
+  .jour {
+    width: 35px;
+    /* Ajustement de la taille sur petits écrans */
+    height: 35px;
+    /* Ajustement de la taille sur petits écrans */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .calendrier-entete h2 {
+    font-size: 1em;
+    /* Réduction supplémentaire pour très petits écrans */
   }
 
-  .react-calendar, .react-calendar *, .react-calendar *:before, .react-calendar *:after  {
-    // color: #333;
-    color: var(--txt-color);
+  .jour {
+    width: 30px;
+    /* Réduction pour très petits écrans */
+    height: 30px;
+    /* Réduction pour très petits écrans */
   }
-
-  .react-calendar button:hover {
-    background-color: var(--main-bg) !important; 
-  }
+}

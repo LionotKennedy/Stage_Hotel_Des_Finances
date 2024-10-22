@@ -1,68 +1,88 @@
-// src/components/CalendarComponent.js
 
 import React, { useState } from 'react';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import './calendar.scss';
 
-const CalendarComponent = () => {
-//   const [date, setDate] = useState(new Date()); // Date actuelle
+const joursSemaine = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+const moisNoms = [
+  'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+  'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+];
 
-//   return (
-//     // <div>
-//     //   <h3>Sélectionne une date :</h3>
-//     //   <Calendar 
-//     //     onChange={setDate} // Met à jour la date quand l'utilisateur clique sur une date
-//     //     value={date} // Définit la date actuelle par défaut
-//     //   />
-//     //   <p>Date sélectionnée : {date.toDateString()}</p> {/* Affiche la date sélectionnée */}
-//     // </div>
+const Calendar = () => {
+  const [dateActuelle, setDateActuelle] = useState(new Date());
+  const moisActuel = dateActuelle.getMonth();
+  const anneeActuelle = dateActuelle.getFullYear();
+  const aujourdHui = new Date(); // Date d'aujourd'hui
 
-//     <div className="calendar-container">
-//       <h3 className="calendar-title">Sélectionne une date :</h3>
-//       <Calendar
-//         onChange={setDate} // Met à jour la date quand l'utilisateur clique sur une date
-//         value={date} // Définit la date actuelle par défaut
-//         className="custom-calendar" // Applique une classe CSS pour le styliser
-//       />
-//       <div className="selected-date">
-//         <p>Date sélectionnée : <strong>{date.toDateString()}</strong></p>
-//       </div>
-//     </div>
+  const premierJourDuMois = new Date(anneeActuelle, moisActuel, 1);
+  const dernierJourDuMois = new Date(anneeActuelle, moisActuel + 1, 0);
+  const dernierJourMoisPrecedent = new Date(anneeActuelle, moisActuel, 0).getDate();
 
-//   );
+  const joursPrecedents = premierJourDuMois.getDay() === 0 ? 6 : premierJourDuMois.getDay() - 1;
+  const joursSuivants = 42 - (joursPrecedents + dernierJourDuMois.getDate());
 
+  const changerMois = (direction) => {
+    const nouvelleDate = new Date(anneeActuelle, moisActuel + direction, 1);
+    setDateActuelle(nouvelleDate);
+  };
 
+  const genererJoursCalendrier = () => {
+    let jours = [];
 
+    // Jours du mois précédent
+    for (let i = joursPrecedents; i > 0; i--) {
+      jours.push(<div className="jour inactif" key={`prev-${i}`}>{dernierJourMoisPrecedent - i + 1}</div>);
+    }
 
-const [date, setDate] = useState(new Date()); // Date actuelle
+    // Jours du mois actuel
+    for (let i = 1; i <= dernierJourDuMois.getDate(); i++) {
+      const estAujourdHui =
+        i === aujourdHui.getDate() &&
+        moisActuel === aujourdHui.getMonth() &&
+        anneeActuelle === aujourdHui.getFullYear();
 
-  // Fonction pour formater la date en français
-  const formatDate = (date) => {
-    return date.toLocaleDateString('fr-FR', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    });
+      jours.push(
+        <div
+          className={`jour actif ${estAujourdHui ? 'aujourd-hui' : ''}`}
+          key={i}
+        >
+          {i}
+        </div>
+      );
+    }
+
+    // Jours du mois suivant
+    for (let i = 1; i <= joursSuivants; i++) {
+      jours.push(<div className="jour inactif" key={`next-${i}`}>{i}</div>);
+    }
+
+    return jours;
   };
 
   return (
-    <div className="calendar-container">
-      <h3 className="calendar-title">Sélectionne une date :</h3>
-      <Calendar
-        onChange={setDate} // Met à jour la date quand l'utilisateur clique sur une date
-        value={date} // Définit la date actuelle par défaut
-        className="custom-calendar" // Applique une classe CSS pour le styliser
-      />
-      <div className="selected-date">
-        <p>Date sélectionnée : <strong>{formatDate(date)}</strong></p>
+    <div className="calendrier-container">
+      <div className="calendrier-entete">
+        <button className='btn__calendrier' onClick={() => changerMois(-1)}>
+          {/* &laquo; */}
+          <FaChevronLeft />
+        </button>
+        <h2>{moisNoms[moisActuel]} {anneeActuelle}</h2>
+        <button className='btn__calendrier' onClick={() => changerMois(1)}>
+          {/* &raquo; */}
+          <FaChevronRight />
+        </button>
+      </div>
+      <div className="calendrier-jours-semaine">
+        {joursSemaine.map((jour, index) => (
+          <div key={index} className="jour-semaine">{jour}</div>
+        ))}
+      </div>
+      <div className="calendrier-jours">
+        {genererJoursCalendrier()}
       </div>
     </div>
   );
-
-
-
-  
 };
 
-export default CalendarComponent;
+export default Calendar;

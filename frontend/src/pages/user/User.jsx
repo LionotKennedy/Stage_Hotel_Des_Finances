@@ -5,17 +5,6 @@ import { useGetUser } from '../../services/serviceUser';
 import { MdAdd } from 'react-icons/md';
 import UserScreenDialog from '../../components/MUI/UserModal';
 import ReactPaginate from 'react-paginate';
-import Calendrier from '../../components/calendrier/Calendrier';
-import Application from '../../components/calendrier/1/Application';
-import Calendrier_2 from '../../components/calendrier/2/Calendrier_2';
-import Calendrier_3 from '../../components/calendrier/3/Calendrier_3';
-import Calendrier_4 from '../../components/calendrier/4/Calendrier_4';
-// import Calendar from "../../components/calendars/Calendar"
-// import Calendars from '../../components/calendars/Calendars';
-// import CalendarComponent from '../../components/calendars/CalendarComponent';
-// import Clock from '../../components/hours/Clock';
-// import CurrentTime from '../../components/Timer/CurrentTime';
-// import AnalogClock from '../../components/Timer/AnalogClock';
 
 const User = () => {
   const [modalOpen, setModalOpen] = useState(false); // État pour gérer l'ouverture/fermeture de la modale
@@ -82,7 +71,6 @@ const User = () => {
       {users?.data && users.data.length > 0 ? (
         <>
           <div className="card-container" data-aos="fade-down">
-            {/* Pass only the current page items to UserCard */}
             <UserCard users={currentItems} refetch={refetch} />
           </div>
           <div data-aos="fade-up">
@@ -106,21 +94,6 @@ const User = () => {
         <p>Aucun utilisateur trouvé.</p>
       )}
       <UserScreenDialog open={modalOpen} handleClose={handleCloseDialog} onSuccess={refetch} />
-      {/* <Calendars />
-      <CalendarComponent /> */}
-      <div>
-        {/* <CurrentTime /> */}
-        {/* <AnalogClock /> */}
-      </div>
-      {/* <Clock /> */}
-      {/* <button className='tsr'>Fory ee</button> */}
-      {/* <h1 className='tsrs'>Fory eee</h1> */}
-      {/* <Calendar /> */}
-      <Calendrier />
-      <Application />
-      <Calendrier_2 />
-      {/* <Calendrier_3 /> */}
-      <Calendrier_4 />
     </div>
   );
 };
