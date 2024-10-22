@@ -1,5 +1,4 @@
 
-
 import React, { useEffect, useState } from 'react';
 import "./home.scss"
 import Chart from 'react-apexcharts'
@@ -10,21 +9,13 @@ import { useCountFolders } from '../../services/serviceFolder';
 import { getAllArchive } from '../../services/serviceArchive';
 import { useGetVisa } from '../../services/serviceVisa';
 import { useGetUser } from '../../services/serviceUser';
-import CalendarComponent from '../../components/calendars/CalendarComponent'
-import CurrentTime from '../../components/Timer/CurrentTime';
 import Card from '../../components/progresbar/Card';
-import Calendar from "../../components/calendars/Calendar"
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Calendrier_4 from '../../components/calendrier/4/Calendrier_4';
-// import Badge from '../../components/badge/Badge'
-// import Table from '../../components/table/Table'
-// import CalendarComponent from '../../components/calendar/Calendar'
-// import statusCards from '../../Data/status-card-data.json'
-// import Calendars from '../../components/calendars/Calendars';
 
 const Home = () => {
-  const { data: monthData, isLoading, isError } = useGetFoldersByMonth();
+  const { data: monthData } = useGetFoldersByMonth();
   const [chartData, setChartData] = useState([]);
   const [chartCategories, setChartCategories] = useState([]);
   const themeReducer = useSelector(state => state.ThemeReducer.mode);
@@ -355,26 +346,16 @@ const Home = () => {
               <h3>top Progrès</h3>
             </div>
             <div className="card__body">
-              {/* <CurrentTime /> */}
-              {/* <Card title="Progrès" percentage={75} /> */}
               <Card title="Progrès" percentage={folderCount} />
             </div>
             <div className="card__footer">
-              {/* <Link to='/home'>view all</Link> */}
             </div>
           </div>
         </div>
         <div className="col-8" data-aos="slide-left">
           <div className="card">
-            {/* <div className="card__header">
-              <h3>latest orders</h3>
-              </div> */}
-            {/* <CalendarComponent /> */}
-            {/* <Calendar /> */}
-              <Calendrier_4 />
+            <Calendrier_4 />
             <div className="card__body">
-              {/* <Calendars /> */}
-              {/* <CalendarComponent /> */}
             </div>
           </div>
         </div>
@@ -397,7 +378,6 @@ const Home = () => {
 
     return icons[title];
   }
-
 
   function getItemValue(field) {
     const value = statusCardsData[field];
