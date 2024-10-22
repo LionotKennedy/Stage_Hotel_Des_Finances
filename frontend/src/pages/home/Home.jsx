@@ -346,16 +346,16 @@ const Home = () => {
               <h3>top Progrès</h3>
             </div>
             <div className="card__body">
-              <Card title="Progrès" percentage={folderCount} />
             </div>
             <div className="card__footer">
+              <Card title="Progrès" percentage={folderCount} />
             </div>
           </div>
         </div>
         <div className="col-8" data-aos="slide-left">
           <div className="card">
-            <Calendrier_4 />
             <div className="card__body">
+              <Calendrier_4 />
             </div>
           </div>
         </div>

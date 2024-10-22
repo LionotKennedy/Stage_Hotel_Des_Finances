@@ -1,11 +1,11 @@
-
 // REACH BY TWO DATES
-.cont{
+.cont {
 
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 .container__search__journal {
     display: flex;
     justify-content: center;
@@ -78,4 +78,50 @@
         }
     }
 
+}
+
+.search__btn__journal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    background-color: var(--main-bg);
+    box-shadow: var(--box-shadow);
+    cursor: pointer;
+    margin-left: 25px;
+    &:hover {
+        transform: scale(1.2);
+        transition: all 0.3s ease-in-out;
+    }
+}
+
+.search__icon__j {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--main-bg);
+    border-radius: 50%;
+    transition: all 0.2s ease-in-out;
+    box-shadow: var(--box-shadow);
+}
+
+.search__icon__j:hover {
+    transition: all 0.2s ease-in-out;
+    transform: scale(1.1);
+}
+
+.search__icon__j {
+    cursor: pointer;
+    color: var(--txt-color);
+    transition: color 0.3s;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        color: #0048ff;
+        transition: all 0.2s ease-in-out;
+    }
 }

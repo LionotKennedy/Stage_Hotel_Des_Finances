@@ -348,7 +348,6 @@ main.table {
     position: relative;
     height: 30px;
     background-color: var(--main-bg);
-    // background-color: #0dbd00;
     display: flex;
     align-items: center;
     box-shadow: var(--box-shadow);
@@ -434,14 +433,12 @@ main.table {
 
 .icon_add {
     cursor: pointer;
-    // color: #333; /* Couleur de l'icône */
     color: var(--txt-color);
     transition: color 0.3s;
     transition: all 0.2s ease-in-out;
 
     &:hover {
         color: #007bff;
-        /* Couleur de survol de l'icône */
         transition: all 0.2s ease-in-out;
 
     }
@@ -449,14 +446,10 @@ main.table {
 
 
 .icon_add {
-
-    // color: #fffafb;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: var(--main-bg);
-    // background-color :#7b09d1;
-    // transform: scale(1.35);
     border-radius: 50%;
     transition: all 0.2s ease-in-out;
     box-shadow: var(--box-shadow);
@@ -470,6 +463,34 @@ main.table {
     transform: rotateZ(90deg);
 }
 
+.icon_refech {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--main-bg);
+    border-radius: 50%;
+    transition: all 0.2s ease-in-out;
+    box-shadow: var(--box-shadow);
+    width: 2rem;
+    height: 2rem;
+}
+
+.icon_refech:hover {
+    transition: all 0.2s ease-in-out;
+    transform: rotateZ(360deg);
+}
+
+.icon_refech {
+    cursor: pointer;
+    color: var(--txt-color);
+    transition: color 0.3s;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        color: #00ffbb;
+        transition: all 0.2s ease-in-out;
+    }
+}
 
 
 
@@ -607,8 +628,8 @@ main.table {
         cursor: pointer;
 
         &:hover {
-            transform: rotateZ(360deg);
-            transition: all 0.5s ease-in-out;
+            transform: scale(1.2);
+            transition: all 0.3s ease-in-out;
         }
 
         .search__icon {
@@ -620,6 +641,12 @@ main.table {
             transition: all 0.2s ease;
             cursor: pointer;
             color: var(--txt-color);
+
+            &:hover {
+                color: #0048ff;
+                transform: scale(1.1);
+                transition: all 0.3s ease-in-out;
+            }
         }
     }
 
@@ -664,7 +691,7 @@ $linear-gradient: linear-gradient(90deg, #97776f, #6dfa08);
     font-size: 16px;
     color: #333;
     color: var(--txt-color);
-    
+
 }
 
 .visibleNo {

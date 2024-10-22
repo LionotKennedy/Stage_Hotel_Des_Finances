@@ -6,7 +6,7 @@ import { useGetJournals } from '../../services/serviceJournal';
 import JournalDialogs from '../../components/MUI_read/readJournal';
 import AlertJournalDialogSlide from '../../components/MUI_alert/deleteJournal';
 import ReactPaginate from 'react-paginate';
-import { FaSearch, FaTruckLoading } from 'react-icons/fa';
+import { FaSearch } from 'react-icons/fa';
 import { useSnackbar } from 'notistack';
 
 
@@ -166,13 +166,13 @@ const TableJournal = () => {
 
 
     const refreshTable = () => {
-    setStartDateValue('');
-    setEndDateValue('');
-    const table = tableRef.current;
-    const tableRows = table.querySelectorAll('tbody tr');
-    tableRows.forEach((row) => {
-        row.classList.remove('hide'); // Affiche toutes les lignes
-    });
+        setStartDateValue('');
+        setEndDateValue('');
+        const table = tableRef.current;
+        const tableRows = table.querySelectorAll('tbody tr');
+        tableRows.forEach((row) => {
+            row.classList.remove('hide'); // Affiche toutes les lignes
+        });
     };
 
 
@@ -198,12 +198,16 @@ const TableJournal = () => {
                                     placeholder="End Date..."
                                 />
                             </div>
-                            <div className='search__btn__journal'>
-                                <FaSearch className='search__icon__journal' onClick={handleSearch} />
-                            </div>
+                            {/* <div className='search__btn__journal'>
+                            </div> */}
 
+                            {/* <FaSearch className='search__icon__journal' onClick={handleSearch} /> */}
                         </div>
-                        <MdRefresh onClick={refreshTable} className="icon_add" style={{ marginLeft: '15px', fontSize: '24px' }} />
+                        {/* style={{ marginLeft: '15px', fontSize: '10px' }}  */}
+                        <div className='search__btn__journal'>
+                            <FaSearch onClick={handleSearch} className='search__icon__j '  style={{ fontSize: '20px' }} />
+                        </div>
+                        <MdRefresh onClick={refreshTable} className="icon_refech" style={{ marginLeft: '15px', fontSize: '24px' }} />
 
                     </section>
 

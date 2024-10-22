@@ -302,7 +302,7 @@ const TableVisa = () => {
                         </div>
                         <div className='option_right'>
                             <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
-                            <MdRefresh onClick={refreshTable} className="icon_add" style={{ marginLeft: '15px', fontSize: '24px' }}  />
+                            <MdRefresh onClick={refreshTable} className="icon_refech" style={{ marginLeft: '15px', fontSize: '24px' }}  />
                             <div className="dropdown-container">
                                 <div onClick={toggleDropdown} className='background_download'>
                                     <FaArrowDown className="icon_download" style={{ marginLeft: '0px', fontSize: '20px' }} />
