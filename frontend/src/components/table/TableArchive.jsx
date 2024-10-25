@@ -411,7 +411,7 @@ const TableArchive = ({ archives, refetch, year }) => {
                             </div>
                         )}
                         <div className='option_right'>
-                            <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px' }} />
+                            <MdAdd onClick={() => handleOpenModal(null, 'add')} className="icon_add" style={{ marginLeft: '10px', fontSize: '24px', display: 'none' }} />
                             <MdRefresh onClick={refreshTable} className="icon_refech" style={{ marginLeft: '15px', fontSize: '24px' }} />
                             <div className="dropdown-container">
                                 <div onClick={toggleDropdown} className='background_download'>
