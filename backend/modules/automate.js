@@ -28,9 +28,9 @@ async function archiveOldData() {
     // Transformer les courriers pour les archives
     const formattedCourriers = courriers.map(courrier => ({
       description: courrier.id_nature.description || 'N/A',
-      nom_depose: courrier.id_nature.nom_depose || 'N/A',
-      prenom_depose: courrier.id_nature.prenom_depose || 'N/A',
-      matricule: courrier.id_nature.matricule || 'N/A',
+      // nom_depose: courrier.id_nature.nom_depose || 'N/A',
+      // prenom_depose: courrier.id_nature.prenom_depose || 'N/A',
+      // matricule: courrier.id_nature.matricule || 'N/A',
       numero_bordereaux: courrier.numero_bordereaux || 'N/A',
       date_depart: courrier.date_depart,
       expiditeur: courrier.expiditeur || 'N/A',
