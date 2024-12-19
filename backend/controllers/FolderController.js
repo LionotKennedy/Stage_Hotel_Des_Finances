@@ -603,7 +603,6 @@ const updateFolderById = async (req, res) => {
 // ############### ENDING #################//
 
 
-
 // ############### DELETE FOLDER BY ID #################//
 const deleteFolderById = async (req, res) => {
   try {
