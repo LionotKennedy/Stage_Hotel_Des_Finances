@@ -1,8 +1,8 @@
 const { check } = require("express-validator");
 
 exports.addFolderValidator = [
-  check("numero_bordereaux", "Numero is required").not().isEmpty(),
-  check("date_depart", "Date is required").not().isEmpty(),
+  // check("numero_bordereaux", "Numero is required").not().isEmpty(),
+  // check("date_depart", "Date is required").not().isEmpty(),
   check("expiditeur", "Expiditeur is required").not().isEmpty(),
   check("destination", "Destiantion is required").not().isEmpty(),
   check("description", "Description is required").not().isEmpty(),

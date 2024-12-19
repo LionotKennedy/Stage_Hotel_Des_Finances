@@ -5,6 +5,136 @@ const Journal = require("../models/Journal");
 
 const { validationResult } = require("express-validator");
 
+// // ############### ADD FOLDER #################//
+// const addFolder = async (req, res) => {
+//   try {
+//     const errors = validationResult(req);
+//     if (!errors.isEmpty()) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Erreurs de validation",
+//         errors: errors.array(),
+//       });
+//     }
+
+//     const {
+//       description,
+//       nom_depose,
+//       prenom_depose,
+//       matricule,
+//       numero_bordereaux,
+//       date_depart,
+//       expiditeur,
+//       destination,
+//     } = req.body;
+
+//     // Vérification de l'existence du numéro de bordereaux
+//     const existingCourrier = await Courrier.findOne({
+//       numero_bordereaux: numero_bordereaux,
+//     });
+
+//     if (existingCourrier) {
+//       // Si le numéro de bordereaux existe déjà, retourner une erreur
+//       return res.status(409).json({
+//         success: false,
+//         message: "Le numéro de bordereaux existe déjà",
+//       });
+//     }
+
+//     // Vérification de l'année
+//     const currentYear = new Date().getFullYear();
+//     const yearOfDateDepart = new Date(date_depart).getFullYear();
+
+//     if (yearOfDateDepart < currentYear) {
+//       // Si la date est dans une année passée, archiver dans 'Archive'
+//       const newArchive = new Archive({
+//         numero_bordereaux,
+//         date_depart,
+//         expiditeur,
+//         destination,
+//         description,
+//         nom_depose,
+//         prenom_depose,
+//         matricule,
+//       });
+//       await newArchive.save();
+
+//       // Vérification de l'utilisateur
+//       if (!req.user || !req.user.name) {
+//         return res.status(500).json({
+//           success: false,
+//           message: "Les informations de l'utilisateur sont manquantes.",
+//         });
+//       }
+
+//       // Enregistrer dans Journal
+//       const newJournal = new Journal({
+//         action: "Ajout d'un dossier archivé",
+//         details: `Dossier archivé avec le numéro bordereaux: ${numero_bordereaux}`,
+//         user: req.user._id,
+//         userName: req.user.name,
+//         adressEmail: req.user.email,
+//         imageJournale: req.user.image,
+//       });
+//       await newJournal.save();
+
+//       return res.status(200).json({
+//         success: true,
+//         message: "Données archivées avec succès",
+//         data: newArchive,
+//         user: req.user.name,
+//       });
+//     } else {
+//       // Sauvegarder dans 'Nature' et 'Courrier'
+//       const newNature = new Nature({
+//         description,
+//         nom_depose,
+//         prenom_depose,
+//         matricule,
+//       });
+//       const savedNature = await newNature.save();
+
+//       const newCourrier = new Courrier({
+//         numero_bordereaux,
+//         date_depart,
+//         expiditeur,
+//         destination,
+//         id_nature: savedNature._id,
+//       });
+//       const savedCourrier = await newCourrier.save();
+
+//       // Enregistrer dans Journal
+//       const newJournal = new Journal({
+//         action: "Ajout d'un nouveau dossier courrier",
+//         details: `Nouveau dossier ajouté avec le numéro bordereaux: ${numero_bordereaux}`,
+//         user: req.user._id,
+//         userName: req.user.name,
+//         adressEmail: req.user.email,
+//         imageJournale: req.user.image,
+//       });
+//       await newJournal.save();
+
+//       return res.status(200).json({
+//         success: true,
+//         message: "Courrier et Nature enregistrés avec succès",
+//         data: {
+//           nature: savedNature,
+//           courrier: savedCourrier,
+//         },
+//       });
+//     }
+//   } catch (error) {
+//     return res.status(500).json({
+//       success: false,
+//       message: "Erreur serveur: " + error.message,
+//     });
+//   }
+// };
+
+// // ############### ENDING #################//
+
+
+
 // ############### ADD FOLDER #################//
 const addFolder = async (req, res) => {
   try {
@@ -22,33 +152,35 @@ const addFolder = async (req, res) => {
       nom_depose,
       prenom_depose,
       matricule,
-      numero_bordereaux,
-      date_depart,
       expiditeur,
       destination,
     } = req.body;
 
-    // Vérification de l'existence du numéro de bordereaux
-    const existingCourrier = await Courrier.findOne({
-      numero_bordereaux: numero_bordereaux,
-    });
+    const date_depart = new Date();
 
-    if (existingCourrier) {
-      // Si le numéro de bordereaux existe déjà, retourner une erreur
-      return res.status(409).json({
-        success: false,
-        message: "Le numéro de bordereaux existe déjà",
-      });
+    // Get the last used numero_bordereaux
+    const lastCourrier = await Courrier.findOne().sort({ _id: -1 });
+    console.log("Last Courrier found:", lastCourrier);
+
+    let nextNumeroBordereaux = '01';
+
+    if (lastCourrier && lastCourrier.numero_bordereaux) {
+      console.log("Last numero_bordereaux:", lastCourrier.numero_bordereaux);
+      const lastNumber = parseInt(lastCourrier.numero_bordereaux, 10);
+      console.log("Parsed last number:", lastNumber);
+      nextNumeroBordereaux = (lastNumber + 1).toString().padStart(2, '0');
     }
+
+    console.log("Next Numero Bordereaux:", nextNumeroBordereaux);
 
     // Vérification de l'année
     const currentYear = new Date().getFullYear();
-    const yearOfDateDepart = new Date(date_depart).getFullYear();
+    const yearOfDateDepart = date_depart.getFullYear();
 
     if (yearOfDateDepart < currentYear) {
       // Si la date est dans une année passée, archiver dans 'Archive'
       const newArchive = new Archive({
-        numero_bordereaux,
+        numero_bordereaux: nextNumeroBordereaux,
         date_depart,
         expiditeur,
         destination,
@@ -61,7 +193,7 @@ const addFolder = async (req, res) => {
 
       // Vérification de l'utilisateur
       if (!req.user || !req.user.name) {
-        return res.status(500).json({
+        return res.status(400).json({
           success: false,
           message: "Les informations de l'utilisateur sont manquantes.",
         });
@@ -70,7 +202,7 @@ const addFolder = async (req, res) => {
       // Enregistrer dans Journal
       const newJournal = new Journal({
         action: "Ajout d'un dossier archivé",
-        details: `Dossier archivé avec le numéro bordereaux: ${numero_bordereaux}`,
+        details: `Dossier archivé avec le numéro bordereaux: ${nextNumeroBordereaux}`,
         user: req.user._id,
         userName: req.user.name,
         adressEmail: req.user.email,
@@ -95,7 +227,7 @@ const addFolder = async (req, res) => {
       const savedNature = await newNature.save();
 
       const newCourrier = new Courrier({
-        numero_bordereaux,
+        numero_bordereaux: nextNumeroBordereaux,
         date_depart,
         expiditeur,
         destination,
@@ -106,7 +238,7 @@ const addFolder = async (req, res) => {
       // Enregistrer dans Journal
       const newJournal = new Journal({
         action: "Ajout d'un nouveau dossier courrier",
-        details: `Nouveau dossier ajouté avec le numéro bordereaux: ${numero_bordereaux}`,
+        details: `Nouveau dossier ajouté avec le numéro bordereaux: ${nextNumeroBordereaux}`,
         user: req.user._id,
         userName: req.user.name,
         adressEmail: req.user.email,
@@ -124,6 +256,7 @@ const addFolder = async (req, res) => {
       });
     }
   } catch (error) {
+    console.error("Erreur dans addFolder:", error);
     return res.status(500).json({
       success: false,
       message: "Erreur serveur: " + error.message,
