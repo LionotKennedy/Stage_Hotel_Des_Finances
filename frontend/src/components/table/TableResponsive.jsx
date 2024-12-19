@@ -247,7 +247,8 @@ const TableResponsive = () => {
                             const date = new Date(folder.date_depart);
                             const year = date.getFullYear();
                             const month = String(date.getMonth() + 1).padStart(2, '0'); // Mois de 0 à 11, donc on ajoute 1
-                            const day = String(date.getDate() + 1).padStart(2, '0'); // Ajouter un zéro devant si nécessaire
+                            // const day = String(date.getDate() + 1).padStart(2, '0'); // Ajouter un zéro devant si nécessaire
+                            const day = String(date.getDate()).padStart(2, '0'); // Ajouter un zéro devant si nécessaire
                             return `${year}-${month}-${day}`;
                             // return `${day}/${month}/${year}`;
                         })()}
@@ -255,9 +256,9 @@ const TableResponsive = () => {
 
                     <td className="td">{folder.expiditeur}</td>
                     <td className="td">{folder.destination}</td>
-                    <td className="td">{folder.id_nature.nom_depose}</td>
+                    {/* <td className="td">{folder.id_nature.nom_depose}</td>
                     <td className="td">{folder.id_nature.prenom_depose}</td>
-                    <td className="td">{folder.id_nature.matricule}</td>
+                    <td className="td">{folder.id_nature.matricule}</td> */}
                     <td className="td">{folder.id_nature.description}</td>
                     <td className="td">
                         <MdEdit className="action-icon icon color__icon-edit" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
@@ -362,7 +363,7 @@ const TableResponsive = () => {
             } else if (searchType === 'nom') {
                 table_data = row.querySelectorAll('td')[4].textContent.toLowerCase();
             } else if (searchType === 'matricule') {
-                table_data = row.querySelectorAll('td')[6].textContent.toLowerCase();
+                table_data = row.querySelectorAll('td')[4].textContent.toLowerCase();
             }
 
             row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
@@ -465,9 +466,9 @@ const TableResponsive = () => {
                                     <th className='th'>Date Départ </th>
                                     <th className='th'>Expéditeur </th>
                                     <th className='th'>Destination </th>
-                                    <th className='th'>Nom </th>
+                                    {/* <th className='th'>Nom </th>
                                     <th className='th'>Prénom </th>
-                                    <th className='th'>Matricule </th>
+                                    <th className='th'>Matricule </th> */}
                                     <th className='th'>Description </th>
                                     <th className='th'>Actions </th>
                                 </tr>
