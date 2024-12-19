@@ -148,10 +148,10 @@ const addFolder = async (req, res) => {
     }
 
     const {
+      // nom_depose,
+      // prenom_depose,
+      // matricule,
       description,
-      nom_depose,
-      prenom_depose,
-      matricule,
       expiditeur,
       destination,
     } = req.body;
@@ -185,9 +185,9 @@ const addFolder = async (req, res) => {
         expiditeur,
         destination,
         description,
-        nom_depose,
-        prenom_depose,
-        matricule,
+        // nom_depose,
+        // prenom_depose,
+        // matricule,
       });
       await newArchive.save();
 
@@ -220,9 +220,9 @@ const addFolder = async (req, res) => {
       // Sauvegarder dans 'Nature' et 'Courrier'
       const newNature = new Nature({
         description,
-        nom_depose,
-        prenom_depose,
-        matricule,
+        // nom_depose,
+        // prenom_depose,
+        // matricule,
       });
       const savedNature = await newNature.save();
 
@@ -263,7 +263,6 @@ const addFolder = async (req, res) => {
     });
   }
 };
-
 // ############### ENDING #################//
 
 // ############### GET FOLDER #################//
@@ -313,7 +312,6 @@ const getFolder = async (req, res) => {
 };
 // ############### ENDING #################//
 
-
 // ############### EDIT FOLDER BY ID #################//
 const editFolderById = async (req, res) => {
   try {
@@ -343,32 +341,155 @@ const editFolderById = async (req, res) => {
 };
 // ############### ENDING #################//
 
+// // ############### UPDATE FOLDER BY ID #################//
+// const updateFolderById = async (req, res) => {
+//   try {
+//     const { id } = req.params; // Récupérer l'ID du courrier depuis les paramètres de la requête
+//     const {
+//       description,
+//       nom_depose,
+//       prenom_depose,
+//       matricule,
+//       numero_bordereaux,
+//       date_depart,
+//       expiditeur,
+//       destination,
+//     } = req.body;
+
+//     // Vérification de l'existence du numéro de bordereaux
+//     const existingCourrier = await Courrier.findOne({
+//       numero_bordereaux: numero_bordereaux,
+//     });
+
+//     if (existingCourrier && existingCourrier._id.toString() !== id) {
+//       return res.status(409).json({
+//         success: false,
+//         message: "Le numéro de bordereaux existe déjà",
+//       });
+//     }
+
+//     // Étape 1 : Rechercher le courrier par son ID
+//     const courrier = await Courrier.findById(id);
+//     if (!courrier) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Dossier non trouvé.",
+//       });
+//     }
+
+//     // Étape 2 : Rechercher la nature associée par l'ID du courrier
+//     const nature = await Nature.findById(courrier.id_nature);
+//     if (!nature) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Nature non trouvée.",
+//       });
+//     }
+
+//     // Étape 3 : Vérifier l'année de la nouvelle date_depart
+//     const yearOfDateDepart = new Date(date_depart).getFullYear();
+//     const currentYear = new Date().getFullYear();
+
+//     if (yearOfDateDepart < currentYear) {
+//       // Si la date est dans une année passée, archiver les données
+//       const newArchive = new Archive({
+//         numero_bordereaux: numero_bordereaux || courrier.numero_bordereaux,
+//         date_depart: date_depart || courrier.date_depart,
+//         expiditeur: expiditeur || courrier.expiditeur,
+//         destination: destination || courrier.destination,
+//         description: description || nature.description,
+//         nom_depose: nom_depose || nature.nom_depose,
+//         prenom_depose: prenom_depose || nature.prenom_depose,
+//         matricule: matricule || nature.matricule,
+//       });
+
+//       await newArchive.save();
+
+//       // Supprimer les documents des collections nature et courrier
+//       await Courrier.findByIdAndDelete(courrier._id);
+//       await Nature.findByIdAndDelete(nature._id);
+
+//       // Vérification de l'utilisateur
+//       if (!req.user || !req.user.name) {
+//         return res.status(500).json({
+//           success: false,
+//           message: "Les informations de l'utilisateur sont manquantes.",
+//         });
+//       }
+
+//       const newJournal = new Journal({
+//         action: "Archivage de dossier",
+//         details: `Dossier archivé avec le numéro bordereaux: ${numero_bordereaux}`,
+//         user: req.user._id,
+//         userName: req.user.name,
+//         adressEmail: req.user.email,
+//         imageJournale: req.user.image,
+//       });
+//       await newJournal.save();
+
+//       return res.status(200).json({
+//         success: true,
+//         message: "Données archivées avec succès.",
+//         data: newArchive,
+//       });
+//     } else {
+//       // Sinon, mettre à jour les champs dans la collection Natures
+//       nature.description = description || nature.description;
+//       nature.nom_depose = nom_depose || nature.nom_depose;
+//       nature.prenom_depose = prenom_depose || nature.prenom_depose;
+//       nature.matricule = matricule || nature.matricule;
+//       await nature.save(); // Sauvegarder les modifications dans la collection Natures
+
+//       // Mettre à jour les champs dans la collection Courriers
+//       courrier.numero_bordereaux =
+//         numero_bordereaux || courrier.numero_bordereaux;
+//       courrier.date_depart = date_depart || courrier.date_depart;
+//       courrier.expiditeur = expiditeur || courrier.expiditeur;
+//       courrier.destination = destination || courrier.destination;
+//       await courrier.save(); // Sauvegarder les modifications dans la collection Courriers
+
+//       const newJournal = new Journal({
+//         action: "Mise à jour de dossier courrier",
+//         details: `Dossier mis à jour avec le numéro bordereaux: ${numero_bordereaux}`,
+//         user: req.user._id,
+//         userName: req.user.name,
+//         adressEmail: req.user.email,
+//         imageJournale: req.user.image,
+//       });
+//       await newJournal.save();
+
+//       return res.status(200).json({
+//         success: true,
+//         message: "Dossier mis à jour avec succès.",
+//         data: {
+//           nature,
+//           courrier,
+//         },
+//       });
+//     }
+//   } catch (error) {
+//     return res.status(500).json({
+//       success: false,
+//       message: "Server error: " + error.message,
+//     });
+//   }
+// };
+
+// // ############### ENDING #################//
+
+
 // ############### UPDATE FOLDER BY ID #################//
 const updateFolderById = async (req, res) => {
   try {
     const { id } = req.params; // Récupérer l'ID du courrier depuis les paramètres de la requête
     const {
       description,
-      nom_depose,
-      prenom_depose,
-      matricule,
-      numero_bordereaux,
-      date_depart,
+      // nom_depose,
+      // prenom_depose,
+      // matricule,
       expiditeur,
       destination,
     } = req.body;
-
-    // Vérification de l'existence du numéro de bordereaux
-    const existingCourrier = await Courrier.findOne({
-      numero_bordereaux: numero_bordereaux,
-    });
-
-    if (existingCourrier && existingCourrier._id.toString() !== id) {
-      return res.status(409).json({
-        success: false,
-        message: "Le numéro de bordereaux existe déjà",
-      });
-    }
 
     // Étape 1 : Rechercher le courrier par son ID
     const courrier = await Courrier.findById(id);
@@ -388,21 +509,24 @@ const updateFolderById = async (req, res) => {
       });
     }
 
+    // Définir la date de départ à la date actuelle
+    const date_depart = new Date();
+
     // Étape 3 : Vérifier l'année de la nouvelle date_depart
-    const yearOfDateDepart = new Date(date_depart).getFullYear();
+    const yearOfDateDepart = date_depart.getFullYear();
     const currentYear = new Date().getFullYear();
 
     if (yearOfDateDepart < currentYear) {
       // Si la date est dans une année passée, archiver les données
       const newArchive = new Archive({
-        numero_bordereaux: numero_bordereaux || courrier.numero_bordereaux,
-        date_depart: date_depart || courrier.date_depart,
+        numero_bordereaux: courrier.numero_bordereaux, // Utiliser le numéro existant
+        date_depart: date_depart,
         expiditeur: expiditeur || courrier.expiditeur,
         destination: destination || courrier.destination,
         description: description || nature.description,
-        nom_depose: nom_depose || nature.nom_depose,
-        prenom_depose: prenom_depose || nature.prenom_depose,
-        matricule: matricule || nature.matricule,
+        // nom_depose: nom_depose || nature.nom_depose,
+        // prenom_depose: prenom_depose || nature.prenom_depose,
+        // matricule: matricule || nature.matricule,
       });
 
       await newArchive.save();
@@ -413,7 +537,7 @@ const updateFolderById = async (req, res) => {
 
       // Vérification de l'utilisateur
       if (!req.user || !req.user.name) {
-        return res.status(500).json({
+        return res.status(400).json({
           success: false,
           message: "Les informations de l'utilisateur sont manquantes.",
         });
@@ -421,7 +545,7 @@ const updateFolderById = async (req, res) => {
 
       const newJournal = new Journal({
         action: "Archivage de dossier",
-        details: `Dossier archivé avec le numéro bordereaux: ${numero_bordereaux}`,
+        details: `Dossier archivé avec le numéro bordereaux: ${courrier.numero_bordereaux}`,
         user: req.user._id,
         userName: req.user.name,
         adressEmail: req.user.email,
@@ -437,22 +561,20 @@ const updateFolderById = async (req, res) => {
     } else {
       // Sinon, mettre à jour les champs dans la collection Natures
       nature.description = description || nature.description;
-      nature.nom_depose = nom_depose || nature.nom_depose;
-      nature.prenom_depose = prenom_depose || nature.prenom_depose;
-      nature.matricule = matricule || nature.matricule;
+      // nature.nom_depose = nom_depose || nature.nom_depose;
+      // nature.prenom_depose = prenom_depose || nature.prenom_depose;
+      // nature.matricule = matricule || nature.matricule;
       await nature.save(); // Sauvegarder les modifications dans la collection Natures
 
       // Mettre à jour les champs dans la collection Courriers
-      courrier.numero_bordereaux =
-        numero_bordereaux || courrier.numero_bordereaux;
-      courrier.date_depart = date_depart || courrier.date_depart;
+      courrier.date_depart = date_depart;
       courrier.expiditeur = expiditeur || courrier.expiditeur;
       courrier.destination = destination || courrier.destination;
       await courrier.save(); // Sauvegarder les modifications dans la collection Courriers
 
       const newJournal = new Journal({
         action: "Mise à jour de dossier courrier",
-        details: `Dossier mis à jour avec le numéro bordereaux: ${numero_bordereaux}`,
+        details: `Dossier mis à jour avec le numéro bordereaux: ${courrier.numero_bordereaux}`,
         user: req.user._id,
         userName: req.user.name,
         adressEmail: req.user.email,
@@ -470,14 +592,17 @@ const updateFolderById = async (req, res) => {
       });
     }
   } catch (error) {
+    console.error("Erreur dans updateFolderById:", error);
     return res.status(500).json({
       success: false,
-      message: "Server error: " + error.message,
+      message: "Erreur serveur: " + error.message,
     });
   }
 };
 
 // ############### ENDING #################//
+
+
 
 // ############### DELETE FOLDER BY ID #################//
 const deleteFolderById = async (req, res) => {

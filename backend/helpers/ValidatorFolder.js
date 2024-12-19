@@ -6,9 +6,9 @@ exports.addFolderValidator = [
   check("expiditeur", "Expiditeur is required").not().isEmpty(),
   check("destination", "Destiantion is required").not().isEmpty(),
   check("description", "Description is required").not().isEmpty(),
-  check("nom_depose", "First name is required").not().isEmpty(),
-  check("prenom_depose", "Last name is required").not().isEmpty(),
-  check("matricule", "Matricules is required").not().isEmpty(),
+  // check("nom_depose", "First name is required").not().isEmpty(),
+  // check("prenom_depose", "Last name is required").not().isEmpty(),
+  // check("matricule", "Matricules is required").not().isEmpty(),
 ];
 exports.updateFolderValidator = [
   check("numero_bordereaux", "Numero is required").not().isEmpty(),
