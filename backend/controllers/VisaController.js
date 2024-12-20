@@ -15,7 +15,23 @@ const addArchive = async (req, res) => {
       });
     }
     const { numero_visa, nom_depose_visa, prenom_depose_visa, reference } =
-      req.body;
+    req.body;
+
+    // Get the last used numero_bordereaux
+    const lastVisa = await Visa.findOne().sort({ _id: -1 });
+    console.log("Last Visa found:", lastVisa);
+    
+    let nextNumeroBordereaux = '01';
+
+        
+    if (lastVisa && lastVisa.numero_visa) {
+      console.log("Last numero_visa:", lastVisa.numero_visa);
+      const lastNumber = parseInt(lastVisa.numero_visa, 10);
+      console.log("Parsed last number:", lastNumber);
+      nextNumeroBordereaux = (lastNumber + 1).toString().padStart(2, '0');
+    }
+
+    console.log("Next Numero Bordereaux:", nextNumeroBordereaux);
 
     // Vérification de l'existence du numéro de visa
     const existingVisa = await Visa.findOne({ numero_visa });
@@ -28,7 +44,7 @@ const addArchive = async (req, res) => {
     }
 
     const newVisa = new Visa({
-      numero_visa,
+      numero_visa : nextNumeroBordereaux,
       nom_depose_visa,
       prenom_depose_visa,
       reference,
@@ -38,7 +54,7 @@ const addArchive = async (req, res) => {
     // Enregistrer l'action dans Journales
     const newJournal = new Journal({
       action: "Ajout d'un dossier visa",
-      details: `Nouveau dossier visa ajouté avec le numéro : ${numero_visa}`,
+      details: `Nouveau dossier visa ajouté avec le numéro : ${nextNumeroBordereaux}`,
       user: req.user._id,
       userName: req.user.name,
       adressEmail: req.user.email,
@@ -67,14 +83,14 @@ const getVisa = async (req, res) => {
     const VisaData = await Visa.aggregate([
       {
         $addFields: {
-          numero_visa_int: { $toInt: "$numero_visa" } // Convertir 'numero_visa' en entier
-        }
+          numero_visa_int: { $toInt: "$numero_visa" }, // Convertir 'numero_visa' en entier
+        },
       },
       {
-        $sort: { numero_visa_int: 1 } // Trier par 'numero_visa' numériquement
-      }
+        $sort: { numero_visa_int: 1 }, // Trier par 'numero_visa' numériquement
+      },
     ]);
-    
+
     return res.status(200).json({
       success: true,
       message: "Visa récupéré avec succès.",
