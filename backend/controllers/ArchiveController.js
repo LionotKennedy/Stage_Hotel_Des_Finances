@@ -19,10 +19,29 @@ const addArchive = async (req, res) => {
       });
     }
 
-    // const { description, nom_depose, prenom_depose, matricule } = req.body;
+    // const { description } = req.body;
+    // const { numero_bordereaux, date_depart, expiditeur, destination } =
+    //   req.body;
     const { description } = req.body;
-    const { numero_bordereaux, date_depart, expiditeur, destination } =
+    const {  expiditeur, destination } =
       req.body;
+
+      const date_depart = new Date();
+
+          // Get the last used numero_bordereaux
+    const lastCourrier = await Courrier.findOne().sort({ _id: -1 });
+    console.log("Last Courrier found:", lastCourrier);
+
+    let nextNumeroBordereaux = '01';
+
+    if (lastCourrier && lastCourrier.numero_bordereaux) {
+      console.log("Last numero_bordereaux:", lastCourrier.numero_bordereaux);
+      const lastNumber = parseInt(lastCourrier.numero_bordereaux, 10);
+      console.log("Parsed last number:", lastNumber);
+      nextNumeroBordereaux = (lastNumber + 1).toString().padStart(2, '0');
+    }
+
+    console.log("Next Numero Bordereaux:", nextNumeroBordereaux);
 
     // Vérification de l'année de date_depart
     const currentYear = new Date().getFullYear();
@@ -31,8 +50,8 @@ const addArchive = async (req, res) => {
     if (yearOfDateDepart < currentYear) {
       // Si la date est dans une année passée, stocker les données dans la collection Archives
       const newArchive = new Archive({
-        // numero_bordereaux,
-        // date_depart,
+        numero_bordereaux : nextNumeroBordereaux,
+        date_depart,
         expiditeur,
         destination,
         description,
@@ -54,7 +73,7 @@ const addArchive = async (req, res) => {
       // Enregistrer l'action dans Journales
       const newJournal = new Journal({
         action: "Ajout d'un dossier archivé.",
-        details: `Dossier archivé avec le numéro bordereaux: ${numero_bordereaux}`,
+        details: `Dossier archivé avec le numéro bordereaux: ${nextNumeroBordereaux}`,
         user: req.user._id,
         userName: req.user.name,
         adressEmail: req.user.email,
@@ -80,7 +99,7 @@ const addArchive = async (req, res) => {
       const savedNature = await newNature.save();
 
       const newCourrier = new Courrier({
-        // numero_bordereaux,
+        numero_bordereaux : nextNumeroBordereaux,
         date_depart,
         expiditeur,
         destination,
@@ -92,7 +111,7 @@ const addArchive = async (req, res) => {
       // Enregistrer l'action dans Journales
       const newJournal = new Journal({
         action: "Ajout d'un dossier courrier",
-        details: `Nouveau dossier ajouté avec le numéro bordereaux: ${numero_bordereaux}`,
+        details: `Nouveau dossier ajouté avec le numéro bordereaux: ${nextNumeroBordereaux}`,
         user: req.user._id,
         userName: req.user.name,
         adressEmail: req.user.email,
@@ -154,9 +173,9 @@ const editArchiveById = async (req, res) => {
 
     const ArchiveData = {
       description: archive.description,
-      nom_depose: archive.nom_depose,
-      prenom_depose: archive.prenom_depose,
-      matricule: archive.matricule,
+      // nom_depose: archive.nom_depose,
+      // prenom_depose: archive.prenom_depose,
+      // matricule: archive.matricule,
       numero_bordereaux: archive.numero_bordereaux,
       date_depart: archive.date_depart,
       expiditeur: archive.expiditeur,
@@ -184,9 +203,9 @@ const updateArchiveById = async (req, res) => {
     const { id } = req.params;
     const {
       description,
-      nom_depose,
-      prenom_depose,
-      matricule,
+      // nom_depose,
+      // prenom_depose,
+      // matricule,
       numero_bordereaux,
       date_depart,
       expiditeur,
@@ -206,9 +225,9 @@ const updateArchiveById = async (req, res) => {
           expiditeur,
           destination,
           description,
-          nom_depose,
-          prenom_depose,
-          matricule,
+          // nom_depose,
+          // prenom_depose,
+          // matricule,
         },
         { new: true, upsert: true }
       );
@@ -241,9 +260,9 @@ const updateArchiveById = async (req, res) => {
         { _id: id }, // Si tu veux mettre à jour une entrée existante dans Nature
         {
           description,
-          nom_depose,
-          prenom_depose,
-          matricule,
+          // nom_depose,
+          // prenom_depose,
+          // matricule,
         },
         { new: true, upsert: true } // Met à jour ou crée un nouvel enregistrement si non trouvé
       );

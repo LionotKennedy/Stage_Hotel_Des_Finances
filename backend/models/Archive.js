@@ -5,18 +5,18 @@ const ArchiveSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  nom_depose: {
-    type: String,
-    required: true,
-  },
-  prenom_depose: {
-    type: String,
-    required: true,
-  },
-  matricule: {
-    type: String,
-    required: true,
-  },
+  // nom_depose: {
+  //   type: String,
+  //   required: true,
+  // },
+  // prenom_depose: {
+  //   type: String,
+  //   required: true,
+  // },
+  // matricule: {
+  //   type: String,
+  //   required: true,
+  // },
   numero_bordereaux: {
     type: String,
     required: true,
