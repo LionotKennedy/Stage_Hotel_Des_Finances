@@ -19,7 +19,8 @@ const addArchive = async (req, res) => {
       });
     }
 
-    const { description, nom_depose, prenom_depose, matricule } = req.body;
+    // const { description, nom_depose, prenom_depose, matricule } = req.body;
+    const { description } = req.body;
     const { numero_bordereaux, date_depart, expiditeur, destination } =
       req.body;
 
@@ -30,14 +31,14 @@ const addArchive = async (req, res) => {
     if (yearOfDateDepart < currentYear) {
       // Si la date est dans une année passée, stocker les données dans la collection Archives
       const newArchive = new Archive({
-        numero_bordereaux,
-        date_depart,
+        // numero_bordereaux,
+        // date_depart,
         expiditeur,
         destination,
         description,
-        nom_depose,
-        prenom_depose,
-        matricule,
+        // nom_depose,
+        // prenom_depose,
+        // matricule,
       });
 
       await newArchive.save();
@@ -71,15 +72,15 @@ const addArchive = async (req, res) => {
       // Sinon, continuer à sauvegarder dans Nature et Courrier
       const newNature = new Nature({
         description,
-        nom_depose,
-        prenom_depose,
-        matricule,
+        // nom_depose,
+        // prenom_depose,
+        // matricule,
       });
 
       const savedNature = await newNature.save();
 
       const newCourrier = new Courrier({
-        numero_bordereaux,
+        // numero_bordereaux,
         date_depart,
         expiditeur,
         destination,
@@ -341,12 +342,12 @@ const getArchiveByYear = async (req, res) => {
       },
       {
         $addFields: {
-          numero_bordereaux_num: { $toInt: "$numero_bordereaux" } // Conversion de numero_bordereaux en nombre pour tri
-        }
+          numero_bordereaux_num: { $toInt: "$numero_bordereaux" }, // Conversion de numero_bordereaux en nombre pour tri
+        },
       },
       {
-        $sort: { numero_bordereaux_num: 1 } // Tri en ordre croissant
-      }
+        $sort: { numero_bordereaux_num: 1 }, // Tri en ordre croissant
+      },
     ]);
 
     if (archives.length === 0) {
