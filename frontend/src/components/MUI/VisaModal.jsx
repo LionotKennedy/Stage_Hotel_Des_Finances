@@ -58,10 +58,10 @@ export default function VisaModal({ open, handleClose, folderId, mode, onSuccess
     let hasError = false;
     let errors = {};
 
-    if (!fields.numero_visa) {
-      errors.numero_visa = true;
-      hasError = true;
-    }
+    // if (!fields.numero_visa) {
+    //   errors.numero_visa = true;
+    //   hasError = true;
+    // }
     if (!fields.nom_depose_visa) {
       errors.nom_depose_visa = true;
       hasError = true;
@@ -128,7 +128,7 @@ export default function VisaModal({ open, handleClose, folderId, mode, onSuccess
             backgroundColor: '#4caf50',
             color: '#ffffff',
           },
-        });
+        }); 
       }
       onSuccess();
       handleClose();
@@ -180,11 +180,13 @@ export default function VisaModal({ open, handleClose, folderId, mode, onSuccess
                       value={fields.numero_visa}
                       onChange={handleChange}
                       type='number'
-                      error={!!fieldErrors.numero_visa || !!error}
-                      helperText={fieldErrors.numero_visa ? 'Ce champ est requis' : error ? 'Le numéro est existe déjà' : ''}
-                      InputProps={{
-                        style: fieldErrors.numero_visa ? { borderColor: 'red' } : error ? { borderColor: 'red' } : {},
-                      }}
+                      disabled
+                      style={{ display: 'none' }}
+                      // error={!!fieldErrors.numero_visa || !!error}
+                      // helperText={fieldErrors.numero_visa ? 'Ce champ est requis' : error ? 'Le numéro est existe déjà' : ''}
+                      // InputProps={{
+                      //   style: fieldErrors.numero_visa ? { borderColor: 'red' } : error ? { borderColor: 'red' } : {},
+                      // }}
                     />
                   </Grid>
                   <Grid item xs={12} sm={12}>
