@@ -10,7 +10,7 @@ const ArchiveMore = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const { year } = location.state || {};
+    const { year } = location.state || {}; 
 
     const { data, isLoading, refetch, isError, error } = useGetArchiveByYear(year);
 

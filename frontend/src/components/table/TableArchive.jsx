@@ -281,7 +281,7 @@ const TableArchive = ({ archives, refetch, year }) => {
                 } else if (searchType === 'numero') {
                     table_data = row.querySelectorAll('td')[0]?.textContent.toLowerCase();
                 } else if (searchType === 'matricule') {
-                    table_data = row.querySelectorAll('td')[6]?.textContent.toLowerCase();
+                    table_data = row.querySelectorAll('td')[4]?.textContent.toLowerCase();
                 }
                 // Masquer la ligne si elle ne correspond pas à la recherche
                 if (table_data && search_data) {
@@ -436,9 +436,9 @@ const TableArchive = ({ archives, refetch, year }) => {
                                     <th className='th'>Date Départ</th>
                                     <th className='th'>Expéditeur</th>
                                     <th className='th'>Destination</th>
-                                    <th className='th'>Nom</th>
-                                    <th className='th'>Prénom</th>
-                                    <th className='th'>Matricule</th>
+                                    {/* <th className='th'>Nom</th> */}
+                                    {/* <th className='th'>Prénom</th> */}
+                                    {/* <th className='th'>Matricule</th> */}
                                     <th className='th'>Description</th>
                                     <th className='th'>Actions</th>
                                 </tr>
@@ -460,13 +460,13 @@ const TableArchive = ({ archives, refetch, year }) => {
                                             </td>
                                             <td className="td">{archive.expiditeur}</td>
                                             <td className="td">{archive.destination}</td>
-                                            <td className="td">{archive.nom_depose}</td>
-                                            <td className="td">{archive.prenom_depose}</td>
-                                            <td className="td">{archive.matricule}</td>
+                                            {/* <td className="td">{archive.nom_depose}</td> */}
+                                            {/* <td className="td">{archive.prenom_depose}</td> */}
+                                            {/* <td className="td">{archive.matricule}</td> */}
                                             <td className="td">{archive.description}</td>
                                             <td className="td">
                                                 <MdEdit className="action-icon icon color__icon-edit" title="Modifier" onClick={() => handleOpenModal(archive._id, 'edit')} />
-                                                <MdDelete className="action-icon icon color__icon-delete" title="Delete" onClick={() => handleDeleteClick(archive._id)} />
+                                                <MdDelete className="action-icon icon color__icon-delete color__icon-delete__archive" title="Delete" onClick={() => handleDeleteClick(archive._id)} />
                                                 <MdVisibility className="action-icon icon color__icon-visible" title="Read" onClick={() => handleReadClick(archive._id)} />
                                             </td>
                                         </tr>

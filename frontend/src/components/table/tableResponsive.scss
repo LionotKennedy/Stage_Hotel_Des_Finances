@@ -706,3 +706,7 @@ $linear-gradient: linear-gradient(90deg, #97776f, #6dfa08);
 .color__icon-delete:hover {
     color: rgb(239, 76, 76);
 }
+
+.color__icon-delete__archive {
+    display: none;
+}

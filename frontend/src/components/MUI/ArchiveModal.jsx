@@ -70,16 +70,16 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
     let hasError = false;
     let errors = {};
 
-    // Validation des champs requis
-    if (!fields.numero_bordereaux) {
-      errors.numero_bordereaux = true;
-      hasError = true;
-      // enqueueSnackbar(error, { variant: 'error' });
-    }
-    if (!fields.date_depart) {
-      errors.date_depart = true;
-      hasError = true;
-    }
+    // // Validation des champs requis
+    // if (!fields.numero_bordereaux) {
+    //   errors.numero_bordereaux = true;
+    //   hasError = true;
+    //   // enqueueSnackbar(error, { variant: 'error' });
+    // }
+    // if (!fields.date_depart) {
+    //   errors.date_depart = true;
+    //   hasError = true;
+    // }
     if (!fields.expiditeur) {
       errors.expiditeur = true;
       hasError = true;
@@ -92,18 +92,18 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
       errors.description = true;
       hasError = true;
     }
-    if (!fields.nom_depose) {
-      errors.nom_depose = true;
-      hasError = true;
-    }
-    if (!fields.prenom_depose) {
-      errors.prenom_depose = true;
-      hasError = true;
-    }
-    if (!fields.matricule) {
-      errors.matricule = true;
-      hasError = true;
-    }
+    // if (!fields.nom_depose) {
+    //   errors.nom_depose = true;
+    //   hasError = true;
+    // }
+    // if (!fields.prenom_depose) {
+    //   errors.prenom_depose = true;
+    //   hasError = true;
+    // }
+    // if (!fields.matricule) {
+    //   errors.matricule = true;
+    //   hasError = true;
+    // }
 
     if (hasError) {
       setFieldErrors(errors); // Définir les erreurs dans l'état
@@ -191,7 +191,7 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
           >
             <DialogTitle>
               <Typography variant="p" component="div" color="primary.main" className='header__text'>
-                {mode === 'add' ? 'Formulaire Ajout Archive' : 'Modifier archive'}
+                {mode === 'add' ? 'Formulaire Ajout Archive' : "Modification de l'archive"}
               </Typography>
             </DialogTitle>
             <DialogContent>
@@ -210,68 +210,15 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
                       fullWidth
                       value={fields.numero_bordereaux}
                       onChange={handleChange}
-                      error={!!fieldErrors.numero_bordereaux || !!error}
-                      helperText={fieldErrors.numero_bordereaux ? 'Ce champ est requis' : error ? 'Le numéro de bordereaux existe déjà' : ''}
-                      InputProps={{
-                        style: fieldErrors.numero_bordereaux ? { borderColor: 'red' } : error ? { borderColor: 'red' } : {},
-                      }}
+                      disabled
+                      style={{ display: 'none' }}
+                      // error={!!fieldErrors.numero_bordereaux || !!error}
+                      // helperText={fieldErrors.numero_bordereaux ? 'Ce champ est requis' : error ? 'Le numéro de bordereaux existe déjà' : ''}
+                      // InputProps={{
+                      //   style: fieldErrors.numero_bordereaux ? { borderColor: 'red' } : error ? { borderColor: 'red' } : {},
+                      // }}
                     />
                   </Grid>
-
-                  {/* <Grid item xs={12} sm={12}>
-                    <TextField
-                    type="number"
-                      name="numero_bordereaux"
-                      label="Numéro Bordereaux"
-                      variant="standard"
-                      fullWidth
-                      value={fields.numero_bordereaux}
-                      onChange={handleChange}
-                      error={!!fieldErrors.numero_bordereaux || !!error}
-                      helperText={fieldErrors.numero_bordereaux
-                        ? 'Ce champ est requis'
-                        : error
-                          ? 'Le numéro de bordereaux existe déjà'
-                          : ''
-                      }
-                      InputProps={{
-                        style: fieldErrors.numero_bordereaux || error
-                          ? { borderColor: 'red' }
-                          : {},
-                      }}
-                      InputLabelProps={{
-                        style: {
-                          color: fieldErrors.numero_bordereaux || error ? 'red' : '#2196F3', // Change label color
-                        },
-                      }}
-                      sx={{
-                        '& .MuiInput-underline:after': {
-                          borderBottomColor: '#4CAF50', // Green border on focus
-                        },
-                        '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
-                          borderBottomColor: '#4CAF50', // Green border on hover
-                        },
-                      }}
-                    />
-                  </Grid> */}
-
-
-                  {/* <Grid item xs={12} sm={12}>
-                    <TextField
-                      type="date"
-                      name="date_depart"
-                      label="Date Départ"
-                      variant="standard"
-                      fullWidth
-                      value={fields.date_depart}
-                      onChange={handleChange}
-                      error={!!fieldErrors.date_depart}
-                      helperText={fieldErrors.date_depart ? 'Ce champ est requis' : ''}
-                      InputProps={{
-                        style: fieldErrors.date_depart ? { borderColor: 'red' } : {},
-                      }}
-                    />
-                  </Grid> */}
 
                   <Grid item xs={12} sm={12}>
                     <TextField
@@ -282,54 +229,20 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
                       fullWidth
                       value={fields.date_depart}
                       onChange={handleChange}
-                      error={!!fieldErrors.date_depart}
-                      helperText={fieldErrors.date_depart ? 'Ce champ est requis' : ''}
-                      InputProps={{
-                        style: fieldErrors.date_depart ? { borderColor: 'red' } : {},
-                        placeholder: !fields.date_depart ? "jj/mm/aaaa" : "", // Show placeholder if no value
-                      }}
-                      onFocus={(e) => e.target.type = "date"} // Change to date picker on focus
-                      onBlur={(e) => {
-                        if (!fields.date_depart) e.target.type = "text"; // Revert to text if no value on blur
-                      }}
+                      disabled
+                      style={{ display: 'none' }}
+                      // error={!!fieldErrors.date_depart}
+                      // helperText={fieldErrors.date_depart ? 'Ce champ est requis' : ''}
+                      // InputProps={{
+                      //   style: fieldErrors.date_depart ? { borderColor: 'red' } : {},
+                      //   placeholder: !fields.date_depart ? "jj/mm/aaaa" : "", // Show placeholder if no value
+                      // }}
+                      // onFocus={(e) => e.target.type = "date"} // Change to date picker on focus
+                      // onBlur={(e) => {
+                      //   if (!fields.date_depart) e.target.type = "text"; // Revert to text if no value on blur
+                      // }}
                     />
                   </Grid>
-
-
-                  {/* <Grid item xs={12} sm={12}>
-                    <TextField
-                      type={fields.date_depart ? "date" : "text"} // Change the type based on value
-                      name="date_depart"
-                      label="Date Départ"
-                      variant="standard"
-                      fullWidth
-                      value={fields.date_depart}
-                      onChange={handleChange}
-                      error={!!fieldErrors.date_depart}
-                      helperText={fieldErrors.date_depart ? 'Ce champ est requis' : ''}
-                      InputProps={{
-                        style: {
-                          color: fieldErrors.date_depart ? 'red' : '#4CAF50', // Change text color
-                          borderColor: fieldErrors.date_depart ? 'red' : '#4CAF50', // Change border color
-                        },
-                      }}
-                      InputLabelProps={{
-                        style: {
-                          color: fieldErrors.date_depart ? 'red' : '#2196F3', // Change label color
-                        },
-                      }}
-                      FormHelperTextProps={{
-                        style: {
-                          color: 'red', // Always red for error message
-                        },
-                      }}
-                      onFocus={(e) => e.target.type = "date"} // Change to date picker on focus
-                      onBlur={(e) => {
-                        if (!fields.date_depart) e.target.type = "text"; // Revert to text if no value on blur
-                      }}
-                    />
-                  </Grid> */}
-
 
                   <Grid item xs={12} sm={12}>
                     <TextField
@@ -365,8 +278,10 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
                     <TextField
                       name="description"
                       label="Description"
-                      variant="standard"
+                      variant="outlined"
                       fullWidth
+                      multiline
+                      rows={4}
                       value={fields.description}
                       onChange={handleChange}
                       error={!!fieldErrors.description}
@@ -384,11 +299,13 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
                       fullWidth
                       value={fields.nom_depose}
                       onChange={handleChange}
-                      error={!!fieldErrors.nom_depose}
-                      helperText={fieldErrors.nom_depose ? 'Ce champ est requis' : ''}
-                      InputProps={{
-                        style: fieldErrors.nom_depose ? { borderColor: 'red' } : {},
-                      }}
+                      disabled
+                      style={{ display: 'none' }}
+                      // error={!!fieldErrors.nom_depose}
+                      // helperText={fieldErrors.nom_depose ? 'Ce champ est requis' : ''}
+                      // InputProps={{
+                      //   style: fieldErrors.nom_depose ? { borderColor: 'red' } : {},
+                      // }}
                     />
                   </Grid>
                   <Grid item xs={12} sm={12}>
@@ -399,11 +316,13 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
                       fullWidth
                       value={fields.prenom_depose}
                       onChange={handleChange}
-                      error={!!fieldErrors.prenom_depose}
-                      helperText={fieldErrors.prenom_depose ? 'Ce champ est requis' : ''}
-                      InputProps={{
-                        style: fieldErrors.prenom_depose ? { borderColor: 'red' } : {},
-                      }}
+                      disabled
+                      style={{ display: 'none' }}
+                      // error={!!fieldErrors.prenom_depose}
+                      // helperText={fieldErrors.prenom_depose ? 'Ce champ est requis' : ''}
+                      // InputProps={{
+                      //   style: fieldErrors.prenom_depose ? { borderColor: 'red' } : {},
+                      // }}
                     />
                   </Grid>
                   <Grid item xs={12} sm={12}>
@@ -414,11 +333,13 @@ export default function ArchiveModal({ open, handleClose, folderId, mode, onSucc
                       fullWidth
                       value={fields.matricule}
                       onChange={handleChange}
-                      error={!!fieldErrors.matricule}
-                      helperText={fieldErrors.matricule ? 'Ce champ est requis' : ''}
-                      InputProps={{
-                        style: fieldErrors.matricule ? { borderColor: 'red' } : {},
-                      }}
+                      disabled
+                      style={{ display: 'none' }}
+                      // error={!!fieldErrors.matricule}
+                      // helperText={fieldErrors.matricule ? 'Ce champ est requis' : ''}
+                      // InputProps={{
+                      //   style: fieldErrors.matricule ? { borderColor: 'red' } : {},
+                      // }}
                     />
                   </Grid>
                 </Grid>
