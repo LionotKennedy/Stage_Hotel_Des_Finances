@@ -122,7 +122,7 @@ export default function CustomizedDialogs({ open, setOpen, folderId }) {
                   <Typography className="custom-text" gutterBottom>
                     <strong>Description:</strong> {folder?.id_nature.description}
                   </Typography>
-                  <Typography className="custom-text" gutterBottom>
+                  {/* <Typography className="custom-text" gutterBottom>
                     <strong>Nom déposé:</strong> {folder?.id_nature.nom_depose}
                   </Typography>
                   <Typography className="custom-text" gutterBottom>
@@ -130,7 +130,7 @@ export default function CustomizedDialogs({ open, setOpen, folderId }) {
                   </Typography>
                   <Typography className="custom-text" gutterBottom>
                     <strong>Matricule:</strong> {folder?.id_nature.matricule}
-                  </Typography>
+                  </Typography> */}
                 </>
               )}
             </Fade>

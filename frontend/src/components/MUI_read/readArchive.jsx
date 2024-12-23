@@ -119,7 +119,7 @@ export default function ArchiveDialogs({ open, setOpen, folderId }) {
                             <Typography className="custom-text" gutterBottom>
                                 <strong>Description:</strong> {folder?.description}
                             </Typography>
-                            <Typography className="custom-text" gutterBottom>
+                            {/* <Typography className="custom-text" gutterBottom>
                                 <strong>Nom déposé:</strong> {folder?.nom_depose}
                             </Typography>
                             <Typography className="custom-text" gutterBottom>
@@ -127,7 +127,7 @@ export default function ArchiveDialogs({ open, setOpen, folderId }) {
                             </Typography>
                             <Typography className="custom-text" gutterBottom>
                                 <strong>Matricule:</strong> {folder?.matricule}
-                            </Typography>
+                            </Typography> */}
                         </Fade>
                     </DialogContent>
                     <DialogActions>
