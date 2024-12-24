@@ -12,12 +12,14 @@
   --main-color: #349eff;
   --second-color: #62b4ff;
   --box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  /* --box-shadow: rgba(211, 211, 212, 0) 0px 8px 24px; */
   --main-table: rgba(196, 196, 196, 0.81);
 
   --main-bg-light: #ffffff;
   --second-bg-light: #fafafb;
   --txt-color-light: #455560;
-  --box-shadow-light: 3px 3px 12px 2px rgba(0, 0, 0, 0.252);
+  /* --box-shadow-light: 3px 3px 12px 2px rgba(0, 0, 0, 0.252); */
+  --box-shadow-light: 3px 3px 12px 2px rgba(0, 0, 0, 0.13);
   --main-table-light: rgba(196, 196, 196, 0.81);
 
   --main-bg-dark: #2d2d2d;

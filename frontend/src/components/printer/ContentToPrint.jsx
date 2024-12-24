@@ -21,9 +21,9 @@ const ContentToPrint = ({ folders }) => {
                         <th style={styles.th}>Date Départ</th>
                         <th style={styles.th}>Expéditeur</th>
                         <th style={styles.th}>Destination</th>
-                        <th style={styles.th}>Nom</th>
+                        {/* <th style={styles.th}>Nom</th>
                         <th style={styles.th}>Prénom</th>
-                        <th style={styles.th}>Matricule</th>
+                        <th style={styles.th}>Matricule</th> */}
                         <th style={styles.th}>Description</th>
                     </tr>
                 </thead>
@@ -43,9 +43,9 @@ const ContentToPrint = ({ folders }) => {
                             </td>
                             <td style={styles.td}>{folder.expiditeur}</td>
                             <td style={styles.td}>{folder.destination}</td>
-                            <td style={styles.td}>{folder.id_nature.nom_depose}</td>
+                            {/* <td style={styles.td}>{folder.id_nature.nom_depose}</td>
                             <td style={styles.td}>{folder.id_nature.prenom_depose}</td>
-                            <td style={styles.td}>{folder.id_nature.matricule}</td>
+                            <td style={styles.td}>{folder.id_nature.matricule}</td> */}
                             <td style={styles.td}>{folder.id_nature.description}</td>
                         </tr>
                     ))}

@@ -115,6 +115,28 @@ const TableArchive = ({ archives, refetch, year }) => {
         doc.save("archive-srsp.pdf");
     };
 
+
+    // const exportPdf = async () => {
+    //     const doc = new jsPDF({ orientation: "landscape" });
+    
+    //     // Démarrer la table directement en haut de la page
+    //     doc.autoTable({
+    //         html: "#table__archive",
+    //         startY: 10, // Commencer la table près du haut de la page
+    //         headStyles: {
+    //             fillColor: [200, 200, 200],
+    //             textColor: [0, 0, 0],
+    //         },
+    //         styles: {
+    //             cellPadding: 4,
+    //             fontSize: 10,
+    //         }
+    //     });
+    
+    //     // Sauvegarder le fichier PDF
+    //     doc.save("archive-srsp.pdf");
+    // };
+    
     const exportExcel = () => {
         // const table = document.getElementById('my-table');
         const table = document.getElementById('table__archive');

@@ -15,9 +15,9 @@ const ContentToPrintArchive = ({ archives }) => {
                         <th style={styles.th}>Date Départ</th>
                         <th style={styles.th}>Expéditeur</th>
                         <th style={styles.th}>Destination</th>
-                        <th style={styles.th}>Nom</th>
+                        {/* <th style={styles.th}>Nom</th>
                         <th style={styles.th}>Prénom</th>
-                        <th style={styles.th}>Matricule</th>
+                        <th style={styles.th}>Matricule</th> */}
                         <th style={styles.th}>Description</th>
                     </tr>
                 </thead>
@@ -37,9 +37,9 @@ const ContentToPrintArchive = ({ archives }) => {
                             </td>
                             <td style={styles.td}>{archive.expiditeur}</td>
                             <td style={styles.td}>{archive.destination}</td>
-                            <td style={styles.td}>{archive.nom_depose}</td>
+                            {/* <td style={styles.td}>{archive.nom_depose}</td>
                             <td style={styles.td}>{archive.prenom_depose}</td>
-                            <td style={styles.td}>{archive.matricule}</td>
+                            <td style={styles.td}>{archive.matricule}</td> */}
                             <td style={styles.td}>{archive.description}</td>
                         </tr>
                     ))}
