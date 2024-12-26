@@ -64,8 +64,8 @@ const TableResponsive = () => {
         const imageWidth = 45; // Largeur de l'image principale (imageLogo)
         const imageWidth2 = 100; // Largeur ajustée de la deuxième image (imageLogo2) - élargir
         const imageHeight2 = 40; // Hauteur ajustée de la deuxième image (imageLogo2) - réduire
-        const imageDataWidth = 18; // Largeur de l'imageData
-        const topMargin = 5; // Marges supérieures pour le décalage (réduite pour remonter l'imageLogo)
+        const imageDataWidth = 20; // Largeur de l'imageData
+        const topMargin = 2; // Marges supérieures pour le décalage (réduite pour remonter l'imageLogo)
 
 
         // Centrer uniquement imageLogo
