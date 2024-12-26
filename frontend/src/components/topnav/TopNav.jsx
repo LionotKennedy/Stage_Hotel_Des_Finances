@@ -156,7 +156,8 @@ const TopNav = ({ onLogout }) => {
         <span>R</span>
         <span>S</span>
         <span>P</span> */}
-        <span>Ministère de l'Économie et des Finances</span>
+        {/* <span>Ministère de l'Économie et des Finances</span> */}
+        <span className='txt_logo'>Service Régional de la Solde et des Pensions Atsimo Andrefana</span>
       </div>
       {/* Dialog About */}
       <AboutDialogs open={openAboutDialog} onClose={() => setOpenAboutDialog(false)} />

@@ -14,6 +14,7 @@
     transition: all 0.3s ease-in-out;
     // border-bottom: 1px solid rgba(134, 133, 133, 0.633);
     box-shadow: var(--box-shadow);
+    transition: all 0.5s ease-in-out;
 
     &.actif {
         width: 100%;
@@ -132,4 +133,20 @@
     font-size: 1.2rem;
     font-weight: 700;
     gap: 1rem;
+}
+
+
+// @media (max-width: 998px) {
+@media (max-width: 1090px) {
+    .txt_logo {
+        font-size: 1rem;
+        transition: all 0.5s ease-in-out;
+    }
+}
+
+@media (max-width: 920px) {
+    .txt_logo {
+        font-size: 0.8rem;
+        transition: all 0.5s ease-in-out;
+    }
 }
