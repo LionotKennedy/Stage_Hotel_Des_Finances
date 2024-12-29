@@ -22,6 +22,29 @@ import word from "../../assets/image/docx2.png";
 import ReactPaginate from 'react-paginate';
 import { useSnackbar } from 'notistack';
 
+// import htmlDocx from "html-docx-js";
+// const htmlDocx = require("html-docx-js");
+// import * as htmlDocx from "html-docx-js";
+
+
+
+// import { saveAs } from 'file-saver';
+// import {  Table, TableCell, TableRow, WidthType } from 'docx';
+// import { Document, Packer, Paragraph, TextRun } from "docx";
+
+// import { Document, Packer, Paragraph, Table, TableRow, TableCell, WidthType, BorderStyle } from 'docx';
+// import { Document, Packer, Paragraph, Table, TableRow, TableCell, WidthType, HeadingLevel, TextRun } from 'docx';
+import { saveAs } from 'file-saver';
+import { AlignmentType, VerticalAlign, WidthType, HeadingLevel } from 'docx';
+import { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell } from 'docx';
+
+// const folders = {
+//     data: [
+//         { numero_bordereaux: '12345', date_depart: '2024-03-08', expiditeur: 'Sender A', destination: 'Recipient A', id_nature: { description: 'Description A' } },
+//         { numero_bordereaux: '67890', date_depart: '2024-03-15', expiditeur: 'Sender B', destination: 'Recipient B', id_nature: { description: 'Description B' } },
+//     ],
+// };
+
 
 const TableResponsive = () => {
     const tableRef = useRef(null);
@@ -110,28 +133,6 @@ const TableResponsive = () => {
         doc.save("courrier-srsp.pdf");
     };
 
-    // const exportPdf = async () => {
-    //     const doc = new jsPDF({ orientation: "landscape" });
-
-    //     // Démarrer la table directement en haut de la page
-    //     doc.autoTable({
-    //         html: "#teste",
-    //         startY: 10, // Commencer la table près du haut de la page
-    //         headStyles: {
-    //             fillColor: [200, 200, 200],
-    //             textColor: [0, 0, 0],
-    //         },
-    //         styles: {
-    //             cellPadding: 4,
-    //             fontSize: 10,
-    //         }
-    //     });
-
-    //     // Sauvegarder le fichier PDF
-    //     doc.save("courrier-srsp.pdf");
-    // };
-
-
     const exportExcel = () => {
         const table = document.getElementById('teste');
 
@@ -140,16 +141,195 @@ const TableResponsive = () => {
         XLSX.writeFile(wb, 'courrier-srsp.xlsx');
     };
 
-    const exportWord = () => {
-        const doc = new jsPDF();
+    // const exportWord = () => {
+    //     // const content = document.getElementById("teste").outerHTML; // Référence l'élément HTML
+    //     // const blob = htmlDocx.asBlob(content);
+    //     // saveAs(blob, "courrier-srsp.docx");
+    // };
 
-        doc.autoTable({
-            html: "#teste",
-            styles: { cellPadding: 6 }
-        });
+    // const exportWord = () => {
+    //     const doc = new Document({
+    //         sections: [
+    //             {
+    //                 children: [
+    //                     new Paragraph({
+    //                         children: [
+    //                             new TextRun("Voici un exemple de document Word."),
+    //                             new TextRun({
+    //                                 text: " Généré avec docx.",
+    //                                 bold: true,
+    //                             }),
+    //                         ],
+    //                     }),
+    //                 ],
+    //             },
+    //         ],
+    //     });
+    
+    //     Packer.toBlob(doc).then((blob) => {
+    //         saveAs(blob, "courrier-srsp.docx");
+    //     });
+    // };
 
-        doc.save('courrier-srsp.docx');
-    };
+    // const exportWord = () => {
+    //     const doc = (
+    //       <Document>
+    //         <Paragraph>Folder Data Report</Paragraph>
+    //         <Table width={{ size: 100, type: WidthType.PERCENTAGE }}>
+    //           <TableRow>
+    //             <TableCell><Paragraph>Numéro</Paragraph></TableCell>
+    //             <TableCell><Paragraph>Date Départ</Paragraph></TableCell>
+    //             <TableCell><Paragraph>Expéditeur</Paragraph></TableCell>
+    //             <TableCell><Paragraph>Destination</Paragraph></TableCell>
+    //             <TableCell><Paragraph>Description</Paragraph></TableCell>
+    //           </TableRow>
+    //           {folders.map((folder, index) => (
+    //             <TableRow key={index}>
+    //               <TableCell><Paragraph>{folder.numero_bordereaux}</Paragraph></TableCell>
+    //               <TableCell><Paragraph>{new Date(folder.date_depart).toLocaleDateString()}</Paragraph></TableCell>
+    //               <TableCell><Paragraph>{folder.expiditeur}</Paragraph></TableCell>
+    //               <TableCell><Paragraph>{folder.destination}</Paragraph></TableCell>
+    //               <TableCell><Paragraph>{folder.id_nature.description}</Paragraph></TableCell>
+    //             </TableRow>
+    //           ))}
+    //         </Table>
+    //       </Document>
+    //     );
+    
+    //     // Conversion de la structure JSX en objets docx
+    //     const document = React.createElement(doc.type, doc.props);
+    
+    //     Packer.toBlob(document).then((blob) => {
+    //       saveAs(blob, "courrier-srsp.docx");
+    //     });
+    // };
+
+
+ // Sample data (replace with your actual data)
+
+
+const exportWords = () => {
+    // Ensure we have data to export
+    if (!folders || !Array.isArray(folders.data) || folders.data.length === 0) {
+        enqueueSnackbar('Aucune donnée à exporter.', { variant: 'warning' });
+        return;
+    }
+
+    const doc = new Document({
+        sections: [
+            {
+                properties: {},
+                children: [
+                    new Paragraph({
+                        children: [new TextRun("Folder Data Report")],
+                        heading: HeadingLevel.HEADING_1,
+                    }),
+                    new Table({
+                        width: { size: 100, type: WidthType.PERCENTAGE },
+                        rows: [
+                            new TableRow({
+                                children: [
+                                    new TableCell({ children: [new Paragraph("Numéro")] }),
+                                    new TableCell({ children: [new Paragraph("Date Départ")] }),
+                                    new TableCell({ children: [new Paragraph("Expéditeur")] }),
+                                    new TableCell({ children: [new Paragraph("Destination")] }),
+                                    new TableCell({ children: [new Paragraph("Description")] }),
+                                ],
+                            }),
+                            ...folders.data.map((folder) => 
+                                new TableRow({
+                                    children: [
+                                        new TableCell({ children: [new Paragraph(folder.numero_bordereaux)] }),
+                                        new TableCell({ children: [new Paragraph(formatDate(folder.date_depart))] }),
+                                        new TableCell({ children: [new Paragraph(folder.expiditeur)] }),
+                                        new TableCell({ children: [new Paragraph(folder.destination)] }),
+                                        new TableCell({ children: [new Paragraph(folder.id_nature.description)] }),
+                                    ],
+                                })
+                            ),
+                        ],
+                    }),
+                ],
+            },
+        ],
+    });
+
+    Packer.toBlob(doc).then((blob) => {
+        saveAs(blob, "courrier-srsp.docx");
+        enqueueSnackbar('Document Word généré avec succès.', { variant: 'success' });
+    }).catch((error) => {
+        console.error('Error generating Word document:', error);
+        enqueueSnackbar('Erreur lors de la génération du document Word.', { variant: 'error' });
+    });
+};
+
+const exportWord = () => {
+    // Ensure we have data to export
+    if (!folders || !Array.isArray(folders.data) || folders.data.length === 0) {
+        enqueueSnackbar('Aucune donnée à exporter.', { variant: 'warning' });
+        return;
+    }
+
+    const doc = new Document({
+        sections: [
+            {
+                properties: {},
+                children: [
+                    new Paragraph({
+                        children: [new TextRun("Rapport détaillé des courriers")],
+                        heading: HeadingLevel.HEADING_1,
+                        alignment: AlignmentType.CENTER,
+                        spacing: { before: 200, after: 200 },
+                    }),
+                    new Table({
+                        width: { size: 100, type: WidthType.PERCENTAGE },
+                        rows: [
+                            new TableRow({
+                                children: [
+                                    new TableCell({ children: [new Paragraph({ text: "Numéro", spacing: { before: 100, after: 100 } })], verticalAlign: VerticalAlign.CENTER }),
+                                    new TableCell({ children: [new Paragraph({ text: "Date Départ", spacing: { before: 100, after: 100 } })], verticalAlign: VerticalAlign.CENTER }),
+                                    new TableCell({ children: [new Paragraph({ text: "Expéditeur", spacing: { before: 100, after: 100 } })], verticalAlign: VerticalAlign.CENTER }),
+                                    new TableCell({ children: [new Paragraph({ text: "Destination", spacing: { before: 100, after: 100 } })], verticalAlign: VerticalAlign.CENTER }),
+                                    new TableCell({ children: [new Paragraph({ text: "Description", spacing: { before: 100, after: 100 } })], verticalAlign: VerticalAlign.CENTER }),
+                                ],
+                            }),
+                            ...folders.data.map((folder) => 
+                                new TableRow({
+                                    children: [
+                                        new TableCell({ children: [new Paragraph({ text: folder.numero_bordereaux, spacing: { before: 50, after: 50 } })], verticalAlign: VerticalAlign.CENTER }),
+                                        new TableCell({ children: [new Paragraph({ text: formatDate(folder.date_depart), spacing: { before: 50, after: 50 } })], verticalAlign: VerticalAlign.CENTER }),
+                                        new TableCell({ children: [new Paragraph({ text: folder.expiditeur, spacing: { before: 50, after: 50 } })], verticalAlign: VerticalAlign.CENTER }),
+                                        new TableCell({ children: [new Paragraph({ text: folder.destination, spacing: { before: 50, after: 50 } })], verticalAlign: VerticalAlign.CENTER }),
+                                        new TableCell({ children: [new Paragraph({ text: folder.id_nature.description, spacing: { before: 50, after: 50 } })], verticalAlign: VerticalAlign.CENTER }),
+                                    ],
+                                })
+                            ),
+                        ],
+                    }),
+                ],
+            },
+        ],
+    });
+
+    Packer.toBlob(doc).then((blob) => {
+        saveAs(blob, "courrier-srsp.docx");
+        enqueueSnackbar('Document Word généré avec succès.', { variant: 'success' });
+    }).catch((error) => {
+        console.error('Error generating Word document:', error);
+        enqueueSnackbar('Erreur lors de la génération du document Word.', { variant: 'error' });
+    });
+};
+
+// Helper function to format the date
+const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
+
+
 
     const handleOpenModal = (folderId, mode) => {
         setSelectedFolderId(folderId);
@@ -179,6 +359,7 @@ const TableResponsive = () => {
         setDropdownOpen(!dropdownOpen);
     };
 
+
     const handleOptionClick = async (option) => {
         setSelectedOption(option);
 
@@ -199,37 +380,6 @@ const TableResponsive = () => {
 
         setDropdownOpen(false);
     };
-
-    // useEffect(() => {
-    //     const searchInput = searchRef.current;
-    //     const table = tableRef.current;
-    //     const tableRows = table.querySelectorAll('tbody tr');
-
-    //     const searchTable = () => {
-    //         tableRows.forEach((row, i) => {
-    //             let search_data = searchValue.toLowerCase();
-    //             let table_data = '';
-
-    //             if (searchType === 'numero') {
-    //                 table_data = row.querySelectorAll('td')[0].textContent.toLowerCase();
-    //             } else if (searchType === 'nom') {
-    //                 table_data = row.querySelectorAll('td')[4].textContent.toLowerCase();
-    //             } else if (searchType === 'matricule') {
-    //                 table_data = row.querySelectorAll('td')[6].textContent.toLowerCase();
-    //             }
-
-    //             row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
-    //             row.style.setProperty('--delay', i / 25 + 's');
-    //         });
-
-    //         document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
-    //             visible_row.style.backgroundColor = (i % 2 === 0) ? '--second-bg' : '--second-bg';
-    //             visible_row.style.animationDelay = `${i * 0.1}s`;
-    //         });
-    //     };
-
-    //     searchTable();
-    // }, [searchType, searchValue]);
 
     const displayData = () => {
         if (isLoading) {
@@ -527,6 +677,7 @@ const TableResponsive = () => {
                 />
                 {displayTotalItems()}
             </div>
+            {/* <button onClick={exportWord}>Export to Word</button> */}
         </>
     );
 }
