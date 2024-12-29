@@ -21,6 +21,10 @@ import ContentToPrintVisa from '../printer/ContentToPrintVisa';
 import ReactPaginate from 'react-paginate';
 import { useSnackbar } from 'notistack';
 
+// import { saveAs } from 'file-saver';
+import { AlignmentType, VerticalAlign, WidthType, HeadingLevel } from 'docx';
+import { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell } from 'docx';
+
 const TableVisa = () => {
     const tableRef = useRef(null);
     const searchRef = useRef(null);
@@ -112,14 +116,69 @@ const TableVisa = () => {
         XLSX.writeFile(wb, 'visa-srsp.xlsx');
     };
 
-
     const exportWord = () => {
-        const doc = new jsPDF();
-        doc.autoTable({
-            html: "#table_visa",
-            styles: { cellPadding: 6 }
+        // console.log(folders.data)
+        // Ensure we have data to export
+        if (!folders || !Array.isArray(folders.data) || folders.data.length === 0) {
+            enqueueSnackbar('Aucune donnée à exporter.', { variant: 'warning' });
+            return;
+        }
+
+        const doc = new Document({
+            sections: [
+                {
+                    properties: {},
+                    children: [
+                        new Paragraph({
+                            children: [new TextRun("Rapport détaillé des visas")],
+                            heading: HeadingLevel.HEADING_1,
+                            alignment: AlignmentType.CENTER,
+                            spacing: { before: 200, after: 200 },
+                        }),
+                        new Table({
+                            width: { size: 100, type: WidthType.PERCENTAGE },
+                            rows: [
+                                new TableRow({
+                                    children: [
+                                        new TableCell({ children: [new Paragraph({ text: "Numéro", spacing: { before: 100, after: 100 } })], verticalAlign: VerticalAlign.CENTER }),
+                                        new TableCell({ children: [new Paragraph({ text: "Nom", spacing: { before: 100, after: 100 } })], verticalAlign: VerticalAlign.CENTER }),
+                                        new TableCell({ children: [new Paragraph({ text: "Prénom", spacing: { before: 100, after: 100 } })], verticalAlign: VerticalAlign.CENTER }),
+                                        new TableCell({ children: [new Paragraph({ text: "Référence", spacing: { before: 100, after: 100 } })], verticalAlign: VerticalAlign.CENTER }),
+                                    ],
+                                }),
+                                ...folders.data.map((folder) =>
+                                    new TableRow({
+                                        children: [
+                                            new TableCell({ children: [new Paragraph({ text: folder.numero_visa, spacing: { before: 50, after: 50 } })], verticalAlign: VerticalAlign.CENTER }),
+                                            new TableCell({ children: [new Paragraph({ text: folder.nom_depose_visa, spacing: { before: 50, after: 50 } })], verticalAlign: VerticalAlign.CENTER }),
+                                            new TableCell({ children: [new Paragraph({ text: folder.prenom_depose_visa, spacing: { before: 50, after: 50 } })], verticalAlign: VerticalAlign.CENTER }),
+                                            new TableCell({ children: [new Paragraph({ text: folder.reference, spacing: { before: 50, after: 50 } })], verticalAlign: VerticalAlign.CENTER }),
+                                        ],
+                                    })
+                                ),
+                            ],
+                        }),
+                    ],
+                },
+            ],
         });
-        doc.save('visa-srsp.docx');
+
+        Packer.toBlob(doc).then((blob) => {
+            saveAs(blob, "visa-srsp.docx");
+            enqueueSnackbar('Document Word généré avec succès.', { variant: 'success' });
+        }).catch((error) => {
+            console.error('Error generating Word document:', error);
+            enqueueSnackbar('Erreur lors de la génération du document Word.', { variant: 'error' });
+            // console.log('Blob generating Word document:', numero_bordereaux);
+        });
+    };
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
     };
 
     const toggleDropdown = () => {
@@ -174,39 +233,6 @@ const TableVisa = () => {
     useEffect(() => {
         refetch();
     }, [refetch]);
-
-    // useEffect(() => {
-    //     const searchInput = searchRef.current;
-    //     const table = tableRef.current;
-    //     const tableRows = table.querySelectorAll('tbody tr');
-
-    //     const searchTable = () => {
-    //         tableRows.forEach((row, i) => {
-    //             let search_data = searchValue.toLowerCase();
-    //             let table_data = '';
-
-    //             if (searchType === 'nom') {
-    //                 table_data = row.querySelectorAll('td')[1].textContent.toLowerCase();
-    //             } else if (searchType === 'prenom') {
-    //                 table_data = row.querySelectorAll('td')[2].textContent.toLowerCase();
-    //             } else if (searchType === 'numero') {
-    //                 table_data = row.querySelectorAll('td')[0].textContent.toLowerCase();
-    //             } else if (searchType === 'reference') {
-    //                 table_data = row.querySelectorAll('td')[3].textContent.toLowerCase();
-    //             }
-
-    //             row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
-    //             row.style.setProperty('--delay', i / 25 + 's');
-    //         });
-
-    //         document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
-    //             visible_row.style.backgroundColor = (i % 2 === 0) ? '--second-bg' : '--second-bg';
-    //             visible_row.style.animationDelay = `${i * 0.1}s`;
-    //         });
-    //     };
-
-    //     searchTable();
-    // }, [searchType, searchValue]);
 
 
     const totalItems = folders && Array.isArray(folders.data) ? folders.data.length : 0;

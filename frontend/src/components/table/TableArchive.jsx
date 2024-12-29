@@ -21,6 +21,11 @@ import word from "../../assets/image/docx2.png";
 import ContentToPrintArchive from '../printer/ContentToPrintArchive';
 import { useSnackbar } from 'notistack';
 
+// import { saveAs } from 'file-saver';
+import { AlignmentType, VerticalAlign, WidthType, HeadingLevel } from 'docx';
+import { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell } from 'docx';
+
+
 
 const TableArchive = ({ archives, refetch, year }) => {
     const tableRef = useRef(null);
@@ -115,10 +120,9 @@ const TableArchive = ({ archives, refetch, year }) => {
         doc.save("archive-srsp.pdf");
     };
 
-
     // const exportPdf = async () => {
     //     const doc = new jsPDF({ orientation: "landscape" });
-    
+
     //     // Démarrer la table directement en haut de la page
     //     doc.autoTable({
     //         html: "#table__archive",
@@ -132,11 +136,11 @@ const TableArchive = ({ archives, refetch, year }) => {
     //             fontSize: 10,
     //         }
     //     });
-    
+
     //     // Sauvegarder le fichier PDF
     //     doc.save("archive-srsp.pdf");
     // };
-    
+
     const exportExcel = () => {
         // const table = document.getElementById('my-table');
         const table = document.getElementById('table__archive');
@@ -144,13 +148,72 @@ const TableArchive = ({ archives, refetch, year }) => {
         XLSX.writeFile(wb, 'archive-srsp.xlsx');
     };
 
+
     const exportWord = () => {
-        const doc = new jsPDF();
-        doc.autoTable({
-            html: "#table__archive",
-            styles: { cellPadding: 6 }
+        // Ensure we have data to export
+        console.log(archives);
+        if (!archives) {
+            enqueueSnackbar('Aucune donnée à exporter.', { variant: 'warning' });
+            return;
+        }
+
+        const doc = new Document({
+            sections: [
+                {
+                    properties: {},
+                    children: [
+                        new Paragraph({
+                            children: [new TextRun("Rapport détaillé des archives")],
+                            heading: HeadingLevel.HEADING_1,
+                            alignment: AlignmentType.CENTER,
+                            spacing: { before: 200, after: 200 },
+                        }),
+                        new Table({
+                            width: { size: 100, type: WidthType.PERCENTAGE },
+                            rows: [
+                                new TableRow({
+                                    children: [
+                                        new TableCell({ children: [new Paragraph({ text: "Numéro", spacing: { before: 100, after: 100 } })], verticalAlign: VerticalAlign.CENTER }),
+                                        new TableCell({ children: [new Paragraph({ text: "Date Départ", spacing: { before: 100, after: 100 } })], verticalAlign: VerticalAlign.CENTER }),
+                                        new TableCell({ children: [new Paragraph({ text: "Expéditeur", spacing: { before: 100, after: 100 } })], verticalAlign: VerticalAlign.CENTER }),
+                                        new TableCell({ children: [new Paragraph({ text: "Destination", spacing: { before: 100, after: 100 } })], verticalAlign: VerticalAlign.CENTER }),
+                                        new TableCell({ children: [new Paragraph({ text: "Description", spacing: { before: 100, after: 100 } })], verticalAlign: VerticalAlign.CENTER }),
+                                    ],
+                                }),
+                                ...archives.map((archive) =>
+                                    new TableRow({
+                                        children: [
+                                            new TableCell({ children: [new Paragraph({ text: archive.numero_bordereaux, spacing: { before: 50, after: 50 } })], verticalAlign: VerticalAlign.CENTER }),
+                                            new TableCell({ children: [new Paragraph({ text: formatDate(archive.date_depart), spacing: { before: 50, after: 50 } })], verticalAlign: VerticalAlign.CENTER }),
+                                            new TableCell({ children: [new Paragraph({ text: archive.expiditeur, spacing: { before: 50, after: 50 } })], verticalAlign: VerticalAlign.CENTER }),
+                                            new TableCell({ children: [new Paragraph({ text: archive.destination, spacing: { before: 50, after: 50 } })], verticalAlign: VerticalAlign.CENTER }),
+                                            new TableCell({ children: [new Paragraph({ text: archive.description, spacing: { before: 50, after: 50 } })], verticalAlign: VerticalAlign.CENTER }),
+                                        ],
+                                    })
+                                ),
+                            ],
+                        }),
+                    ],
+                },
+            ],
         });
-        doc.save('archive-srsp.docx');
+
+        Packer.toBlob(doc).then((blob) => {
+            saveAs(blob, "archive-srsp.docx");
+            enqueueSnackbar('Document Word généré avec succès.', { variant: 'success' });
+        }).catch((error) => {
+            console.error('Error generating Word document:', error);
+            enqueueSnackbar('Erreur lors de la génération du document Word.', { variant: 'error' });
+            // console.log('Blob generating Word document:', numero_bordereaux);
+        });
+    };
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
     };
 
     const toggleDropdown = () => {
@@ -271,7 +334,6 @@ const TableArchive = ({ archives, refetch, year }) => {
     }, [searchValue]);
 
 
-
     useEffect(() => {
         const searchInput = searchRef.current;
         const table = tableRef.current;
@@ -322,10 +384,8 @@ const TableArchive = ({ archives, refetch, year }) => {
         searchTable();
     }, [searchType, searchValue]);
 
-
     // Count total items
     const totalItems = archives.length;
-
 
     const displayTotalItems = () => {
         if (totalItems > 0) {
@@ -458,9 +518,6 @@ const TableArchive = ({ archives, refetch, year }) => {
                                     <th className='th'>Date Départ</th>
                                     <th className='th'>Expéditeur</th>
                                     <th className='th'>Destination</th>
-                                    {/* <th className='th'>Nom</th> */}
-                                    {/* <th className='th'>Prénom</th> */}
-                                    {/* <th className='th'>Matricule</th> */}
                                     <th className='th'>Description</th>
                                     <th className='th'>Actions</th>
                                 </tr>
@@ -470,7 +527,6 @@ const TableArchive = ({ archives, refetch, year }) => {
                                     paginateData(archives).map((archive, index) => (
                                         <tr key={archive._id}>
                                             <td className="td">{archive.numero_bordereaux}</td>
-                                            {/* <td className="td">{new Date(archive.date_depart).toLocaleDateString()}</td> */}
                                             <td className="td">
                                                 {(() => {
                                                     const date = new Date(archive.date_depart);
@@ -482,9 +538,6 @@ const TableArchive = ({ archives, refetch, year }) => {
                                             </td>
                                             <td className="td">{archive.expiditeur}</td>
                                             <td className="td">{archive.destination}</td>
-                                            {/* <td className="td">{archive.nom_depose}</td> */}
-                                            {/* <td className="td">{archive.prenom_depose}</td> */}
-                                            {/* <td className="td">{archive.matricule}</td> */}
                                             <td className="td">{archive.description}</td>
                                             <td className="td">
                                                 <MdEdit className="action-icon icon color__icon-edit" title="Modifier" onClick={() => handleOpenModal(archive._id, 'edit')} />

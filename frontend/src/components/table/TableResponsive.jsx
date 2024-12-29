@@ -22,28 +22,10 @@ import word from "../../assets/image/docx2.png";
 import ReactPaginate from 'react-paginate';
 import { useSnackbar } from 'notistack';
 
-// import htmlDocx from "html-docx-js";
-// const htmlDocx = require("html-docx-js");
-// import * as htmlDocx from "html-docx-js";
-
-
-
 // import { saveAs } from 'file-saver';
-// import {  Table, TableCell, TableRow, WidthType } from 'docx';
-// import { Document, Packer, Paragraph, TextRun } from "docx";
-
-// import { Document, Packer, Paragraph, Table, TableRow, TableCell, WidthType, BorderStyle } from 'docx';
-// import { Document, Packer, Paragraph, Table, TableRow, TableCell, WidthType, HeadingLevel, TextRun } from 'docx';
-import { saveAs } from 'file-saver';
 import { AlignmentType, VerticalAlign, WidthType, HeadingLevel } from 'docx';
 import { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell } from 'docx';
 
-// const folders = {
-//     data: [
-//         { numero_bordereaux: '12345', date_depart: '2024-03-08', expiditeur: 'Sender A', destination: 'Recipient A', id_nature: { description: 'Description A' } },
-//         { numero_bordereaux: '67890', date_depart: '2024-03-15', expiditeur: 'Sender B', destination: 'Recipient B', id_nature: { description: 'Description B' } },
-//     ],
-// };
 
 
 const TableResponsive = () => {
@@ -141,194 +123,72 @@ const TableResponsive = () => {
         XLSX.writeFile(wb, 'courrier-srsp.xlsx');
     };
 
-    // const exportWord = () => {
-    //     // const content = document.getElementById("teste").outerHTML; // Référence l'élément HTML
-    //     // const blob = htmlDocx.asBlob(content);
-    //     // saveAs(blob, "courrier-srsp.docx");
-    // };
+    const exportWord = () => {
+        // Ensure we have data to export
+        if (!folders || !Array.isArray(folders.data) || folders.data.length === 0) {
+            enqueueSnackbar('Aucune donnée à exporter.', { variant: 'warning' });
+            return;
+        }
 
-    // const exportWord = () => {
-    //     const doc = new Document({
-    //         sections: [
-    //             {
-    //                 children: [
-    //                     new Paragraph({
-    //                         children: [
-    //                             new TextRun("Voici un exemple de document Word."),
-    //                             new TextRun({
-    //                                 text: " Généré avec docx.",
-    //                                 bold: true,
-    //                             }),
-    //                         ],
-    //                     }),
-    //                 ],
-    //             },
-    //         ],
-    //     });
-    
-    //     Packer.toBlob(doc).then((blob) => {
-    //         saveAs(blob, "courrier-srsp.docx");
-    //     });
-    // };
-
-    // const exportWord = () => {
-    //     const doc = (
-    //       <Document>
-    //         <Paragraph>Folder Data Report</Paragraph>
-    //         <Table width={{ size: 100, type: WidthType.PERCENTAGE }}>
-    //           <TableRow>
-    //             <TableCell><Paragraph>Numéro</Paragraph></TableCell>
-    //             <TableCell><Paragraph>Date Départ</Paragraph></TableCell>
-    //             <TableCell><Paragraph>Expéditeur</Paragraph></TableCell>
-    //             <TableCell><Paragraph>Destination</Paragraph></TableCell>
-    //             <TableCell><Paragraph>Description</Paragraph></TableCell>
-    //           </TableRow>
-    //           {folders.map((folder, index) => (
-    //             <TableRow key={index}>
-    //               <TableCell><Paragraph>{folder.numero_bordereaux}</Paragraph></TableCell>
-    //               <TableCell><Paragraph>{new Date(folder.date_depart).toLocaleDateString()}</Paragraph></TableCell>
-    //               <TableCell><Paragraph>{folder.expiditeur}</Paragraph></TableCell>
-    //               <TableCell><Paragraph>{folder.destination}</Paragraph></TableCell>
-    //               <TableCell><Paragraph>{folder.id_nature.description}</Paragraph></TableCell>
-    //             </TableRow>
-    //           ))}
-    //         </Table>
-    //       </Document>
-    //     );
-    
-    //     // Conversion de la structure JSX en objets docx
-    //     const document = React.createElement(doc.type, doc.props);
-    
-    //     Packer.toBlob(document).then((blob) => {
-    //       saveAs(blob, "courrier-srsp.docx");
-    //     });
-    // };
-
-
- // Sample data (replace with your actual data)
-
-
-const exportWords = () => {
-    // Ensure we have data to export
-    if (!folders || !Array.isArray(folders.data) || folders.data.length === 0) {
-        enqueueSnackbar('Aucune donnée à exporter.', { variant: 'warning' });
-        return;
-    }
-
-    const doc = new Document({
-        sections: [
-            {
-                properties: {},
-                children: [
-                    new Paragraph({
-                        children: [new TextRun("Folder Data Report")],
-                        heading: HeadingLevel.HEADING_1,
-                    }),
-                    new Table({
-                        width: { size: 100, type: WidthType.PERCENTAGE },
-                        rows: [
-                            new TableRow({
-                                children: [
-                                    new TableCell({ children: [new Paragraph("Numéro")] }),
-                                    new TableCell({ children: [new Paragraph("Date Départ")] }),
-                                    new TableCell({ children: [new Paragraph("Expéditeur")] }),
-                                    new TableCell({ children: [new Paragraph("Destination")] }),
-                                    new TableCell({ children: [new Paragraph("Description")] }),
-                                ],
-                            }),
-                            ...folders.data.map((folder) => 
+        const doc = new Document({
+            sections: [
+                {
+                    properties: {},
+                    children: [
+                        new Paragraph({
+                            children: [new TextRun("Rapport détaillé des courriers")],
+                            heading: HeadingLevel.HEADING_1,
+                            alignment: AlignmentType.CENTER,
+                            spacing: { before: 200, after: 200 },
+                        }),
+                        new Table({
+                            width: { size: 100, type: WidthType.PERCENTAGE },
+                            rows: [
                                 new TableRow({
                                     children: [
-                                        new TableCell({ children: [new Paragraph(folder.numero_bordereaux)] }),
-                                        new TableCell({ children: [new Paragraph(formatDate(folder.date_depart))] }),
-                                        new TableCell({ children: [new Paragraph(folder.expiditeur)] }),
-                                        new TableCell({ children: [new Paragraph(folder.destination)] }),
-                                        new TableCell({ children: [new Paragraph(folder.id_nature.description)] }),
+                                        new TableCell({ children: [new Paragraph({ text: "Numéro", spacing: { before: 100, after: 100 } })], verticalAlign: VerticalAlign.CENTER }),
+                                        new TableCell({ children: [new Paragraph({ text: "Date Départ", spacing: { before: 100, after: 100 } })], verticalAlign: VerticalAlign.CENTER }),
+                                        new TableCell({ children: [new Paragraph({ text: "Expéditeur", spacing: { before: 100, after: 100 } })], verticalAlign: VerticalAlign.CENTER }),
+                                        new TableCell({ children: [new Paragraph({ text: "Destination", spacing: { before: 100, after: 100 } })], verticalAlign: VerticalAlign.CENTER }),
+                                        new TableCell({ children: [new Paragraph({ text: "Description", spacing: { before: 100, after: 100 } })], verticalAlign: VerticalAlign.CENTER }),
                                     ],
-                                })
-                            ),
-                        ],
-                    }),
-                ],
-            },
-        ],
-    });
+                                }),
+                                ...folders.data.map((folder) =>
+                                    new TableRow({
+                                        children: [
+                                            new TableCell({ children: [new Paragraph({ text: folder.numero_bordereaux, spacing: { before: 50, after: 50 } })], verticalAlign: VerticalAlign.CENTER }),
+                                            new TableCell({ children: [new Paragraph({ text: formatDate(folder.date_depart), spacing: { before: 50, after: 50 } })], verticalAlign: VerticalAlign.CENTER }),
+                                            new TableCell({ children: [new Paragraph({ text: folder.expiditeur, spacing: { before: 50, after: 50 } })], verticalAlign: VerticalAlign.CENTER }),
+                                            new TableCell({ children: [new Paragraph({ text: folder.destination, spacing: { before: 50, after: 50 } })], verticalAlign: VerticalAlign.CENTER }),
+                                            new TableCell({ children: [new Paragraph({ text: folder.id_nature.description, spacing: { before: 50, after: 50 } })], verticalAlign: VerticalAlign.CENTER }),
+                                        ],
+                                    })
+                                ),
+                            ],
+                        }),
+                    ],
+                },
+            ],
+        });
 
-    Packer.toBlob(doc).then((blob) => {
-        saveAs(blob, "courrier-srsp.docx");
-        enqueueSnackbar('Document Word généré avec succès.', { variant: 'success' });
-    }).catch((error) => {
-        console.error('Error generating Word document:', error);
-        enqueueSnackbar('Erreur lors de la génération du document Word.', { variant: 'error' });
-    });
-};
+        Packer.toBlob(doc).then((blob) => {
+            saveAs(blob, "courrier-srsp.docx");
+            enqueueSnackbar('Document Word généré avec succès.', { variant: 'success' });
+        }).catch((error) => {
+            console.error('Error generating Word document:', error);
+            enqueueSnackbar('Erreur lors de la génération du document Word.', { variant: 'error' });
+            // console.log('Blob generating Word document:', numero_bordereaux);
+        });
+    };
 
-const exportWord = () => {
-    // Ensure we have data to export
-    if (!folders || !Array.isArray(folders.data) || folders.data.length === 0) {
-        enqueueSnackbar('Aucune donnée à exporter.', { variant: 'warning' });
-        return;
-    }
-
-    const doc = new Document({
-        sections: [
-            {
-                properties: {},
-                children: [
-                    new Paragraph({
-                        children: [new TextRun("Rapport détaillé des courriers")],
-                        heading: HeadingLevel.HEADING_1,
-                        alignment: AlignmentType.CENTER,
-                        spacing: { before: 200, after: 200 },
-                    }),
-                    new Table({
-                        width: { size: 100, type: WidthType.PERCENTAGE },
-                        rows: [
-                            new TableRow({
-                                children: [
-                                    new TableCell({ children: [new Paragraph({ text: "Numéro", spacing: { before: 100, after: 100 } })], verticalAlign: VerticalAlign.CENTER }),
-                                    new TableCell({ children: [new Paragraph({ text: "Date Départ", spacing: { before: 100, after: 100 } })], verticalAlign: VerticalAlign.CENTER }),
-                                    new TableCell({ children: [new Paragraph({ text: "Expéditeur", spacing: { before: 100, after: 100 } })], verticalAlign: VerticalAlign.CENTER }),
-                                    new TableCell({ children: [new Paragraph({ text: "Destination", spacing: { before: 100, after: 100 } })], verticalAlign: VerticalAlign.CENTER }),
-                                    new TableCell({ children: [new Paragraph({ text: "Description", spacing: { before: 100, after: 100 } })], verticalAlign: VerticalAlign.CENTER }),
-                                ],
-                            }),
-                            ...folders.data.map((folder) => 
-                                new TableRow({
-                                    children: [
-                                        new TableCell({ children: [new Paragraph({ text: folder.numero_bordereaux, spacing: { before: 50, after: 50 } })], verticalAlign: VerticalAlign.CENTER }),
-                                        new TableCell({ children: [new Paragraph({ text: formatDate(folder.date_depart), spacing: { before: 50, after: 50 } })], verticalAlign: VerticalAlign.CENTER }),
-                                        new TableCell({ children: [new Paragraph({ text: folder.expiditeur, spacing: { before: 50, after: 50 } })], verticalAlign: VerticalAlign.CENTER }),
-                                        new TableCell({ children: [new Paragraph({ text: folder.destination, spacing: { before: 50, after: 50 } })], verticalAlign: VerticalAlign.CENTER }),
-                                        new TableCell({ children: [new Paragraph({ text: folder.id_nature.description, spacing: { before: 50, after: 50 } })], verticalAlign: VerticalAlign.CENTER }),
-                                    ],
-                                })
-                            ),
-                        ],
-                    }),
-                ],
-            },
-        ],
-    });
-
-    Packer.toBlob(doc).then((blob) => {
-        saveAs(blob, "courrier-srsp.docx");
-        enqueueSnackbar('Document Word généré avec succès.', { variant: 'success' });
-    }).catch((error) => {
-        console.error('Error generating Word document:', error);
-        enqueueSnackbar('Erreur lors de la génération du document Word.', { variant: 'error' });
-    });
-};
-
-// Helper function to format the date
-const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-};
-
+    // Helper function to format the date
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
 
 
     const handleOpenModal = (folderId, mode) => {
@@ -409,27 +269,19 @@ const formatDate = (dateString) => {
 
             return (
                 <tr key={index}>
-                    {/* <td className="td">{new Date(folder.date_depart).toLocaleDateString('fr-FR')}</td> */}
-                    {/* <td className="td">{folder.date_depart}</td> */}
-                    {/* <td className="td">{new Date(folder.date_depart).toLocaleDateString('fr-FR', { timeZone: 'Europe/Paris' })}</td> */}
                     <td className="td">{folder.numero_bordereaux}</td>
                     <td className="td">
                         {(() => {
                             const date = new Date(folder.date_depart);
                             const year = date.getFullYear();
                             const month = String(date.getMonth() + 1).padStart(2, '0'); // Mois de 0 à 11, donc on ajoute 1
-                            // const day = String(date.getDate() + 1).padStart(2, '0'); // Ajouter un zéro devant si nécessaire
                             const day = String(date.getDate()).padStart(2, '0'); // Ajouter un zéro devant si nécessaire
                             return `${year}-${month}-${day}`;
-                            // return `${day}/${month}/${year}`;
                         })()}
                     </td>
 
                     <td className="td">{folder.expiditeur}</td>
                     <td className="td">{folder.destination}</td>
-                    {/* <td className="td">{folder.id_nature.nom_depose}</td>
-                    <td className="td">{folder.id_nature.prenom_depose}</td>
-                    <td className="td">{folder.id_nature.matricule}</td> */}
                     <td className="td">{folder.id_nature.description}</td>
                     <td className="td">
                         <MdEdit className="action-icon icon color__icon-edit" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
@@ -677,7 +529,6 @@ const formatDate = (dateString) => {
                 />
                 {displayTotalItems()}
             </div>
-            {/* <button onClick={exportWord}>Export to Word</button> */}
         </>
     );
 }
