@@ -22,7 +22,7 @@ import word from "../../assets/image/docx2.png";
 import ReactPaginate from 'react-paginate';
 import { useSnackbar } from 'notistack';
 
-// import { saveAs } from 'file-saver';
+import { saveAs } from 'file-saver';
 import { AlignmentType, VerticalAlign, WidthType, HeadingLevel } from 'docx';
 import { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell } from 'docx';
 
