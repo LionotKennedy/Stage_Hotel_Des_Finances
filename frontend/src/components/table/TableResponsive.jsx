@@ -173,7 +173,7 @@ const TableResponsive = () => {
 
         Packer.toBlob(doc).then((blob) => {
             saveAs(blob, "courrier-srsp.docx");
-            enqueueSnackbar('Document Word généré avec succès.', { variant: 'success' });
+            // enqueueSnackbar('Document Word généré avec succès.', { variant: 'success' });
         }).catch((error) => {
             console.error('Error generating Word document:', error);
             enqueueSnackbar('Erreur lors de la génération du document Word.', { variant: 'error' });

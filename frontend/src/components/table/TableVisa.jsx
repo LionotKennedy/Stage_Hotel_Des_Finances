@@ -165,7 +165,7 @@ const TableVisa = () => {
 
         Packer.toBlob(doc).then((blob) => {
             saveAs(blob, "visa-srsp.docx");
-            enqueueSnackbar('Document Word généré avec succès.', { variant: 'success' });
+            // enqueueSnackbar('Document Word généré avec succès.', { variant: 'success' });
         }).catch((error) => {
             console.error('Error generating Word document:', error);
             enqueueSnackbar('Erreur lors de la génération du document Word.', { variant: 'error' });
