@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import "./tableResponsive.scss";
 import "./tablejournal.scss"
+import "./styletable.scss";
 import { MdDelete, MdVisibility, MdRefresh } from 'react-icons/md';
 import { useGetJournals } from '../../services/serviceJournal';
 import JournalDialogs from '../../components/MUI_read/readJournal';
@@ -73,11 +74,11 @@ const TableJournal = () => {
         return currentFolders.map((folder, index) => (
             <tr key={index}>
                 {/* <td className="td">{new Date(folder.date).toLocaleDateString()}</td> */}
-                <td className="td">{folder.userName}</td>
-                <td className="td">{folder.adressEmail}</td>
-                <td className="td">{folder.action}</td>
-                <td className="td">{folder.details}</td>
-                <td className="td">
+                <td className="td tddJ">{folder.userName}</td>
+                <td className="td tddJ">{folder.adressEmail}</td>
+                <td className="td tddJ">{folder.action}</td>
+                <td className="td tddJ">{folder.details}</td>
+                <td className="td tddJ">
                     {(() => {
                         const date = new Date(folder.date);
                         const year = date.getFullYear();
@@ -86,7 +87,7 @@ const TableJournal = () => {
                         return `${year}-${month}-${day}`;
                     })()}
                 </td>
-                <td className="td">
+                <td className="td tdddJ">
                     <MdDelete className="action-icon icon color__icon-delete" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
                     <MdVisibility className="action-icon icon color__icon-visible" title="Read" onClick={() => handleReadClick(folder._id)} />
                 </td>
@@ -220,7 +221,7 @@ const TableJournal = () => {
                                     <th className='th'>Action </th>
                                     <th className='th'>Détails </th>
                                     <th className='th'>Date </th>
-                                    <th className='th'>Actions </th>
+                                    <th className='th tddhJ'>Actions </th>
                                 </tr>
                             </thead>
                             <tbody className='tbody'>
