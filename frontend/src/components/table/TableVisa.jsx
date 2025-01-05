@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import "./tableResponsive.scss"
+import "./styletable.scss";
 import search from "../../assets/image/search.png"
 import { MdEdit, MdDelete, MdVisibility, MdAdd, MdRefresh } from 'react-icons/md';
 import { AnimatePresence } from 'framer-motion';
@@ -255,11 +256,11 @@ const TableVisa = () => {
 
         return selectedFolders.map((folder, index) => (
             <tr key={index}>
-                <td className="td">{folder.numero_visa}</td>
-                <td className="td">{folder.nom_depose_visa}</td>
-                <td className="td">{folder.prenom_depose_visa}</td>
-                <td className="td">{folder.reference}</td>
-                <td className="td">
+                <td className="td tddV">{folder.numero_visa}</td>
+                <td className="td tddV">{folder.nom_depose_visa}</td>
+                <td className="td tddV">{folder.prenom_depose_visa}</td>
+                <td className="td tddV">{folder.reference}</td>
+                <td className="td tdddV">
                     <MdEdit className="action-icon icon color__icon-edit" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
                     <MdDelete className="action-icon icon color__icon-delete" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
                     <MdVisibility className="action-icon icon color__icon-visible" title="Read" onClick={() => handleReadClick(folder._id)} />
@@ -355,7 +356,7 @@ const TableVisa = () => {
                                     <th className='th'>Nom </th>
                                     <th className='th'>Prénom </th>
                                     <th className='th'>Référence </th>
-                                    <th className='th'>Actions </th>
+                                    <th className='th tddhV'>Actions </th>
                                 </tr>
                             </thead>
                             <tbody className='tbody'>

@@ -8,6 +8,7 @@ import { useGetFolders } from '../../services/serviceFolder';
 import AlertDialogSlide from '../MUI_alert/deleteFolder';
 import CustomizedDialogs from '../MUI_read/readFolder';
 import "./tableResponsive.scss";
+import "./styletable.scss";
 import CustomModal from '../MUI/CustomModal';
 import ContentToPrint from '../printer/ContentToPrint';
 import jsPDF from 'jspdf';
@@ -270,7 +271,7 @@ const TableResponsive = () => {
             return (
                 <tr key={index}>
                     <td className="td">{folder.numero_bordereaux}</td>
-                    <td className="td">
+                    <td className="td tdd">
                         {(() => {
                             const date = new Date(folder.date_depart);
                             const year = date.getFullYear();
@@ -280,10 +281,10 @@ const TableResponsive = () => {
                         })()}
                     </td>
 
-                    <td className="td">{folder.expiditeur}</td>
-                    <td className="td">{folder.destination}</td>
-                    <td className="td">{folder.id_nature.description}</td>
-                    <td className="td">
+                    <td className="td tdd">{folder.expiditeur}</td>
+                    <td className="td tdd">{folder.destination}</td>
+                    <td className="td tdd">{folder.id_nature.description}</td>
+                    <td className="td tddd">
                         <MdEdit className="action-icon icon color__icon-edit" title="Modifier" onClick={() => handleOpenModal(folder._id, 'edit')} />
                         <MdDelete className="action-icon icon color__icon-delete" title="Delete" onClick={() => handleDeleteClick(folder._id)} />
                         <MdVisibility className="action-icon icon color__icon-visible" title="Read" onClick={() => handleReadClick(folder._id)} />
@@ -493,7 +494,7 @@ const TableResponsive = () => {
                                     <th className='th'>Prénom </th>
                                     <th className='th'>Matricule </th> */}
                                     <th className='th'>Description </th>
-                                    <th className='th'>Actions </th>
+                                    <th className='th tddh'>Actions </th>
                                 </tr>
                             </thead>
                             <tbody className='tbody'>

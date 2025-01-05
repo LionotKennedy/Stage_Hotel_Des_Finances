@@ -1,5 +1,6 @@
 
 import React from 'react';
+import "./stylePrint.scss"
 
 const ContentToPrint = ({ folders }) => {
 
@@ -69,6 +70,7 @@ const styles = {
         padding: '5px',
         textAlign: 'center',
         wordWrap: 'break-word',
+        width: '300px',
     },
     pageBreak: {
         pageBreakAfter: 'always',

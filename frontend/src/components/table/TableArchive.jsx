@@ -1,6 +1,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import "./tableResponsive.scss";
+import "./styletable.scss";
 import search from "../../assets/image/search.png"
 import { MdEdit, MdDelete, MdVisibility, MdAdd, MdRefresh } from 'react-icons/md';
 import { AnimatePresence } from 'framer-motion';
@@ -519,7 +520,7 @@ const TableArchive = ({ archives, refetch, year }) => {
                                     <th className='th'>Expéditeur</th>
                                     <th className='th'>Destination</th>
                                     <th className='th'>Description</th>
-                                    <th className='th'>Actions</th>
+                                    <th className='th tddhA'>Actions</th>
                                 </tr>
                             </thead>
                             <tbody className='tbody'>
@@ -527,7 +528,7 @@ const TableArchive = ({ archives, refetch, year }) => {
                                     paginateData(archives).map((archive, index) => (
                                         <tr key={archive._id}>
                                             <td className="td">{archive.numero_bordereaux}</td>
-                                            <td className="td">
+                                            <td className="td tddA">
                                                 {(() => {
                                                     const date = new Date(archive.date_depart);
                                                     const year = date.getFullYear();
@@ -536,10 +537,10 @@ const TableArchive = ({ archives, refetch, year }) => {
                                                     return `${year}-${month}-${day}`;
                                                 })()}
                                             </td>
-                                            <td className="td">{archive.expiditeur}</td>
-                                            <td className="td">{archive.destination}</td>
-                                            <td className="td">{archive.description}</td>
-                                            <td className="td">
+                                            <td className="td tddA">{archive.expiditeur}</td>
+                                            <td className="td tddA">{archive.destination}</td>
+                                            <td className="td tddA">{archive.description}</td>
+                                            <td className="td tdddA">
                                                 <MdEdit className="action-icon icon color__icon-edit" title="Modifier" onClick={() => handleOpenModal(archive._id, 'edit')} />
                                                 <MdDelete className="action-icon icon color__icon-delete color__icon-delete__archive" title="Delete" onClick={() => handleDeleteClick(archive._id)} />
                                                 <MdVisibility className="action-icon icon color__icon-visible" title="Read" onClick={() => handleReadClick(archive._id)} />
