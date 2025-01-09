@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js",
+    "start": "node init && nodemon app.js",
     "automate": "node modules/automate.js",
-    "start:dev": "concurrently \"npm run start\" \"npm run automate\""
+    "start:dev": "node init && concurrently \"npm run start\" \"npm run automate\""
   },
   "keywords": [],
   "author": "",

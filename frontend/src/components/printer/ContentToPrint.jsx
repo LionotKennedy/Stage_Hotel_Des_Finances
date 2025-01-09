@@ -15,7 +15,8 @@ const ContentToPrint = ({ folders }) => {
     return (
         <div>
             <h1>Folder Data Report</h1>
-            <table id='teste' style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
+            {/* <table id='teste' style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}> */}
+            <table id='teste'>
                 <thead>
                     <tr>
                         <th style={styles.th}>Numéro</th>
@@ -47,7 +48,7 @@ const ContentToPrint = ({ folders }) => {
                             {/* <td style={styles.td}>{folder.id_nature.nom_depose}</td>
                             <td style={styles.td}>{folder.id_nature.prenom_depose}</td>
                             <td style={styles.td}>{folder.id_nature.matricule}</td> */}
-                            <td style={styles.td}>{folder.id_nature.description}</td>
+                            <td  className='personnalIt' style={styles.td}>{folder.id_nature.description}</td>
                         </tr>
                     ))}
                 </tbody>
@@ -70,7 +71,7 @@ const styles = {
         padding: '5px',
         textAlign: 'center',
         wordWrap: 'break-word',
-        width: '300px',
+        width: '3rem',
     },
     pageBreak: {
         pageBreakAfter: 'always',
